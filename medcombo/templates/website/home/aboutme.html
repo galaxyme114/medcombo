@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<section class="margin-home-style">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-2 order-lg-2">
+                <div class="text-center">
+                    <img class="img-fluid" src="{% static 'img/ordenador.jpg' %}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-10 order-lg-1">
+                <div>
+                    <h5 class="color-home-title">{% blocktrans %}About Medcombo{% endblocktrans %}</h5>
+                    <p class="text-home-text">{% blocktrans %}Medcombo was launched in 2019 and offers a large-scale, updated database of medical devices.{% endblocktrans %}</p>
+                    <p class="text-home-text">{% blocktrans %}Medcombo is an online medical device exhibition center, it aims to be a platform where companies can promote, advertise and sell their medical devices. Businesses can be publish and update both product information as well as information about the company itself.{% endblocktrans %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-2">
+                <div class="text-center">
+                    <img class="img-fluid" src="{% static 'img/mapamundi.jpg' %}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <div>
+                    <h5 class="color-home-title">{% blocktrans %}Our Goal{% endblocktrans %}</h5>
+                    <p class="text-home-text">{% blocktrans %}Our goal is to become a world leading online medical community. Our company Medcombo has been committed to becoming a world-class medical product website.{% endblocktrans %}</p>
+                    <p class="text-home-text">{% blocktrans %}Our website possess a broad user base, including more than 40 countries in Europe, North and South America, and Asia.{% endblocktrans %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-2 order-lg-2">
+                <div class="text-center">
+                    <img class="img-fluid" src="{% static 'img/red.jpg' %}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-10 order-lg-1">
+                <div>
+                    <p class="text-home-text">{% blocktrans %}Medcombo is not only for manufacturers and ditributors, but also for a medical professionals, such as doctors, nurses, nursing workers and directors of nursing homes. One can register on our webste in order to purchase te equiptment needed by hospitals and sanatoriums.{% endblocktrans %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

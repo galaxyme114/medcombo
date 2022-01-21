@@ -1,0 +1,11 @@
+Instalar redis
+
+sudo apt-get install redis-server
+
+Iniciar server redis
+
+redis-server
+
+Hacer ping a redis
+
+redis-cli ping

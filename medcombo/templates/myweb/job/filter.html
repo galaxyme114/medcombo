@@ -1,0 +1,43 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load tz %}
+{% for obj in object_list %}
+    <div id="id-text" class="col-12 empleo-oferta">
+        <div class="row m-0">
+            <h4><a href="{% url 'detail_front_offers' obj.id %}" class="text-home-job">{{ obj.name }}</a></h4>
+        </div>
+        <div class="row m-0">
+            <div class="col-6 p-0">
+                <span style="font-size: 1.25rem;font-weight: 700;">{{obj.user.company.name}}</span>
+            </div>
+            <div class="col-6 p-0">
+                <span style="font-size: 1.25rem;font-weight: 700;">{{ obj.type_contract }}</span>
+            </div>
+        </div>
+        <div class="row m-0">
+            <span>{{ obj.city }}</span>
+        </div>
+    </div>
+{% endfor %}
+{% if page_obj.paginator.num_pages > 1 %}
+    <span class="col-12 mb-3 mt-3 paginator-permission text-center">
+        {% if page_obj.has_previous %}
+            <button data-id="{{ page_obj.previous_page_number }}" class="btn btn-outline-info btn_page">
+                <i class="fas fa-angle-double-left"></i>
+            </button>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <button data-id="{{ page_obj.next_page_number }}" class="btn btn-outline-info btn_page">
+                <i class="fas fa-angle-double-right"></i>
+            </button>
+        {% endif %}
+        <span style="float: right">
+            {% blocktrans %}Página{% endblocktrans%} {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+    </span>
+{% endif %}
+
+{% if object_list.paginator.count == 0 %}
+    <div style="height:200px">
+    </div>
+{% endif %}

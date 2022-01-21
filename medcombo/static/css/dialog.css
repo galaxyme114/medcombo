@@ -1,0 +1,93 @@
+/*------------------------------------
+----------------dialog----------------
+------------------------------------*/
+
+.messages-container {
+  border: 1px solid #DDD;
+  position: relative;
+  margin-bottom: 90px;
+}
+
+.messages {
+  box-sizing: border-box;
+  padding: 2px 20px;
+  overflow: auto;
+}
+
+.user-list {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 498px;
+  overflow: auto;
+  background: #EFEFEF;
+  margin: 0;
+  padding: 20px;
+  border-left: 1px solid #DDD;
+}
+
+.user-list li {
+  display: block;
+  color: orange;
+  font-weight: bold;
+}
+
+.username {
+  font-weight: bold;
+  color: orange;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #000000;
+}
+
+.add-message {
+  margin-top: 20px;
+  background-color: rgb(236, 238, 246);
+  width: 100%;
+}
+
+.away span {
+  color: #666;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.msg-read {
+
+}
+
+.msg-unread {
+
+}
+
+.pull-left {
+  background-color: rgb(236, 238, 246);  
+  border-radius: 10px;
+  padding: 0 0.6em;
+  border: solid 1px rgb(182, 181, 181);
+  max-width: 75%;
+  margin: 0.2em 0;
+}
+
+.pull-right {
+  background-color: white;  
+  border-radius: 10px;
+  padding: 0 0.6em;
+  border: solid 1px rgb(182, 181, 181);
+  float: right;
+  max-width: 75%;
+  margin: 0.2em 0;
+}
+#chat-message{
+  /*width: 100%;*/
+  height:100px;
+  position: fixed;
+  bottom: 0;
+  line-height: 2em;
+}
+/*p.pull-right {
+  float: right;
+}*/

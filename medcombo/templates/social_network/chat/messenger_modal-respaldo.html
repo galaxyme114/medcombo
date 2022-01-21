@@ -1,0 +1,135 @@
+{% load staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <link rel="stylesheet" href="{% static 'css/dashboard_client.css' %}">
+    <style type="text/css">
+        .none {
+            border: none;
+            background-color: white;
+            outline:none;
+        }
+        button:focus {
+            outline: none;
+        }
+        .background2 {
+            background-color: #ecefff;
+        }
+    </style>
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-10 background2">
+                <div class="row" style="margin-top: 2%;">
+                    <div class="col-6 col-md-3 padding-movil">
+                        <div class="row" style="padding: 1em; font-size: 12px;" id="container-user-plus" data-contact-url="{% url 'ajax_add_contact' %}" novalidate>
+                            <div class="col-12 list-post" id="list_chat_url" data-dialog-url="{% url 'ajax_load_dialog' %}" novalidate>
+                                <li style="list-style:none;">
+                                    <div class="row item-post">
+                                        <div class="col-2">
+                                            {% if myweb.user.picture %}
+                                                <img src="/media/{{ myweb.user.picture }}" style="margin: 0.5em 0;" height="35" width="40">
+                                            {% else %}
+                                                <img src="{% static 'img/userdefault.jpeg' %}" style="margin: 0.5em 0;" height="35" width="40">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-4" style="margin-left: -5%;">
+                                            <label style="font-weight: bold;">
+                                                {% if myweb.user.first_name %}
+                                                    {{ myweb.user.first_name }} {{ myweb.user.last_name }}
+                                                {% else %}
+                                                    {{ myweb.user.username }}
+                                                {% endif %}
+                                                {% if myweb.user.work %}
+                                                    <p style="margin: 0;">{{ myweb.user.work }}</p></label>
+                                                {% else %}
+                                                    <p style="margin: 0;"></p></label>
+                                                {% endif %}
+                                        </div>
+                                        <div class="col-3" style="padding-left: 0px;">
+                                            <span>{{ myweb.user.work }}</span>
+                                        </div>
+                                        <div class="col-3 d-column d-flex flex-row-reverse" style="padding-right: 0px;">
+                                            {% if myweb.user.id in contactscontext %}
+                                                <button class="none" id="link_chat{{ myweb.user.id }}" value="{{ myweb.user.id }}"><i class='fas far fa-envelope'></i></button>                                      
+                                                <button class="none"><i class='far fa-star'></i></button>                                        
+                                            {% else %}
+                                                <button class="none" id="link_chat{{ myweb.user.id }}" value="{{ myweb.user.id }}"><i class='fas far fa-envelope'></i></button>                                      
+                                                <button class="none"><i class='far fa-star'></i></button>                                        
+                                                <button class="none" id="user-plus{{ myweb.user.id }}" value="{{ myweb.user.id }}"><i class='fas fa-user-plus'></i></button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>    
+                                <script type="text/javascript">
+                                    $("#user-plus{{ myweb.user.id }}").click(function () {
+                                        $("#user-plus{{ myweb.user.id }}").hide()
+                                        var url = $("#container-user-plus").attr("data-contact-url");  
+                                        var user_id = $(this).val();
+                                        $.ajax({                      
+                                            url: url,                    
+                                            data: {
+                                                'user_id': user_id      
+                                            },
+                                            success: function (data) {   
+                                                alert("Usurio se agrego satisfactoriamente");
+                                            }
+                                        });                                        
+                                    });
+                                    $("#link_chat{{ myweb.user.id }}").click(function () {
+                                        var url = $("#list_chat_url").attr("data-dialog-url");  
+                                        var user = $(this).val();
+                                        $.ajax({     
+                                            url: url,                    
+                                            data: {
+                                                'user': user       
+                                            },
+                                            success: function (data) {   
+                                                $("#conversation").html(data);
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 padding-final-todos">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5>{% blocktrans %}CONVERSACIÓN{% endblocktrans %}</h5>
+                                    <div class="row conversacion" id="conversation" style="height: 280px;"></div>                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/handlebars-v1.3.0.js' %}" type="text/javascript"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        // Apply form-control class to the select tag
+        $("select, input, textarea").addClass("form-control");
+        $("input[type='checkbox'], input[type='submit']").removeClass("form-control");
+    </script>    
+</body>

@@ -1,0 +1,120 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background pb-5">
+	<div class="row mb-2">
+		<div class="col-12">
+			<h4 class="text-home-job">{% blocktrans %}IMPORTAR CSV{% endblocktrans %}</h4>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<div class="row">
+		<div class="col-12 col-lg-8">
+			<form class="needs-validation" id="csvImport" method="POST" action="." enctype='multipart/form-data' novalidate>
+				{% csrf_token %}
+				<!--Error Message-->
+                <div class="text-center-container">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+				<div class="form-group row">
+					<label for="inputState" class="col-sm-6 col-form-label">{% blocktrans %}¿Que entidad va a importar?{% endblocktrans %}</label>
+					<div class="col-sm-6">
+				        <select id="modelo" name="modelo" class="form-control" required>
+				        	<option value="Productos">{% blocktrans %}Productos{% endblocktrans %}</option>
+				        	<option value="Contactos">{% blocktrans %}Contactos{% endblocktrans %}</option>
+				        	<option value="Usuarios">{% blocktrans %}Usuarios{% endblocktrans %}</option>
+						</select>
+						<div class="invalid-feedback">
+							{% blocktrans %}Selecccione una entidad{% endblocktrans %}
+						</div>
+				    </div>
+				</div>
+				<div class="form-group row">
+					<label for="inputCSV" class="col-sm-6 col-form-label">{% blocktrans %}Elegir archivo CSV para importar{% endblocktrans %}</label>
+					<div class="col-sm-6">
+						<div class="custom-file">
+							<input type="file" class="custom-file-input" id="csv" name="csv" aria-describedby="inputGroupFileAddon01" required>
+							<div class="invalid-feedback">
+								{% blocktrans %}Seleccione un archivo{% endblocktrans %}
+							</div>
+							<label id="label-file" class="custom-file-label" for="csv">{% blocktrans %}Añadir{% endblocktrans %}</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="separador" class="col-sm-6 col-form-label">{% blocktrans %}Separador de Columnas{% endblocktrans %}</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="separador" name="separador" required>
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca un separador{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 d-flex justify-content-center pt-3">
+						<button type="submit" class="btn btn-primary">{% blocktrans %}IMPORTAR{% endblocktrans %}</button>
+					</div>
+				</div>
+			</form>
+            <!-- <form id="my_contact_form" method="POST" action="." enctype='multipart/form-data'>
+	            {% csrf_token %}
+                <div class="col-12 col-sm-10 col-md-6 img-new-product">
+					<label>{% blocktrans %}Formato CSV{% endblocktrans%}</label>
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" id="video" name="video">
+						<label class="custom-file-label" for="product-video">{% blocktrans %}Añadir{% endblocktrans%}</label>
+					</div>
+                    <br><br>
+					<button type="submit" class="btn btn-primary crm-button-anadir mb-4">{% blocktrans %}GUARDAR CONTACTOS{% endblocktrans%}</button>
+			    </div>
+		    </form> -->
+		</div>
+		<div class="col-lg-4"></div>
+	</div>
+</div>
+<script>
+	$('.custom-file-input').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 30) {
+		    $(inputFile).parent()
+                .find('#label-file')
+                .html(inputFile.files[0].name.substring(0,30));
+	    }
+	    else {
+		    $(inputFile).parent()
+                .find('#label-file')
+                .html(inputFile.files[0].name.substring(0,30)+'...');
+	    }
+    });
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+<script type="text/javascript">
+	{% if messages %}
+	{% for message in messages %}
+	$.notify("{{ message }}", "error");
+	{% endfor %}
+	{% endif %}
+</script>
+{% endblock %}

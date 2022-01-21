@@ -1,0 +1,19 @@
+{% extends "dashboard_client.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div id="confirm_form" class="container">
+		<div class="row">
+			<center>
+				<div class="col-12 col-sm-10 col-lg-6">
+					<h4 class="pb-3">{% blocktrans %}Formulario enviado correctamente{% endblocktrans %}</h4>
+					<div class="row text">
+						<di class="col-12">
+							<h5 class="text-center">{% blocktrans %}Vamos a comprobar sus datos de empresa y le enviaremos un mail para continuar con la activación de my web{% endblocktrans %}</h5>
+						</di>
+                    </div>
+                </div>
+    	    </center>
+        </div>
+{% endblock %}

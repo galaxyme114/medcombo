@@ -1,0 +1,284 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<div class="col-12 col-lg-10 background">
+	<form id="newBanner" class="needs-validation datos-form mb-5" action="." method="POST" enctype="multipart/form-data" novalidate>
+		{% csrf_token %}
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="searchCompany">{% blocktrans %}Empresa{% endblocktrans %}</label>
+				{{form.banner_company}}
+				<div class="invalid-feedback">
+					{% blocktrans %}Seleccione una empresa{% endblocktrans %}
+				</div>
+			</div>
+			<div class="col-md-6"></div>
+		</div>
+		<div class="form-row imgBanner">
+			<div class="form-group col-md-3">
+				<label>{% blocktrans %}Añadir Banner Personal{% endblocktrans %}</label>
+				<div class="custom-file">
+				   <input type="file" class="custom-file-input" id="banner-img" onchange="readURL(this);" name="picture_campaign">
+				   <label class="custom-file-label" for="banner-img"><i class="fas fa-file"></i></label>
+				</div>
+			</div>
+			<div class="form-group col-md-9">
+				<img id="banner-img-reload" src="/static/img/banner.jpg" alt="" width="100%" height="80">
+			</div>
+		</div>
+		<div class="form-row imgBanner mt-4">
+				<div class="form-group col-md-3">
+					<label>{% blocktrans %}Añadir Banner de Búsqueda{% endblocktrans %}</label>
+					<div class="custom-file">
+					   <input type="file" class="custom-file-input" id="bannerbusqueda-img" onchange="readURL2(this);" name="picture_campaign_search">
+					   <label class="custom-file-label" for="bannerbusqueda-img"><i class="fas fa-file"></i></label>
+					</div>
+				</div>
+				<div class="form-group col-md-9">
+					<img id="bannerbusqueda-img-reload" src="/static/img/banner.jpg" alt="" width="100%" height="80">
+				</div>
+			</div>
+		<div class="form-row">
+			
+		</div>
+		<div class="form-row bannerBorder">
+			<div class="form-group col-12 mb-0">
+				<div class="form-row">
+					<div class="form-group col-12 mb-0">
+					<!------------- multiidioma   -------------->
+						<div class="languageCheckRadio">
+							<div class="form-check-inline">
+								<label style="font-weight: 700;">{% blocktrans %}INDIQUE EL IDIOMA{% endblocktrans %}</label>
+							</div>
+							<div class="form-check form-check-inline mb-3">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="es" value="4" checked>
+								<label class="form-check-label" for="es">{% blocktrans %}ES{% endblocktrans %}</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="de" value="2">
+								<label class="form-check-label" for="de">{% blocktrans %}DE{% endblocktrans %}</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="en" value="3">
+								<label class="form-check-label" for="en">{% blocktrans %}EN{% endblocktrans %}</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="fr" value="5">
+								<label class="form-check-label" for="fr">{% blocktrans %}FR{% endblocktrans %}</label>
+							</div>
+							<div class="form-check form-check-inline mb-3">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="pt" value="7">
+								<label class="form-check-label" for="pt">{% blocktrans %}PT{% endblocktrans %}</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="it" value="6">
+								<label class="form-check-label" for="it">{% blocktrans %}IT{% endblocktrans %}</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="zh" value="1">
+								<label class="form-check-label" for="zh">{% blocktrans %}ZH-HANT{% endblocktrans %}</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="zhh" value="8">
+								<label class="form-check-label" for="zhh">{% blocktrans %}ZH-HANS{% endblocktrans %}</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="ja" value="9">
+								<label class="form-check-label" for="ja">{% blocktrans %}JP{% endblocktrans %}</label>
+							</div>
+						</div>
+					<!--- fin de radio de multiidioma ----------- -->
+					</div>
+				</div>
+				<!--<div class="form-row">-->
+					<input value="4" name="language_campaign" type="hidden" id="language_campaign">
+					<!--<div class="form-group col-md-4">
+					<label for="bannerArea">{% blocktrans %}Area{% endblocktrans %}</label>
+					{{form.area}}
+					</div>
+					<div class="form-group col-md-4">
+					<label for="bannerCategory">{% blocktrans %}Categoria{% endblocktrans %}</label>
+					{{form.category}}
+					</div>
+					<div class="form-group col-md-4">
+					<label for="bannerSubCategory">{% blocktrans %}Sub-categoria{% endblocktrans %}</label>
+					{{form.subcategory}}
+					</div>
+				</div>
+				{{form.media}}
+				<div class="form-row">
+					<div class="form-group col-md-8">
+						<label style="color:#7f9bcd;">{% blocktrans %}Palabras clave{% endblocktrans %}</label>
+						<div class="selectsKeywords"></div>
+					</div>
+					<div class="form-group col-md-4">
+						<label>{% blocktrans %}Palabras selecionadas{% endblocktrans %}</label>
+						<div class="selectsKeywords"></div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+		<div class="form-row pt-4">
+			
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-12 bannerBorder">
+				<div class="form-row">
+					<div class="form-group col-md-5 mb-md-0 d-lg-flex align-items-center">
+						<p class="mb-0 pr-3">{% blocktrans %}Inicio {% endblocktrans%}</p>
+						<div class="">
+							<span class="input-group-prepend">
+								<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+								{{ form.start_banner }}
+								<div class="invalid-feedback">
+									{% blocktrans %}Seleccione una fecha de incio{% endblocktrans %}
+								</div>
+							</span>	
+						</div>
+					</div>
+					<div class="form-group col-md-4 mb-md-0 d-lg-flex align-items-center">
+						<p class="mb-0 pr-3">{% blocktrans %}Fin {% endblocktrans%}</p>
+						<div class="">
+							<span class="input-group-prepend">
+								<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+								{{ form.end_banner }}
+								<div class="invalid-feedback">
+									{% blocktrans %}Seleccione una fecha de fin{% endblocktrans %}
+								</div>
+							</span>
+						</div>
+					</div>
+					<div class="form-group col-md-3 mb-md-0 d-lg-flex align-items-center">
+						<p class="mb-0 pr-1 pl-0 pl-lg-2">{% blocktrans %}Activo{% endblocktrans%}</p>
+						{% if form.isActive.value == True %}
+						<input value="True" name="isActive" type="hidden" id="isActive">
+                        <input name="boton1" id="boton1" type="button"  class="btn btn-success" style="background: rgb(4,180,49);" value={% blocktrans %} "SI" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')" />&nbsp;&nbsp;  
+						<input name="boton2" id="boton2" type="button" class="btn btn-danger ml-0" style="background: rgb(132,132,132);" value={% blocktrans %} "NO" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')"/>
+						{% else %}
+						<input value="False" name="isActive" type="hidden" id="isActive">
+                        <input name="boton1" id="boton1" type="button"  class="btn btn-success" style="background: rgb(132,132,132);" value={% blocktrans %} "SI" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')" />&nbsp;&nbsp;  
+						<input name="boton2" id="boton2" type="button" class="btn btn-danger ml-0" style="background: rgb(223,1,58);" value={% blocktrans %} "NO" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')"/>
+					    {% endif %}
+					</div>
+				</div>
+			</div>
+			<!--<div class="form-group col-md-2"></div>-->
+		</div>
+		<div class="col-12 text-center">
+			<button type="submit" class="btn btn-primary mb-2">{% blocktrans %}GUARDAR{% endblocktrans%}</button>
+		  <a href="{% url 'BannerList' %}" type="button" class="btn btn-primary mb-2">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+		</div>
+	</form>
+</div>
+<script>
+    $('#banner-img').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 30) {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,20));
+	        }
+	        else {
+		        $(inputFile).parent()
+                    .find('.custom-file-label')
+                    .html(inputFile.files[0].name.substring(0,20)+'...');
+	        }
+        });
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+                reader.onload = function (e) {
+					$('#banner-img-reload').attr('src', e.target.result);
+                };
+            reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+		$('#bannerbusqueda-img').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 30) {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,20));
+	        }
+	        else {
+		        $(inputFile).parent()
+                    .find('.custom-file-label')
+                    .html(inputFile.files[0].name.substring(0,20)+'...');
+	        }
+        });
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+                reader.onload = function (e) {
+					$('#banner-img-reload').attr('src', e.target.result);
+                };
+            reader.readAsDataURL(input.files[0]);
+            }
+        }
+		function readURL2(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+                reader.onload = function (e) {
+					$('#bannerbusqueda-img-reload').attr('src', e.target.result);
+                };
+            reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+		$('input[name=inlineRadioOptions]').change(function(){
+			value = $(this).val();
+			if(value == 1){
+				$("#language_campaign").val($(this).val());
+			}
+			if(value == 2){
+				$("#language_campaign").val($(this).val());
+			}
+			if(value == 3){
+				$("#language_campaign").val($(this).val());
+			}
+			if(value == 4){
+				$("#language_campaign").val($(this).val());
+			}
+			if(value == 5){
+				$("#language_campaign").val($(this).val());
+			}
+			if(value == 6){
+				$("#language_campaign").val($(this).val());
+			}
+			if(value == 7){
+				$("#language_campaign").val($(this).val());
+			}
+			if(value == 8){
+				$("#language_campaign").val($(this).val());
+			}
+			if(value == 9){
+				$("#language_campaign").val($(this).val());
+			}
+			
+		});
+</script>
+
+<script type="text/javascript">
+	function ChangeColor(name,nombreBotones){
+		var partesBotones = nombreBotones.split(",");
+		for(i=0;i<partesBotones.length;i++){
+			 if (name == 'boton1'){
+				$("#isActive").val('True');
+				var boton = document.getElementById(partesBotones[i]); 
+				if(boton.name == name)boton.style.background = '#04B431';
+				else boton.style.background = '#848484';
+			}
+			else{
+				$("#isActive").val('False');
+				var boton = document.getElementById(partesBotones[i]); 
+				if(boton.name == name)boton.style.background = '#DF013A';
+				else boton.style.background = '#848484';
+			}
+		}
+	}
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

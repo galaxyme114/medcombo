@@ -1,0 +1,7 @@
+/*------------------------------
+---- select_validations.css ----
+------------------------------*/
+
+form select {
+    background-position: center right calc(.975em + .1875rem) !important;
+}

@@ -1,0 +1,99 @@
+@font-face{
+	font-family: Muli-SemiBold;
+	src: url("{% static 'css/font/Muli-SemiBold.ttf' %}") format("truetype");
+}
+.select2-container {
+	min-width: 5em !important;
+	text-align: start;
+	}
+.sel-company {
+	border-radius: 45px 0px 0px 45px;
+	background-color: #7f9bcd;
+	outline: 0;
+	padding-left: 10px;
+	background-color: #df8771;
+	color: white;
+	border: none;
+	height: 42px;
+}
+.sel-company:focus {
+	box-shadow: none
+}
+.sel-company:hover {
+	color: white;
+}
+.sel-product {
+	border-radius: 45px 0px 0px 45px;
+	background-color: #7f9bcd;
+	outline: 0;
+	padding-left: 10px;
+	border:solid 1px #b5b6b6;
+	background-color: #7e9acd;
+	color: white;
+	height: 42px;
+}
+.sel-product:focus {
+	box-shadow: none
+}
+.sel-product:hover {
+	color: white;
+}
+.btn-product{
+	border-radius: 0 45px 45px 0;
+	background-color: #7f9bcd;
+	border:solid 1px #b5b6b6;
+	border-left: none;
+	padding: 12px 15px 12px 15px;
+}
+.btn-product:hover {
+	color: #fff !important;
+	background-color: #b6b5b5 !important;
+	border-color: #b6b5b5 !important;
+}
+.btn-product:active{
+	background-color: #595959!important;
+	border-color: #595959!important;
+}
+.btn-company{
+	border-radius: 0 45px 45px 0;
+	background-color: #df8771;
+	border:solid 1px #b5b6b6;
+	border-left: none;
+	padding: 12px 15px 12px 15px;
+	color: white;
+}
+.btn-company:hover {
+	color: #fff !important;
+	background-color: #b6b5b5 !important;
+	border-color: #b6b5b5 !important;
+}
+.dropdown-menu {
+	box-shadow: 0 2px 20px 0 rgba(0,0,0,0.25);
+	border: 0;
+	min-width: 12rem;
+	font-size: 14px;
+}
+.disabledbutton {
+	pointer-events: none;
+	opacity: 0.4;
+}
+.active{
+	color:red !important;
+}
+.div_hide{
+	display:none;
+}
+.brands {
+	padding: 0px 30px;
+	background-color: white;
+	box-shadow: 0 -3px 3px rgba(0, 0, 0, 0.25);
+}
+.MultiCarousel { float: left; overflow: hidden; padding: 3px; width: 100%; position:relative; }
+.MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: right; }
+.MultiCarousel .MultiCarousel-inner .item { float: right;}
+.MultiCarousel .MultiCarousel-inner .item > div { text-align: center; padding:3px; margin:3px; background:white; color:#666;}
+.MultiCarousel .leftLst, .MultiCarousel .rightLst { position:absolute; top:calc(50% - 20px); }
+.MultiCarousel .leftLst { left:0; }
+.MultiCarousel .rightLst { right:0; }
+
+.MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over { pointer-events: none; background:#ccc; }

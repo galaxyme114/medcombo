@@ -1,0 +1,153 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-2 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}Logos footer{% endblocktrans %}</h5>
+		</div>
+		<div class="col-12 col-sm-6 col-md-2">
+			<a href="{% url 'CompanyLogoCreate' %}" class="btn btn-primary crm-button-anadir mx-3" data-toggle="tooltip" data-placement="bottom">{% blocktrans %}AÑADIR{% endblocktrans%}</a>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	{% if company_logo %}
+	    {% if page_obj.paginator.num_pages > 1 %}
+		    <span class="col-12 mb-3 paginator-permission text-center">
+			    {% if page_obj.has_previous %}
+				    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info">
+					    <i class="fas fa-angle-double-left"></i>
+				    </a>
+			    {% endif %}
+		 	    {% if page_obj.has_next %}
+				     <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info">
+					    <i class="fas fa-angle-double-right"></i>
+				    </a>
+			    {% endif %}
+			    <span style="float: right">
+				    {% blocktrans %}Página{% endblocktrans%} {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+			    </span>
+		    </span>
+		{% endif %}
+		<!--Banner List-->
+		<div class="row m-0 list-fondo mb-4">
+			<div class="col-12" id="medmagazine">
+				<table id="medmagazinefor" class="table table-responsive-md justify-content-center" data-language="{{object.language.value_language}}">
+					<thead>
+						<tr>
+							<th scope="col" class="text-center">{% blocktrans %}Logos footer{% endblocktrans %}</th>
+							<th scope="col" class="text-center">{% blocktrans %}Título{% endblocktrans %}</th>
+							<th scope="col" class="text-center">{% blocktrans %}Acción{% endblocktrans %}</th>
+						</tr>
+					</thead>
+					<tbody>
+				{% for object in company_logo %}
+				    <tr>
+						<td class="text-center">
+							{% if object.picture %}
+								<a href="{{object.url}}" target="_blank">
+									<img class="img-thumbnail" src="{{ object.picture.url }}" alt=""  width="200px" data-toggle="tooltip" data-placement="bottom" title="{{object.url}}" />
+							    </a>
+							{% else %}
+								<a href="{{object.url}}" target="_blank">
+									<img class="img-thumbnail" src="{% static 'img/default.png' %}" alt=""  width="200px" data-toggle="tooltip" data-placement="bottom" title="{{object.url}}" />	
+								</a>
+							{% endif %}
+						</td>
+						<td class="text-center align-middle">
+							<p>{{ object.title }}</p>
+						</td>
+						<td class="text-center align-middle">
+							<a href="{% url 'CompanyLogoUpdate' object.id %}" class="btn btn-primary list-button ml-0 ml-md-3">
+								<i style="color: white;" class="fas fa-edit"></i>
+							</a>
+							<a href="#" data-toggle="modal" onclick="delete_footer({{object.id}})" class="btn btn-primary list-button ml-0 ml-md-1 mt-1 mt-md-0">
+								<i style="color: white;" class="fas fa-trash-alt"></i>
+							</a>
+						</td>
+					</tr>
+                    
+				{% endfor %}
+			</tbody>
+		</table>
+			</div>
+		</div>
+	{% else %}
+	    <h4 class="text-primary">{% blocktrans %}Sin Registros{% endblocktrans %}</h4>
+	{% endif %}
+	{% if page_obj.paginator.num_pages > 1 %}
+	    <span class="col-12 mb-3 mt-3 paginator-permission text-center">
+		    {% if page_obj.has_previous %}
+			    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info">
+				    <i class="fas fa-angle-double-left"></i>
+			    </a>
+		    {% endif %}
+		    {% if page_obj.has_next %}
+		        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info">
+				    <i class="fas fa-angle-double-right"></i>
+			    </a>
+		    {% endif %}
+		    <span style="float: right">
+			    {% blocktrans %}Página{% endblocktrans%} {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+		    </span>
+	    </span>
+	{% endif %}
+</div>
+<div class="modal fade" id="delete-footer-select" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog modal-xs">
+		<div class="modal-content" style="border-radius: 25px;">
+			<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				<div class="d-flex align-items-center">
+					<i class="fas fa-trash-alt icons_size_title_second"></i>
+					<p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR Logos footer{% endblocktrans %}</p>
+				</div>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="color: #fff;">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 d-flex justify-content-center">
+					<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+				</div>
+			</div>
+			<input type="hidden" id="footer_select" value="-1" />
+			<div class="modal-footer justify-content-center">
+				<button id="delete-button" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+				<button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function delete_footer(id){
+		$("#footer_select").val(id);
+		$("#delete-footer-select").modal();
+	}
+	$('#delete-button').click(function(e){
+		var value = $("#footer_select").val();
+		var url = '{% url "delete_companylogo" %}';
+		var token = '{{csrf_token}}';
+		$.ajax({
+			headers: { "X-CSRFToken": token },
+			method: 'POST',
+			url: url,
+			data: {
+				'value': value
+			},
+			success: function(data) {
+				if(data == 'Ok') {
+					location.reload();
+				}
+			}
+		});
+	});
+</script>
+<script>
+	$("p").addClass("mb-0");
+	$(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+{% endblock %}

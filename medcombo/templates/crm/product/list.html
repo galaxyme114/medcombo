@@ -1,0 +1,184 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-lg-4 col-sm-4 col-md-3 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}PRODUCTOS{% endblocktrans %}</h5>
+		</div>
+		<div class="col-lg-3 col-sm-4 col-md-4">
+			<button type="button" class="btn btn-primary crm-button-anadir mb-0" data-toggle="modal" data-target="#create">{% blocktrans %}AÑADIR{% endblocktrans%}</button> 
+		</div>
+		<div class="col-lg-4 col-sm-4 col-md-5 m-1">
+			<div class="input-group flex-nowrap">
+				<input id="search_product" type="search" class="form-control input-right-border" placeholder={% blocktrans %}"Buscar"{% endblocktrans%} id="buscar">
+				<div class="input-group-prepend">
+					<span class="input-group-text my_cursor" id="buscar-fa"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<div class="row d-flex align-items-end">
+		<div class="col-12 col-md-6 padding-movil">			
+			<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content" style="border-radius: 25px;">
+						<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+							<div class="d-flex align-items-center">
+								<i class="far fa-list-alt icons_size_title_second"></i>
+							    <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}AÑADIR PRODUCTOS{% endblocktrans%}</p>
+							</div>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true" style="color: #fff;">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<object height="600" width="101%" data="{% url 'CreateProductCrm' %}"></object>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6"></div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12 col-md-10">
+			<div id="contact-table">
+				<table class="table table-responsive-md">
+					<thead>
+					    <tr>
+						    <th scope="col">{% blocktrans %}Producto{% endblocktrans%}</th>
+						    <th scope="col">{% blocktrans %}ID{% endblocktrans%}</th>
+						    <th scope="col">{% blocktrans %}Precio{% endblocktrans%}</th>
+						    <th scope="col" class=" text-right">{% blocktrans %}Modificar{% endblocktrans%}</th>
+					    </tr>
+					</thead>
+					<tbody>
+					    {% if product %}
+					        {% for products in product %}			
+					            <tr>
+						            <td scope="row"><span class="my_cursor" data-toggle="modal" data-target="#detail{{ products.pk }}">{{ products.name }}</span></td>
+						            <td>{{ products.product_ID }}</td>
+						            <td>{{ products.price }}</td>
+						            <td class="text-right">
+								        <span class="my_cursor my_hover" data-toggle="modal" data-target="#update{{ products.pk }}"><i class="pl-2 fas fa-pen"></i></span>
+								        <span class="my_cursor my_hover" data-toggle="modal" onclick="delete_item({{ products.pk }})"><i class="pl-3 fas fa-trash-alt"></i></span>
+						            </td>
+						        </tr>
+						        <div class="modal fade" id="detail{{ products.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								    <div class="modal-dialog modal-xl">
+									    <div class="modal-content" style="border-radius: 25px;">
+										    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+												<div class="d-flex align-items-center">
+												    <i class="far fa-list-alt icons_size_title_second"></i>
+											        <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}PRODUCTO{% endblocktrans%}</p>
+											    </div>
+											    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												    <span aria-hidden="true" style="color: #fff;">&times;</span>
+											    </button>
+										    </div>
+										    <div class="modal-body">
+											    <object height="310" width="101%" data="{% url 'DetailProductCrm' products.pk %}"></object>
+										    </div>
+									    </div>
+								    </div>
+							    </div>
+							    <div class="modal fade" id="update{{ products.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								    <div class="modal-dialog modal-xl">
+									    <div class="modal-content" style="border-radius: 25px;">
+										    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+												<div class="d-flex align-items-center">
+												    <i class="fas fas fa-pen icons_size_title_second"></i>
+											        <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}MODIFICAR PRODUCTOS{% endblocktrans%}</p>
+											    </div>
+											    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												    <span aria-hidden="true" style="color: #fff;">&times;</span>
+											    </button>
+										    </div>
+										    <div class="modal-body">
+											    <object height="600" width="101%" data="{% url 'UpdateProductCrm' products.pk %}"></object>
+										    </div>
+									    </div>
+								    </div>
+							    </div>
+							    
+					        {% endfor %}
+					    {% else %}
+						    <td>{% blocktrans %}No existen productos{% endblocktrans %}</td>
+					    {% endif %}
+					</tbody>
+				</table>
+				<script>
+					$("#search_product").keyup(function(){
+						_this = this;
+						// Show only matching TR, hide rest of them
+						$.each($("table tbody tr"), function() {
+							if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+								$(this).hide();
+							}
+							else {
+								$(this).show();
+							}
+						});
+					});
+				</script>
+			</div>
+		</div>
+		<div class="col-2"></div>
+	</div>
+</div>
+<div class="modal fade" id="delete_product_item" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog modal-xs">
+		<div class="modal-content" style="border-radius: 25px;">
+			<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				<div class="d-flex align-items-center">
+					<i class="fas fa-trash-alt icons_size_title_second"></i>
+					<p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR PRODUCTOS{% endblocktrans%}</p>
+				</div>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="color: #fff;">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 d-flex justify-content-start">
+					<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+				</div>
+			</div>
+			<input type="hidden" id="product-select" value="-1" />
+			<div class="modal-footer">
+				<div class="col-12 d-flex justify-content-center">
+					<button id="delete-products" data-del="{{products.pk}}" class="btn btn-primary crm-button-anadir mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+					<button data-dismiss="modal" class="btn btn-primary crm-button-anadir" >{% blocktrans %}NO{% endblocktrans %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function delete_item(pk){
+		$("#product-select").val(pk);
+		$("#delete_product_item").modal();
+	}
+	$('#delete-products').click(function(e){
+		var value = $("#product-select").val();
+		var url = '{% url "ProductDeleteCrm" %}';
+		var token = '{{csrf_token}}';
+		$.ajax({
+			headers: { "X-CSRFToken": token },
+			method: 'POST',
+			url: url,
+			data: {
+				'value': value
+			},
+			success: function(data) {
+				if(data == 'Ok') {
+					location.reload();
+				}
+			}
+		});
+	});
+</script>
+{% endblock %}

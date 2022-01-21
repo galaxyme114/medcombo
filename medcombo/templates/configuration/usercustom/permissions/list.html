@@ -1,0 +1,200 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}{% blocktrans %}Usuarios{% endblocktrans%}{% endblock %}
+{% block css %}{% endblock %}
+{% block javascript %}{% endblock %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+  <div class="row">
+    <div class="col-12 mb-3">
+      <p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}LISTA DE USUARIOS{% endblocktrans%}</p>
+    </div>
+  </div>
+  <div class="row m-0 list-fondo mb-3">
+    <div class="col-12">
+      <div class="row mb-2 mt-2 font-to-title">
+        <div class="col-12 d-flex pt-3 pt-md-0">
+          <p class="col-1 d-none d-md-flex"></p>
+          <p class="col-3 d-none d-md-flex">{% blocktrans %}Usuarios{% endblocktrans%}</p>
+          <p class="col-2 d-none d-md-flex justify-content-center">{% blocktrans %}Nombres{% endblocktrans%}</p>
+          <p class="col-2 d-none d-md-flex justify-content-center">{% blocktrans %}Apellidos{% endblocktrans%}</p>
+          <p class="col-3 d-none d-md-flex justify-content-center">{% blocktrans %}Correos{% endblocktrans%}</p>
+          <p class="col-1 d-none d-md-flex justify-content-center"></p>
+        </div>
+      </div>
+      <div class="list-separator d-none d-md-flex mx-n3"></div>
+        {% if object_list %}
+          {% for user in object_list %}
+            {% if not user.is_superuser %}
+              <div class="row">
+                <div class="col-12 d-md-flex py-3">
+                  <div class="col-12 col-md-1">
+                    <p class="d-md-none">{% blocktrans %}Usuario{% endblocktrans%}</p>
+                    {% if user.is_active == True %}
+                      <span><i class="fas fa-check"></i></span>
+                    {% else %}
+                      <span><i class="fas fa-times"></i></span>
+                    {% endif %}
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <p class="d-md-none">{% blocktrans %}Usuario{% endblocktrans%}</p>
+                    <a class="my_color" href="{% url 'update_permission' user.pk %}">{{user.username}}</a>
+                  </div>
+                  <div class="col-12 col-sm-2 list-p-center">
+                    <p class="d-md-none">{% blocktrans %}Nombre{% endblocktrans%}</p>
+                    <a class="my_color" href="{% url 'update_permission' user.pk %}">{{user.first_name}}</a>
+                  </div>
+                  <div class="col-12 col-sm-2 py-3 py-sm-0 list-p-center">
+                    <p class="d-md-none">{% blocktrans %}Apellido{% endblocktrans%}</p>
+                    <a class="my_color" href="{% url 'update_permission' user.pk %}">{{user.last_name}}</a>
+                  </div>
+                  <div class="col-12 col-sm-3 list-p-center">
+                    <p class="d-md-none">{% blocktrans %}Correo{% endblocktrans%}</p>
+                    <a class="my_color" href="{% url 'update_permission' user.pk %}">{{user.email}}</a>
+                  </div>
+                  <div class="col-12 col-sm-1 list-p-center">
+                  {% if user.email != "admin@admin.com" or user.username != "admin" %}
+                    <p class="d-md-none">{% blocktrans %}Delete{% endblocktrans %}</p>
+                    {% if user.is_active == True %}
+                      <a class="my_color" href="" data-toggle="modal" data-target="#delete{{ user.pk }}" title={% blocktrans %}"Desactivar"{% endblocktrans %}>
+                        <i class="fas fa-user-times"></i>
+                      </a>
+                    {% else %}
+                      <a class="my_color" href="" data-toggle="modal" data-target="#active{{ user.pk }}" title={% blocktrans %}"Activar"{% endblocktrans %}>
+                        <i class="fas fa-user-check"></i>
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                  </div>
+                </div>
+              </div>
+              {% if not forloop.last %}
+				      <div class="list-separator mx-n3"></div>
+              {% endif %}
+      
+              <!--Inactive-->
+              <div class="modal fade" id="delete{{ user.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog modal-xs">
+                  <div class="modal-content" style="border-radius: 25px;">
+                    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-user-times icons_size_title_second"></i>
+                        <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}DESACTIVAR USUARIO{% endblocktrans %}</p>
+                      </div>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color: #fff;">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="col-12 d-flex justify-content-center">
+                        <h5>{% blocktrans %}¿Está seguro que quiere desactivar este registro?{% endblocktrans %}</h5>
+                      </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                      <button id="delete-button{{user.pk}}" data-id="{{user.pk}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+                      <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <!--Active-->
+              <div class="modal fade" id="active{{ user.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog modal-xs">
+                  <div class="modal-content" style="border-radius: 25px;">
+                    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-user-check icons_size_title_second"></i>
+                        <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ACTIVAR USUARIO{% endblocktrans %}</p>
+                      </div>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color: #fff;">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="col-12 d-flex justify-content-center">
+                        <h5>{% blocktrans %}¿Está seguro que quiere activar este registro?{% endblocktrans %}</h5>
+                      </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                      <button id="active-button{{user.pk}}" data-id="{{user.pk}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+                      <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <script>
+                $('#delete-button{{user.pk}}').click(function(e){
+                  var user = $('#delete-button{{user.pk}}').attr('data-id');
+                  var url = '{% url "delete_user_register" %}';
+                  var token = '{{csrf_token}}';
+                  $.ajax({
+                    headers: { "X-CSRFToken": token },
+                    method: 'POST',
+                    url: url,
+                    data: {
+                      'user': user
+                    },
+                    success: function(data) {
+                      location.reload();
+                    }
+                  });
+                });
+                $('#active-button{{user.pk}}').click(function(e){
+                  var user = $('#active-button{{user.pk}}').attr('data-id');
+                  var url = '{% url "active_user_register" %}';
+                  var token = '{{csrf_token}}';
+                  $.ajax({
+                    headers: { "X-CSRFToken": token },
+                    method: 'POST',
+                    url: url,
+                    data: {
+                      'user': user
+                    },
+                    success: function(data) {
+                      location.reload();
+                    }
+                  });
+                });
+              </script>
+        {% endif %}
+      {% endfor %}
+      {% else %}
+       <h3></h3>
+      {% endif %}
+    </div>
+  </div>
+  <span class="col-12 mb-4 mt-1 paginator-permission text-center">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info">
+          <i class="fas fa-angle-double-left"></i>
+        </a>
+      {% endif %}
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info">
+          <i class="fas fa-angle-double-right"></i>
+        </a>
+      {% endif %}
+      <span style="float: right">
+        {% blocktrans %}Página{% endblocktrans%} {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+    </span>
+  <!--<span class="col-12 mb-2 paginator-permission text-center">
+    <a href="?{{ page_obj.previous_page_number.querystring }}" class="btn btn-outline-info">
+      <i class="fas fa-angle-double-left"></i>
+    </a>
+    <span>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+    <a href="?{{ page_obj.next_page_number.querystring }}" class="btn btn-outline-info">
+      <i class="fas fa-angle-double-right"></i>
+    </a>
+  </span>-->
+<script>
+  $("p").addClass("mb-0");
+</script>
+</div>
+{% endblock %}
+{% block form %}
+{% endblock %}

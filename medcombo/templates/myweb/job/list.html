@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+{% load i18n %}
+<style>
+    span.select2.select2-container.select2-container--default{
+        width: 100% !important;
+    }
+    .has-search .form-control {
+        padding-left: 2.375rem;
+    }
+
+    .has-search .form-control-feedback {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 2.375rem;
+        height: 2.375rem;
+        line-height: 2.375rem;
+        text-align: center;
+        pointer-events: none;
+    }
+</style>
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="container  pl-4 pr-4 pt-5 mt-2" style="padding-bottom: 5px;">
+    <div class="row m-0 pt-5">
+        <div class="col-4 col-sm-4 col-md-4 col-xl-2 pl-0 pr-0 pt-2">
+            <h5><strong style="color:#7f9bcd">{% blocktrans %}JOB OFFER{% endblocktrans%}</strong></h5>
+        </div>
+        <div class="col-8 col-sm-8 col-md-8 col-xl-10">
+            <hr style="border-top: 1px solid #7f9bcd;">
+        </div>
+    </div>
+    <div class="row m-0 pt-4">
+        {% if user.is_authenticated %}
+            {% if user.company %}
+                <a href="{% url 'create_offer' %}" class="btn btn-primary" style="text-transform: uppercase;">{% blocktrans %}Crear ofertas{% endblocktrans%}</a>
+            {% else %}
+                <a href="{% url 'create_company' %}" class="btn btn-primary" style="text-transform: uppercase;">{% blocktrans %}Crear ofertas{% endblocktrans%}</a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'view_login' %}?next={{request.path}}" class="btn btn-primary" style="text-transform: uppercase;">{% blocktrans %}Crear ofertas{% endblocktrans%}</a>
+            
+        {% endif %}
+    </div>
+    <div class="row m-0 pt-5">
+        <div class="col-4 col-sm-4 col-md-4 col-xl-2 pl-0 pr-0 pt-2">
+            <h5><strong style="color:#7f9bcd">{% blocktrans %}JOB SEARCH{% endblocktrans%}</strong></h5>
+        </div>
+        <div class="col-8 col-sm-8 col-md-8 col-xl-10">
+            <hr style="border-top: 1px solid #7f9bcd;">
+        </div>
+    </div>
+    <div class="row m-0 pt-3">
+        <div class="col-12 col-md-12 col-sm-12">
+            <div class="row">
+                <div class="form-group has-search col-md-6 pr-1 col-12">
+                    <i class="fa fa-search form-control-feedback color-home-job"></i>
+                    <input type="text" id="search_txt" class="form-control" placeholder="{% blocktrans %}Buscar{% endblocktrans %}">
+                </div>
+                <div class="form-group col-md-4 pr-1 col-9">
+                    <select id="country" class="country" name="country[]" multiple="multiple" style="width: 100%">
+                      {% for country in countrys %}
+                            <option value="{{country.id}}">{{country.name}}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="col-md-2 pl-1 col-3">
+                    <button id="btn_search" class="btn btn-primary">{% blocktrans %}Buscar{% endblocktrans %}</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4 pr-1">
+                    <select id="salary" name="salary" class="form-control">
+                        <option value="">{% blocktrans %}Salario{% endblocktrans %}</option>
+                        <option value="0-100">0 - 100</option>
+                        <option value="100-500">100 - 500</option>
+                        <option value="500-1000">500 - 1000</option>
+                        <option value="1000-5000">1000 - 5000</option>
+                        <option value="5000-10000">5000 - 10000</option>
+                        <option value="10000-50000">10000 - 50000</option>
+                        <option value="50000-100000">50000 - 100000</option>
+                        <option value="100000-999999999999999999">100000 +</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4 pr-1">
+                    <select id="contract" name="contract"  class="form-control">
+                        <option value="">{% blocktrans %}Tipo de Contrato{% endblocktrans %}</option>
+                        {% for contract in contracts %}
+                            <option value="{{contract.id}}">{{contract.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-4 pr-1">
+                    <select id="shift" name="shift" class="form-control">
+                        <option value="">{% blocktrans %}Jornada laboral{% endblocktrans %}</option>
+                        {% for shift in shifts %}
+                            <option value="{{shift.id}}">{{shift.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="hidden" id="next_page" value="1">
+            </div>
+        </div>
+        
+    </div>
+    <div class="row" >
+        <div class="col-12 col-md-12 border-empleo pt-0">
+            <div id="my_lists" class="row pt-0 pb-3 pl-3 pr-3">
+
+                {% for obj in object_list %}
+                    <div id="id-text" class="col-12 empleo-oferta">
+                        <div class="row m-0">
+                            <h4><a href="{% url 'detail_front_offers' obj.id %}" class="text-home-job">{{ obj.name }}</a></h4>
+                        </div>
+                        <div class="row m-0">
+                            <div class="col-6 p-0">
+                                <span style="font-size: 1.25rem;font-weight: 700;">{{obj.user.company.name}}</span>
+                            </div>
+                            <div class="col-6 p-0">
+                                <span style="font-size: 1.25rem;font-weight: 700;">{{ obj.type_contract }}</span>
+                            </div>
+                        </div>
+                        <div class="row m-0">
+                            <span>{{ obj.city }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if page_obj.paginator.num_pages > 1 %}
+                    <span class="col-12 mb-3 mt-3 paginator-permission text-center">
+                        {% if page_obj.has_previous %}
+                            <button data-id="{{ page_obj.previous_page_number }}" class="btn btn-outline-info btn_page">
+                                <i class="fas fa-angle-double-left"></i>
+                            </button>
+                        {% endif %}
+                        {% if page_obj.has_next %}
+                            <button data-id="{{ page_obj.next_page_number }}" class="btn btn-outline-info btn_page">
+                                <i class="fas fa-angle-double-right"></i>
+                            </button>
+                        {% endif %}
+                        <span style="float: right">
+                            {% blocktrans %}Página{% endblocktrans%} {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                        </span>
+                    </span>
+                {% endif %}
+
+                {% if object_list.paginator.count == 0 %}
+                    <div style="height:200px">
+                    </div>
+                {% endif %}
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('.country').select2({
+            placeholder: '{% blocktrans %}País{% endblocktrans %}',
+            // width: 'resolve',
+            minimumResultsForSearch: 5
+        });
+        $("#btn_search").on('click', function(){
+            search_result();
+        });
+        $(".btn_page").on('click', function(){
+            $("#next_page").val($(this).data('id'));
+            search_result();
+        });
+        function search_result(){
+            console.log($("#next_page").val());
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                method: 'POST',
+                url: '{% url "list-front-offers" %}',
+                data: {
+                    'country': $('#country').val(),
+                    'salary': $('#salary').val(),
+                    'contract': $('#contract').val(),
+                    'shift': $('#shift').val(),
+                    'search_txt': $('#search_txt').val(),
+                    'page': $("#next_page").val(),
+                },
+                success: function(data) {
+                    console.log(data);
+                    $('#my_lists').html(data);
+                    $(".btn_page").on('click', function(){
+                        $("#next_page").val($(this).data('id'));
+                        search_result();
+                    });
+                }
+            });
+        }
+    });
+    function check_box(){
+        var Type ="";
+        var Type1 = "";
+        var Jornada ="";
+        var Jornada1 = "";
+        var formControlRange = $('#formControlRange').val();
+        var countries = $('#id_country').val();
+        var citizen = $('#id_city').val();
+        var city_search = $("#buscar_id").val();
+        var token = '{{csrf_token}}';
+        var my_url = '{% url "list-front-offers" %}';
+        console.log(citizen);
+        if($('#Type').prop('checked')) {
+            Type = "Prictices";
+            console.log(Type);
+        }
+        if($('#Type1').prop('checked')) {
+            Type1 = "Undefined";
+        }
+        if($('#Jornada').prop('checked')) {
+            Jornada = "Complete";
+        }
+        if($('#Jornada1').prop('checked')) {
+            Jornada1 = "Patial";
+        }
+        
+        $("#my_list").hide();
+
+        $.ajax({
+                headers: { "X-CSRFToken": token },
+                method: 'POST',
+                url: my_url,
+                data: {
+                    'countries': countries,
+                    'citizen': citizen,
+                    'Type': Type,
+                    'Type1': Type1,
+                    'Jornada': Jornada,
+                    'Jornada1': Jornada1,
+                    'formControlRange': formControlRange,
+                    'city_search': city_search
+                },
+                success: function(data) {
+                    $('#my_lists').html(data);
+                }
+        });
+    }
+
+    $("#buscar-fa").on('click', function(){
+        check_box();  
+    });
+
+    $('#id_country').change(function(evt){
+       check_box();
+    });
+
+    $('#select2-id_city-container').on('click', function(){
+       check_box();
+    });
+
+    $('#formControlRange').change(function(evt){
+       check_box();
+    });
+    
+    $('#Type').change(function(evt){
+        check_box();
+    });
+    $('#Type1').change(function(evt){
+        check_box();
+    });
+    $('#Jornada').change(function(evt){
+        check_box();
+    });
+    $('#Jornada1').change(function(evt){
+        check_box();
+    });
+    
+</script>
+<script src="{% static 'js/app/home/home.js' %}"></script>
+{% endblock %}

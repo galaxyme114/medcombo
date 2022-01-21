@@ -1,0 +1,7 @@
+{% for subcategory in subcategorys %}
+    <ul class="dd-list">
+        <li class="dd-item-subcategory" value="{{subcategory.id}}" onclick="subcategory_click('{{subcategory.id}}')" id="click_subcategory{{subcategory.id}}">
+            <div class="dd-handle">{{subcategory}}</div>
+        </li>
+    </ul>
+{% endfor %}

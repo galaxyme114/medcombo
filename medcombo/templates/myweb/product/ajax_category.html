@@ -1,0 +1,7 @@
+{% for category in categorys %}
+    <ul class="dd-list">
+        <li class="dd-item-category" value="{{category.id}}" onclick="category_click('{{category.id}}')" id="click_category{{category.id}}">
+            <div class="dd-handle">{{category}}</div>
+        </li>
+    </ul>
+{% endfor %}

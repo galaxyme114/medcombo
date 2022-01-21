@@ -1,0 +1,150 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-9 background">
+	<div class="container-fluid pb-5">
+		<div class="row myweb-list-background">
+			<div class="col-12">
+				<div class="row mb-5">
+					<div class="col-12">
+						<div class="row pb-4" id="myurl" data-contact-url="{% url 'ajax_productoadministrar' %}">
+							<div class="col-12 px-0 px-sm-3">
+								<div id="contact-table">
+									<table class="table table-hover table-myweb-crm">
+										<thead>
+											<tr>
+												<th scope="col">{% blocktrans %}Palabra clave{% endblocktrans %}</th> 
+												<th scope="col" class="text-center">{% blocktrans %} Productos {% endblocktrans %}</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for key in keywords %}
+											<tr>
+												<td scope="row">{{key.pk}}</td>
+												{% for product in productos %}
+
+												{% for keyword in product.keyword.all %}
+												{% if keyword.pk == key.pk %}
+												<td scope="row" class="text-center">
+													{% if product.picture %}
+													<img src="{{ product.picture.url}}" alt="" height="30px" width="auto">
+													{% else %}
+													<img src="{% static 'img/bandeja.png' %}" alt="" height="30px" width="auto">
+													
+													{% endif %}
+													<p><h6>{{product.pk}}</h6></p>
+													<center>
+														<div class="col-4 text-center" style="color: #7f9bcd;">
+
+															{% if relacion %}
+
+																{% for relation in relacion %}
+																	{% if relation.product.pk is product.pk %}
+																	<i id="{{product.pk}}{{key.pk}}{{product.pk}}" class="fas fa-check"></i>
+																	{% else %}
+																		{% if forloop.last %}
+																			<i id="{{product.pk}}{{key.pk}}{{product.pk}}" class="fas fa-times"></i>
+																		{% else %}
+																		{% endif %}
+																	
+																	{% endif %} 
+																{% endfor %}
+
+
+															{% else %}<!-- si la tabla adminproduc esta vacia, ninguno esta aprobado--->
+															<i id="{{product.pk}}{{key.pk}}{{product.pk}}" class="fas fa-times"></i>
+															{% endif %}<!-- fin if relacion-- -->
+
+															
+														</div>
+													</center>
+												
+												</td>
+												
+
+												{% endif %}
+												{% endfor %}
+										<script type="text/javascript">
+									
+											$('#{{product.pk}}{{key.pk}}{{product.pk}}').click(function(e){
+
+											var div1 = document.getElementById("{{product.pk}}{{key.pk}}{{product.pk}}");
+											var status = div1.getAttribute("class");
+											if( status == "fas fa-check"){ // aqui lo cambio en base de datos a false
+										
+											var url = $("#myurl").attr("data-contact-url");  
+											var productid = '{{product.pk}}';
+											var userid= '{{request.user.pk}}';
+											var show = 'False';
+											var keyid= '{{key.pk}}';
+											$.ajax({                      
+												url: url,
+												data: {
+													'productid': productid,
+													'userid': userid,
+													'show': show,  
+													'keyid': keyid,     
+												},
+												success: function (data) {  
+													document.getElementById("{{product.pk}}{{key.pk}}{{product.pk}}").className = "fas fa-times"; 
+													$.notify("{% blocktrans %}Eliminado{% endblocktrans %}", "success");
+												}
+											});
+
+														
+											}
+											else if( status == "fas fa-times"){ 
+											// aqui verifico en bd si hay cupo
+											
+											var url = $("#myurl").attr("data-contact-url");  
+											var productid = '{{product.pk}}';
+											var userid= '{{request.user.pk}}';
+											var keyid= '{{key.pk}}';
+											var show = 'True';
+											$.ajax({                      
+												url: url,
+												data: {
+													'productid': productid,
+													'userid': userid,
+													'show': show, 
+													'keyid': keyid,     
+												},
+												success: function (data) {  
+													if (data == 'Elimine'){
+														$.notify("{% blocktrans %}Sólo 3 productos son permitidos{% endblocktrans %}", "error");
+													}
+													else{
+														document.getElementById("{{product.pk}}{{key.pk}}{{product.pk}}").className = "fas fa-check"; 
+													$.notify("{% blocktrans %}Agregado{% endblocktrans %}", "success");
+													}
+													
+												}
+											});
+														
+												}
+
+												});
+										</script>
+												{% endfor %}
+
+											</tr>	
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3"></div>
+		</div>
+	</div>
+</div>
+<div class="col-lg-1 background"></div>
+
+
+{% endblock %}

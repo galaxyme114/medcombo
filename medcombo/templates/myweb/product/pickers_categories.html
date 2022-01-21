@@ -1,0 +1,65 @@
+{% load staticfiles %}
+{% load i18n %}
+
+  <form id="my_product_form" method="POST" action="." enctype='multipart/form-data'>
+	{% csrf_token %}
+ <div class="row">
+	<div class="col-12 col-md-4">
+		<h6>{% blocktrans %}Paso 1{% endblocktrans %}</h6>
+		<label for="area">{% blocktrans %}Area{% endblocktrans %}</label>
+		{{forms.area}}{{form.area}}
+		<!-- <select name="areas" class="form-control">
+			{% for areas in area %}
+			<option value="value1">{{ areas.name }}</option>
+			{% endfor %}
+  		</select> -->
+  		
+
+	</div>
+	<div class="col-12 col-md-4">
+		<h6>{% blocktrans %}Paso 2{% endblocktrans %}</h6>
+		<label for="category">{% blocktrans %}Categoria{% endblocktrans %}</label>
+		{{forms.category}}{{form.category}}
+		<!-- <select name="categorias" class="form-control">
+			{% for categories in category %}
+			<option value="value1">{{ categories.name }}</option>
+			{% endfor %}
+  		</select> -->
+
+	</div>
+	<div class="col-12 col-md-4">
+		<h6>{% blocktrans %}Paso 3{% endblocktrans %}</h6>
+		<label for="sub_category">{% blocktrans %}Sub-categoria{% endblocktrans %}</label>
+		{{forms.subcategory}}{{form.subcategory}}
+		<!-- <select name="areas" class="form-control">
+			{% for sc in subcategory %}
+			<option value="value1">{{ sc.name }}</option>
+			{% endfor %}
+  		</select> -->
+	</div>
+</div> 
+
+</form> -->
+
+
+
+
+<!-- <div class="row">
+	<div class="col-12 col-md-4">
+		<h6>{% blocktrans %}Paso 1{% endblocktrans %}</h6>
+		<label for="area">{% blocktrans %}Area{% endblocktrans %}</label>
+		<select id="inputState" class="form-control" {{ areas }}
+
+	</div>
+	<div class="col-12 col-md-4">
+		<h6>{% blocktrans %}Paso 2{% endblocktrans %}</h6>
+		<label for="category">{% blocktrans %}Categoria{% endblocktrans %}</label>
+		{{ form.category }}
+
+	</div>
+	<div class="col-12 col-md-4">
+		<h6>{% blocktrans %}Paso 3{% endblocktrans %}</h6>
+		<label for="sub_category">{% blocktrans %}Sub-categoria{% endblocktrans %}</label>
+		{{ form.subcategory }}
+	</div>
+</div>

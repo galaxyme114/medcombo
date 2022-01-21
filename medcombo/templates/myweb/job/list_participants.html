@@ -1,0 +1,108 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+      <div class="col-12 col-lg-10 background">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12" id="contenido">
+                  <h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}CANDIDATOS{% endblocktrans %}</h5>
+                  <div class="col-12 d-flex p-0 mb-4">
+                  <div class="input-group flex-nowrap col-sm-6 pl-0 mb-1">
+                    <input type="search" class="form-control input-right-border" placeholder="{% blocktrans %}Buscar{% endblocktrans %}" id="buscar">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text my_cursor" id="search-fa-two"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+                    </div>
+                  </div>
+                  <div class="input-group flex-nowrap col-sm-6 justify-content-end">
+                      <a href="{% url 'list_offers' %}" class="btn btn-primary datos-form-buttom">{% blocktrans %}REGRESAR{% endblocktrans %}</a>
+                  </div>
+                  </div>
+                  {% if object_list %}
+	                  <!-- Jobs -->
+	                  <div class="row m-0 list-fondo mb-5">
+		                  <div id="id_list" class="col-12">
+                        {% for users in object_list %}
+                        <div  class="d-lg-flex mt-3 mb-3 items-align-center">
+                          <div class="col-12 col-lg-4 background-list-name justify-text-list p-1 my_cursor">
+                            <a class="text-job-name" href="{% url 'detail_participant' users.id %}">{{users.participant.first_name}} {{users.participant.last_name}}</a>
+                          </div>
+                          <div class="col-12 col-lg-8 d-sm-flex pl-0 pr-0">
+                            <div class="row col-12 col-sm-8 mt-3 mt-sm-0">
+                              <div class="col-6 col-sm-2 text-left text-sm-center items-align-center">
+                                <div>{% blocktrans %}Edad{% endblocktrans %}</div>
+                                <div class="number-job-items">{{ users.age }}</div>
+                              </div>
+                              <div class="col-6 col-sm-6 text-left text-sm-center">
+                                <div>{% blocktrans %}Provincia{% endblocktrans %}</div>
+                                <div class="number-job-items">{{ users.city }}</div>
+                              </div>
+                              <div class="col-12 col-sm-2 text-left text-sm-center">
+                                <div>{% blocktrans %}Curriculum{% endblocktrans %}</div>
+                                {% if users.pdf %}
+                                  <div class="number-job-items">
+                                    <a {% if users.pdf %} href="{{users.pdf.url}}" {% else %} href="#" {% endif %} download target="_blank"><div class="number-job-items"><i class="fas fa-download"></i></div></a> 
+                                  </div>
+                                {% else %}
+                                  <div class="number-job-items"><i class="far fa-file"></i></div>
+                                {% endif %}
+                              </div>
+                            </div>
+                            <div class="row col-12 col-sm-4 mt-3 mt-sm-0">
+                              <div class="col-6 text-center">
+                                <div>{% blocktrans %}Proceso{% endblocktrans %}</div>
+                                <div class="number-job-items">
+                                  {% if users.condition == "Processing" %}
+                                    <i class="fas fa-check"></i>
+                                  {% endif %}
+                                </div>
+                              </div>
+                              <div class="col-6 text-center">
+                                <div>{% blocktrans %}Descartado{% endblocktrans %}</div>
+                                <div class="number-job-items">
+                                  {% if users.condition == "Discarding" %}
+                                    <i class="fas fa-check"></i>
+                                  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+				                {% if not forloop.last %}
+				                  <div class="list-separator"></div>
+                        {% endif %}
+                      {% endfor %}
+                    {% else %}
+		                  <h4 class="text-primary">{% blocktrans %}Sin Registros{% endblocktrans %}</h4>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        $("#buscar").keyup(function(){
+          var value = $('#buscar').val();
+          var reference = '{{offer}}';
+          var url = '{% url "search_participant" %}';
+          var token = '{{csrf_token}}';
+          $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: 'POST',
+            url: url,
+            data: {
+              'val': value,
+              'ref': reference
+            },
+            success: function(data) {
+              $('#id_list').html(data);
+            }
+          });
+        });
+      </script>
+{% endblock %}

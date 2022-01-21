@@ -1,0 +1,413 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load filter %}
+{% block meta %}
+    {% for a in area %}
+      {% for c in categoria %}
+        For {{a.name}} and {{c.name}} product supplies, Medcombo has got you covered with all such requirements. We are your B2B marketplace for medical equipment, and health care product etc.
+      {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+{% block title %}
+    {% for a in area %}
+      {% for c in categoria %}
+        {{c.name}}
+        {% comment %} {{c.name}} {% blocktrans %}Equipment for Sale UK – Medcombo{% endblocktrans %} {% endcomment %}
+        {% comment %} {{a.name}} | {{c.name}} {% endcomment %}
+      {% endfor %}
+    {% endfor %}
+{% endblock %}
+{% block content %}
+{% include '../../slide.html' %}
+<!-- Seccion Breadcrumb -->
+<section id="breadcrumb" class="pb-4">
+  
+  <div class="container-fluid">
+    <div class="row productos-row">
+      <div class="col-9 adj-cat">
+
+        <!--Seccion Busqueda 1-->
+        <div class="row productos-breadcumbs">
+          <div id="div_thumb" class="col-8 py-2 pl-5">
+              {% for a in area %}
+                {% for c in categoria %}
+                  <p class="m-0"><a href="{% url 'home' %}">{% blocktrans %}Home{% endblocktrans %}</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/categories/{{a.name|filter}}">{{a.name}}</a>&nbsp;&nbsp;/&nbsp;&nbsp;{{c.name}}</p>
+                {% endfor %}
+              {% endfor %}
+          </div>
+        </div>
+        {% comment %} <div class="row pt-2">
+          <div class="col-12 py-3">
+            {% for c in categoria %}
+              <h5 class="text-primary" align="center">{{c.name}}</h5>
+            {% endfor %}
+          </div>
+        </div> {% endcomment %}
+        <section id="walkers">
+          <div class="container mb-3">
+
+            <div class="row d-flex center-block mx-0 my-4 px-0">
+              <!-- ACORDEON COLUMNA #1 -->
+              <div class="col-12 col-lg-4 pr-0 pl-0">
+                    
+                <!--Codigo Viejo-->
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion accordion-2" id="accordionEx1" role="tablist" aria-multiselectable="true">
+                  <!-- Accordion card #1 -->     
+                  <div class="card card-bord">
+                    <!-- Card header -->
+                    <div class="card-header" role="tab" id="heading1">
+                      <a class="subra" data-toggle="collapse" data-parent="#accordionEx1" href="#areaone{{areaone.pk}}" aria-expanded="true" aria-controls="collapse1">
+                        <div class="mb-0 white-text text-left font-thin">
+                          <ul class="list-group"> 
+                          {% if scategory1 %}
+                            {% for key in scategory1 %}
+                              <li class="list-group-item style-li">
+                              {% if key.image %}
+                                <img src="{{ key.image.url }}" class="imgCateHome" alt="{{key.name}}" style="width:auto;" alt="{{ key.image.url }}">
+                              {% else %}
+                                <img src="{% static 'img/default.png' %}" class="imgCateHome" alt="{{key.name}}" style="width:auto;">
+                              {% endif %}
+                              {% if totalscategories != 0 %}
+                                {% for a in area %}
+                                  {% for c in categoria %}
+                                    <span class="sepa-line">|</span><span><a class="txt-kwords" href="/keywords/{{a.name|filter}}/{{c.name|filter}}/{{key.name|filter}}" target="_blank">{{key.name}}</a></span>
+                                  {% endfor %}
+                                {% endfor %}
+                              {% else %}
+                                <span class="sepa-line">|</span><span><a class="txt-kwords search-product-id" href="#" data-id="{{key.pk}}" data-val="{{key.name}}">{{key.name}}</a></span>
+                              {% endif %}
+                              </li>
+                            {% endfor %}
+                          {% else %}
+                            <p>{% blocktrans %}No hay subcategorias...{% endblocktrans %}</p>
+                          {% endif %}
+                          </ul>
+                        </div>
+                      </a> 
+                    </div>
+                  </div><!-- Fin Accordion card #1 -->
+                </div><!--/.Accordion wrapper-->
+                <!--Fin Codigo Viejo-->
+              </div>
+              <!-- Fin ACORDEON COLUMNA #1 -->
+
+              <!-- ACORDEON COLUMNA #2 -->
+              <div class="col-12 col-lg-4 pr-0 pl-0">
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion accordion-2" id="accordionEx2" role="tablist" aria-multiselectable="true">
+                  <!-- Accordion card #4 -->   
+                  <div class="card card-bord">
+                    <!-- Card header -->
+                    <div class="card-header" role="tab" id="heading4">
+                      <a class="subra" data-toggle="collapse" data-parent="#accordionEx2" href="#areatwo{{areatwo.pk}}" aria-expanded="true" aria-controls="collapse4">   
+                        <div class="mb-0 white-text text-left font-thin">
+                          <ul class="list-group">
+                          {% if scategory2 %}
+                            {% for key in scategory2 %}
+                              <li class="list-group-item style-li">
+                              {% if key.image %}
+                                <img src="{{ key.image.url }}" class="imgCateHome" alt="{{key.name}}" style="width:auto">
+                              {% else %}
+                                <img src="{% static 'img/default.png' %}" class="imgCateHome" alt="{{key.name}}" style="width:auto">
+                              {% endif %}
+                              {% if totalscategories != 0 %}
+                                {% for a in area %}
+                                  {% for c in categoria %}
+                                    <span class="sepa-line">|</span><span><a class="txt-kwords" href="/keywords/{{a.name|filter}}/{{c.name|filter}}/{{key.name|filter}}" target="_blank">{{key.name}}</a></span>
+                                  {% endfor %}
+                                {% endfor %}
+                              {% else %}
+                                <span class="sepa-line">|</span><span><a class="txt-kwords search-product-id" href="#" data-id="{{key.pk}}" data-val="{{key.name}}">{{key.name}}</a></span>
+                              {% endif %}
+                              </li>               
+                            {% endfor %}
+                          {% endif %}
+                          </ul>
+                        </div>
+                      </a>
+                    </div>
+                  </div><!-- Fin Accordion card #4 -->
+                </div><!--/.Accordion wrapper-->
+              </div>
+              <!-- Fin ACORDEON COLUMNA #2 -->
+              
+              <!-- ACORDEON COLUMNA #3 -->
+              <div class="col-12 col-lg-4 pr-0 pl-0">
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion accordion-2" id="accordionEx3" role="tablist" aria-multiselectable="true">
+                  <!-- Accordion card #1 -->      
+                  <div class="card card-bord">
+                    <!-- Card header -->
+                    <div class="card-header" role="tab" id="heading5">
+                      <a class="subra" data-toggle="collapse" data-parent="#accordionEx3" href="#areathree{{areathree.pk}}" aria-expanded="true" aria-controls="collapse1">
+                        <div class="mb-0 white-text text-left font-thin">
+                          <ul class="list-group">
+                          {% if scategory3 %}
+                            {% for key in scategory3 %}
+                              <li class="list-group-item style-li">
+                              {% if key.image %}
+                                <img src="{{ key.image.url }}" class="imgCateHome" alt="{{key.name}}" style="width:auto">
+                              {% else %}
+                                <img src="{% static 'img/default.png' %}" class="imgCateHome" alt="{{key.name}}" style="width:auto">
+                              {% endif %}
+                              {% if totalscategories != 0 %}
+                                {% for a in area %}
+                                  {% for c in categoria %}
+                                    <span class="sepa-line">|</span><span><a class="txt-kwords" href="/keywords/{{a.name|filter}}/{{c.name|filter}}/{{key.name|filter}}" target="_blank"">{{key.name}}</a></span>
+                                  {% endfor %}
+                                {% endfor %}
+                              {% else %}
+                                <span class="sepa-line">|</span><span><a class="txt-kwords search-product-id" href="#" data-id="{{key.pk}}" data-val="{{key.name}}">{{key.name}}</a></span>
+                              {% endif %}
+                              </li>                
+                            {% endfor %}
+                          {% endif %}
+                          </ul>
+                        </div>
+                      </a>
+                    </div>
+                  </div><!-- Fin Accordion card #1 -->
+                </div><!--/.Accordion wrapper-->
+              </div>
+              <!-- Fin ACORDEON COLUMNA #3 -->
+            </div>
+
+            <div class="row">
+              <div class="col-12 joinWeb">
+                <div class="txt-pd5">
+                  {% if categoria %}
+                    {% for sc in categoria %}
+                      <div class="p-3 mobile-category">
+                        {% if sc.h_tag %}
+                          <h1 class="text-center text-primary hero">{{sc.h_tag}}<h1>
+                        {% endif %}
+                      </div>
+                      <div style="float:left;" class="pr-3 mobile-category">
+                        {% if sc.image %}
+                          <img style="max-width:180px;max-height:180px;" src="{{ sc.image.url }}" alt="{{sc.name}}">
+                        {% else %}
+                          <img style="max-width:180px;max-height:180px;" src="{% static 'img/default.png' %}" alt="{{sc.name}}">
+                        {% endif %}
+                      </div>
+                      <table style="height:84px;"><tr><td>{{sc.description|safe}}</td></tr></table>
+                    {% endfor %}
+                  {% endif %} 
+                </div>
+              </div> 
+            </div> 
+          </div>   
+        </section>        
+      </div>    
+
+      <!--Seccion Patrocinados-->
+      <div class="col-2 pat-border adj-patr">
+        <div class="row productos-breadcumbs2">
+          <div class="col-12 pt-2 pb-2">
+            <h5 class="color-font m-0"><strong>{% blocktrans %}Productos Premium{% endblocktrans %}</strong></h5>
+          </div>
+        </div>
+        <div class="row center-block adj-patr-prod">
+          <div class="offset-2 col-10">
+            <div class="col-12 ventana-productos" id="detail-favorites-border3" data-contact-url="{% url 'ajax_add_favorite' %}">
+              {% if patrocinados %}
+                {% for products in patrocinados %}
+                  <div class="col-12">
+                    <div class="col-12" id="detail-favorites-border">
+                      <div class="col-12 d-flex flex-column align-items-center">
+                        <button class="iconHeart" id="favoritosx{{products.product.id}}">
+                          <i class="far fa-heart" id="miestadosx{{products.product.id}}"></i>
+                        </button>
+                        {% if products.product.picture %}
+                          <a href="{% url 'detail_product' products.product.id %}">
+                            <img class="img-fluid" src="{{ products.product.picture.url }}">  
+                          </a>
+                        {% else %}
+                          <a href="{% url 'detail_product' products.product.id %}">
+                            <img class="img-fluid" src="{% static 'img/default.png' %}">  
+                          </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="row" style="padding: 1.5em 0em 2em 0em;">
+                      <div class="col-12">
+                        <p>{{ products.product.name }}</p>
+                        <div class="dropdown-divider"></div>
+                      </div>
+                      <div class="col-12 d-flex justify-content-between score">
+                        {% if products.company.logo %}
+                          <a href="{% url 'my_web_home' products.company.id %}"><img src="{{ products.company.logo.url }}" alt="{{ products.company.name }}" style="height: 25px;" /></a>
+                        {% else %}
+                          <a href="{% url 'my_web_home' products.company.id %}"><img src="{% static 'img/default.png' %}" style="height: 25px;" alt="{{ products.company.name }}"/></a>
+                        {% endif %}
+                        <span class="d-flex justify-content-center p-3">
+                          <span class="jRating" id="jmRatings{{forloop.counter0}}">
+                            <span class="jRating-star" index="0"></span>
+                            <span class="jRating-star" index="1"></span>
+                            <span class="jRating-star" index="2"></span>
+                            <span class="jRating-star" index="3"></span>
+                            <span class="jRating-star" index="4"></span>
+                            <span class="jRating-number"></span>
+                          </span>
+                        </span>
+                        <span>
+                          {{products.company.country_company.code2}}&nbsp;&nbsp;<img src="{% static ''%}img/Banderas/{{products.company.country_company.code2|lower}}.png" style="height: 20px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{products.company.country_company.name}}" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <script>
+                    //marcar favoritos sponsor/////////////////////////////
+                    $(document).ready(function(){
+                      {% if favoritos %}
+                        {% for favorito in favoritos %}
+                          {% if favorito.product.id == products.product.id  %}
+                            document.getElementById("miestadosx{{products.product.id}}").className = "fa fa-heart";
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    });
+                  </script>
+                  <script>
+                    $(document).ready(function(){
+                      //almacena el nombre de la keyword para usarlo luego en las migas de pan
+                      var number_counter = '{{forloop.counter0}}';
+                      var product_rating = '{{products.product.rating_average}}';
+                        if(Number.isInteger(product_rating) == true){
+                          product_rating = parseInt('{{products.product.rating_average}}');
+                        }else {
+                          if(parseInt('{{products.product.rating_average}}') == 0) {
+                            product_rating = parseInt('{{products.product.rating_average}}');
+                          }
+                          else {
+                            product_rating = parseInt('{{products.product.rating_average}}') + 0.5;
+                          }
+                        }
+                        new JRating(document.getElementById('jmRatings'+number_counter), product_rating, false);
+                    });
+                  </script>
+                  <script>
+                    $("#favoritosx{{products.product.id}}").click(function () {
+                      var div1 = document.getElementById("miestadosx{{products.product.id}}");
+                      var status = div1.getAttribute("class");
+                        if( status == "fa fa-heart"){
+                          document.getElementById("miestadosx{{products.product.id}}").className = "far fa-heart";
+                          var url = $("#detail-favorites-border3").attr("data-contact-url");  
+                          var user_id = '{{request.user.id}}';
+                          var product_id = '{{products.product.id}}';
+                            
+                            $.ajax({
+                              url: url,
+                              data: {
+                                'product_id': product_id,
+                                'user_id': user_id      
+                              },
+                              success: function (data) {   
+                                $.notify("{% blocktrans %}Eliminado de Favoritos{% endblocktrans %}", "success");
+                              }
+                            });
+                        }
+                        else if(status == "far fa-heart"){
+                          document.getElementById("miestadosx{{products.product.id}}").className = "fa fa-heart";
+                          var url = $("#detail-favorites-border3").attr("data-contact-url");  
+                          var user_id = '{{request.user.id}}';
+                          var product_id = '{{products.product.id}}';
+                            
+                            $.ajax({
+                              url: url,
+                              data: {
+                                'product_id': product_id,
+                                'user_id': user_id      
+                              },
+                              success: function (data) {   
+                                $.notify("{% blocktrans %}Agregado a Favoritos{% endblocktrans %}", "success");
+                              }
+                            }); 
+                          }
+                        });
+                  </script>
+                {% endfor %}
+              {% else %}
+                <span style="font-size: 1.3em;">{% blocktrans %}No existen patrocinados productos{% endblocktrans%}</span>
+                <br />
+              {% endif %}
+            </div>  
+            <br><br>
+            <!--<section id="breadcrumb"></section>-->
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script type="text/javascript">
+  $('.search-product-id').click(function(evt){  
+    evt.preventDefault();
+    var my_url = "{% url 'list_categories' %}";
+    var my_value = $(this).data("val");
+    var token = '{{csrf_token}}';
+    var my_area;
+    var my_category;
+    var my_subcategory;
+    var my_language = $('#lenguaje-seleccionado').val();
+    var country;
+    var location;
+      $.getJSON('http://api.wipmania.com/jsonp?callback=?', function (data) {
+        country = data.address.country;
+      });
+      setTimeout(function(){
+        $.ajax({
+          headers: { "X-CSRFToken": '{{csrf_token}}' },
+          type: 'POST',
+          url: "{% url 'product_country' %}",
+          data: {
+            'country': country
+          },
+          success: function(msg){
+            location = msg;
+          }
+        });
+        $.ajax({
+          headers: { "X-CSRFToken": token },
+          type: 'POST',
+          url: my_url,
+          data: {
+            'key': my_value
+          },
+          success: function(msg){
+            my_area = msg[0].toLowerCase().replace(/\//g,"");
+            my_category = msg[1].toLowerCase().replace(/\//g,"");
+            my_subcategory = msg[2].toLowerCase().replace(/\//g,"");
+          }
+        });
+        setTimeout(function(){
+          my_form = $('#form-search-product');
+          name= my_value;
+          $('#id_name').val(name);
+          url_replace = name.toLowerCase();
+          if(url_replace.trim() == ''){
+            url_replace = 'empty';
+          }
+          if(location == undefined) {
+            location = 'ESP'
+          }
+          if(my_area == undefined) {
+            my_area = 'area'
+          }
+          if(my_category == undefined) {
+            my_category = 'category'
+          }
+          if(my_subcategory == undefined) {
+            my_subcategory = 'subcategory'
+          }
+          my_form.attr("action","/"+my_language+"/"+location.toLowerCase()+"/product/"+my_area.replace(/\s/g,"-")+"/"+my_category.replace(/\s/g,"-")+"/"+my_subcategory.replace(/\s/g,"-")+"/"+url_replace.replace(/\s/g,"-")+"/");
+          my_form.submit();
+      }, 200);
+    },150);
+  });
+</script>
+<!-- Seccion Walkers -->
+{% endblock %}

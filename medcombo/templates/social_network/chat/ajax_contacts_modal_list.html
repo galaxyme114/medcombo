@@ -1,0 +1,125 @@
+{% load staticfiles %}
+{% load i18n %}
+{% for user in my_list %}
+<li id="link_chat{{ user.user.id }}" data-ref='{{user.user.id}}' value="{{ user.user.id }}" style="list-style:none; cursor: pointer; margin: 0 -15px; padding: 0 15px;">                                
+        <div class="row item-post">
+            <div class="col-2 d-flex justify-content-center align-items-center">
+                <label>
+                    {% if user.active == True %}
+                        <span class="image-active-chat"><i style="color: green !important; font-size: 0.8em;" class="fas fa-circle"></i></span>
+                    {% else %}
+                        <span class="image-active-chat"><i style="font-size: 0.8em;" class="fas fa-circle yellow-icon"></i></span>
+                    {% endif %}
+                </label>
+            </div>
+            <div class="col-2">
+                {% if user.user.picture %}
+                    <img class="rounded-circle" src="{{ user.user.picture.url }}" style="margin: 0.5em 0;" height="auto" width="40">
+                {% else %}
+                    <img class="rounded-circle" src="{% static 'img/userdefault.jpeg' %}" style="margin: 0.5em 0;" height="auto" width="40">
+                {% endif %}
+            </div>
+            <div class="col-8">
+                <label style="font-weight: bold; cursor: pointer;">
+                    {% if user.user.first_name %}
+                        {{ user.user.first_name }} {{ user.user.last_name }} &nbsp;<span class="text-success" id="count"></span>
+                    {% else %}
+                        {{ user.user.username }}  &nbsp;<span class="text-success" id="count"></span>
+                    {% endif %}
+                    {% if user.user.work %}
+                        <p style="margin: 0;">{{ user.user.work }}</p></label>
+                    {% else %}
+                        <p style="margin: 0;"></p></label>
+                    {% endif %}
+            </div>                                 
+        </div>
+    </li>
+    <script type="text/javascript">
+        $("#link_chat{{ user.user.id }}").ready(function () {
+            $("#list_chat_url li").addClass("chat_highlight");
+            var token = '{{csrf_token}}';
+            var my_url = '{% url "get_chat_users" %}';
+            var id_chat = '{{user.user.id}}';
+            var tz = jstz.determine(); // Determines the time zone of the browser client
+            var timezone = tz.name();
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                method: 'POST',
+                url: my_url,
+                data: {
+                    'id': id_chat,
+                    'zone': timezone
+                },
+                success: function(data) {
+                    $('#conversation').html(data);
+                    $('#conversation').animate({scrollTop:$('#conversation')[0].scrollHeight - 20},'normal');
+                    $('#message-sending').html(
+                        '<div style="padding: 0px;" class="col-12">'+
+                            '<textarea style="resize: none;" class="form-control" name="message" id="message_chats" rows="3" placeholder="{% blocktrans %}Escribe un mensaje{% endblocktrans%}"></textarea>'+
+                        '</div>'
+                    );
+                    var ols_scroll = $('#conversation')[0].scrollHeight - 20;
+                    var user_active = '{{user.active}}';
+                    setInterval(function(){
+                        if(user_active == 'True') {
+                            $('#content-msg i').css('color','green');
+                        }
+                        var token = '{{csrf_token}}';
+                        var my_url = '{% url "get_chat_change" %}';
+                        var id_chat = '{{user.user.id}}';
+                        $.ajax({
+                            headers: { "X-CSRFToken": token },
+                            method: 'POST',
+                            url: my_url,
+                            data: {
+                                'id': id_chat,
+                                'zone': timezone
+                            },
+                            success: function(data) {
+                                if(data != 'No') {
+                                    var new_scroll = $('#conversation')[0].scrollHeight - 20;
+                                    $('#content-msg').append(data);
+                                    if(new_scroll > ols_scroll) {
+                                        $('#conversation').animate({scrollTop:new_scroll},'normal');
+                                    }
+                                }
+                            }
+                        });
+                    },5550);
+                    $("#message_chats").emojioneArea({
+                        pickerPosition: "top",
+                        events: {
+                            keypress: function (editor, event) {
+                                if (event.which == 13 && editor.html()) {
+                                    var token = '{{csrf_token}}';
+                                    var my_url = '{% url "send_chat_user" %}';
+                                    var id_chat = '{{user.user.id}}';
+                                    var text = editor.html();
+                                    var ols_scroll = $('#conversation')[0].scrollHeight - 20;
+                                    $.ajax({
+                                        headers: { "X-CSRFToken": token },
+                                        method: 'POST',
+                                        url: my_url,
+                                        data: {
+                                            'id': id_chat,
+                                            'text': text,
+                                            'zone': timezone
+                                        },
+                                        success: function(msg) {
+                                            $('#content-msg').append(msg);
+                                            editor.html('');
+                                            var new_scroll = $('#conversation')[0].scrollHeight - 20;
+                                            if(new_scroll > ols_scroll) {
+                                                $('#conversation').animate({scrollTop:new_scroll},'normal');
+                                            }
+                                        }
+                                    });
+                                }
+                            },
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endfor %}

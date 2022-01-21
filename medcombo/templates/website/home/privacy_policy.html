@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block meta %}
+    Read out the privacy policy page that describes how your information is collected, used and shared by us. Ensure complete safety for your personal details.
+{% endblock %}
+{% block title %}
+    Privacy – Medcombo
+{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="container-fluid">
+    <div class="row">
+        <div class="container privacy-home-container">
+            {% for privacy in object_list %}
+                {% if privacy.language.pk == language_selected %}
+                    {{privacy.description|safe|escape}} 
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

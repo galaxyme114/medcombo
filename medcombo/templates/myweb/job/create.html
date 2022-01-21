@@ -1,0 +1,177 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link href="{% static 'css/jquery-editable-select.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<link rel="stylesheet" href="{% static 'css/icheck-bootstrap.min.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}BOLSA DE EMPLEO{% endblocktrans %}</h5>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+	<div class="row">
+		<div class="col-12 col-sm-10">
+			<form class="needs-validation datos-form mb-5" action="." method="POST" enctype='multipart/form-data' novalidate>
+				{% csrf_token %}
+				<div class="text-center-container">
+					{% if form.errors %}
+						{% for field in form %}
+							{% for error in field.errors %}
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							{% endfor %}
+						{% endfor %}
+						{% for error in form.non_field_errors %}
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+				<input type="hidden" name="user" value="{{user.id}}" />
+				<input type="hidden" name="active" value="True" />
+				<style>
+					.select2-container {
+						width: 100% !important;
+					}
+					.select2-container .select2-selection--single {
+						height: 38px !important;
+					}
+				</style>
+				<div class="form-row panel-datos">
+					<div class="form-group col-12 col-sm-8">
+						<label for="id_name">{% blocktrans %}Puesto trabajo{% endblocktrans %}</label>
+						{{ form.name }}
+						<div class="invalid-feedback">
+                            {% blocktrans %}Introduzca el puesto de trabajo{% endblocktrans %}
+                        </div>
+					</div>
+					<div class="form-group col-12 col-sm-4">
+						<label for="id_places">{% blocktrans %}N° Vacantes{% endblocktrans %}</label>
+						{{ form.places }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca el número de vacantes{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+				<div class="form-row panel-datos">
+					<div class="form-group col-12 col-sm-6 pr-3">
+						<label for="id_country">{% blocktrans %}País{% endblocktrans %}</label>
+						{{ form.country }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Seleccione el país{% endblocktrans %}
+						</div>
+					</div>
+					<div class="form-group col-12 col-sm-6">
+						<label for="id_city">{% blocktrans %}Provincia{% endblocktrans %}</label>
+						{{ form.city }}
+						{{form.media}}
+						<style>
+						    .select2-container {
+							    width: 100% !important;
+							    min-width: 10em!important;
+						    }
+						    .select2-container .select2-selection--single {
+							    height: 38px !important;
+						    }
+					    </style>
+					</div>
+				</div>
+				<div class="form-row panel-datos">
+					<div class="form-group col-12 col-sm-6">
+						<label for="id_assignment">{% blocktrans %}Funciones del puesto de trabajo{% endblocktrans %}</label>
+						{{ form.assignment }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca las funciones del puesto{% endblocktrans %}
+						</div>
+					</div>
+					<div class="form-group col-12 col-sm-6">
+						<label for="id_requirements">{% blocktrans %}Requisitos{% endblocktrans %}</label>
+						{{ form.requirements }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca los requisitos{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+				<div class="form-row panel-datos">
+					<div class="form-group col-12 col-sm-6">
+						<label for="id_advantages">{% blocktrans %}Se ofrece{% endblocktrans %}</label>
+						{{ form.advantages }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca qué se ofrece{% endblocktrans %}
+						</div>
+					</div>
+					<div class="form-group col-12 col-sm-6">
+						<div class="form-group col-12">
+							<label for="id_type_contract">{% blocktrans %}Tipo de Contrato{% endblocktrans %}</label>
+							<select id="prueba" {{formulario.type_contract}}
+							<div class="invalid-feedback">
+								{% blocktrans %}Seleccione el tipo de contrato{% endblocktrans %}
+							</div>
+						</div>
+						<div class="form-group col-12">
+							<label for="id_work_day">{% blocktrans %}Jornada laboral{% endblocktrans %}</label>
+							<select id="prueba_work" {{ formulario.work_day }}
+							<div class="invalid-feedback">
+								{% blocktrans %}Seleccione la jornada laboral{% endblocktrans %}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-row panel-datos">
+					<div class="col-12">{% blocktrans %}Salario{% endblocktrans %}</div>
+					<div class="form-group col-12 col-sm-4 d-flex align-items-center mt-3">
+						<div class="col-9">
+							<div class="form-group">
+								<div class="icheck-primary">
+									{{ form.show }}
+									<label class="form-check-label" for="id_show">
+										{% blocktrans %}Ocultar en la Oferta{% endblocktrans %}
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-12 col-sm-4">
+						<label for="id_salary_minimum">{% blocktrans %}Salario Mínimo{% endblocktrans %}</label>
+						{{ form.salary_minimum }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Seleccione el salario mínimo{% endblocktrans %}
+						</div>
+					</div>
+					<div class="form-group col-12 col-sm-4">
+						<label for="id_salary_maximum">{% blocktrans %}Salario Máximo{% endblocktrans %}</label>
+						{{ form.salary_maximum }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Seleccione el salario máximo{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+				<div class="form-group d-flex justify-content-center mt-4">
+					<input type="submit" class="btn btn-primary datos-form-buttom mr-3" value="{% blocktrans %}PUBLICAR{% endblocktrans %}">
+					<a href="{% url 'list_offers' %}" type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}CANCELAR{% endblocktrans %}</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+	 	$("#prueba").val( "{{contract}}" );
+	 	$("#prueba_work").val( "{{workday}}" );
+		$("#id_places").prop('min',0);
+	 });
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

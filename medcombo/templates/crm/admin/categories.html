@@ -1,0 +1,272 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<style>
+    ol{
+        border:1px solid #ccc;
+        margin:0;
+        padding:0;
+    }
+    ol li{
+        cursor: pointer;
+        display: block;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid #CCC;
+        color: orange;
+        background: #EEE;
+    }
+</style>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'js/notify.js' %}" type="text/javascript"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+</head>
+<body>
+    <div class="col-12 col-lg-10 background">
+        <div class="row pb-1">
+            <div class="col-12 col-sm-6 col-md-3 pt-2">
+                <h5 class="text-home-job">{% blocktrans %}CATEGORIA{% endblocktrans %}</h5>
+            </div>
+            <div class="col-12 col-sm-6 col-md-2">
+                <a class="btn btn-primary button-category text-center" href="{% url 'AdminCategoryKeywordCrm' language=4 %}"><i class="fas fa-plus"></i> {% blocktrans %}AÑADIR{% endblocktrans %}</a>  
+            </div>
+        </div>
+        
+        <div class="title-seperator row mb-4"></div>
+        <div class="px-3 mb-4">
+            <div class="row ventana-productos">
+                <div class="col-12">
+                    <div class="row padding-row" id='url_category' data-contact-url="{% url 'category_keywords_ajax' %}">
+                        <div class="col-12" id='url_area' data-contact-url="{% url 'area_keywords_ajax' %}">
+
+                            <div class="row">
+                                <div class="col-12 col-md-12" id="mi_id_sc" data-contact-url="{% url 'ajax_order_subcategories_admin' %}">      
+                                    <div class="row py-2 icon_plus" id="list-collapse">
+                                        <div class="col-12 pl-5" id="mi_id" data-contact-url="{% url 'ajax_order_areas_admin' %}">
+                                            <ul class="nav nav-stacked d-flex flex-column" id="parent-category">
+                                                {% if object_list2 %}
+                                                {% for area in object_list2 %}
+                                                <li class="panel" id="{{area.pk}}" data-contact-url="{% url 'ajax_order_categories_admin' %}"><!-- lista de areas-->
+                                                    <div class="d-flex justify-content-between" id="url_id" data-contact-url="{% url 'keywords_ajax' %}">
+                                                        <a class="collapsed folder txt-category" class="collapsed txt-category" data-toggle="collapse" data-parent="#parent-category" href="#area{{area.pk}}" id='link{{area.pk}}'>{{area.name}}</a>
+
+                                                        <a class="btn button-category" href="{% url 'UpdateAdminCategoryKeywordCrm' area=area.id category=0 subcategory=0  %}"><i class="fas fa-pen my_cursor my_hover"></i></a>
+                                                    </div>
+                                                    <ul id="area{{area.pk}}" class="collapse dark" style="padding-right: 0px;">
+                                                        {% if area.category.all %}
+                                                        {% for category in area.category.all %}
+
+                                                        <li class="panel col-12" id="{{category.pk}}">
+                                                            <div class="d-flex justify-content-between">
+                                                                <a class="collapsed folder" data-toggle="collapse" data-parent="#area{{area.pk}}" href="#category{{area.pk}}{{category.pk}}" id='linkeds{{category.pk}}'>{{category.name}}</a>
+                                                                <a class="btn button-category" href="{% url 'UpdateAdminCategoryKeywordCrm' area=area.id category=category.id subcategory=0  %}"><i class="fas fa-pen my_cursor my_hover"></i></a>
+                                                            </div>
+                                                            <ul id="category{{area.pk}}{{category.pk}}" class="collapse dark" style="padding-right: 0px;">
+                                                                {% if category.subcategory.all %}
+                                                                    {% for subcategory in category.subcategory.all %}       
+                                                                        <li class="panel col-12" id="{{subcategory.pk}}" data-contact-url="{% url 'keywords_ajax' %}">
+                                                                            <input value="{{subcategory.pk}}" name="q" type="hidden" id="searchsub{{subcategory.pk}}">
+                                                                            <div class="d-flex justify-content-between" id="ajax{{subcategory.pk}}">
+                                                                                <a class="collapsed folder" data-toggle="collapse" data-parent="#category{{area.pk}}{{category.pk}}" href="#scategory{{subcategory.pk}}">{{subcategory.name}}</a>
+                                                                                <a class="btn button-category" href="{% url 'UpdateAdminCategoryKeywordCrm' area=area.id category=category.id subcategory=subcategory.id  %}"><i class="fas fa-pen my_cursor my_hover"></i></a>
+                                                                            </div>  
+                                                                            <ul id="scategory{{subcategory.pk}}" class="collapse">
+                                                                                <li id="listado{{subcategory.pk}}"></li>
+                                                                            </ul>
+                                                                        </li><!-- lista de subcategorias-->
+
+
+                                                                        <script type="text/javascript">
+                                                                            
+                                                                            $( function() {
+                                                                                $("#category{{area.pk}}{{category.pk}}").sortable({
+                                                                                    placeholder: "ui-state-highlight",
+                                                                                    start: function(event, ui) {
+                                                                                        var start_pos = ui.item.index();
+                                                                                        ui.item.data('startIndex', start_pos);
+                                                                                    },
+                                                                                    stop: function(event, ui) {
+                                                                                        var ordenElementos = $(this).sortable("toArray").toString();
+                                                                                        var start_pos3 = ui.item.data('startIndex');
+                                                                                        var finish_index = ui.item.index();
+                                                                                        index = (start_pos3 > finish_index) ? finish_index : finish_index - 1; 
+
+                                                                                        ui.item.data('startIndex', index);
+                                                                                        
+                                                                                        var url = $("#mi_id_sc").attr("data-contact-url");  
+                                                                                        var posicion = index
+                                                                                        var idsubcategory = ui.item.context.id
+
+                                                                                        $.ajax({                      
+                                                                                            url: url,                    
+                                                                                            data: {
+                                                                                                'orden': ordenElementos,
+                                                                                                'posicion': posicion,
+                                                                                                'idsubcategory': idsubcategory,  
+                                                                                            },
+
+                                                                                        });
+                                                                                        
+
+                                                                                    }
+                                                                                });
+                                                                            });
+
+                                                                            $("#ajax{{subcategory.pk}}").click(function () {
+                                                                                var url = $("#url_id").attr("data-contact-url");  
+                                                                                var post = $("#searchsub{{subcategory.pk}}").val();
+                                                                                $.ajax({
+                                                                                    url: url,
+                                                                                    data: {
+                                                                                        'id': post
+                                                                                    },
+                                                                                    success: function (data) {
+                                                                                        $("#listado{{subcategory.pk}}").html(data);
+                                                                                    }
+                                                                                });
+                                                                            });
+                                                                        </script>
+                                                                    {% endfor %}<!-- for de subcategorias-->
+                                                                {% else %}<!-- si la categoria no posee subcategorias, consulto si tiene keywords-->
+                                                            
+                                                                <li id="maslistados{{category.pk}}"></li>
+                                                            
+                                                                {% endif %}
+                                                            </ul><!-- ul de subcategorias-->
+                                                        </li><!-- lista de categorias-->
+                                                        <script type="text/javascript">
+                                                            $("#linkeds{{category.pk}}").click(function () {
+                                                                var url = $("#url_category").attr("data-contact-url"); 
+                                                                var post = '{{category.pk}}'
+                                                                $.ajax({
+                                                                    url: url,
+                                                                    data: {
+                                                                        'idcategory': post
+                                                                    },
+                                                                    success: function (data) {
+                                                                        $("#maslistados{{category.pk}}").html(data);
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
+                                                        {% endfor %}<!-- for de categorias-->
+                                                        {% else %}<!-- si el area no posee categorias, consulto si tiene keywords-->
+                                                            
+                                                                <li id="listados{{area.pk}}"></li>
+                                                            
+                                                        {% endif %}
+                                                        <script type="text/javascript">
+                                                            // $(document).ready(function(){
+                                                            //  alert($("#key{{area.pk}}").val())
+                                                            // });
+                                                            $("#link{{area.pk}}").click(function () {
+                                                                var url = $("#url_area").attr("data-contact-url"); 
+                                                                        var post = '{{area.pk}}'
+                                                                        $.ajax({
+                                                                            url: url,
+                                                                            data: {
+                                                                                'idarea': post
+                                                                            },
+                                                                            success: function (data) {
+                                                                                $("#listados{{area.pk}}").html(data);
+                                                                            }
+                                                                        });
+                                                            });
+                                                            $( function() {
+                                                                $("#area{{area.pk}}").sortable({
+                                                                    placeholder: "ui-state-highlight",
+                                                                    start: function(event, ui) {
+                                                                        var start_pos = ui.item.index();
+                                                                        ui.item.data('startIndex', start_pos);
+                                                                    },
+                                                                    stop: function(event, ui) {
+                                                                        var ordenElementos = $(this).sortable("toArray").toString();
+                                                                        
+                                                                        var start_pos = ui.item.data('startIndex');
+                                                                        var finish_index = ui.item.index();
+                                                                        index = (start_pos > finish_index) ? finish_index : finish_index - 1; 
+
+                                                                        ui.item.data('startIndex', index);
+                                                                        
+                                                                        var url = $("#{{area.pk}}").attr("data-contact-url");  
+                                                                        var posicion2 = index
+                                                                        var idcategory2 = ui.item.context.id
+
+                                                                        $.ajax({                      
+                                                                            url: url,                    
+                                                                            data: {
+                                                                                'orden': ordenElementos,
+                                                                                'posicion': posicion2,
+                                                                                'idcategory': idcategory2,  
+                                                                            },
+
+                                                                        });
+                                                                        
+
+                                                                    }
+                                                                });
+                                                            });
+
+
+                                                        </script>
+                                                    </ul><!-- ul de categorias-->
+
+                                                </li><!-- lista de areas-->
+
+                                                {% endfor %}<!-- for de areas-->
+                                                {% endif %}
+                                            </ul><!-- ul de area-->                             
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                        </div>
+                    </div>                          
+                </div>                      
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            $( function() {
+                $('#parent-category').sortable({
+                    placeholder: "ui-state-highlight", 
+                    start: function(event, ui) {
+                        var start_pos = ui.item.index();
+                        ui.item.data('startIndex', start_pos);
+                    },
+                    stop: function(event, ui) {
+                        var ordenElementos = $(this).sortable("toArray").toString();
+                        var start_pos = ui.item.data('startIndex');
+                        var finish_index = ui.item.index();
+                        index = (start_pos > finish_index) ? finish_index : finish_index - 1; 
+                        ui.item.data('startIndex', index);
+                        
+                        //guardo
+                        var url = $("#mi_id").attr("data-contact-url");  
+                        var posicion = index
+                        var idarea = ui.item.context.id
+
+                        $.ajax({                      
+                            url: url,                    
+                            data: {
+                                'orden': ordenElementos,
+                                'posicion': posicion,
+                                'idarea': idarea,  
+                            },
+                        });
+                    }
+                });
+            } );
+        </script>
+    </div>
+
+</body>
+</html>
+{% endblock %}

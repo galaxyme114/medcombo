@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}
+    {% blocktrans %}EVENTOS{% endblocktrans%}
+{% endblock %}
+{% block content %}
+<div class="container-fluid" id="news">
+    <div class="row pt-5">
+        <div class="col-12 pt-5">
+            <h5 class="pb-2"><strong>{% blocktrans %}EVENTOS{% endblocktrans%}</strong></h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" >
+    <div id="container-list" class="row" style="padding: 3rem 10rem 0rem 10rem;margin: auto;">
+        {% for event in event_list %}
+            <div style="cursor: pointer;" class="col-12 col-sm-6 col-lg-4 col-xl-3 detail-event pb-2 pr-2 pl-2 ">
+                <div class="card mb-3 text-center pl-0 pr-0 card_event" >
+                    {% if event.picture %}
+                        <a href="{% url 'detail_event' event.pk %}"><img class="img-fluid img_event"  src="{{ event.picture.url }}" alt="{{event.title|safe|escape}}" ></a>
+                    {% else %}
+                        <a href="{% url 'detail_event' event.pk %}"><img class="img-fluid img_event"  src="{% static 'img/banner.jpg' %}" alt="{{event.title|safe|escape}}" ></a>
+                    {% endif %}
+                    <div class="card-body pt-3 pb-4" style="padding-left: 0px;">
+                        <div class="card-text text-center">
+                            <i class="far fa-calendar-alt" style="font-size: 16px;color: #b5b6b6;"></i>
+                            <span style="font-size: 12px;" class="ml-1 mr-1">{{event.start_event}}</span>~<span style="font-size: 12px;" class="ml-1 mr-1">{{event.end_event}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}        
+        {% if event_list.count < 8 %}
+            <div style="height: 400px;">
+            </div>
+        {% elif event_list.count > 8 and event_list.count < 12 %}
+            <div style="height: 200px;">
+            </div>
+        {% endif %}
+    </div>    
+</div>
+{% endblock  %}

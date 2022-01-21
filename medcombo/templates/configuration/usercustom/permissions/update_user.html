@@ -1,0 +1,152 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<div class="col-12 col-lg-10 background">
+    <div class="row">
+        <div class="col-12">
+            <p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}MODIFICAR USUARIO{% endblocktrans%}</p>
+        </div>
+    </div>
+    <div class="row m-0 list-fondo mb-5">
+        <div class="col-12 p-4">
+            <form class="needs-validation" action="." method="POST" novalidate>
+                {% csrf_token %}
+                <!--Error Message-->
+                <div class="text-center-container">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-4">
+                        <!--<div class="form-group">
+                            <label for="exampleInputEmail1">{% blocktrans %}Usuario o Email{% endblocktrans%}</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" name="username"> <!-aria-describedby="emailHelp" name=email>
+                        </div>-->
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">{% blocktrans %}Nombre{% endblocktrans%}</label>
+                            <input type="text" class="form-control" id="exampleInputText1" required {{ form.first_name }}
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Introduzca el nombre{% endblocktrans %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">{% blocktrans %}Apellido{% endblocktrans%}</label>
+                            <input type="text" class="form-control" id="exampleInputText2" required {{ form.last_name }}
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Introduzca el apellido{% endblocktrans %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="work">{% blocktrans %}Ocupación{% endblocktrans%}</label>
+                            <select id="inputState" name='work' class="form-control" required>
+                                {% for formu in formulario %}
+                                <option value={{formu.id}}>{{ formu }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Seleccione la ocupación{% endblocktrans %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">{% blocktrans %}País{% endblocktrans%}</label>
+                            <select id="id_country" class="form-control" required {{ form.country }}
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Seleccione el país{% endblocktrans %}
+                            </div>                     
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">{% blocktrans %}Usuario{% endblocktrans%}</label>
+                            <input type="text" value="{{username_user}}" class="form-control" id="username_user" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-3">
+                        <div class="form-group">
+                            <label for="info1">{% blocktrans %}Myweb{% endblocktrans%}</label>
+                            {% if user.company.approved %}
+                                <input type="text" value={% blocktrans %}"Activo"{% endblocktrans %} class="form-control" id="info1" disabled />
+                            {% else %}
+                                <input type="text" value={% blocktrans %}"Inactivo"{% endblocktrans %} class="form-control" id="info1" disabled />
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <div class="form-group">
+                            <label for="info2">{% blocktrans %}N° de productos{% endblocktrans%}</label>
+                            <input type="text" value="{{product_user}}" class="form-control" id="info2" disabled />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <div class="form-group">
+                            <label for="info3">{% blocktrans %}N° de post{% endblocktrans%}</label>
+                            <input type="text" value="{{post_user}}" class="form-control" id="info3" disabled />
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <div class="form-group">
+                            <label for="info4">{% blocktrans %}Tiempo conectado{% endblocktrans%}</label>
+                            <input type="text" value="{{connected_time }}" class="form-control" id="info4" disabled />
+                        </div>
+                    </div>
+                </div>
+                {% if user.company is None %}
+                <div class="row mt-3">
+                    <div class="col-12 col-lg-4">
+                        <div class="form-group">
+                            <a href="{% url 'create_admin_company' user.id %}" class="btn btn-primary formulario-buttom" style="width: 100% !important;">{% blocktrans %}ENVIAR SOLICITUD DE MYWEB{% endblocktrans%}</a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="row mt-3">
+                    <div class="col-12 col-lg-4">
+                        <div class="form-group">
+                            <a href="{% url 'my_web_home' user.company.id %}" class="btn btn-primary formulario-buttom" style="width: 100% !important;">{% blocktrans %} VER MYWEB{% endblocktrans%}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <button id="button_send" type="submit" class="btn btn-primary formulario-buttom">{% blocktrans %}CONFIRMAR{% endblocktrans%}</button>
+                        <a href="{% url 'admin_user_sales' %}" class="btn btn-primary formulario-buttom ml-3">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#inputState").val( "{{work}}" );
+
+     });
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

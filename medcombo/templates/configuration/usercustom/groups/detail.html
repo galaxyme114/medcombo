@@ -1,0 +1,45 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}{% blocktrans %}Detalle{% endblocktrans%}{% endblock %}
+{% block css %}{% endblock %}
+{% block javascript %}{% endblock %}
+{% block buttons %}
+ <div id="panel-buttons">
+    <div id="buttons">
+        <p>     
+            <a href="{% url 'create_groups' %}">
+                <button type="button" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span> {% blocktrans %}Crear{% endblocktrans%}
+                </button>
+            </a>
+            <a href="{% url 'update_groups' group.pk %}">
+                <button type="button" class="btn btn-success">{% blocktrans %}Modificar{% endblocktrans%}</button>
+            </a>
+            <a href="{% url 'delete_groups' group.pk %}">
+                <button type="button" class="btn btn-danger">{% blocktrans %}Eliminar{% endblocktrans%}</button>
+            </a>
+         </p> 
+    </div>
+</div>      
+{% endblock %}
+{% block form %}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>{% blocktrans %}Nombre{% endblocktrans%}</th>
+                        <td>{{ group.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% blocktrans %}Permisos{% endblocktrans%}</th>
+                        <td>{{ group.permissions }}</td>        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

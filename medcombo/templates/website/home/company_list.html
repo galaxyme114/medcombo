@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide.html' %}
+<div id="detail-favorites-border3" data-contact-url="{% url 'ajax_add_favorite' %}">
+	<section id="breadcrumb">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 py-2 pl-4">
+                    <p class="m-0">&nbsp;&nbsp;<a href="{% url 'home' %}">{% blocktrans %}Home{% endblocktrans%}</a> / {% blocktrans %}Empresa{% endblocktrans%}</p> 
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container-fluid">
+	    <div class="row productos-row">
+		    <div class="col-12 col-lg-9">
+			    <div class="col-12 py-2 pl-2">
+                    <p class="mt-o">&nbsp;&nbsp;<a style="color: #595959; font-size: 1em;">{{totalcompanys}} Resultados "{{namekeyword}}"</a></p>
+         	    </div>
+			    <!--Seccion Busqueda 1-->
+			    <div class="row productos-breadcumbs">
+				    <div class="col-12">
+					    <h5><strong>{% blocktrans %}Resultados de la Búsqueda{% endblocktrans%} </strong>  <i class="fas fa-angle-right" style="font-size: 0.8em !important;"></i>  {{namekeyword}}</h5>
+				    </div>
+			    </div>
+			    <div class="col-12 pt-4">
+				    <div class="row padding-row ventana-productos">
+					    {% if searched_company %}
+					        {% for company in searched_company %}
+					            <div class="col-sm-3">
+						            
+						            <div class="row" style="padding: 1.5em 0em 2em 0em;">
+							            <div class="col-12 d-flex justify-content-center">
+								            {% if company.logo %}
+									            <a href="{% url 'my_web_home' company.id %}"><img class="img-fluid" src="{{ company.logo.url }}" alt="{{ company.name }}"/></a>
+								            {% else %}
+									            <a href="{% url 'my_web_home' company.id %}"><img class="img-fluid" src="{% static 'img/company.png' %}" alt="{{ company.name }}"/></a>	
+								            {% endif %}
+								            
+							            </div>
+						            </div>
+						            <div class="row">
+							            <div class="col-10 d-flex justify-content-center">
+								    
+						            		<span class="d-flex justify-content-center p-1">
+								            	<span><a href="{% url 'my_web_home' company.id %}">{{company.name}}</a></span>
+								            </span>
+							                
+								    	</div>
+								    	<div class="col-2 d-flex justify-content-center">
+								    		<span style="font-size: 9px;">
+							                    {{company.country_company.code2}}&nbsp;&nbsp;<img src="{% static ''%}img/Banderas/{{company.country_company.code2|lower}}.png" style="width: 18px;height: 12px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{company.country_company.name}}" alt="{{company.country_company.name}}" />
+								            </span>
+								    	</div>
+						            </div>
+								</div>
+								<!--- fin pruebas ---->
+					        {% endfor %}
+					    {% else %}
+					        <span class="pl-3"  style="font-size: 1.3em;padding-bottom: 10.2rem">{% blocktrans %}No se encontraron registros{% endblocktrans %}</span>
+					    {% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<script>
+	$(document).ready(function(){
+		sessionStorage.setItem('namekey', '{{namekeyword}}' ); //almaceno el nombre de la keyword, para luego utilizarlo en la pagina siguiente en la migaja de pan al regresarme
+	});
+    $(function() {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+	
+</script>
+{% endblock %}

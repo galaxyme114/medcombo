@@ -1,0 +1,280 @@
+{% extends "dashboard_client.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ckeditor/adapters/jquery.js' %}"></script>
+<script type="text/javascript">            
+	// jquery document ready function
+	$(function(){                    
+		CKEDITOR.replace( 'paragraph',
+        {
+            toolbar :
+            [
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+            ]
+        });
+	});    
+</script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}INFORMACIÓN ADICIONAL DE LA EMPRESA{% endblocktrans%}</h5>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+	<div class="container-fluid mb-5">
+		<div class="row ventana-productos">
+			<div class="col-12">
+				<div class="row padding-row">
+					<div class="col-12">
+						<form class="needs-validation" action="." id="formulario" method="POST" target="_parent" enctype='multipart/form-data' novalidate>
+							{% csrf_token %}
+							<div class="row">
+								<span class="pl-4 pt-1" style="vertical-align:middle;font-weight: 700;">{% blocktrans %}INDIQUE EL IDIOMA{% endblocktrans %}</span>
+								<div class="col-lg-3 col-md-6 col-sm-12 d-flex">
+									<span class="pl-4 pt-1" id='select_flag'></span>
+									<select class="form-control form-control-sm" id="languages_select">
+										{% for language in language_filters %}
+											<option style="min-width: 1em;" value="{{ language.value_language}}" {% if language.value_language == "es" %} selected {% else %}{% endif %} >
+												{% if language.value_language == "es" %}<!-- es -->
+													Español ({{ language.value_language }}) 
+												{% elif language.value_language == "fr" %}<!-- fr -->
+													Français ({{ language.value_language }})
+												{% elif language.value_language == "it" %} <!-- it -->
+													Italiano ({{ language.value_language }})
+												{% elif language.value_language == "ja" %} <!-- ja -->
+													日本語 (jp)
+												{% elif language.value_language == "pt" %} <!-- pt -->
+													Português ({{ language.value_language }})
+												{% elif language.value_language == "zh-hans" %} <!-- zh-hans -->
+													简体中文 ({{ language.value_language }})
+												{% elif language.value_language == "zh-hant" %} <!-- zh-hant -->
+													繁體中文 ({{ language.value_language }})
+												{% elif language.value_language == "en" %} <!-- en -->
+													English ({{ language.value_language }})
+												{% else %} <!-- de -->
+													{% if language.value_language == "de" %}
+														Deutsch ({{ language.value_language }})
+													{% endif %}
+												{% endif %}
+											</option>
+										{% endfor %}
+									</select>			
+									<script>
+										$('#languages_select').change(function(){
+											var language = $('#languages_select').val();
+											
+											if(language == 'en') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+											}
+											else if(language == 'ja') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+											}
+											else if(language == 'zh-hans' || language == 'zh-hant') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+											}
+											else {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+											}
+											/*
+											$.each($('#container_list #lang'),function(){
+												if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+													$(this).hide();
+												}
+												else {
+													$(this).show();
+												}
+												if(language == 'all'){
+													$(this).show();
+												}
+											});
+											*/
+										});
+										$(function(){
+											$('#languages_select').ready(function(){
+												var language = $('#languages_select').val();
+												
+												if(language == 'en') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+												}
+												else if(language == 'ja') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+												}
+												else if(language == 'zh-hans' || language == 'zh-hant') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+												}
+												else {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+												}
+												/*
+												$.each($('#container_list #lang'),function(){
+													if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+														$(this).hide();
+													}
+													else {
+														$(this).show();
+													}
+													if(language == 'all'){
+														$(this).show();
+													}
+												});
+												*/
+											});
+										});
+									</script>
+								</div>
+							</div>
+							<div class="col-md-4"></div>
+							<input value="4" name="language" type="hidden" id="language">
+							<input value="{{company_pk}}" name="company" type="hidden" id="company">
+							<!------------------------- descripciones -------------------------->
+							<br><br>
+							<div class="col-12">
+								<div class="form-group">
+									<input type="text" class="form-control" id="title" name="title" required>
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca el primer título{% endblocktrans %}
+									</div>
+								</div>
+								<div class="form-group">
+									<textarea  style="border-radius: 10px;height:300px;width:750px;" name="paragraph" id="paragraph" rows="5" class="w-100"></textarea>
+								</div>
+							</div>
+							<div class="col-12 col-md-4 py-4 ">
+								<h5 for="video">{% blocktrans %}Video{% endblocktrans %}</h5>
+								<div class="custom-file">
+									<input type="file" class="form-control-file" id="video"  name=video accept="video/*">
+									<label id="label-video-file" class="custom-file-label" for="video">{% blocktrans %}Añadir video{% endblocktrans %}</label>
+								</div>
+							</div>
+							<div class="col-12 col-md-10">
+								<div class="polig d-flex align-items-center justify-content-center detail-video">
+									<video controls controlsList="nodownload">
+									    {% if company.video %}
+									        <source id="company-video-reload" src='{{ company.video.url }}' type='video/mp4' >
+									    {% else %}
+									        <source id="company-video-reload" src='' type='video/mp4'>
+									    {% endif %}
+									    {% blocktrans%}Su navegador no soporta la etiqueta de vídeo.{% endblocktrans %}
+									</video>
+								</div>
+							</div> 
+                            <div class="row py-4"></div>
+							<div>
+								<div class="d-md-flex justify-content-center mt-4 text-center">
+									<button id="submit_form" type="submit" class="btn btn-primary datos-form-buttom mr-0 mr-md-3 mt-3">{% blocktrans %}GUARDAR{% endblocktrans %}</button> 
+									<a href="{% url 'update_company' company_pk %}" class="btn btn-primary datos-form-buttom mt-3">{% blocktrans %}CANCELAR{% endblocktrans %}</a>
+								</div>
+							</div>
+							<!-- fin de codigo nuevo -->
+						</form>
+					</div>
+				</div>							
+			</div>						
+		</div>
+	</div>
+</div>
+<script>
+	$('#languages_select').on('change', function() {
+		var language_mult = $("#languages_select").val();
+		if(language_mult=="es"){
+			var lang = 4;
+		}
+		else if (language_mult=="de"){
+			var lang = 2;
+		}
+		else if (language_mult=="en"){
+			var lang = 3;
+		}
+		else if (language_mult=="fr"){
+			var lang = 5;
+		}
+		else if (language_mult=="it"){
+			var lang = 6;
+		}
+		else if (language_mult=="pt"){
+			var lang = 7;
+		}
+		else if (language_mult=="zh-hans"){
+			var lang = 8;
+		}
+		else if (language_mult=="ja"){
+			var lang = 9
+		}
+		else{
+			var lang = 1;
+		}
+	    $("#language").val(lang);
+		console.log($("#language").val());
+    });
+    function readvideoURL(input) {
+	    if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function (e) {
+			    $('#company-img-reload-video')
+			        .attr('src', e.target.result);
+		    };
+		    reader.readAsDataURL(input.files[0]);
+	    }
+    }
+    $(document).on("change", "#video", function(evt) {
+        var $source = $('#company-video-reload');
+        $source[0].src = URL.createObjectURL(this.files[0]);
+        $source.parent()[0].load();
+    });
+    $('#video').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 25) {
+		    $(inputFile).parent()
+                .find('#label-video-file')
+                .html(inputFile.files[0].name.substring(0,25));
+	    }
+	    else {
+		    $(inputFile).parent()
+                .find('#label-video-file')
+                .html(inputFile.files[0].name.substring(0,25)+'...');
+	    }
+    }); 
+</script>
+<script type="text/javascript">
+	{% if messages %}
+	{% for message in messages %}
+	$.notify("{{ message }}", "error");
+	{% endfor %}
+	{% endif %}
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

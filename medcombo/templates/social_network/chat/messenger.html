@@ -1,0 +1,190 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<style>
+    .unread{
+        color: #f00;
+    }
+</style>
+<script type="text/javascript" src="{% static 'js/jstz.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/mail_custom.css' %}">
+<link rel="stylesheet" href="{% static 'css/icheck-bootstrap.min.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static 'css/app/social/social.css' %}">
+
+<div class="col-12 col-lg-10 background">
+    <div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}LISTADO DE MENSAJES{% endblocktrans%}</h5>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <button class="btn btn-primary datos-form-buttom" data-toggle="modal" data-target="#my_msg_modal">{% blocktrans %}NUEVO MENSAJE{% endblocktrans%}</button>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+    <section class="content">
+        <div class="row">
+            {% include "social_network/chat/message_sidebar.html" %}
+            
+            <div class="col-md-6">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title" style="color:#7f9bcd;">{% blocktrans %}Inbox{% endblocktrans%}</h3>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm">
+                            <input id="search_inbox" type="text" class="form-control" placeholder="Search Mail">
+                            <div class="input-group-append">
+                                <div class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped table_custom">
+                                <tbody>
+                                {% if list_messages %}
+                                    {% for message in list_messages %}
+                                    <tr>
+                                        <td style="vertical-align: middle;">
+                                            <div class="icheck-primary">
+                                                <input type="checkbox" value="" data-id="{{message.id}}" class="chk_select" id="check{{message.id}}">
+                                                <label for="check{{message.id}}"></label>
+                                            </div>
+                                        </td>
+                                        {% if message.mailer.picture%}
+                                            <td><img class="rounded-circle user_img" src="{{message.mailer.picture.url}}" height="40" width="auto" style="border-radius: 50%;"></td>
+                                        {% else %}
+                                            <td><img class="rounded-circle user_img" src="{% static 'img/userdefault.jpeg' %}" height="40" width="auto" style="border-radius: 50%;"></td>
+                                        {% endif %}
+                                        {% if message.important == True %}           
+                                            <td class="mailbox-star" style="vertical-align: middle;"><button class="none bg-transparent" data-condition="{{message.important}}" id="message-important{{ message.id }}" value="{{ message.id }}" onclick="msg_favorite({{message.id}})"><span class="jRating-star full"></span></button></td>
+                                        {% else %}
+                                            <td class="mailbox-star" style="vertical-align: middle;"><button class="none bg-transparent" data-condition="{{message.important}}" id="message-important{{ message.id }}" value="{{ message.id }}" onclick="msg_favorite({{message.id}})"><i class='far fa-star'></i></button></td>
+                                        {% endif %}
+                                        <td class="mailbox-name" style="vertical-align: middle;"><a href="{% url 'readmail' message.id %}">{{message.mailer.first_name|capfirst}}  {{message.mailer.last_name|capfirst}}</a></td>
+                                        {% if message.read != True %}
+                                            <td class="mailbox-subject" style="vertical-align: middle;"><i class="far fa-envelope unread" style="font-size:20px;"></i></td>
+                                        {% else %}
+                                            <td class="mailbox-subject" style="vertical-align: middle;"></td>
+                                        {% endif %}
+                                        <td class="mailbox-subject" style="vertical-align: middle;">{{message.message|capfirst|truncatechars:20}}</td>
+                                        <td class="mailbox-date" style="font-size:12px;vertical-align: middle;">{{message.created|date:"d M Y"}}</td>
+                                    </tr>
+                                    
+                                    <!-- Important -->
+                                    {% endfor %}
+                                {% else %}
+                                    <td>{% blocktrans %}No existen messages{% endblocktrans %}</td>
+                                {% endif %}
+                                    
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                            <script>
+                                $("#search_inbox").keyup(function(){
+                                    _this = this;
+                                    // Show only matching TR, hide rest of them
+                                    $.each($("table tbody tr"), function() {
+                                        if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+                                            $(this).hide();
+                                        }
+                                        else {
+                                            $(this).show();
+                                        }
+                                    });
+                                });
+
+                                $("#delete_msg").on("click", function(){
+                                    var remove = "";
+                                    $(".chk_select").each(function(index) {
+                                        if($(this).prop('checked')){
+                                            remove = remove.concat($(this).data('id')+",");
+                                        }
+                                    });
+                                    console.log(remove);
+                                    var url = "{% url 'ajax_inbox_delete' %}";  
+                                    var token = '{{csrf_token}}';
+                                    $.ajax({
+                                        headers: { "X-CSRFToken": token },
+                                        method: 'POST',
+                                        url: url,                    
+                                        data: {
+                                            'remove': remove   
+                                        },
+                                        success: function (data) {
+                                            if(data == "OK"){
+                                                $.notify("{% blocktrans %}Éxito{% endblocktrans %}", "success");
+                                            }
+                                            else{
+                                                $.notify("{% blocktrans %}Por favor seleccione un artículo.{% endblocktrans %}", "error");
+                                            }
+                                            location.reload();
+                                            
+                                        }
+                                    });
+                                })
+                            </script>
+                            <!-- Important -->
+                            <script type="text/javascript">
+                                function msg_favorite(id){
+                                    if ($("#message-important"+id).attr('data-condition') == 'True') {
+                                        $("#message-important"+id).attr('data-condition', 'False');
+                                        $("#message-important"+id).html('<i class="far fa-star"></i>');
+                                    }
+                                    else {
+                                        $("#message-important"+id).attr('data-condition', "True");
+                                        $("#message-important"+id).html('<span class="jRating-star full"></span>');
+                                    }
+                                    var url = "{% url 'ajax_change_favorite' %}";  
+                                    var token = '{{csrf_token}}';
+                                    $.ajax({
+                                        headers: { "X-CSRFToken": token },
+                                        method: 'POST',
+                                        url: url,                    
+                                        data: {
+                                            'msg_id': id      
+                                        },
+                                        success: function (data) {
+                                            if(data == "OK"){
+                                                $.notify("{% blocktrans %}ACTUALIZADO EXITOSAMENTE{% endblocktrans %}", "success");
+                                            }
+                                            
+                                        }
+                                    });
+                                }
+                            </script>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!--Modal Message-->
+<div class="modal fade" id="my_msg_modal" tabindex="-1" role="dialog" aria-labelledby="modalMSG" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	      <div class="modal-content" style="border-radius: 10px;">
+				<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+					<div class="d-flex align-items-center">
+					    <i class="far fa-envelope icons_size_title_second mt-1"></i>
+					    <p class="modal-title ml-3 text_size_title_second" id="modalMSG">{% blocktrans %}MENSAJE{% endblocktrans%}</p>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span style="color: white;" aria-hidden="true">&times;</span>
+					</button>
+				</div>
+	            <div class="modal-body p-0">
+	                <object class="object-msg" width="100%" data="{% url 'modal_msg' %}"></object>
+			    </div>
+	      </div>
+	  </div>
+</div>
+<!--./Modal Message-->
+{% endblock %}

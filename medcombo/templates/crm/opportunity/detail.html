@@ -1,0 +1,374 @@
+{% extends "dashboard_admin.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="container-fluid">
+		<div class="input-group flex-nowrap col-sm-12 mb-3 justify-content-end">
+			<a href="{% url 'OpportunityList' %}" class="btn btn-primary crm-button-anadir">{% blocktrans %}REGRESAR{% endblocktrans %}</a>
+		</div>
+		<div class="row detail-cuadro-back">
+			<div class="col-12">
+				<div class="row detail-title-name">
+					<div class="col-12 col-md-6">
+						<div class="row">
+							<div class="col-12 col-md-8">
+								<div class="row">
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5" >{% blocktrans %}Cliente{% endblocktrans%}</h6>
+										<p class="col-12 col-sm-7">{{ opportunity.client.first_name }} {{ opportunity.client.last_name }}</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4"></div>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="row">
+							<div class="col-12 col-md-8">
+								<div class="row">
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Empresa{% endblocktrans%}</h6>
+										<p class="col-12 col-sm-7">{% for x in client %}{{ x.company.name }}{% endfor%}</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<div class="row">
+							<div class="col-12 col-md-8">
+								<div class="row">
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Puesto{% endblocktrans%}</h6>
+										<p class="col-12 col-sm-7">{{ opportunity.client.work }}</p>
+									</div>
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Telefono{% endblocktrans%}</h6>
+										<p class="col-12 col-sm-7">{{ opportunity.client.telephone }}</p>
+									</div>
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Email{% endblocktrans%}</h6>
+										<p class="col-12 col-sm-7">{{ opportunity.client.email }}</p>
+									</div>
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Pais{% endblocktrans%}</h6>
+										<p class="col-12 col-sm-7">{{ opportunity.client.country }}</p>
+									</div>
+								</div>	
+							</div>
+							<div class="col-12 col-md-4">
+                                {% if opportunity.client.picture %}
+								    <img class="img-fluid p-4" src="/media/{{ opportunity.client.picture }}" alt="">
+                                {% else %}
+                                    <img class="img-fluid p-4" src="{% static 'img/userdefault.jpeg' %}" alt="">
+                                {% endif %}							
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="row">
+							<div class="col-12 col-md-8">
+								<div class="row">
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Web{% endblocktrans%}</h6>
+										<p class="col-12 col-sm-7">{% for x in client %}{{ x.company.web }}{% endfor%}</p>
+									</div>
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Direccion{% endblocktrans%}</h6>
+										<p class="col-12 col-sm-7">{% for x in client %}{{ x.company.address }}{% endfor%}</p>
+									</div>
+								</div>	
+							</div>
+							<div class="col-12 col-md-4">
+                                {% for x in company %}							
+	                                {% if x.logo %}
+									    <img class="img-fluid p-4" src="/media/{{ x.logo }}" alt="">
+	                                {% else %}
+	                                    <img class="img-fluid p-4" src="{% static 'img/userdefault.jpeg' %}" alt="">
+	                                {% endif %}								
+							    {% endfor%}	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row detail-cuadro-back mt-4">
+			<div class="col-12">
+				<div class="row detail-title-name">
+					<div class="col-10 col-md-6 d-sm-flex py-2 py-md-0">
+						<h6 class="col-12 col-sm-3">{% blocktrans %}Oportunidad{% endblocktrans%}</h6>
+						<p class="col-12 col-sm-5">{{ opportunity.title }}</p>
+						<p id="percent-id" class="col-12 col-sm-1 text-center">{{ opportunity.probability }}%</p>
+						<p id="percent-id" class="col-12 col-sm-3 text-center">{{ opportunity.expected_revenue }}&euro;</p>
+					</div>
+					<div class="col-2 col-md-6 d-flex justify-content-end p-2 py-4 py-md-2 px-md-5">
+						<a href="#" class="my_color" data-toggle="modal" data-target="#update-opportunity"><i class="fas fa-pen"></i></a>
+			      		<a href="#" class="my_color" data-toggle="modal" data-target="#delete-opportunity"><i class="pl-3 fas fa-trash-alt"></i></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 d-md-flex py-4" id="url_id" data-state-url="{% url 'ajax_load_state' %}" novalidate>
+                        <input type="text" id="opportunity_id" hidden="true" value="{{ opportunity.id}}">
+					    {% if opportunity.state.id == 1 %}						
+						    <button id="nuevo" value="1" class="opportunity-active-new" disabled>{% blocktrans %}Nuevo{% endblocktrans %}</button>
+						    <button id="contactado" value="2" class="opportunity-deactive">{% blocktrans %}Contactado{% endblocktrans %}</button>
+						    <button id="enviado" value="3" class="opportunity-deactive">{% blocktrans %}Enviado Presupuesto{% endblocktrans %}</button>
+						    <button id="aceptado" value="4" class="opportunity-deactive">{% blocktrans %}Aceptado{% endblocktrans %}</button>						
+					    {% endif %}
+					    {% if opportunity.state.id == 2 %}						
+						    <button id="nuevo" value="1" class="opportunity-deactive">{% blocktrans %}Nuevo{% endblocktrans %}</button>
+						    <button id="contactado" value="2" class="opportunity-active-contacted" disabled>{% blocktrans %}Contactado{% endblocktrans %}</button>
+						    <button id="enviado" value="3" class="opportunity-deactive">{% blocktrans %}Enviado Presupuesto{% endblocktrans %}</button>
+						    <button id="aceptado" value="4" class="opportunity-deactive">{% blocktrans %}Aceptado{% endblocktrans %}</button>						
+					    {% endif %}
+					    {% if opportunity.state.id == 3 %}						
+						    <button id="nuevo" value="1" class="opportunity-deactive">{% blocktrans %}Nuevo{% endblocktrans %}</button>
+						    <button id="contactado" value="2" class="opportunity-deactive">{% blocktrans %}Contactado{% endblocktrans %}</button>
+						    <button id="enviado" value="3" class="opportunity-active-sent" disabled>{% blocktrans %}Enviado Presupuesto{% endblocktrans %}</button>
+						    <button id="aceptado" value="4" class="opportunity-deactive">{% blocktrans %}Aceptado{% endblocktrans %}</button>						
+					    {% endif %}
+					    {% if opportunity.state.id == 4 %}						
+						    <button id="nuevo" value="1" class="opportunity-deactive">{% blocktrans %}Nuevo{% endblocktrans %}</button>
+						    <button id="contactado" value="2" class="opportunity-deactive">{% blocktrans %}Contactado{% endblocktrans %}</button>
+						    <button id="enviado" value="3" class="opportunity-deactive">{% blocktrans %}Enviado Presupuesto{% endblocktrans %}</button>
+						    <button id="aceptado" value="4" class="opportunity-active-accepted" disabled>{% blocktrans %}Aceptado{% endblocktrans %}</button>						
+					    {% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row detail-cuadro-back mt-4 mb-5">
+			<div class="col-12">
+				<div class="row detail-title-name">
+					<div class="col-12">
+						<h6>{% blocktrans %}Historial{% endblocktrans %}</h6>
+					</div>
+				</div>
+				<div id="history-list" class="row">
+					{% if histories %}
+						{% for history in histories %}
+							<div class="col-12 d-sm-flex py-2 py-md-0">
+								<h6 class="col-12 col-sm-4 col-md-3"> {{ history.date|date:'d-m-Y h:m a' }} </h6>
+								<p class="col-12 col-sm-8 col-md-9"> {{ history.notes }} </p>
+							</div>
+						{% endfor %}
+					{% else %}
+						<div class="col-12 d-sm-flex py-2 py-md-0">
+							<h6 class="col-12 col-sm-12 col-md-12">{% blocktrans %} No existen registros {% endblocktrans %}</h6>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--Update Opportunity-->
+<div class="modal fade" id="update-opportunity" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
+	    <div class="modal-content" style="border-radius: 25px;">
+		    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+		        <div class="d-flex align-items-center">
+		            <i class="fas fa-pen icons_size_title_second"></i>
+		            <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}MODIFICAR OPORTUNIDAD{% endblocktrans %}</p>
+		        </div>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        <span style="color: white;" aria-hidden="true">&times;</span>
+		        </button>
+		    </div>
+		    <div class="modal-body">
+		        <object height="390" width="100%" data="{% url 'UpdateOpportunityCrm' opportunity.id %}"></object>
+		    </div>
+	    </div>
+	</div>
+</div>
+<!--./Update Opportunity-->
+<!--Delete Opportunity-->
+<div class="modal fade" id="delete-opportunity" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog modal-xs">
+		<div class="modal-content" style="border-radius: 25px;">
+			<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				<div class="d-flex align-items-center">
+				    <i class="fas fa-trash-alt icons_size_title_second"></i>
+				    <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR OPORTUNIDAD{% endblocktrans %}</p>
+			    </div>
+			    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				    <span aria-hidden="true" style="color: #fff;">&times;</span>
+			    </button>
+			</div>
+			<div class="modal-body">
+			    <div class="col-12 d-flex justify-content-center">
+					<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+			    </div>
+			</div>
+			<div class="modal-footer justify-content-center">
+			    <button id="delete-button" class="btn btn-primary crm-button-anadir mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+			    <button data-dismiss="modal" class="btn btn-primary crm-button-anadir" >{% blocktrans %}NO{% endblocktrans %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('#delete-button').click(function(e){
+		var value = '{{opportunity.id}}';
+        var url = '{% url "delete_opportunity" %}';
+        var token = '{{csrf_token}}';
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: 'POST',
+            url: url,
+            data: {
+                'value': value
+            },
+            success: function(data) {
+                if(data == 'Ok') {
+                    location.href = '{% url "OpportunityList" %}';
+                }
+            }
+        });
+	});
+</script>
+<!--./Delete Opportunity-->
+<script>
+	$("h6,p").addClass("mb-0 py-md-2");
+    $(document).on('click', '#nuevo', function (e) {
+        e.preventDefault();
+        $("#nuevo").removeClass("opportunity-deactive").addClass("opportunity-active-new");
+        $("#contactado").removeClass("opportunity-active").addClass("opportunity-deactive");
+        $("#enviado").removeClass("opportunity-active").addClass("opportunity-deactive");
+        $("#aceptado").removeClass("opportunity-active").addClass("opportunity-deactive");
+        var url = $("#url_id").attr("data-state-url");  
+        var state = $("#nuevo").val();
+        var opportunity_id = $("#opportunity_id").val();
+        console.log(opportunity_id)
+        $.ajax({                      
+          url: url,                    
+          data: {
+            'state': state,
+            'opportunity_id': opportunity_id      
+          },
+          success: function (data) {
+            $("#history-list").html(data);
+			$("#nuevo").prop('disabled', true);
+			$("#contactado").prop('disabled', false);
+            $("#enviado").prop('disabled', false);
+            $("#aceptado").prop('disabled', false);
+			$.ajax({                      
+				url: '{% url "opportunitychangepercent" %}',                    
+                data: {
+                    'opportunity_id': opportunity_id      
+				},
+                 success: function (msg) {
+					$('#percent-id').text(msg+' %')
+                }
+            });
+          }
+        });
+    });
+    $(document).on('click', '#contactado', function (e) {
+        e.preventDefault();
+        $("#nuevo").removeClass("opportunity-active").addClass("opportunity-deactive");
+        $("#contactado").removeClass("opportunity-deactive").addClass("opportunity-active-contacted");
+        $("#enviado").removeClass("opportunity-active").addClass("opportunity-deactive");
+        $("#aceptado").removeClass("opportunity-active").addClass("opportunity-deactive");
+        var url = $("#url_id").attr("data-state-url");  
+        var state = $("#contactado").val();
+        var opportunity_id = $("#opportunity_id").val();
+        $.ajax({                      
+          url: url,                    
+          data: {
+            'state': state,
+            'opportunity_id': opportunity_id      
+          },
+          success: function (data) {   
+            $("#history-list").html(data);
+			$("#nuevo").prop('disabled', false);
+			$("#contactado").prop('disabled', true);
+            $("#enviado").prop('disabled', false);
+            $("#aceptado").prop('disabled', false);
+			$.ajax({                      
+				url: '{% url "opportunitychangepercent" %}',                    
+                data: {
+                    'opportunity_id': opportunity_id      
+				},
+                 success: function (msg) {
+					$('#percent-id').text(msg+' %')
+                }
+            });
+          }
+        });
+    });
+    $(document).on('click', '#enviado', function (e) {
+        e.preventDefault();
+        $("#nuevo").removeClass("opportunity-active").addClass("opportunity-deactive");
+        $("#contactado").removeClass("opportunity-active").addClass("opportunity-deactive");
+        $("#enviado").removeClass("opportunity-deactive").addClass("opportunity-active-sent");
+        $("#aceptado").removeClass("opportunity-active").addClass("opportunity-deactive");
+        var url = $("#url_id").attr("data-state-url");  
+        var state = $("#enviado").val();
+        var opportunity_id = $("#opportunity_id").val();
+        console.log(opportunity_id)
+        $.ajax({                      
+          url: url,                    
+          data: {
+            'state': state,
+            'opportunity_id': opportunity_id      
+          },
+          success: function (data) {   
+            $("#history-list").html(data);
+			$("#nuevo").prop('disabled', false);
+			$("#contactado").prop('disabled', false);
+            $("#enviado").prop('disabled', true);
+            $("#aceptado").prop('disabled', false);
+			$.ajax({                      
+				url: '{% url "opportunitychangepercent" %}',                    
+                data: {
+                    'opportunity_id': opportunity_id      
+				},
+                 success: function (msg) {
+					$('#percent-id').text(msg+' %')
+                }
+            });
+          }
+        });
+    });
+    $(document).on('click', '#aceptado', function (e) {
+        e.preventDefault();
+        $("#nuevo").removeClass("opportunity-active").addClass("opportunity-deactive");
+        $("#contactado").removeClass("opportunity-active").addClass("opportunity-deactive");
+        $("#enviado").removeClass("opportunity-active").addClass("opportunity-deactive");
+        $("#aceptado").removeClass("opportunity-deactive").addClass("opportunity-active-accepted");
+        var url = $("#url_id").attr("data-state-url");  
+        var state = $("#aceptado").val();
+        var opportunity_id = $("#opportunity_id").val();
+        console.log(opportunity_id)
+        $.ajax({                      
+          url: url,                    
+          data: {
+            'state': state,
+            'opportunity_id': opportunity_id      
+          },
+          success: function (data) {   
+            $("#history-list").html(data);
+			$("#nuevo").prop('disabled', false);
+			$("#contactado").prop('disabled', false);
+            $("#enviado").prop('disabled', false);
+            $("#aceptado").prop('disabled', true);
+			$.ajax({                      
+				url: '{% url "opportunitychangepercent" %}',                    
+                data: {
+                    'opportunity_id': opportunity_id      
+				},
+                 success: function (msg) {
+					$('#percent-id').text(msg+' %')
+                }
+            });
+          }
+        });
+    });         
+</script>
+{% endblock %}

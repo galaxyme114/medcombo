@@ -1,0 +1,208 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load contact_tags %}
+{% block content %}
+<style>
+    .chat_highlight { background-color: #f1f1f1; }
+    .yellow-icon {
+	   color: #fbbd08 !important;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'emojionearea/emojionearea.min.css' %}" media="screen">
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/app/social/chat.css' %}">
+<script type="text/javascript" src="{% static 'emojionearea/emojionearea.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jstz.js' %}"></script>
+<div class="col-12 col-lg-10 background">
+    <div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}Chat{% endblocktrans %}</h5>
+        </div>
+        <div class="col-12 col-sm-0 col-md-2 pt-2">
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="input-group flex-nowrap">
+                <input type="search" class="form-control input-right-border" placeholder="{% blocktrans %}Buscar{% endblocktrans%}" id="buscar">
+                <div class="input-group-prepend">
+                    <span class="input-group-text my_cursor" id="search-fa-two"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+    <div class="row">
+        <div class="col-12 col-md-5 padding-movil">
+            <!--p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}LISTADO DE PERSONAS{% endblocktrans%}</p-->
+            
+            <div class="row" style="padding: 1em;">
+                <div class="col-12 list-post" id="list_chat_url" novalidate>
+                    {% for user in list_chats_online %}
+                        {% if user.user.id != request.user.id and user.user.username != 'admin' and user.user.username != 'admin_medcombo@admin.com' %}           
+                            <li id="link_chat{{ user.user.id }}" data-ref='{{user.user.id}}' value="{{ user.user.id }}" style="list-style:none; cursor: pointer; margin: 0 -15px; padding: 0 15px;">
+                                <div class="row item-post">
+                                    <div class="img_cont ml-3">
+                                        {% if user.user.picture %}
+                                            <img class="rounded-circle user_img" src="{{ user.user.picture.url }}" alt="Chat {{user.user.username}} of Medcombo">
+                                        {% else %}
+                                            <img class="rounded-circle user_img" src="{% static 'img/userdefault.jpeg' %}" alt="Chat of Medcombo">
+                                        {% endif %}
+                                        {% if user.active == True %}
+                                            <span class="online_icon" data-id="{{ user.user_id }}"></span>
+                                        {% else %}
+                                            <span class="online_icon offline" data-id="{{ user.user_id }}"></span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-8">
+                                        <label style="font-weight: bold; cursor: pointer;">
+                                            {% if user.user.first_name %}
+                                                {{ user.user.first_name }} {{ user.user.last_name }} &nbsp;<span class="text-success" id="count"></span>
+                                            {% else %}
+                                                {{ user.user.username }}  &nbsp;<span class="text-success" id="count"></span>
+                                            {% endif %}
+                                            {% if user.user.work %}
+                                                <p style="margin: 0;">{{ user.user.work }}</p></label>
+                                            {% else %}
+                                                <p style="margin: 0;"></p></label>
+                                            {% endif %}
+                                        <label id="notification{{user.user.id}}">
+                                            {% for n in user_msg %}
+                                                {% if n.username == user.user.username %}
+                                                    <i style="color: #7f9bcd !important;" class="far fa-comment"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </label>
+                                    </div> 
+                                    <div class="col-1 col-lg-2 d-flex justify-content-center align-items-center">
+                                        <label>
+                                            <a href="#" data-toggle="modal" data-target="#delete-chat{{user.user.id}}"><i style="color: #7f9bcd !important;" class="fas fa-trash-alt item_hover"></i></a>
+                                        </label>
+                                    </div>                                  
+                                </div>
+                                
+                            </li>
+                            <!--Delete Chat-->
+                            <div class="modal fade" id="delete-chat{{user.user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-xs">
+                                    <div class="modal-content" style="border-radius: 25px;">
+                                        <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-trash-alt icons_size_title_second"></i>
+                                                <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR CHAT{% endblocktrans %}</p>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true" style="color: #fff;">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-12 d-flex justify-content-center">
+                                                <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button id="delete-button{{user.user.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+                                            <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                $('#delete-button{{user.user.id}}').click(function(e){
+                                    var value = '{{user.user.id}}';
+                                    var url = '{% url "delete_chats" %}';
+                                    var token = '{{csrf_token}}';
+                                    $.ajax({
+                                        headers: { "X-CSRFToken": token },
+                                        method: 'POST',
+                                        url: url,
+                                        data: {
+                                            'value': value
+                                        },
+                                        success: function(data) {
+                                            if(data == 'Ok') {
+                                                location.href = '{% url "chat_list" %}';
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <script type="text/javascript">
+                                $("#link_chat{{ user.user.id }}").click(function (event) {
+                                    var clickover = $(event.target);
+                                    if(!clickover.hasClass('fa-trash-alt')){
+                                        location.href='{% url "chat_history" user.user.id %}';
+                                    }
+                                });
+                            </script>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<script>
+    var count_users = '{{counter_initial}}';
+    setInterval(function() {
+        $.ajax({
+            headers: { "X-CSRFToken": '{{csrf_token}}' },
+            method: 'POST',
+            url: '{% url "checking_ajax" %}',
+            data: {
+                'data': ''
+            },
+            success: function(msg){
+                if (count_users != msg) {
+                    $.ajax({
+                        headers: { "X-CSRFToken": '{{csrf_token}}' },
+                        method: 'POST',
+                        url: '{% url "list_contact_ajax" %}',
+                        data: {
+                            'data': ''
+                        },
+                        success: function(data) {
+                            console.log('There was a change')
+                            $('#list_chat_url').html(data);
+                            $.each($("#list_chat_url li"), function() {
+                                if($(this).text().toLowerCase().indexOf($("#buscar").val().toLowerCase()) === -1){
+                                    $(this).hide();
+                                }
+                                else {
+                                    $(this).show();
+                                }
+                            });
+                        }
+                    });
+                }
+                count_users = msg
+            }
+        });
+    },7893);
+</script>
+<script>
+    $("#buscar").keyup(function(){
+        _this = this;
+        // Show only matching TR, hide rest of them
+        $.each($("#list_chat_url li"), function() {
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+                $(this).hide();
+            }
+            else {
+                $(this).show();
+            }
+        });
+    });
+    $("#buscar-fa").click(function(){
+        var word = $("#buscar").val();
+        $.each($("#list_chat_url li"), function() {
+            if($(this).text().toLowerCase().indexOf(word.toLowerCase()) === -1){
+                $(this).hide();
+            }
+            else {
+                $(this).show();
+            }
+        });
+    });
+</script>
+{% endblock %}

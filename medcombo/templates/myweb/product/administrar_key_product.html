@@ -1,0 +1,89 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-9 background">
+	<div class="container-fluid pb-5">
+		<div class="row myweb-list-background">
+			<div class="col-12">
+				<div class="row mb-5">
+					<div class="col-12">
+						<div class="form-row" id="select_desactivado">
+							<div class="col-12 col-sm-4 pb-4 pb-md-4">
+								<label for="inputState">{% blocktrans %}1-Seleccione el Idioma{% endblocktrans %}</label>
+								<select name="language" id="language" class="form-control">
+									<option value="0">{% blocktrans %}Seleccione...{% endblocktrans %}</option>
+						  			<option value="4">{% blocktrans %}Español (es){% endblocktrans %}</option>
+									<option value="3">{% blocktrans %}Inglés (en){% endblocktrans %}</option>
+									<option value="2">{% blocktrans %}Alemán (de){% endblocktrans %}</option>
+									<option value="5">{% blocktrans %}Francés (fr){% endblocktrans %}</option>
+									<option value="6">{% blocktrans %}Italiano (it){% endblocktrans %}</option>
+									<option value="7">{% blocktrans %}Portugués (pt){% endblocktrans %}</option>
+									<option value="9">{% blocktrans %}Japonés (ja){% endblocktrans %}</option>
+									<option value="8">{% blocktrans %}Chino Simplificado (zh-hans){% endblocktrans %}</option>
+									<option value="1">{% blocktrans %}Chino Tradicional (zh-hant){% endblocktrans %}</option>
+								</select>
+							</div>
+							<style>
+								.select2-container {
+						            min-width: 1em !important;
+						        }
+								.select2-container .select2-selection--single {
+						            height: 38px !important;
+						        }
+							</style>
+							<div class="col-12 col-sm-4">
+								<label for="inputState">{% blocktrans %}2-Seleccione la Palabra Clave{% endblocktrans %}</label>
+								<select name="select_desactivado"  class="form-control" disabled>
+						  			<option value="0">{% blocktrans %}Seleccione...{% endblocktrans %}</option>
+								</select>
+							</div> 
+							<style>
+								.select2-container {
+						            min-width: 1em !important;
+						        }
+								.select2-container .select2-selection--single {
+						            height: 38px !important;
+						        }
+							</style>
+						    <div id="products" class="mt-4 mt-md-0 text-justify">
+							    <div class="col-12 col-sm-12" style="padding-left: 0px !important;">
+								    <label>{% blocktrans %}3-Seleccione los Productos{% endblocktrans %}</label>
+							    </div>
+							    <div class="col-12 col-sm-8 pb-5">
+								    <span style="color: #b6b5b5 ;font-size: 14px;">{% blocktrans %}Los productos marcados abajo son lo que apareceran por defecto como resultado de la busqueda de la palabra clave seleccionada. Si quiere modificar los productos, marque los que quiera dar mayor visibilidad{% endblocktrans %}</span>
+							    </div>
+						    </div>
+						</div>
+						<div id='myselect'></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-lg-1 background"></div>
+<script type="text/javascript">
+	$('#language').change(function(){
+		var token = '{{csrf_token}}';
+		var my_url = "{% url 'keywords_administrar' %}";
+		if($("#language").val()==0){
+			$.notify("{% blocktrans %}Escoja un idioma!{% endblocktrans %}", "error");
+		}
+		else{
+			$.ajax({
+				headers: { "X-CSRFToken": token },
+            	type: 'POST',
+            	url: my_url,
+				data: { "language_pk": $("#language").val() },
+				success: function(data){
+					$('#select_desactivado').hide();
+					$('#products').hide();
+					$("#myselect").html(data);
+				}
+			});
+		}
+		
+	});
+</script>
+{% endblock %}

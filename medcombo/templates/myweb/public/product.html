@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide_company.html' %}
+{% include '../../menu-myweb.html' %}
+<div class="container" style="padding-top: 30px; min-height: 250px;">
+	<div class="row pb-5">
+		<div class="col-xl-2 justify-content-center">
+			<div>
+        	{% if company.logo %}
+          		<p class="text-center">
+	            	<a href="{% url 'my_web_home' company.id %}">
+	              		<img class="img-fluid" src="{{ company.logo.url }}">
+	            	</a>
+            		<a href="{% url 'my_web_home' company.id %}">{{ company.name }}</a>
+          		</p>
+        	{% else %}
+          		{% if product.company.logo %}
+	            <a href="{% url 'my_web_home' product.company.id %}">
+	              <img class="img-fluid" src="{{ product.company.logo.url }}">
+	            </a>
+            	<p class="text-center">
+              		<a href="{% url 'my_web_home' product.company.id %}">
+                		<img class="img-fluid" src="{{ product.company.logo.url }}">
+              		</a>
+              		<a href="{% url 'my_web_home' product.company.id %}">{{product.company.name}}</a>
+            	</p>
+          		{% else %}
+            		{% if post.company.logo %}
+              		<p class="text-center">
+		                <a href="{% url 'my_web_home' post.company.id %}">
+		                  <img class="img-fluid" src="{{ post.company.logo.url }}">
+		                </a>
+		                <a href="{% url 'my_web_home' post.company.id %}">{{post.company.name}}</a>
+              		</p>
+            		{% else %}
+              			{% if company %}
+                		<p class="text-center">
+		                	<a href="{% url 'my_web_home' company.id %}">
+		                    	<img class="img-fluid" src="{% static 'img/company.png' %}">
+		                  	</a>
+		                  	<a href="{% url 'my_web_home' company.id %}">{{ company.name }}</a>
+                		</p>
+              			{% else %}
+                			{% if product %}
+                  			<p class="text-center">
+			                    <a href="{% url 'my_web_home' product.company.id %}">
+			                      <img class="img-fluid" src="{% static 'img/company.png' %}">
+			                    </a>
+                    			<a href="{% url 'my_web_home' product.company.id %}">{{ product.company.name }}</a>
+                  			</p>
+                			{% else %}
+                  				{% if post %}
+                    			<p class="text-center">
+			                    	<a href="{% url 'my_web_home' post.company.id %}">
+			                       		<img class="img-fluid" src="{% static 'img/company.png' %}">
+			                      	</a>
+                      				<a href="{% url 'my_web_home' post.company.id %}">{{ post.company.name }}</a>
+                    			</p>
+                  				{% else %}
+                    			<a href="{% url 'my_web_home' company.id %}">
+                      				<img class="img-fluid" src="{% static 'img/company.png' %}">
+                    			</a>
+                    			<p class="text-center"></p>
+                  			{% endif %}
+                		{% endif %}
+              		{% endif %}
+            	{% endif %}
+          	{% endif %}
+        {% endif %}
+      		</div>
+    	</div>
+		<div class="col-md-10">
+		    <div class="col-12">
+		 	    <div class="row padding-row ventana-productos">
+		            {% for products in company.product_relationship.all %}
+			            {% if products.approved == True and products.language.id == language_selected %}
+				            <div class="col-6 col-sm-4 col-md-3">
+					            <div class="row">
+						            <div class="col-12 d-flex flex-column align-items-center">
+							            <div class="col-12" id="detail-favorites-border" data-contact-url="{% url 'ajax_add_favorite' %}">
+							                <button class="iconHeart" id="favorito{{products.id}}">
+								                <i class="far fa-heart" id="miestado{{products.id}}"></i>
+							                </button>
+							                {% if products.picture %}
+							                    <a href="{% url 'my_web_product_menu' idcompany=id_myweb pk=products.id  %}">
+									                <img src="{{ products.picture.url }}" width="auto" height="180">
+								                </a>
+							                {% else %}
+								                <a href="{% url 'my_web_product_menu' idcompany=id_myweb pk=products.id  %}">
+									                <img src="{% static 'img/default.png' %}" width="auto" height="180">
+								                </a>
+							                {% endif %}
+							            </div>
+						            </div>
+								</div>
+								<div class="align-items-center"><p>{{ products.name }}</p></div>
+					            <div class="row">
+						            <div class="col-12 d-flex justify-content-between score">
+							            <!-- {% if products.company.logo %}
+							                <img src="{{ products.company.logo.url }}" alt="" style="height: 38px;">
+							            {% else %}
+							                <img src="{% static 'img/default.png' %}" height="35px">
+						 	            {% endif %} -->
+							            <span class="jRating" id="jRating{{forloop.counter0}}">
+								            <span class="jRating-star" index="0"></span>
+								            <span class="jRating-star" index="1"></span>
+								            <span class="jRating-star" index="2"></span>
+								            <span class="jRating-star" index="3"></span>
+								            <span class="jRating-star" index="4"></span>
+							            </span>
+						            </div>
+					            </div>
+					            <div class="dropdown-divider"></div>
+				            </div>
+				            <script>
+					            $(document).ready(function(){
+						            {% if favoritos %}
+									    {% for favorito in favoritos %}
+										    {% if favorito.product.id == products.id  %}
+									            document.getElementById("miestado{{products.id}}").className = "fa fa-heart";
+										    {% endif %}
+									    {% endfor %}
+						            {% endif %}
+					            });
+					            $(document).ready(function(){
+						            var number_counter = '{{forloop.counter0}}';
+						            var product_rating = '{{products.rating_average}}';
+						            if(Number.isInteger(product_rating) == true){
+							            product_rating = parseInt('{{products.rating_average}}');
+						            }
+						            else {
+							            if(parseInt('{{products.rating_average}}') == 0) {
+								            product_rating = parseInt('{{products.rating_average}}');
+							            }
+							            else {
+								            product_rating = parseInt('{{products.rating_average}}') + 0.5;
+							            }
+						            }
+						            new JRating(document.getElementById('jRating'+number_counter), product_rating, false);
+					            });
+					        </script>
+					        <script type="text/javascript">
+					            $("#favorito{{products.id}}").click(function () { 
+						            var div1 = document.getElementById("miestado{{products.id}}");
+						            var status = div1.getAttribute("class");
+						            if( status == "fa fa-heart"){ 
+							            document.getElementById("miestado{{products.id}}").className = "far fa-heart";
+						                var url = $("#detail-favorites-border").attr("data-contact-url"); 
+						                var user_id = '{{request.user.id}}';
+						                var product_id = '{{products.id}}';
+						                $.ajax({
+							                url: url,
+							                data: {
+								                'product_id': product_id,
+								                'user_id': user_id      
+							                },
+							                success: function (data) {   
+								                $.notify("{% blocktrans %}Eliminado de Favoritos{% endblocktrans %}", "success");
+							                }
+						                }); 
+						            }
+						            else if(status == "far fa-heart"){
+							            document.getElementById("miestado{{products.id}}").className = "fa fa-heart";
+						                var url = $("#detail-favorites-border").attr("data-contact-url");  
+						                var user_id = '{{request.user.id}}';
+						                var product_id = '{{products.id}}';
+					 	                $.ajax({                      
+							                url: url,                    
+							                data: {
+								                'product_id': product_id,
+								                'user_id': user_id      
+							                },
+							                success: function (data) {   
+								                $.notify("{% blocktrans %}Agregado a Favoritos{% endblocktrans %}", "success");
+							                }
+						                });
+						            }
+					            });
+				            </script>
+			            {% endif %}
+		            {% endfor %}
+			    </div>	
+		    </div>
+		    <div class="col-lg-3"></div>
+	    </div>
+	</div>
+</div>	
+{% endblock %}

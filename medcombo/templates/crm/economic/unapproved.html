@@ -1,0 +1,164 @@
+{% load i18n %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'css/app/social/proposals.css' %}">
+<div class="row proposal">
+    <div class="col-12 pb-3 pt-3">
+        <div class="row padding-row">
+            <div class="col-12">
+            {% if proposal_more %}
+                {% csrf_token %}
+                <div class="panel panel-default panel-post">
+                    <div class="panel-heading">
+                        <div class="media">
+                            <div class="media-body">
+                                <div class="pull-left">
+                                    <h4 class="media-heading">
+                                        {% blocktrans %}OFERTA PUBLICITARIA BANNERS{% endblocktrans %}
+                                    </h4>
+                                </div>
+                                <div class="pull-right">
+                                    <span>{{proposal_more.edit_date}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ml-3">
+                    {% if values %}
+                    {% for val in values %}
+                    <div class="row form-group">
+                        <label for="Product" class="col-sm-2 control-label" style="font-size: 20px;">{% blocktrans %}Productos:{% endblocktrans %}</label>
+                        <div class="col-sm-4">
+                            <div class="form-line">
+                                <input type="text" class="form-control" style="font-size: 20px;"placeholder="{% blocktrans %}Productos{% endblocktrans %}" value="{{val.product.name}} " required disabled>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if values %}
+                    {% for val in values %}
+                    <div class="row form-group">
+                        <label for="Value" class="col-sm-2 control-label" style="font-size: 20px;">{% blocktrans %}Valor:{% endblocktrans %}</label>
+                        <div class="col-sm-4">
+                            <div class="form-line">
+                                <input type="text" class="form-control" style="font-size: 20px;"placeholder="{% blocktrans %}Valor{% endblocktrans %}" value="{{val.value}} €" required disabled>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if values %}
+                    {% for val in values %}
+                    <div class="row form-group">
+                        <label for="Descuento" class="col-sm-2 control-label" style="font-size: 20px;">{% blocktrans %}Descuento:{% endblocktrans %}</label>
+                        <div class="col-sm-4">
+                            <div class="form-line">
+                                <input type="text" id="discount-price" class="form-control" style="font-size: 20px;"placeholder="{% blocktrans %}Descuento{% endblocktrans %}" value="{{val.discount}} %" required disabled>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    
+                    <div class="row form-group">
+                        <label for="amount" class="col-sm-3 control-label" style="font-size: 20px;">{% blocktrans %}Cantidad total:{% endblocktrans %}</label>
+                        <div class="col-sm-4">
+                            <div class="form-line">
+                                <input type="text" id="total-price" class="form-control" style="font-size: 20px;"placeholder="{% blocktrans %}Cantidad total{% endblocktrans %}" value="{{proposal_more.total}} €" required disabled>
+                            </div>
+                        </div>
+                    </div> 
+                    <script>
+                        $('#total-price').ready(function(){
+                            var total = $('#total-price').text();
+                            var discount = $('#discount-price').text();
+                            total_discount = total - ((total*discount)/100);
+                            $('#price-proposal').text(total_discount+" €")
+                        });
+                    </script>
+                    <div class="row form-group pb-3">
+                        <label for="price" class="col-sm-4 control-label" style="font-size: 20px;">{% blocktrans %}Condiciones de pago:{% endblocktrans %}</label>
+                        <div class="col-sm-4">
+                            <div class="form-line">
+                                <input type="text" class="form-control" style="font-size: 20px;"placeholder="{% blocktrans %}Condiciones de pago{% endblocktrans %}" value="{{proposal_more.payment_terms}} " required disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-3"style="border-top: 2px solid #7f9bcd;"></div>
+                    <div class="row pt-2">
+                        <div class="col-12 col-sm-12 ">
+                            <h5>{% blocktrans %}Comentarios:{% endblocktrans %}</h5>  
+                        </div> 
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-12">
+                            <div class="form-line">
+                                <p style="line-height: 2;">{{proposal_more.comments}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pt-4">
+                    <div class="col-12 d-flex justify-content-end">
+                        <a href="{% url "pdfdownload" value=proposal_more.id %}" class="btn btn-primary button-category" id download target="_blank"><i class="fa fa-file-pdf-o" style="font-size:18px;"></i>   {% blocktrans %}IMPRIMIR PDF{% endblocktrans%}  </a>&nbsp;&nbsp;&nbsp;
+                        {% if proposal_more.validata != 'True' or proposal_more.validata == '' %}
+                            <a href="#" class="btn btn-primary button-category" data-toggle="modal" data-target="#ACCEPT-proposal{{proposal_more.id}}">{% blocktrans %}ACEPTAR{% endblocktrans%}</a>&nbsp;&nbsp; 
+                        {% endif %}
+                    </div>
+                </div>
+               
+                <div class="modal fade" id="ACCEPT-proposal{{proposal_more.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-xs">
+                        <div class="modal-content" style="border-radius: 25px;">
+                            <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                                <div class="d-flex align-items-center">
+                                    <i class="far fa-list-alt icons_size_title_second"></i>
+                                    <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ACEPTAR PROPUESTA{% endblocktrans %}</p>
+                                </div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" style="color: #fff;">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-12 d-flex justify-content-center">
+                                    <h5>{% blocktrans %}¿Quieres aceptar esta propuesta?{% endblocktrans %}</h5>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button id="ACCEPT-button{{proposal_more.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+                                <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $('#ACCEPT-button{{proposal_more.id}}').on('click', function(){
+                        var value = '{{proposal_more.id}}';
+                        var url = '{% url "accept_proposal" %}';
+                        var token = '{{csrf_token}}';
+                        $.ajax({
+                            headers: { "X-CSRFToken": token },
+                            method: 'POST',
+                            url: url,
+                            data: {
+                                'value': value
+                            },
+                            success: function(data) {
+                                if(data == 'Ok') {
+                                    location.reload();
+                                    $.notify("{% blocktrans %}ACTUALIZADO EXITOSAMENTE{% endblocktrans %}", "success")
+                                }
+                            }
+                        });
+                    });
+                </script>
+                    
+            {% else %}
+                <td><center><h5>{% blocktrans %}No existen proposal{% endblocktrans %}</h5></center></td>
+            {% endif %}
+            </div>
+        </div>						
+    </div>					
+</div>

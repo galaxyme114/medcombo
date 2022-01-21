@@ -1,0 +1,758 @@
+{% load staticfiles %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="p:domain_verify" content="76a0f9c81232eb053b4cd2ebfcfa8d96"/>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="{% static 'select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <link rel="stylesheet" href="{% static 'css/dashboard_admin.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'easy-autocomplete/easy-autocomplete.min.css' %}">
+    <link rel="stylesheet" href="{% static 'easy-autocomplete/easy-autocomplete.themes.min.css' %}">
+    <link rel="shorcut icon" type="image/png" href="{% static 'img/favicon.ico' %}">
+    <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+    <script src="{% static 'select2/js/select2.full.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/notify.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/notify.min.js' %}" type="text/javascript"></script> 
+    <link rel="stylesheet" href="{% static 'css/gijgo.min.css' %}">
+    <script src="{% static 'js/gijgo.min.js' %}" type="text/javascript"></script> 
+    <style>
+        .ui-autocomplete {
+            max-height: 350px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+        }
+        /* IE 6 doesn't support max-height
+         * we use height instead, but this forces the menu to always be this tall
+         */
+         html .ui-autocomplete {
+            height: 350px;
+        }
+    </style>
+    <title>{% blocktrans %}Administrador{% endblocktrans %}</title>
+    <style>
+        @font-face{
+            font-family: Muli-SemiBold;
+            src: url("{% static 'css/font/Muli-SemiBold.ttf' %}") format("truetype");
+        }
+    </style>
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+    </script>
+</head>
+<body>
+    <header id="header">
+        <div class="container-fluid">
+            <div class="row d-flex align-items-center">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2" style="z-index: 2;" id="menu-logo">
+                    <a href="/"><img class="img-fluid" src="{% static 'img/logo.png' %}" alt="MedCombo"></a>
+                </div>
+                <div class="d-none d-md-flex col-md-7 col-lg-10 align-items-center justify-content-end">
+                    <span class="pr-2 d-none d-lg-block display-header">{% blocktrans %}Administrador: {% endblocktrans %}</span>
+                    {% for user_context in context %}
+                        <div class="hoverWrapper" >
+                            {% if user_context.picture %}
+                                <div class="row justify-content-center">
+                                    <img class="ml-5 mr-5 mb-0 mt-2" src="{{ user_context.picture.url }}" height="40" width="40" style="border-radius: 50%;">
+                                </div>
+                                <div class="row justify-content-center mt-0">
+                                    <span style="color: #df8771;">{% blocktrans %}Bienvenido{% endblocktrans %}</span>
+                                </div>
+                                
+                            {% else %}
+                                <div class="pt-3 pb-3 ml-5 mr-5">
+                                    <div class="row justify-content-center">
+                                        <i class="fas fa-user pl-3 pr-3" style="font-size: 30px;color: #df8771;"></i>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <span style="color: #df8771;">{% blocktrans %}Bienvenido{% endblocktrans %}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <!-- <span class="pt-3 pb-3" style="color:#7f9bcd;">{{ user_context.username }}</span> -->
+                            
+                            <div  id="hoverShow1" style="text-align: left;">
+                                <div class="row m-0" style="border-bottom: 1px solid black;">
+                                    <div class="col-md-10 mb-2">
+                                        <a style="color: #b6b5b5;" class="nameUser pb-2 pt-2" href="{% url 'dashboard_client' %}">
+                                            {% blocktrans %}Hola {% endblocktrans %}&nbsp;
+                                            {% if user_context.first_name %}
+                                                {{ user_context.first_name }} {{ user_context.last_name }} 
+                                            {% else %} 
+                                                {{ user_context.username }}
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a style="color: #b6b5b5;" class="nameUser pb-2 pt-2" href="{% url 'view_logout' %}">
+                                            <i class="fas fa-sign-out-alt "></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <div class="row m-0">
+                                    <div class="col-md-10 mt-2">
+                                        <a class="pt-2 pb-2" style="color: #7f9bcd;text-decoration: none;" href="{% url 'chat_list' %}">
+                                            {% blocktrans %}Nuevo mensaje{% endblocktrans %} 
+                                        </a>
+                                    </div>
+                                    <div class="col-md-1 mt-2">
+                                        <span >{{my_msgs}}</span>
+                                    </div>
+                                </div>
+                                <div class="row m-0">
+                                    <div class="col-md-10 mt-1">
+                                        <a class="pt-2 pb-2" style="color: #7f9bcd;text-decoration: none;" href="{% url 'contacts_list' %}">
+                                            {% blocktrans %}Contacto{% endblocktrans %}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-1 mt-1">
+                                        <span >{{my_contacts}}</span>
+                                    </div>
+                                </div> 
+                                 
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="d-flex mr-3 pr-2">
+                        <div class="pl-3 display-header">
+                            <select id="notificaciones_select" class="border-0">
+                                <option selected value="#">{% blocktrans %}Notificaciones{% endblocktrans %} ( {{total_notificaciones}} )</option>
+                                {% if user_alarm != 0 %}
+                                    <option value="/admin_user_sales">({{user_alarm}}) {% blocktrans %}Usuarios {% endblocktrans %}</option>
+                                {% else %}
+                                {% endif %}
+                                {% if notificaciones_myweb != 0 %}
+                                        <option value="/AdminMywebCrm">({{notificaciones_myweb}}) {% blocktrans %}Solicitud Myweb{% endblocktrans %}</option>
+                                {% else %}
+                                {% endif %}
+                                {% if palabras_claves %}
+                                    <option value="/AdminKeywordCrm">({{palabras_claves}}) {% blocktrans %}Palabra clave{% endblocktrans %}</option>
+                                {% else %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <!--div class="totalNotifications display-header">
+                            <i class="far fa-comment-alt"></i>
+                            <span class="p-1 text-center" style="font-size:12px;"><b>{{total_notificaciones}}</b></span>
+                        </div-->
+                    </div>
+                    <!-- language -->
+                    <form id="form-lenguaje" class="position-relative display-header" action="{% url 'set_language' %}" method="POST">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ redirect_to }}" />
+                        <select class="form-control form-control-sm ml-2 leng-style lenguaje-seleccionado border-0" id="lenguaje-seleccionado" name="language">
+                            {% for language in languages %}
+                                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                    {% if language.code == "es" %}
+                                        Español ({{ language.code }}) 
+                                    {% elif language.code == "fr" %}
+                                        Français ({{ language.code }})
+                                    {% elif language.code == "it" %}
+                                        Italiano ({{ language.code }}) 
+                                    {% elif language.code == "ja" %}
+                                        日本語 (jp) 
+                                    {% else %}
+                                        {{language.name_local}} ({{ language.code }})
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <div class="d-flex align-items-center imgFlag">
+                            {% if language_selected == 4   %}<!-- español -->
+                                <img src="{% static 'img/Banderas/es.png' %}">
+                            {% elif language_selected == 3 %}<!-- ingles -->
+                                <img src="{% static 'img/Banderas/gb.png' %}">
+                            {% elif language_selected == 2 %}<!-- aleman -->
+                                <img src="{% static 'img/Banderas/de.png' %}">
+                            {% elif language_selected == 5 %}<!-- frances -->
+                                <img src="{% static 'img/Banderas/fr.png' %}">
+                            {% elif language_selected == 7 %}<!-- portugues -->
+                                <img src="{% static 'img/Banderas/pt.png' %}">
+                            {% elif language_selected == 6 %}<!-- italiano -->
+                                <img src="{% static 'img/Banderas/it.png' %}">
+                            {% elif language_selected == 1 %}<!-- chino -->
+                                <img src="{% static 'img/Banderas/cn.png' %}">
+                            {% elif language_selected == 8 %}<!-- chino -->
+                                <img src="{% static 'img/Banderas/cn.png' %}">
+                            {% elif language_selected == 9 %}<!-- japon -->
+                                <img src="{% static 'img/Banderas/jp.png' %}">
+                            {% endif %}
+                        </div>
+                    </form>
+                    <!-- fin language -->   
+                </div>
+
+
+                <!--Navbar-->
+                <div class="col-6 col-sm-8 col-md-2 d-lg-none d-flex justify-content-end">  
+
+                    <div class="menu_bar">
+                        <button class="navbar-toggler bt-menu pr-0" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon">
+                            <i class="fa fa-bars nav_bar" style="color: #7f9bcd;" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    </div>
+                    
+                    <div class="collapse movil-menu-admin" id="navbarToggleExternalContent" style="overflow-y:auto;">
+                        <div>
+                            <ul class="nav nav-pills d-flex flex-column nav-new-admin" id="movil-menu1">
+                                <li class="nav-item padding-menu-movil">
+                                    <form id="form-lenguaje2" action="{% url 'set_language' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                        <select class="form-control form-control-sm leng-style lenguaje-seleccionado2" name="language">
+                                            {% for language in languages %}
+                                                <option style="min-width: 8em;" value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %} >
+                                                    {% if language.code == "es" %}
+                                                        Español ({{ language.code }})
+                                                    {% elif language.code == "fr" %}
+                                                        Français ({{ language.code }})
+                                                    {% elif language.code == "it" %}
+                                                        Italiano ({{ language.code }})
+                                                    {% elif language.code == "ja" %}
+                                                        日本語 (jp) 
+                                                    {% else %}
+                                                        {{language.name_local}} ({{ language.code }})
+                                                    {% endif %}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="d-flex align-items-center imgFlag">
+                                            {% if language_selected == 4   %}<!-- español -->
+                                                <img src="{% static 'img/Banderas/es.png' %}">
+                                            {% elif language_selected == 3 %}<!-- ingles -->
+                                                <img src="{% static 'img/Banderas/gb.png' %}">
+                                            {% elif language_selected == 2 %}<!-- aleman -->
+                                                <img src="{% static 'img/Banderas/de.png' %}">
+                                            {% elif language_selected == 5 %}<!-- frances -->
+                                                <img src="{% static 'img/Banderas/fr.png' %}">
+                                            {% elif language_selected == 7 %}<!-- portugues -->
+                                                <img src="{% static 'img/Banderas/pt.png' %}">
+                                            {% elif language_selected == 6 %}<!-- italiano -->
+                                                <img src="{% static 'img/Banderas/it.png' %}">
+                                            {% elif language_selected == 1 %}<!-- chino -->
+                                                <img src="{% static 'img/Banderas/cn.png' %}">
+                                            {% elif language_selected == 8 %}<!-- chino -->
+                                                <img src="{% static 'img/Banderas/cn.png' %}">
+                                            {% elif language_selected == 9 %}<!-- japon -->
+                                                <img src="{% static 'img/Banderas/jp.png' %}">
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                </li>
+                                <!-- fin language -->
+                                <li class="nav-item">
+                                    <hr />
+                                </li>
+                                {% for user_context in context %}
+                                    {% if user_context.first_name %}
+                                        <li class="nav-item padding-menu-movil">
+                                            <span>
+                                                <a href="{% url 'view_profiledetail' user.id %}">
+                                                    {% if user_context.picture %}
+                                                        <img src="{{ user_context.picture.url }}" height="50" width="50" style="border-radius: 50%;">
+                                                    {% else %}
+                                                        <img src="/static/img/userdefault.jpeg" height="50"width="50" style="border-radius: 50%;">
+                                                    {% endif %}
+                                                </a>
+                                            </span>
+                                        </li>
+                                        <li class="nav-item padding-menu-movil">
+                                            <span><a href="{% url 'view_profiledetail' user.id %}">{{ user_context.first_name }} {{ user_context.last_name }}</a></span>
+                                        </li>
+                                    {% else %}
+                                        <li class="nav-item padding-menu-movil">
+                                            <span>
+                                                <a href="{% url 'view_profiledetail' user.id %}">
+                                                    {% if user_context.picture %}
+                                                        <img src="{{ user_context.picture.url }}" height="50" width="50" style="border-radius: 50%;">
+                                                    {% else %}
+                                                        <img src="/static/img/userdefault.jpeg" height="50" width="50" style="border-radius: 50%;">
+                                                    {% endif %}
+                                                </a>
+                                            </span>
+                                        </li>
+                                        <li class="nav-item padding-menu-movil">
+                                            <span><a href="{% url 'view_profiledetail' user.id %}">{{ user_context.username }}</a></span>
+                                        </li>
+                                        {% if user_context.email %}
+                                            <li class="nav-item padding-menu-movil">
+                                                <span><a href="{% url 'view_profiledetail' user.id %}">{{ user_context.email }}</a></span>
+                                            </li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <li class="nav-item">
+                                    <hr style="margin-bottom: 0px;" />
+                                </li>
+                                {% if perms.usercustom.marketing_user %}
+                                    <li class="nav-item padding-menu-movil active">
+                                        <a class="nav-link pl-0" href="#">{% blocktrans %}Marketing{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'AdminCategoryCrm' in request.path or 'AdminCategoryKeywordCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'AdminCategoryCrm' %}">{% blocktrans %}Categorías{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'Stats' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'Stats' %}">{% blocktrans %}Estadísticas{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'Boosting' in request.path or 'products' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'Boosting' %}">{% blocktrans %}Boosting{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'BannerList' in request.path or 'BannerCreate' in request.path or 'BannerUpdate' in request.path or 'BannerPicture' in request.path or 'BannerCompany' in request.path or 'BannerWebUpdate' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'BannerList' %}">{% blocktrans %}Banner{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'BannerIndexList' in request.path or 'BannerIndexCreate' in request.path or 'BannerIndexUpdate' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'BannerIndexList' lang='es' %}">{% blocktrans %}MedMagazine{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'CompanyLogoList' in request.path or 'CompanyLogoCreate' in request.path or 'CompanyLogoUpdate' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'CompanyLogoList' %}">{% blocktrans %}Logos footer{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'EventList' in request.path or 'EventCreate' in request.path or 'EventUpdate' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'EventList' %}">{% blocktrans %}Evento{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'Sponsor_List' in request.path or 'Sponsor_Create' in request.path or 'Sponsor_Update' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'Sponsor_List' %}">{% blocktrans %}Patrocinados - Buscador{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'AdminKeywordCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'AdminKeywordCrm' %}">{% blocktrans %}Palabras Clave{% endblocktrans %}</a>
+                                    </li>
+                                {% endif %}
+                                {% if perms.usercustom.sales_user %}
+                                    <li class="nav-item padding-menu-movil active">
+                                        <a class="nav-link pl-0" href="#">{% blocktrans %}Ventas{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'ListContacCrm' in request.path or 'DetailContacCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'ListContacCrm' %}">{% blocktrans %}Leads{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'admin_user_sales' in request.path or 'admin_user_create' in request.path or 'UserUpdateAdmin' in request.path or 'admin/company/create/' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'admin_user_sales' %}">{% blocktrans %}Usuarios{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'OpportunityList' in request.path or 'DetailOpportunityCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'OpportunityList' %}">{% blocktrans %}Oportunidades{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'ListTaskCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'ListTaskCrm' %}">{% blocktrans %}Tareas{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'AppointmentBookCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'AppointmentBookCrm' 0 %}">{% blocktrans %}Agenda{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'ListProductCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'ListProductCrm' %}">{% blocktrans %}Productos{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'economic-proposal' in request.path or 'economic-proposal-create' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'economic-proposal' %}">{% blocktrans %}Propuestas economicas{% endblocktrans %}</a>
+                                    </li>
+                                {% endif %}
+                                {% if perms.usercustom.management_user %}
+                                    <li class="nav-item padding-menu-movil active">
+                                        <a class="nav-link pl-0" href="#">{% blocktrans %}Gestión{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'Import_CSV' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'Import_CSV' %}">{% blocktrans %}Cargar CSV{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'admin_user_list' in request.path or 'UserPassUpdateAdmin' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'admin_user_list' %}">{% blocktrans %}Contraseña Usuarios{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'AdminMywebCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'AdminMywebCrm' %}">{% blocktrans %}Solicitud MyWeb{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'AdminProductCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'AdminProductCrm' %}">{% blocktrans %}Solicitud de Productos{% endblocktrans %}</a>
+                                    </li>
+                                {% endif %}
+                                {% if perms.usercustom.system_user %}     
+                                    <li class="nav-item padding-menu-movil active">
+                                        <a class="nav-link pl-0" href="#">{% blocktrans %}Sistema{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'admin_employ_list' in request.path or 'admin_employ_create' in request.path or 'EmployeeGroup/Update/' in request.path or 'update_employee_password' in request.path or 'update_employ' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'admin_employ_list' %}">{% blocktrans %}Empleados{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'List_Groups' in request.path or 'Groups/Update' in request.path or 'Groups/Create' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'list_groups' %}">{% blocktrans %}Grupos{% endblocktrans %}</a>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil {% if 'PrivacyPolicyCrm' in request.path %}active2{% endif %}">
+                                        <a class="nav-link pl-0" href="{% url 'PrivacyPolicyCrm' %}">{% blocktrans %}Privacidad{% endblocktrans %}</a>
+                                    </li>
+                                {% endif %}
+                                <li class="nav-item">
+                                    <hr />
+                                </li>
+                                <li class="nav-item mb-3 padding-menu-movil">
+                                    <span><a href="{% url 'view_logout' %}"><i class="fas fa-sign-out-alt mr-3"></i>{% blocktrans %}SALIR{% endblocktrans %}</a></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 d-none d-lg-block" id="main-menu">
+                <ul class="nav flex-column">
+                    {% if perms.usercustom.marketing_user %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">{% blocktrans %}Marketing{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'AdminCategoryCrm' in request.path or 'AdminCategoryKeywordCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'AdminCategoryCrm' %}">{% blocktrans %}Categorías{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'Stats' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'Stats' %}">{% blocktrans %}Estadísticas{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'Boosting' in request.path or 'products' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'Boosting' %}">{% blocktrans %}Boosting{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'BannerList' in request.path or 'BannerCreate' in request.path or 'BannerUpdate' in request.path or 'BannerPicture' in request.path or 'BannerCompany' in request.path or 'BannerWebUpdate' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'BannerList' %}">{% blocktrans %}Banner{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'BannerIndexList' in request.path or 'BannerIndexCreate' in request.path or 'BannerIndexUpdate' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'BannerIndexList' lang='es' %}">{% blocktrans %}MedMagazine{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'CompanyLogoList' in request.path or 'CompanyLogoCreate' in request.path or 'CompanyLogoUpdate' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'CompanyLogoList' %}">{% blocktrans %}Logos footer{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'EventList' in request.path or 'EventCreate' in request.path or 'EventUpdate' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'EventList' %}">{% blocktrans %}Evento{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'Sponsor_List' in request.path or 'Sponsor_Create' in request.path or 'Sponsor_Update' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'Sponsor_List' %}">{% blocktrans %}Patrocinados - Buscador{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'AdminKeywordCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'AdminKeywordCrm' %}">{% blocktrans %}Palabras Clave{% endblocktrans %}</a>
+                        </li>
+                    {% endif %}
+                    {% if perms.usercustom.sales_user %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">{% blocktrans %}Ventas{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'ListContacCrm' in request.path or 'DetailContacCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'ListContacCrm' %}">{% blocktrans %}Leads{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'admin_user_sales' in request.path or 'admin_user_create' in request.path or 'UserUpdateAdmin' in request.path or 'admin/company/create/' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'admin_user_sales' %}">{% blocktrans %}Usuarios{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'OpportunityList' in request.path or 'DetailOpportunityCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'OpportunityList' %}">{% blocktrans %}Oportunidades{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'ListTaskCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'ListTaskCrm' %}">{% blocktrans %}Tareas{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'AppointmentBookCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'AppointmentBookCrm' 0 %}">{% blocktrans %}Agenda{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'ListProductCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'ListProductCrm' %}">{% blocktrans %}Productos{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'economic-proposal' in request.path or 'economic-proposal-create' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'economic-proposal' %}">{% blocktrans %}Propuestas economicas{% endblocktrans %}</a>
+                        </li>
+                    {% endif %}
+                    {% if perms.usercustom.management_user %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">{% blocktrans %}Gestión{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'Import_CSV' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'Import_CSV' %}">{% blocktrans %}Cargar CSV{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'admin_user_list' in request.path or 'UserPassUpdateAdmin' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'admin_user_list' %}">{% blocktrans %}Contraseña Usuarios{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'AdminMywebCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'AdminMywebCrm' %}">{% blocktrans %}Solicitud MyWeb{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'AdminProductCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'AdminProductCrm' %}">{% blocktrans %}Solicitud de Productos{% endblocktrans %}</a>
+                        </li>
+                    {% endif %}
+                    {% if perms.usercustom.system_user %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">{% blocktrans %}Sistema{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'admin_employ_list' in request.path or 'admin_employ_create' in request.path or 'EmployeeGroup/Update/' in request.path or 'update_employee_password' in request.path or 'update_employ' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'admin_employ_list' %}">{% blocktrans %}Empleados{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'List_Groups' in request.path or 'Groups/Update' in request.path or 'Groups/Create' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'list_groups' %}">{% blocktrans %}Grupos{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item {% if 'PrivacyPolicyCrm' in request.path %}active2{% endif %} space">
+                            <a class="nav-link" href="{% url 'PrivacyPolicyCrm' %}">{% blocktrans %}Privacidad{% endblocktrans %}</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item mt-4">
+                        <a class="nav-link" href="{% url 'view_logout' %}"><i class="fa fa-power-off" style="font-size:18px"></i>&nbsp;&nbsp;{% blocktrans %}Salir{% endblocktrans %}</a>
+                    </li>
+                </ul>
+            </div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <script src="{% static 'js/handlebars-v1.3.0.js' %}" type="text/javascript"></script>
+    {% block extra_js %}{% endblock extra_js %}
+    <script src="{% static 'bootstrap/js/popper.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'easy-autocomplete/jquery.easy-autocomplete.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/jquery.idle.js' %}" type="text/javascript"></script> 
+    <script>
+        function formatState (state) {
+            if (!state.id) {
+                return state.text;
+            }
+            var baseUrl = "{% static '' %}img/Banderas/";
+            var name = state.element.value.toLowerCase();
+            if(name == 'en') {
+                name = 'gb'
+            }
+            else if(name == 'zh-hans' || name == 'zh-hant') {
+                name = 'cn'
+            }
+            else {
+                if(name == 'ja') {
+                    name = 'jp'
+                }
+            }
+            var $state = $(
+                '<span class="d-flex justify-content-between">' + state.text + '<div class="d-flex align-items-center"><img src="' + baseUrl + name + '.png" class="img-flag" height="17px" /></div></span>'
+            );
+            return $state;
+        };
+        $("#lenguaje-seleccionado").select2({
+            templateResult: formatState,
+            minimumResultsForSearch: -1
+        });
+    </script>
+    <script>
+        var contador = 1;
+        var _opened = false;
+        $('.navbar-toggler').click(function(){
+            if (contador == 1) {
+                $('.movil-menu-admin').animate({
+                    //left: '0'
+                    left: '0'
+                },500);
+                contador = 0;
+                _opened = true;
+                $(".nav_bar").css("color", "#df8771");
+            } else {
+                $('.movil-menu-admin').animate({
+                    left: '-100%'
+                },500);
+                contador = 1;
+                _opened = false;
+                $(".nav_bar").css("color", "#7f9bcd");
+            }
+        });
+        $(document).click(function (event) {
+            var clickover = $(event.target);
+            if (_opened === true && !clickover.hasClass("nav_bar") && !clickover.hasClass("navbar-toggler") && !clickover.hasClass("nav-pills")&& !clickover.hasClass("nav-item")&&!clickover.hasClass("form-control")) {
+                $("button.navbar-toggler").click();
+                _opened = false;
+            }
+        });
+    </script>
+    <script>
+        //Function To Hide and Show.
+        $(document).idle({
+            onHide: function(){
+                console.log('I\'m hidden');
+                $.ajax({
+                    headers: { "X-CSRFToken": '{{csrf_token}}' },
+                    type: 'POST',
+                    url: "{% url 'change_view' %}",
+                    data: {
+                      'data': ''
+                    },
+                    success: function(msg){
+                    }
+                });
+            },
+            onShow: function(){
+                console.log('Hey, I\'m visible!');
+                $.ajax({
+                    headers: { "X-CSRFToken": '{{csrf_token}}' },
+                    type: 'POST',
+                    url: "{% url 'change_view_active' %}",
+                    data: {
+                        'data': ''
+                    },
+                    success: function(msg){
+                    }
+                });
+            }
+        });
+        //Change or Close Tab
+        window.onbeforeunload = function(e){
+            console.log('Listo');
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'change_view' %}",
+                data: {
+                    'data': ''
+                },
+                success: function(msg){
+                }
+            });
+        }
+        //Change or Close Tab - User is Inactive
+        window.onunload = function unloadPage(e) {
+            e.preventDefault();
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'change_view' %}",
+                data: {
+                    'data': ''
+                },
+                success: function(msg){
+                }
+            });
+            console.log("See you soon!");
+        }
+        //Move the mouse once, User is Active Again
+        setTimeout(function(){
+            var counter = 0;
+            $(document).mouseout(function(e){
+                counter += 1;
+                if(counter == 1) {
+                    $.ajax({
+                        headers: { "X-CSRFToken": '{{csrf_token}}' },
+                        type: 'POST',
+                        url: "{% url 'change_view_active' %}",
+                        data: {
+                            'data': ''
+                        },
+                        success: function(msg){
+                            console.log('Hey, user is back!');
+                        }
+                    });
+                }
+                else{
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            });
+        },5000);
+        //Leave of the document
+        $(document).mouseleave(function(){
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'change_view' %}",
+                data: {
+                    'data': ''
+                },
+                success: function(msg){
+                    console.log("Leave of document!");
+                }
+            });
+        });
+        //Enter in the document
+        $(document).mouseenter(function(){
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'change_view_active' %}",
+                data: {
+                    'data': ''
+                },
+                success: function(msg){
+                    console.log('Enter in the document!');
+                }
+            });
+        });
+        $(document).ready(function(){
+            //Change to select
+            $('.lenguaje-seleccionado').change(function(e){
+                e.preventDefault();
+                lang_form = $('#form-lenguaje');
+                lang_form.submit();
+            });
+            $('.lenguaje-seleccionado2').change(function(e){
+                e.preventDefault();
+                lang_form = $('#form-lenguaje2');
+                lang_form.submit();
+            });
+            //Autocomplete
+            var options = {
+                url: function(phrase) {
+                    return "/ajax_calls/search/";
+                },
+                getValue: function(element) {
+                    return element.toLowerCase();
+                },
+                ajaxSettings: {
+                    headers: { "X-CSRFToken": '{{csrf_token}}' },
+                    dataType: "json",
+                    method: "POST",
+                    data: {
+                        dataType: "json"
+                    }
+                },
+                preparePostData: function(data) {
+                    data.phrase = $("#id_name").val();
+                    return data;
+                },
+                requestDelay: 400,
+                list: {
+                    match: {
+                        enabled: true
+                    },
+                    sort: {
+                        enabled: false
+                    },
+                    maxNumberOfElements: 10
+                },
+                theme: "square",
+                template: {
+                    type: "custom",
+                    method: function(value, item) {
+                        return '<img src="{% static "img/search-img/mbrisearch_99556.svg" %}" />&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;' + value.toLowerCase();
+                    }
+                },
+            };
+            $("#id_name").easyAutocomplete(options);
+        });
+        $("#aqui").click(function(){
+            alert(this.val())
+            document.location.href = "/AdminKeywordCrm";
+        });
+        $("#notificaciones_select").change(function(){
+            var url= $('select[id=notificaciones_select]').val()
+            document.location.href = url;
+            //$('#valor2').val($(this).val());
+        });
+        hoverResize();
+
+        $(window).resize(function () {
+            hoverResize();
+        });
+        function hoverResize(){
+            console.log("OK");
+            var parentWidth = $(".hoverWrapper").width();
+            $("#hoverShow1").css("margin-left",(parentWidth/2-225)+"px");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<script type="text/javascript" src="{% static 'js/jstz.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/mail_custom.css' %}">
+<link rel="stylesheet" href="{% static 'css/icheck-bootstrap.min.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="col-12 col-lg-10 background">
+    <div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <p class="text-home-job">{% blocktrans %}LISTADO DE MENSAJES{% endblocktrans%}</p>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+    <section class="content">
+        <div class="row">
+            {% include "social_network/chat/message_sidebar.html" %}
+            
+            <div class="col-md-6">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title" style="color:#7f9bcd;"><b>{% blocktrans %}Sent{% endblocktrans%}</b></h3>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm">
+                            <input id="search_sent" type="text" class="form-control" placeholder="Search Mail">
+                            <div class="input-group-append">
+                                <div class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped table_custom">
+                                <tbody>
+                                {% if message_sent %}
+                                    {% for message in message_sent %}
+                                    <tr>
+                                        <td class="align-middle">
+                                            <div class="icheck-primary">
+                                                <input type="checkbox" value="" data-id="{{message.id}}" class="chk_select" id="check{{message.id}}">
+                                                <label for="check{{message.id}}"></label>
+                                            </div>
+                                        </td>
+                                        {% if message.receiver.picture%}
+                                            <td><img class="rounded-circle user_img" src="{{message.receiver.picture.url}}" height="40" width="auto" style="border-radius: 50%;"></td>
+                                        {% else %}
+                                            <td><img class="rounded-circle user_img" src="{% static 'img/userdefault.jpeg' %}" height="40" width="auto" style="border-radius: 50%;"></td>
+                                        {% endif %}
+                                        <td class="mailbox-name align-middle"><a href="{% url 'readsentmail' message.id %}">{{message.receiver.first_name|capfirst}}  {{message.receiver.last_name|capfirst}}</a></td>
+                                        <td class="mailbox-subject align-middle">{{message.message|capfirst|truncatechars:20}}</td>
+                                        <td class="mailbox-date align-middle" style="font-size:12px;">{{message.created|date:"d M Y"}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <td>{% blocktrans %}No existen messages{% endblocktrans %}</td>
+                                {% endif %}
+                                    
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                            <script>
+                                $("#search_sent").keyup(function(){
+                                    _this = this;
+                                    // Show only matching TR, hide rest of them
+                                    $.each($("table tbody tr"), function() {
+                                        if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+                                            $(this).hide();
+                                        }
+                                        else {
+                                            $(this).show();
+                                        }
+                                    });
+                                });
+                                $("#delete_msg").on("click", function(){
+                                    var remove = "";
+                                    $(".chk_select").each(function(index) {
+                                        if($(this).prop('checked')){
+                                            remove = remove.concat($(this).data('id')+",");
+                                        }
+                                    });
+                                    console.log(remove);
+                                    var url = "{% url 'ajax_sent_delete' %}";  
+                                    var token = '{{csrf_token}}';
+                                    $.ajax({
+                                        headers: { "X-CSRFToken": token },
+                                        method: 'POST',
+                                        url: url,                    
+                                        data: {
+                                            'remove': remove   
+                                        },
+                                        success: function (data) {
+                                            if(data == "OK"){
+                                                $.notify("{% blocktrans %}Éxito{% endblocktrans %}", "success");
+                                            }
+                                            else{
+                                                $.notify("{% blocktrans %}Por favor seleccione un artículo.{% endblocktrans %}", "error");
+                                            }
+                                            location.reload();
+                                            
+                                        }
+                                    });
+                                })
+                            </script>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

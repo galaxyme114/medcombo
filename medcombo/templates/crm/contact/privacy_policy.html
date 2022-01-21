@@ -1,0 +1,95 @@
+{% extends "base_simple.html" %}
+<!DOCTYPE html>
+<html>
+<body>
+<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+{% block content %}
+<div id="privacy_policy" class="container" style="margin-top: 140px;">
+    <div class="row">
+        <div class="col-12">
+            <form method="post">
+                {% csrf_token %}
+                {% if state %}
+                    <h4>MEDCOMBO PRIVACY POLICY</h4>
+                    <div id="policy_content">
+                        <p>This Privacy Policy describes how your personal information is collected, used,</p>
+                        <p>and shared when you visit medcombo.com</p>
+                        <p>Our website offers the possibility for visitors and exhibitors to connect. This connection can be easily established due to our user friendly platform. To benefit from the services offered by the web some Personal Data will be collected to establish this communication and insure it is correctly processed and protected in accordance to our present privacy policy.</p>
+                        <p>To comply with this privacy policy, we communicate that Medcombo is a trademark of Behmpat Producciones, S.L. (BEHMPAT hereinafter) with registered office at Valle de Oro Street, 4 Urb. Las Lomas 28660 Boadilla del Monte (Madrid), MAIL info@medcombo.com, we inform the users of the website www.medcombo.com of its policy of protection of personal data, so that users determine freely and voluntarily if they wish to provide BEHMPAT with the personal data required for the contracting of products and services, as well as answering questions online or at the time of subscription, registration or filling in any online data forms.</p>
+                        <p><strong>Which Personal Data Are Collected &amp; Why?</strong></p>
+                        <p>The visit to this Web site does not imply that the user is obliged to provide any information about it. In the event that the user provides any information of a personal nature, the data collected on this website will be treated in a fair and lawful manner, subject at all times to the principles and rights set forth in the General Data Protection Regulations (RGPD). and other development regulations.</p>
+                        <p>In the course of providing our Services, we collect your personal information in a few different ways. Often, you choose what information to provide, but sometimes we require certain information for you to use and for us to provide the Service.</p>
+                        <p><em>Registration, Account Setup, Service Usage:</em> In order to use the Services, you need to provide us with a valid email address, and for Services that require registration, a name associated with your account that you can choose to represent your identity on MedCombo.</p>
+                        <p>You may review, change, or remove that name through your account settings. You need to provide this information to enable us to provide you with the Service. Depending on which services you choose to use, additional information, such as a shop name, billing and payment information (including billing contact name, address, telephone number, credit card information), a telephone number, and/or a physical postal address, may be necessary in order for us to provide a particular service. You are not required to provide us with this information to sign up, but we will need it to provide certain services.</p>
+                        <p>MedCombo may require information such as your full name, social security number, identification ID or tax ID, date of birth, bank account information, credit card information, and/or other proof of identification in order to verify your identity, provide this service to you, and comply with applicable law. We may need to store credit card information (or arrange for it to be stored) and use it for both billing and payment purposes.</p>
+                        <p>The provision of this information also allows the Editor to manage the Visitors’ information, track the relationship with the Visitor, and if necessary, check the  legal obligations. Any Visitor who does not wish to provide the required information may not make a request, receive information or create an account as described above.</p>
+                        <p><em>Automated information: </em>When you visit the website, we automatically collect certain information about your device, including information about your web browser, IP address, time zone, and some of the cookies that are installed on your device. Additionally, as you browse the website, we collect information about the individual web pages or products that you view, what websites or search terms referred you to the website, and information about how you interact with the website. This information is used to prevent fraud and to keep the Services secure, to analyze and understand how the Services work for members and visitors, and to provide advertising, including across your devices, and a more personalized experience for members and visitors.</p>
+                        <ul>
+                            <li>“Cookies” are data files that are placed on your device or computer and often include an anonymous unique identifier.</li>
+                            <li>“Log files” track actions occurring on the Site, and collect data including your IP address, browser type, Internet service provider, referring/exit pages, and date/time stamps.</li>
+                            <li>“Web beacons”, “tags”, and “pixels” are electronic files used to record information about how you browse the Site.</li>
+                        </ul>
+                        <p><em>Information from Third Parties:</em> Some members or visitors may choose to connect to MedCombo or register a MedCombo account using an external third-party application, such as Facebook. MedCombo may receive information from those connected third-party applications. Connecting your MedCombo account to third-party applications or services is optional. If you choose to connect your account to a third-party application, MedCombo may receive information from that application. We may also collect public information in order to connect with you. We may use that information as part of providing the Service to you. You can also choose to share some of your activity on MedCombo on certain social media networks which are connected to your MedCombo account, and you can revoke your permission at anytime. MedCombo is not responsible for any information shared by third parties.</p>
+                        <p><strong>Choice &amp; Control</strong></p>
+                        <p>We know that members of our community value having control over their own information, so MedCombo gives you the choice of providing, editing, or removing certain information, as well as choices about how we contact you. You may change or correct your MedCombo account information through your account settings. You may also remove certain optional information that you no longer wish to be publicly visible through the Service, such as your name. You can also request the deletion of the personal information in your account.</p>
+                        <p><strong>Your Rights</strong></p>
+                        <p>If you are a European resident, you have the right to access the personal information we hold about you and to ask that your personal information is corrected, updated, or deleted. If you would like to exercise this right, please contact us through the contact information below.</p>
+                        <p>Additionally, if you are a European resident we note that we are processing your information in order to fulfill contracts we might have with you (for example if you make an order through the Site), or otherwise to pursue our legitimate business interests listed above. Additionally, please note that your information will be transferred outside of Europe, including to Canada and the United States.</p>
+                        <p><strong>Your Responsibilities</strong></p>
+                        <p>If you sell using our platform, you may receive and determine what to do with certain personal information, such as when communicating with users and entering into transactions with buyers. This means you process personal information (for example, buyer name, email address, and shipping address) and, to the extent you do so, under EU law, you are an independent controller of data relating to other users that you may have obtained through the Service.</p>
+                        <p>You are responsible for protecting user personal information you receive or process and complying with all relevant legal requirements when you use the Service. This includes applicable data protection and privacy laws that govern the ways in which you can use a user’s information. Such laws may require that you post, and comply with, your own privacy policy, which must be accessible to MedCombo users you interact with and compatible with this policy and MedCombo’s Terms of Use. For more information on the General Data Protection Regulation, see more resources at <a href="https://gdpr-info.eu/">https://gdpr-info.eu</a>and <a href="http://gdprandyou.ie/">http://gdprandyou.ie</a>.</p>
+                        <p><strong>Withdrawing Consent</strong></p>
+                        <p>You can choose to withdraw your consent to our processing of your information and your use of the Services at any time by permanently closing and deleting your account. If your account does not have any open issues such as unpaid bills, unfulfilled orders, unresolved cases, or policy violations, you will receive an email with instructions to confirm your deletion request. This process may take up to approximately two weeks after which your account will be deleted to the extent permitted. Depending on which of our Services you've used., We may be required to retain certain information for legal, regulatory, tax, security, or compliance reasons for a limited period of time, after which it will be deleted. This deletion is permanent, and your account cannot be reinstated.</p>
+                        <p><strong>Privacy Policy Changes</strong></p>
+                        <p>BEHMPAT, reserves the right to modify this Privacy Policy to keep it adapted to the current legislation on data protection. In such cases, BEHMPAT will announce on this website the changes introduced reasonably in advance of its implementation.</p>
+                        <p><strong>Contact</strong></p>
+                        <p><strong>In accordance with the provisions of article 13 RGPD we proceed to inform you of the processing of personal data:</strong></p>
+                        <p>Responsible name and contact information Behmpat Producciones, S.L. C / Valle de Oro, 4 Urb. Las Lomas 28660 Boadilla del Monte (Madrid) and email address info@medcombo.com</p>
+                        <p>Purposes of treatment and legal basis Administrative management of user registration, requests for information, subscriptions to the newsletter and sending of commercial communications, including by electronic means, of our products and services, offers and promotions</p>
+                        <p>The interested party explicitly consents to the processing of their data for the purposes previously reported by accepting the privacy policy</p>
+                        <p>The interested party is obliged to provide personal data in order to provide the requested service</p>
+                        <p>Recipients or Recipient categories: Service providers (in charge of treatment)</p>
+                        <p>International data transfers Managers of treatment in the USA. Google Inc. there is a decision of adequacy of the Commission on Privacy Shield</p>
+                        <p><strong>Rights of the interested party:</strong> you can exercise in info@medcombo.com your rights of access, rectification, deletion, opposition, treatment limitation, portability of data, revocation of consent and right to file a claim with the control authority</p>
+                        <p><strong>The informed consent: </strong>Consequently, users who provide personal data on this website expressly consent the incorporation of the same to the automated files of BEHMPAT for the purposes specifically determined above.</p>
+                        <p><strong>The principle of data quality: </strong>The personal data provided by users will be accurate and updated so that they respond truthfully to the current situation of the affected. Therefore, the user must respond to the truthfulness and certainty of the personal data provided and communicate any changes that may occur in the future.</p>
+                        <p><strong>The principle of data security: </strong>MEDCOMBO-Behmpat has adopted all the necessary technical and organizational measures to guarantee the security of personal data and to prevent its destruction, loss or accidental or unlawful alteration of personal data transmitted, conserved or otherwise processed, or unauthorized communication or access to said data.</p>
+                        <p><strong>Social networks: </strong>MEDCOMBO has its own space in the social networks Facebook, Twitter, Pinterest, Google+, Youtube, Instagram and others in order to provide all kinds of information of interest to users of this social network and publicize the various services we provide . The user who follows, visits and interacts with our space or page in social networks is facilitating their consent to the processing of their personal data within social networks, not being incorporated into any personal data file. The information processed is only that which the user makes public and can be configured at all times in the privacy policies and conditions of use for which the owners of the respective social networks are responsible, before whom they may exercise the rights of access, rectification, deletion , limitation of the treatment, portability of the data, revocation of the consent and right to present a claim before the control authority. These rights of the affected may be exercised before us at the address info@medcombo.com only in the event that we have some control over the personal data published by you on social networks.</p>
+                        <p>You can access the privacy policies of social networks in:</p>
+                        <p>https://www.facebook.com/privacy/explanation</p>
+                        <p>https://twitter.com/privacy</p>
+                        <p>http://www.google.com/policies/privacy/?hl=en</p>
+                        <p>https://www.facebook.com/help/instagram/155833707900388/</p>
+                        <p>https://about.pinterest.com/en/privacy-policy</p>
+                        <p><strong>INDUSTRIAL AND INTELLECTUAL PROPERTY.</strong></p>
+                        <p>This Website MEDCOMBO.COM is property of BEHMPAT PRODUCCIONES S.L. The rights of Intellectual Property and rights of exploitation and reproduction of this Website, of its pages, screens, the information they contain, their appearance and design, as well as the links established from it to other Websites owned by BEHMPAT PRODUCCIONES SL , are the exclusive property of this unless otherwise specified. Any denominations, designs and / or logos, as well as any other product or service offered and reflected in this Website, are duly registered trademarks. Any misuse of the same by a person different from its legitimate owner may be prosecuted in accordance with current legislation. Only for personal and private use it is allowed to download the contents, copy or print any PAGES OF THIS WEBSITE.</p>
+                        <p></p>
+                        <p>If you have any questions:</p>
+                        <p>Contact MedCombo’s Support team via <strong><u>our Help Center</u></strong></p>
+                        <p>______________________________________________________________________________</p>
+                        <p>Last updated on Mar 14, 2019</p>
+                        <p></p>
+                    </div>
+                    <div class="row my-5">
+                        <div class="col-12 d-md-flex justify-content-around align-items-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required>
+                                <label class="form-check-label" for="defaultCheck1">He leido y acepto los TERMINOS Y CONDICIONES.</label>
+                            </div>
+                            <div class="d-flex d-md-block justify-content-center pt-4 pt-md-0">
+                                <input type="hidden"  id="token_id" name="token_id" value="{{token.id}}">
+                                <button type="submit" class="btn btn-primary">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <h5>Link invalido o ya fue utilizado</h5>
+                    <p>Usted ha aceptado las politicas de privacidad de Medcombo para mayor informacion comunicarse con el administrador</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>

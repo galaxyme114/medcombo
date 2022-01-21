@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block meta %}
+    {% if current_event %}
+        {% blocktrans %}Medical Equipment{% endblocktrans%} | {{current_event.title|safe|escape}} | {% blocktrans %}EVENTOS{% endblocktrans%}
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    {% if current_event %}
+        {% blocktrans %}Medical Equipment Online Shop{% endblocktrans%} |{{current_event.title|safe|escape}} | {% blocktrans %}EVENTOS{% endblocktrans%}
+    {% endif %}
+{% endblock %}
+{% block content %}
+<style type="text/css">
+    .btn_hover {
+        background-color: white; 
+        color: black; 
+        border: 2px solid #7f9bcd;
+    }
+    .btn_hover:hover {
+        background-color: #7f9bcd;
+        color: white;
+    }   
+</style>
+<div class="container-fluid" id="news">
+    <div class="row pt-5">
+        <div class="col-12 pt-5">
+            <h3 class="pb-4"><strong>{% blocktrans %}EVENTOS{% endblocktrans%}</strong></h3>
+        </div>
+    </div>
+</div> 
+<div class="container-fluid" id="news-cuadros">
+    <div class="row row-img-news">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                {% if current_event %}
+                    <div class="col-12 col-sm-6 col-md-5 col-lg-5 text-center">
+                        {% if current_event.picture %}
+                            <img class="img-fluid" style="height: 164px;width: 700px;" src="{{ current_event.picture.url }}" alt="{{current_event.title|safe|escape}}" >
+                        {% else %}
+                            <img class="img-fluid" style="height: 164px;width: 700px;" src="{% static 'img/banner.jpg' %}" alt="{{current_event.title|safe|escape}}" >
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-7 col-lg-7">
+                        <h1 style="color:#7f9bcd">{{current_event.title|safe|escape}}</h1>
+                        <div class="card-text text-left mt-3" style="color:#7f9bcd">
+                            {% blocktrans %}Fecha:{% endblocktrans%}
+                            <i class="far fa-calendar-alt" style="font-size: 20px;color: #b5b6b6;"></i>
+                            <span class="ml-2 mr-2" style="color:#7f9bcd">{{current_event.start_event}}</span>~<span class="ml-2 mr-2" style="color:#7f9bcd">{{current_event.end_event}}</span>
+                        </div>
+                        <div class="card-text text-left mt-3" style="color:#7f9bcd">
+                            <script>
+                                if($("#lenguaje-seleccionado").val() == "es"){
+                                    document.write('{{object.description_es|linebreaksbr}}');
+                                }else if($("#lenguaje-seleccionado").val() == "en"){
+                                    document.write('{{object.description_en|linebreaksbr}}');
+                                }else if($("#lenguaje-seleccionado").val() == "pt"){
+                                    document.write('{{object.description_pt|linebreaksbr}}');
+                                }else if($("#lenguaje-seleccionado").val() == "fr"){
+                                    document.write('{{object.description_fr|linebreaksbr}}');
+                                }else if($("#lenguaje-seleccionado").val() == "it"){
+                                    document.write('{{object.description_it|linebreaksbr}}');
+                                }else if($("#lenguaje-seleccionado").val() == "de"){
+                                    document.write('{{object.description_de|linebreaksbr}}');
+                                }else if($("#lenguaje-seleccionado").val() == "zh-hant"){
+                                    document.write('{{object.description_zh_hant|linebreaksbr}}');
+                                }else if($("#lenguaje-seleccionado").val() == "zh-hans"){
+                                    document.write('{{object.description_zh_hans|linebreaksbr}}');
+                                }else if($("#lenguaje-seleccionado").val() == "ja"){
+                                    document.write('{{object.description_jp|linebreaksbr}}');
+                                }
+                            </script>
+                        </div>
+                    </div>
+                    
+                {% endif %}
+            </div>
+            <div class="col-12 hr-divi pt-4"></div>
+            <div class="row m-0" style="background-color: white;">
+                <div class="col-12 pb-5">
+                    <h4>{% blocktrans %}Otros artículos que te pueden interesar:{% endblocktrans%}</h4>
+                </div>
+                {% if extra_events.count > 3 %}
+                <div class="pb-5" style="margin-left: -96px;z-index: 2;"><!--social-more">-->
+                    <a class="btn btn-primary btn_hover" style="width:96px;" href="{% url 'list_events' %}" role="button">+ {% blocktrans %}Más{% endblocktrans%}</a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="row pl-3 pr-3">
+                {% for event in extra_events %}
+                    {% if forloop.counter0 < 4 %}
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 detail-event pl-0 pr-0 pb-2" >
+                            <div class="card text-center pl-0 pr-0 card_event">
+                                {% if event.picture %}
+                                    <a href="{% url 'detail_event' event.pk %}"><img class="img-fluid img_event" src="{{ event.picture.url }}" alt="{{event.title|safe|escape}}" ></a>
+                                {% else %}
+                                    <a href="{% url 'detail_event' event.pk %}"><img class="img-fluid img_event" src="{% static 'img/banner.jpg' %}" alt="{{event.title|safe|escape}}" ></a>
+                                {% endif %}
+                                <div class="card-body pt-3 pb-4" style="padding-left: 0px;">
+                                    <div class="card-text text-center">
+                                        <i class="far fa-calendar-alt" style="font-size: 16px;color: #b5b6b6;"></i>
+                                        <span style="font-size: 12px;" class="ml-1 mr-1">{{event.start_event}}</span>~<span style="font-size: 12px;" class="ml-1 mr-1">{{event.end_event}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                
+            </div>
+            {% if extra_events.count != 0 %}
+                <div style="height: 120px;">
+                </div>
+            {% else %}
+                <div style="height: 300px;">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+    function my_link(value) {
+        var url = "{% url 'detail_news' 0 %}".replace(0,value);
+        location.href = url;
+    }
+</script>
+{% endblock  %}

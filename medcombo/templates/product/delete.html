@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+	<form method="post">{% csrf_token %}
+	    {% blocktrans %}¿Estas segura de querer eliminar el post{% endblocktrans%} "{{ object.model_reference }}"?
+	    <br>
+	    <input type="submit" value="Submit" />
+	</form>
+	<p>
+	    <a href="{% url "list_product" %}">{% blocktrans %}Regresar{% endblocktrans%}</a>
+	</p>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% for keyword in keywords %}
+    <ul class="dd-list">
+        <li class="dd-item-keyword mb-1" value="{{keyword.id}}"  onclick="keyword_click('{{keyword.id}}')" id="click_keyword{{keyword.id}}">
+            <div class="dd-handle icheck-primary">
+                <input type="checkbox" name="keyword[]" data-id="{{keyword.id}}" class="chk_select" value="{{keyword.id}}" id="id_keyword{{keyword.id}}">
+                <label class="form-check-label ml-4" for="id_keyword{{keyword.id}}">
+                    {{keyword}}
+                </label>
+            </div>
+        </li>
+    </ul>
+{% endfor %}

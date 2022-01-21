@@ -1,0 +1,117 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="row">
+		<!--<div class="col-12">
+			<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}BANNER INICIO{% endblocktrans %}</p>
+		</div>-->
+	</div>
+	<div class="row">
+		<div class="col-12 d-flex justify-content-end mb-2">
+			<a href="{% url 'BannerWebCreate' %}" class="btn btn-primary crm-button-anadir mx-3" data-toggle="tooltip" data-placement="bottom" title="Añadir nueva campaña">{% blocktrans %}NUEVO{% endblocktrans%}</a>
+		</div>
+	</div>
+	<br />
+	{% if object_list %}
+		<!--Banner List-->
+		<div class="row m-0 list-fondo">
+			<div class="col-12">
+				<div class="row">
+					<div class="d-none offset-4 col-7 d-md-flex list-p-center pt-3 pt-md-0 px-0 mb-3 mt-3">
+						<p class="col-6">{% blocktrans %}Idioma{% endblocktrans %}</p>
+						<p class="col-5 pl-5">{% blocktrans %}Activar{% endblocktrans %}</p>
+					</div>
+				</div>
+				<div class="list-separator d-none d-md-block"></div>
+                {% for object in object_list %}
+				    <div class="row">
+					    <div class="col-12 d-md-flex py-3">
+						    <div class="col-12 col-md-4">
+							    {% if object.picture %}
+								    <a href="{{object.url}}" target="_blank">
+									    <img src="{{ object.picture.url }}" alt="" width="100%" height="80" data-toggle="tooltip" data-placement="bottom" title="{{object.url}}" />
+							        </a>
+							    {% else %}
+								    <a href="{{object.url}}" target="_blank">
+									    <img src="{% static 'img/banner.jpg' %}" alt="" width="100%" height="80" data-toggle="tooltip" data-placement="bottom" title="{{object.url}}" />	
+								    </a>
+							    {% endif %}
+						    </div>
+						    <div class="col-12 col-md-4 d-flex justify-content-between align-items-center">
+							    <div class="col-10 text-center">
+								    <p>{{ object.language.name_language }}</p>
+							    </div>
+						    </div>
+						    <div class="col-12 col-md-4 d-flex justify-content-between align-items-center list-p-center pt-3 pt-md-0 px-0">
+							    <div id="activate-id{{object.id}}" data-val="{{object.id}}" class="col-8 my_cursor" style="color: #7f9bcd;">
+								    {% if object.activate is True %}
+									    <i class="fas fa-check"></i>
+								    {% else %}
+								        <i class="fas fa-times"></i>
+								    {% endif %}
+							    </div>
+							    <div class="col-4 px-0 d-md-flex">
+								    <a href="{% url 'BannerIndexUpdate' object.id %}" class="btn btn-primary list-button ml-3" data-toggle="tooltip" data-placement="bottom" title="{% blocktrans %}Modificar campaña{% endblocktrans %}">
+									    <i class="fas fa-edit"></i>
+								    </a>
+							    </div>
+						    </div>
+					    </div>
+				    </div>
+				    {% if not forloop.last %}
+				        <div class="list-separator"></div>
+                    {% endif %}
+                    <!--<script>
+                        $('#activate-id{{object.id}}').click(function(e){
+                            var active = $('#activate-id{{object.id}}').attr('data-val');
+                            var url = '{% url "ActiveBannerIndex" %}';
+                            var token = '{{csrf_token}}';
+                            $.ajax({
+                                headers: { "X-CSRFToken": token },
+                                method: 'POST',
+                                url: url,
+                                data: {
+                                    'active': active
+                                },
+                                success: function(data) {
+                                    if(data == 'True') {
+                                        $('#activate-id{{object.id}}').html('<i class="fas fa-check"></i>');
+                                    }
+                                    else {
+                                        $('#activate-id{{object.id}}').html('<i class="fas fa-times"></i>');
+                                    }
+                                }
+                            });
+                        });
+                    </script>-->
+				{% endfor %}
+			</div>
+		</div>
+	{% else %}
+	    <h4 class="text-primary">{% blocktrans %}Sin Registros{% endblocktrans %}</h4>
+	{% endif %}
+	<span class="col-12 mb-3 mt-3 paginator-permission text-center">
+		{% if page_obj.has_previous %}
+			<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info">
+				<i class="fas fa-angle-double-left"></i>
+			</a>
+		{% endif %}
+		{% if page_obj.has_next %}
+		    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info">
+				<i class="fas fa-angle-double-right"></i>
+			</a>
+		{% endif %}
+		<span style="float: right">
+			{% blocktrans %}Página{% endblocktrans%} {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+		</span>
+	</span>
+</div>
+<script>
+	$("p").addClass("mb-0");
+	$(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+{% endblock %}

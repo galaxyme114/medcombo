@@ -1,0 +1,62 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="row d-flex align-items-end">
+		<div class="col-12 col-md-6 padding-movil">
+			<h4>{% blocktrans %}Bandeja de Solicitud{% endblocktrans%}</h4>
+			<div class="input-group flex-nowrap">
+				<input type="search" class="form-control" placeholder={% blocktrans %}"buscar"{% endblocktrans%} id="buscar">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="buscar-fa"><i class="fa fa-search" style="color: #7f9bcd;"></i></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-md-4"></div>
+		<div class="col-md-2"></div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12">
+			<div id="contact-table">
+				<table class="table table-hover table-responsive-md">
+			  <thead>
+			    <tr>
+			      <th scope="col">{% blocktrans %}Area{% endblocktrans%}</th>
+			      <th scope="col">{% blocktrans %}Categoria{% endblocktrans%}</th>
+			      <th scope="col">{% blocktrans %}Sub Categoria{% endblocktrans%}</th>
+			      <th scope="col">{% blocktrans %}Palabra clave{% endblocktrans%}</th>
+			      <th scope="col">{% blocktrans %}Validar{% endblocktrans%}</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for obj in object_list %}
+				    <tr>
+				      <td scope="row">{{ obj.area.name }}</td>
+				      <td>{{ obj.category.name }}</td>
+				      <td>{{ obj.subcategory.name }}</td>
+				      <td>{{ obj.name }}</td>
+				      <td>
+				      	<a class='valid-item' data-id='{{ obj.id }}'>
+				      		<i class="pl-2 fas fa-pen"></i>
+				      	</a>
+				      </td>
+				    </tr>
+			    {% endfor %}
+			  </tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="{% static "bootstrap/js/jquery-3.3.1.slim.min.js" %}"></script>
+<script src="{% static "bootstrap/js/popper.min.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script type="text/javascript">
+	$(document).on('click', 'a.valid-item', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        alert(id)
+    });
+</script>
+{% endblock %}

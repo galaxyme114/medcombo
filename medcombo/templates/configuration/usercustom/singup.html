@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+{% include '../../slide.html' %}
+{% load i18n %}
+<link rel="stylesheet" href="{% static 'css/app/user/signup.css' %}">
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<link rel="stylesheet" href="{% static 'css/icheck-bootstrap.min.css' %}">
+<div class="text-center-container">
+    {% if form.errors %}
+	    {% for field in form %}
+		    {% for error in field.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+				    <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+				    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+				    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+		{% for error in form.non_field_errors %}
+		    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+			    <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+			    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+			    </button>
+		    </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 offset-md-1">
+			<form class="formulario needs-validation" action="." method="POST"  id="personForm" novalidate>
+			    {% csrf_token %}
+			    <div class="row">
+				    <div class="col-12 col-lg-4">
+					    <div class="form-group">
+						    <label for="exampleInputEmail1">{% blocktrans %}Usuario o Email{% endblocktrans %}&nbsp;&nbsp;*</label>
+							<input type="text" class="form-control" id="exampleInputEmail1" name="username" autofocus required>
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca un nombre de usuario o email{% endblocktrans %}
+							</div>
+					    </div>
+					    <div class="form-group">
+						    <label for="exampleInputPassword1">{% blocktrans %}Contraseña{% endblocktrans %}&nbsp;&nbsp;*</label>
+							<input type="password" class="form-control" id="exampleInputPassword1" name=password1 required>
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca una contraseña{% endblocktrans %}
+							</div>
+					    </div>
+					    <div class="form-group">
+						    <label for="exampleInputPassword1">{% blocktrans %}Confirmar contraseña{% endblocktrans %}&nbsp;&nbsp;*</label>
+							<input type="password" class="form-control" id="exampleInputPassword2" name=password2 required>
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca nuevamente la contraseña{% endblocktrans %}
+							</div>
+					    </div>
+				    </div>
+				    <div class="col-12 col-lg-4 borLeft">
+					    <div class="form-group">
+						    <label for="exampleInputEmail1">{% blocktrans %}Nombre{% endblocktrans %}&nbsp;&nbsp;*</label>
+							<input type="text" class="form-control" id="exampleInputText1" name="first_name" required>
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca su nombre{% endblocktrans %}
+							</div>
+					    </div>
+					    <div class="form-group">
+						    <label for="exampleInputEmail1">{% blocktrans %}Apellido{% endblocktrans %}&nbsp;&nbsp;*</label>
+							<input type="text" class="form-control" id="exampleInputText2" name="last_name" required>
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca su apellido{% endblocktrans %}
+							</div>
+					    </div>	   
+				    </div>
+				    <div class="col-12 col-lg-4 borLeft">
+					    <label for="id_work">{% blocktrans %}Ocupación{% endblocktrans %}&nbsp;&nbsp;*</label>
+						<select id="id_work" class="form-control" required {{ formulario.work }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Seleccione una ocupación{% endblocktrans %}
+						</div>
+					    <label for="company">{% blocktrans %}País{% endblocktrans %}&nbsp;&nbsp;*</label>
+						<select id="id_country" class="form-control" required {{ form.country }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Seleccione un país{% endblocktrans %}
+						</div>                       
+					    <!--button id="button_send" type="submit" class="btn btn-primary formulario-buttom mt-4" disabled>{% blocktrans %}Confirmar{% endblocktrans %}</button-->
+				    </div>
+			    </div>
+			    <div class="form-group pt-5">
+			 	    <label>{% blocktrans %}Escriba los caracteres que aparecen en la imagen{% endblocktrans %}&nbsp;&nbsp;*</label>
+				    <h5>
+						{{ form.captcha }}
+				    </h5>
+			    </div>
+			    <div class="form-group">
+				    <div class="icheck-primary">
+					    <input class="form-check-input" type="checkbox" id="gridCheck" required>
+					    <label class="form-check-label text-center-container-gray" for="gridCheck">
+						    {% blocktrans %}Si te registras, significa que aceptas los{% endblocktrans %} <a href="{% url 'privacy_policy' %}">{% blocktrans %}términos y la política de privacidad.{% endblocktrans %}</a>
+					    </label>
+				    </div>
+			    </div>
+				<center>
+					<div class="col-12 col-lg-4">
+						<button id="button_send" type="submit" class="btn btn-primary formulario-buttom mt-4" disabled>{% blocktrans %}Confirmar{% endblocktrans %}</button>
+					</div>
+				</center>
+		    </form>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+</div>
+<script src="{% static 'js/app/user/signup.js' %}"></script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

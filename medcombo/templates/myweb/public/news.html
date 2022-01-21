@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide_company.html' %}
+{% include '../../menu-myweb.html' %}
+<div class="container" style="padding-top: 30px; min-height: 250px;">
+	<div class="row pb-5">
+		<div class="col-xl-2 d-flex justify-content-center">
+      <div>
+        {% if company.logo %}
+          <p class="text-center">
+            <a href="{% url 'my_web_home' company.id %}">
+              <img class="img-fluid" src="{{ company.logo.url }}" alt="Medical Equipments | Medcombo company">
+            </a>
+            <a href="{% url 'my_web_home' company.id %}">{{ company.name }}</a>
+          </p>
+        {% else %}
+          {% if product.company.logo %}
+            <a href="{% url 'my_web_home' product.company.id %}">
+              <img class="img-fluid" src="{{ product.company.logo.url }}" alt="Medical Equipments | Medcombo company">
+            </a>
+            <p class="text-center">
+              <a href="{% url 'my_web_home' product.company.id %}">
+                <img class="img-fluid" src="{{ product.company.logo.url }}" alt="Medical Equipments | Medcombo company">
+              </a>
+              <a href="{% url 'my_web_home' product.company.id %}">{{product.company.name}}</a>
+            </p>
+          {% else %}
+            {% if post.company.logo %}
+              <p class="text-center">
+                <a href="{% url 'my_web_home' post.company.id %}">
+                  <img class="img-fluid" src="{{ post.company.logo.url }}" alt="Medical Equipments | Medcombo company">
+                </a>
+                <a href="{% url 'my_web_home' post.company.id %}">{{post.company.name}}</a>
+              </p>
+            {% else %}
+              {% if company %}
+                <p class="text-center">
+                  <a href="{% url 'my_web_home' company.id %}">
+                    <img class="img-fluid" src="{% static 'img/company.png' %}" alt="Medical Equipments | Medcombo company">
+                  </a>
+                  <a href="{% url 'my_web_home' company.id %}">{{ company.name }}</a>
+                </p>
+              {% else %}
+                {% if product %}
+                  <p class="text-center">
+                    <a href="{% url 'my_web_home' product.company.id %}">
+                      <img class="img-fluid" src="{% static 'img/company.png' %}" alt="Medical Equipments | Medcombo company">
+                    </a>
+                    <a href="{% url 'my_web_home' product.company.id %}">{{ product.company.name }}</a>
+                  </p>
+                {% else %}
+                  {% if post %}
+                    <p class="text-center">
+                      <a href="{% url 'my_web_home' post.company.id %}">
+                        <img class="img-fluid" src="{% static 'img/company.png' %}" alt="Medical Equipments | Medcombo company">
+                      </a>
+                      <a href="{% url 'my_web_home' post.company.id %}">{{ post.company.name }}</a>
+                    </p>
+                  {% else %}
+                    <a href="{% url 'my_web_home' company.id %}">
+                      <img class="img-fluid" src="{% static 'img/company.png' %}" alt="Medical Equipments | Medcombo company">
+                    </a>
+                    <p class="text-center"></p>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+		<div class="col-md-10">
+		    <div class="col-12">
+			    <div class="row padding-row ventana-productos">
+			        {% for post in company.post_relationship.all %}
+			            {% if post.language.id == language_selected %}
+				            <div class="col-6 col-sm-4 col-md-3">
+					            <div class="row">
+									<div class="col-12 d-flex flex-column align-items-center">
+							            <div class="col-12" id="detail-favorites-news">
+							                {% if post.image %}
+											    <a href="{% url 'my_web_post_menu' idcompany=id_myweb pk=post.id %}">
+									                <img src="{{ post.image.url }}" width="auto" height="180" alt="Medical Equipments | Medcombo company">
+								                </a>
+							                {% else %}
+											    <a href="{% url 'my_web_post_menu' idcompany=id_myweb pk=post.id %}">
+									                <img src="{% static 'img/default.png' %}" width="auto" height="180" alt="Medical Equipments | Medcombo company">
+								                </a>
+							                {% endif %}
+							            </div>
+						            </div>
+						            <!--<div class="col-12 d-flex flex-column align-items-center">
+							            {% if post.image %}
+							                <a href="{% url 'my_web_post_menu' idcompany=id_myweb pk=post.id %}">
+									            <img src="{{ post.image.url }}" width="auto" height="160">
+								            </a>
+							            {% else %}
+								            <a href="{% url 'my_web_post_menu' idcompany=id_myweb pk=post.id %}">
+									            <img src="{% static 'img/default.png' %}" width="auto" height="160">
+								            </a>
+							            {% endif %}
+							            <p>{{ post.title }}</p>
+						            </div>-->
+								</div>
+								<div class="align-items-center"><p style="font-weight: bold; cursor: pointer;" onclick="my_web_link('{{id_myweb}}','{{post.id}}')">{{ post.title }}</p></div>
+					            <div class="row" style="cursor: pointer;" onclick="my_web_link('{{id_myweb}}','{{post.id}}')">
+						            <div class="col-12 d-flex justify-content-between score">
+							            {% if post.company.logo %}
+							                <img src="{{ post.company.logo.url }}" alt="" style="height: 38px;" alt="Medical Equipments | Medcombo company">
+							            {% else %}
+							                <img src="{% static 'img/default.png' %}" height="35px" alt="Medical Equipments | Medcombo company">
+							            {% endif %}
+							            <p>{{post.user.first_name}} {{post.user.last_name}}</p>
+						            </div>
+					            </div>
+								<div class="dropdown-divider"></div>
+								<p><span style="cursor: pointer;" onclick="my_web_link('{{id_myweb}}','{{post.id}}')">{{ post.date|date:"d M Y" }}</span></p>
+							</div>
+		                {% endif %}
+			        {% endfor %}
+			    </div>	
+		    </div>
+		    <div class="col-lg-3"></div>
+	    </div>
+	</div>
+</div>
+<script>
+	function my_web_link(company,post) {
+		url1 = "{% url 'my_web_post_menu' idcompany=0 pk=1 %}".replace(0,company);
+		url2 = url1.replace(1,post);
+		location.href = url2;
+	}
+</script>
+{% endblock %}

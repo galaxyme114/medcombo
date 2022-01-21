@@ -1,0 +1,85 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-2 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}BANNER{% endblocktrans %}</h5>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<br />
+	<div class="list-fondo mb-5">
+		<form class="needs-validation pl-5 pr-5 pt-5" action="." method="POST" novalidate>
+			{% csrf_token %}
+			<div class="row">
+				<div class="col-md-12 d-md-flex pt-3 pt-md-0 px-0 mb-3">
+					<p class="col-md-2 pr-0 mb-3">{% blocktrans %}Periodo de la campaña{% endblocktrans %}:</p>
+					<div class="col-md-5 d-md-flex">
+						<span class="mr-3" style="color: #000000">{% blocktrans %}Inicio {% endblocktrans %}</span>
+						<span class="borderDate">
+							<span class="input-group-prepend">
+								<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+								{{ form.start_campaign }}
+								<div class="invalid-feedback">
+									{% blocktrans %}Seleccione una fecha de inicio{% endblocktrans %}
+								</div>
+							</span>	
+						</span>
+					</div>
+					<div class="col-md-5 d-md-flex">
+						<span class="mr-3" style="color: #000000;">{% blocktrans %}Fin {% endblocktrans%}</span>
+						<span class="borderDate">
+							<span class="input-group-prepend">
+								<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+								{{ form.end_campaign }}
+								<div class="invalid-feedback">
+									{% blocktrans %}Seleccione una fecha de fin{% endblocktrans %}
+								</div>
+							</span>
+						</span>
+					</div>
+					<!--<div class="col-md-1 d-md-flex form-check text-danger">--><!--Without element--><!--</div>-->
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-md-12 d-md-flex pt-3 pt-0 px-0 mb-3">
+					<p class="col-12 col-md-2"><!--without Text--></p>
+					<div class="col-12 col-md-5 mb-4">
+						<label class="form-check-label" style="color: #000000;" for="activateBanner">{% blocktrans %}Activar{% endblocktrans %}</label>
+						<span class="ml-5">{{ form.activate_campaign }}</span>
+					</div>
+					<div class="col-12 col-md-5 d-md-flex">
+						<span class="mr-3" style="color: #000000;">{% blocktrans %}Posición{% endblocktrans %}</span>
+						{{ form.position_campaign }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca una posición{% endblocktrans %}
+						</div>
+					</div>
+					<!--<div class="col-md-1 d-md-flex form-check text-danger"></div>-->
+				</div>
+			</div>
+			<div class="list-separator"></div>
+			<div class="row py-4">
+				<div class="col-12 d-flex justify-content-center">
+					<button type="submit" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}GUARDAR{% endblocktrans %}</button>
+					<a href="{% url 'BannerList' %}" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}CANCELAR{% endblocktrans %}</a>
+				</div>
+			</div>
+	    </form>
+	</div>
+</div>
+<script>
+	$("p").addClass("mb-0");
+</script>
+<!-- <script type="text/javascript">
+	{% if messages %}
+	{% for message in messages %}
+	$.notify("{{ message }}", "error");
+	{% endfor %}
+	{% endif %}
+</script> -->
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+/*------------------------------------
+-------Picture-logo-delete.css--------
+------------------------------------*/
+#container-picture {
+	position: relative;
+}
+
+#container-picture a {
+	position: absolute;
+	display: none;
+}
+
+#container-picture:hover a {
+	display: block;
+	right: 5px;
+	top: 0px;
+}

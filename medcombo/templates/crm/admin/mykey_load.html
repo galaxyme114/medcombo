@@ -1,0 +1,60 @@
+{% load staticfiles %}
+{% load i18n %}
+{% if key %}
+    {% for keyword in key %}
+        <div class="row keyword-container">
+            <form method="POST" id="key_suggestion" action="{% url 'AdminKeywordCrm' %}" target="_parent" enctype='multipart/form-data'>
+                {% csrf_token %}
+                <input type="hidden" name="idselected" value="{{keyword.id}}">
+                <input type="hidden" name="namekey" value="{{keyword.name}}">
+                <input type="hidden" name="language_selected" value="{{language}}">
+                <div class="col-12">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>{% blocktrans %}Palabra Clave{% endblocktrans %}: <span style="color: #595959;"><b>{{keyword.name}}</b></span></h6>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <h6>{% blocktrans %}Paso 1{% endblocktrans %}</h6>
+                            <label for="id_area">{% blocktrans %}Area{% endblocktrans %}</label>
+                            <select name="areaselected" class="custom-select" id="id_area">
+                                {% if area %}
+                                    {% for a in area %}
+                                        <option value="{{a.pk}}">{{a.name}}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <h6>{% blocktrans %}Paso 2{% endblocktrans %}</h6>
+                            <label for="id_category">{% blocktrans %}Categoria{% endblocktrans %}</label>
+                            <select name="categoryselected" class="custom-select" id="id_category">
+                                {% if category %}
+                                    {% for c in category %}
+                                        <option value="{{c.pk}}">{{c.name}}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <h6>{% blocktrans %}Paso 3{% endblocktrans %}</h6>
+                            <label for="id_sub_category">{% blocktrans %}Sub-categoria{% endblocktrans %}</label>
+                            <select name="subcategoryselected" class="custom-select" id="id_sub_category">
+                                {% if subcategory %}
+                                    {% for s in subcategory %}
+                                        <option value="{{s.pk}}">{{s.name}}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center pt-5" id="url_id">
+                            <input type="submit" class="btn btn-primary btn-crm-product" value={% blocktrans %}"ACEPTAR PALABRA"{% endblocktrans %}>
+                        </div>
+                        <div></div>
+                    </div>
+                </div>	
+            </form>			
+        </div>
+    
+    {% endfor %}
+{% endif %}

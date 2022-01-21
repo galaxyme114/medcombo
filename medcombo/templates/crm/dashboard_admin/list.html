@@ -1,0 +1,282 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-2">
+		<div class="col-12 col-sm-6 col-md-2 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}BANNER{% endblocktrans %}</h5>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<nav id="tabs-bannerList">
+		<div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<a class="nav-item nav-link active ml-0" id="nav-bannerHome-tab" data-toggle="tab" href="#nav-bannerIn" role="tab" aria-controls="nav-bannerIn" aria-selected="true">{% blocktrans %}banner inicio{% endblocktrans %}</a>
+			<a class="nav-item nav-link" id="nav-bannerList-tab" data-toggle="tab" href="#nav-bannerList" role="tab" aria-controls="nav-bannerList" aria-selected="false">{% blocktrans %}Listado de banner{% endblocktrans %}</a>
+		</div>
+	</nav>
+	<div class="tab-content mb-5" id="nav-tabContent">
+		<!--Banner Index-->
+		<div class="tab-pane fade show active" id="nav-bannerIn" role="tabpanel" aria-labelledby="nav-home-tab">
+			    <!--Campaign List-->
+				<div class="row m-0 list-fondo">
+					<div class="col-12 d-flex justify-content-end mt-2 mb-2">
+						<a href="{% url 'BannerCreate' %}" class="btn btn-primary crm-button-anadir ml-3" data-toggle="tooltip" data-placement="bottom">{% blocktrans %}NUEVO{% endblocktrans %}</a>
+					</div>
+					{% if object_list %}
+					    <div class="col-12">
+							<table class="table table-responsive-md text-center" style="border-radius: 0px;">
+								<thead>
+									<tr class="font-weight-bold" style="color:#595959;">
+										<th scope="col"></th>
+										<th scope="col">{% blocktrans %}Duración de Campaña{% endblocktrans %}</th>
+										<th scope="col">{% blocktrans %}Posición{% endblocktrans%}</th>
+										<th scope="col">{% blocktrans %}Activo{% endblocktrans %}</th>
+										<th scope="col"></th>
+									  </tr>
+								</thead>
+								<tbody>
+							{% for object in object_list %}
+							    <tr>
+									<td>
+										{% for picture in banner %}
+									            {% if picture.banner_campaign.id == object.id %}
+									                {% if picture.picture_campaign %}
+											            <a href="{{picture.url_campaign}}" target="_blank">
+												            <img src="{{ picture.picture_campaign.url }}" alt="" class="image-banner-company" data-toggle="tooltip" data-placement="bottom" title="{{picture.url_campaign}}" />
+												        </a>
+											        {% else %}
+											            <a href="{{picture.url_campaign}}" target="_blank">
+												            <img src="{% static 'img/banner.jpg' %}" alt="" class="image-banner-company" data-toggle="tooltip" data-placement="bottom" title="{{picture.url_campaign}}" />	
+											            </a>
+											        {% endif %}
+										        {% endif %}
+										        {% if picture.banner_campaign.id is None %}
+										            <p></p>
+										        {% endif %}
+								            {% endfor %}
+									</td>
+									<td class="align-middle">
+										<div class="d-lg-flex">
+											<div class="col-12 col-sm-6 col-md-12 col-lg-6 text-center">
+										        <p><i class="far fa-calendar-alt"></i>&nbsp;<b>{% blocktrans %}Inicio {% endblocktrans%}</b></p>
+										        <p>{{ object.start_campaign|date:"d-m-Y" }}</p>
+									        </div>
+									        <div class="col-12 col-sm-6 col-md-12 col-lg-6 text-center">
+										        <p><i class="far fa-calendar-alt"></i>&nbsp;<b>{% blocktrans %}Fin {% endblocktrans%}</b></p>
+										        <p>{{ object.end_campaign|date:"d-m-Y" }}</p>
+									        </div>
+										</div>
+									</td>
+									<td class="align-middle">
+										<p class="d-md-none">{% blocktrans %}Posicion{% endblocktrans%}</p>
+								 	    <p>{{ object.position_campaign }}</p>
+									</td>
+									<td class="align-middle">
+										<p class="d-md-none">{% blocktrans %}Activo{% endblocktrans%}</p>
+										{% if object.activate_campaign is True %}
+											<i class="fas fa-check"></i>
+										{% else %}
+										    <i class="fas fa-times"></i>
+										{% endif %}
+									</td>
+									<td class="align-middle">
+										<div class="d-lg-flex justify-content-center">
+											<a href="{% url 'BannerUpdate' object.id %}" class="btn btn-primary list-button ml-1 mb-2">
+												<i class="fas fa-edit" style="color: white;"></i>
+											</a>
+											<a href="#" data-toggle="modal" onclick="delete_banner({{object.id}})" class="btn btn-primary list-button ml-1 mb-2">
+												<i class="fas fa-trash-alt" style="color: white;"></i>
+											</a>
+											<a href="{% url 'BannerPicture' object.id %}" class="btn btn-primary list-button ml-1 mb-2">
+												<i class="far fa-image" style="color: white;"></i>
+											</a>
+										</div>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+						</table>
+						</div>
+					{% else %}
+			            <div class="m-4">{% blocktrans %}Sin Registros{% endblocktrans%}</div>
+			        {% endif %}
+				</div>
+		</div>
+		<!--./End Banner Index-->
+		<!--Banner List-->
+		<div class="tab-pane fade" id="nav-bannerList" role="tabpanel" aria-labelledby="nav-bannerList-tab">
+				<!--Campaign List-->
+				<div class="row m-0 list-fondo">
+					<div class="col-12 d-flex justify-content-end mt-2 mb-2">
+						<a href="{% url 'BannerCompany' %}" class="btn btn-primary crm-button-anadir ml-3" data-toggle="tooltip" data-placement="bottom">{% blocktrans %}NUEVO{% endblocktrans %}</a>
+					</div>
+					{% if list_company_banner %}
+					    <div class="col-12">
+							<table class="table table-responsive-md text-center" style="border-radius: 0px;">
+								<thead>
+									<tr class="font-weight-bold" style="color:#595959;">
+										<th scope="col"></th>
+										<th scope="col">{% blocktrans %}Duración de Campaña{% endblocktrans %}</th>
+										<th scope="col">{% blocktrans %}Activo{% endblocktrans %}</th>
+										<th scope="col"></th>
+									  </tr>
+								</thead>
+								<tbody>
+							 {% for objects in list_company_banner %}
+							 <tr>
+								 <td class="text-left">
+									{% if objects.picture_campaign %}
+									    <img src="{{ objects.picture_campaign.url }}" alt="" class="image-banner-company" data-toggle="tooltip" data-placement="bottom" />
+							        {% else %}
+									    <img src="{% static 'img/banner.jpg' %}" alt="" class="image-banner-company" data-toggle="tooltip" data-placement="bottom" />	 
+							        {% endif %}
+								 </td>
+								 <td>
+									<div class="d-lg-flex">
+									<div class="col-12 col-sm-6 col-md-12 col-lg-6 text-center">
+										<p><i class="far fa-calendar-alt"></i>&nbsp;<b>{% blocktrans %}Inicio {% endblocktrans%}</b></p>
+										<p>{{ objects.start_banner|date:"d-m-Y" }}</p>
+									</div>
+									<div class="col-12 col-sm-6 col-md-12 col-lg-6 text-center">
+										<p><i class="far fa-calendar-alt"></i>&nbsp;<b>{% blocktrans %}Fin {% endblocktrans%}</b></p>
+										<p>{{ objects.end_banner|date:"d-m-Y" }}</p>
+									</div>
+								    </div>
+								 </td>
+								 <td>
+									<p class="d-md-none">{% blocktrans %}Activo{% endblocktrans%}</p>
+									{% if objects.isActive is True %}
+										<i class="fas fa-check"></i>
+									{% else %}
+										<i class="fas fa-times"></i>
+									{% endif %}
+								 </td>
+								 <td class="text-center">
+									<div class="d-lg-flex justify-content-center">
+									<a href="{% url 'BannerWebUpdate' objects.id %}" class="btn btn-primary list-button ml-0 ml-lg-3 mb-2" data-toggle="tooltip" data-placement="bottom">
+										<i class="fas fa-edit" style="color: white;"></i>
+									</a>
+									<a href="#" data-toggle="modal" data-target="#delete-newbanner{{objects.id}}" class="btn btn-primary list-button mb-2 ml-md-1">
+										<i class="fas fa-trash-alt" style="color: white;"></i>
+									</a>
+								    </div>
+								 </td>
+							 </tr>
+								<!--Delete Newbanner-->
+								<div class="modal fade" id="delete-newbanner{{objects.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+									<div class="modal-dialog modal-xs">
+										<div class="modal-content" style="border-radius: 25px;">
+											<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+												<div class="d-flex align-items-center">
+													<i class="fas fa-trash-alt icons_size_title_second"></i>
+													<p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR BANDERA{% endblocktrans %}</p>
+												</div>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true" style="color: #fff;">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<div class="col-12 d-flex justify-content-center">
+													<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+												</div>
+											</div>
+											<div class="modal-footer justify-content-center">
+												<button id="delete-button_new{{objects.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+												<button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<script>
+									$('#delete-button_new{{objects.id}}').click(function(e){
+										var value = '{{objects.id}}';
+										var url = '{% url "delete_newbanner" %}';
+										var token = '{{csrf_token}}';
+										$.ajax({
+											headers: { "X-CSRFToken": token },
+											method: 'POST',
+											url: url,
+											data: {
+												'value': value
+											},
+											success: function(data) {
+												if(data == 'Ok') {
+													location.reload();
+												}
+											}
+										});
+									});
+								</script>
+						        
+							{% endfor %}
+						        </tbody>
+							</table>
+					    </div>
+					{% else %}
+			            <div class="m-4">{% blocktrans %}Sin Registros{% endblocktrans%}</div>
+			        {% endif %}
+				</div>
+		</div>
+		<!--./End Banner List-->
+	</div>
+</div>
+<!--Delete Campaign-->
+<div class="modal fade" id="delete-banner_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog modal-xs">
+		<div class="modal-content" style="border-radius: 25px;">
+			<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				<div class="d-flex align-items-center">
+					<i class="fas fa-trash-alt icons_size_title_second"></i>
+					<p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR BANNER{% endblocktrans %}</p>
+				</div>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="color: #fff;">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 d-flex justify-content-center">
+					<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+				</div>
+			</div>
+			<input type="hidden" id="banner-select" value = "-1"  />
+			<div class="modal-footer justify-content-center">
+				<button id="delete-button" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+				<button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function delete_banner(pk){
+		$("#banner-select").val(pk);
+		$("#delete-banner_modal").modal();
+	}
+	$('#delete-button').click(function(e){
+		var value = $("#banner-select").val();
+		var url = '{% url "delete_campaign" %}';
+		var token = '{{csrf_token}}';
+		$.ajax({
+			headers: { "X-CSRFToken": token },
+			method: 'POST',
+			url: url,
+			data: {
+				'value': value
+			},
+			success: function(data) {
+				if(data == 'Ok') {
+					location.reload();
+				}
+			}
+		});
+	});
+</script>
+<!--./Delete Campaign-->
+<script>
+	$("p").addClass("mb-0");
+	$(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% load staticfiles %}
+<div class="container-fluid" id="banner">
+    <div class="row">
+        <div class="col-12">
+            {% if banner_search %} 
+            {% for b in banner_search %}
+            {% if b.picture_campaign_search %}
+            <img src="{{ b.picture_campaign_search.url }}" class="d-block w-100" alt="...">
+            {% else %}
+            <img src="{% static 'img/banner.jpg' %}" class="d-block w-100" alt="...">
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            <img src="{% static 'img/banner.jpg' %}" class="d-block w-100" alt="...">
+            {% endif %}
+        </div>
+    </div>
+</div>

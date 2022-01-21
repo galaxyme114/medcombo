@@ -1,0 +1,828 @@
+{% load staticfiles %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+<!DOCTYPE html>
+<html lang={{LANGUAGE_CODE}}>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta name="p:domain_verify" content="76a0f9c81232eb053b4cd2ebfcfa8d96"/>
+    <meta name="description" content="{% block meta %}MedCombo is a leading B2B marketplace for medical equipment, pharmaceuticals, health care product etc. Create your web now!{% endblock %}">
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+    <link rel="apple-touch-icon" href="{% static 'img/favicon.ico' %}">
+    <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/sweetalert.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/notify.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/notify.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'select2/js/select2.full.min.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard_client.css' %}">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/fonts.css' %}">
+    <!--script src="{% static 'js/jmain.js' %}" type="text/javascript"></script-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    
+    <!--JRating-->
+    <link rel="stylesheet" href="{% static 'css/jrating.css' %}">
+    <link rel="shorcut icon" type="image/png" href="{% static 'img/favicon.ico' %}">
+    <title>{% blocktrans %}Mi Cuenta{% endblocktrans %}</title>
+    <style>
+        @font-face{
+            font-family: Muli-SemiBold;
+            src: url("{% static 'css/font/Muli-SemiBold.ttf' %}") format("truetype");
+        }
+    </style>
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="{% static 'js/googletagmanager.js' %}"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());  
+        gtag('config', 'UA-148356704-1'); 
+    </script>
+</head>
+<body>
+    <header id="header">
+        <div class="container-fluid">
+            <div class="row d-flex align-items-center">
+                
+                <!--Logo-->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-3" style="z-index: 2;" id="menu-logo">
+                    <a href="{% url 'home' %}">
+                        <img class="img-fluid" src="{% static 'img/logo.png' %}" alt="MedCombo">
+                    </a>
+                </div>
+                <div class="d-none d-lg-flex col-lg-5">
+                </div>
+                
+                <!-- codigo foto-nombre-->
+                <div class="col-lg-4 display-header">
+                    <div class="row d-flex">
+                        <div class="col-lg-11 perfil perfilText">
+                        {% if area %}
+                            {{area}}
+                        {% endif %}
+                        {% for user_context in context %}
+                            <div class="col-lg-3 icon-pos" id="icon-menu">
+                                <div class="hoverWrapper" style="text-align: center">
+                                    {% if user_context.picture %}
+                                        <div class="row justify-content-center">
+                                            <img class="ml-4 mr-4 mb-1" src="{{ user.picture.url }}" height="40" width="40" style="border-radius: 50%;" alt="user of Medcombo.com">
+                                        </div>
+                                        <div class="row justify-content-center mt-0">
+                                            <span style="color: #df8771;">{% blocktrans %}Bienvenido{% endblocktrans %}</span>
+                                        </div>
+                                        
+                                    {% else %}
+                                        <div class="row justify-content-center">
+                                            <i class="fas fa-user pl-3 pr-3" style="font-size: 30px;color: #df8771;"></i>
+                                        </div>
+                                        <div class="row justify-content-center mt-1">
+                                            <span style="color: #df8771;">{% blocktrans %}Bienvenido{% endblocktrans %}</span>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div  id="hoverShow1" style="text-align: left;">
+                                        <div class="row m-0" style="border-bottom: 1px solid black;">
+                                            <div class="col-md-10 mb-2">
+                                                <a style="color: #b6b5b5;" class="nameUser pb-2 pt-2" href="{% url 'dashboard_client' %}">
+                                                    {% blocktrans %}Hola {% endblocktrans %}&nbsp;
+                                                    {% if user_context.first_name %}
+                                                        {{ user_context.first_name }} {{ user_context.last_name }} 
+                                                    {% else %} 
+                                                        {{ user_context.username }}
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <a style="color: #b6b5b5;" class="nameUser pb-2 pt-2" href="{% url 'view_logout' %}">
+                                                    <i class="fas fa-sign-out-alt "></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row m-0">
+                                            <div class="col-md-10 mt-2">
+                                                <a class="pt-2 pb-2" style="color: #7f9bcd;text-decoration: none;" href="{% url 'chat_list' %}">
+                                                    {% blocktrans %}Nuevo mensaje{% endblocktrans %} 
+                                                </a>
+                                            </div>
+                                            <div class="col-md-1 mt-2">
+                                                <span >{{my_msgs}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="row m-0">
+                                            <div class="col-md-10 mt-1">
+                                                <a class="pt-2 pb-2" style="color: #7f9bcd;text-decoration: none;" href="{% url 'contacts_list' %}">
+                                                    {% blocktrans %}Contacto{% endblocktrans %}
+                                                </a>
+                                            </div>
+                                            <div class="col-md-1 mt-1">
+                                                <span >{{my_contacts}}</span>
+                                            </div>
+                                        </div> 
+                                        
+                                         <div class="d-flex mt-2 mb-2">
+                                            {% if user.is_staff == True %}
+                                            <div class="col-md-10">
+                                                <select id="notificaciones_select" style="width: auto;color: #7f9bcd;padding-left: 0px;margin-left: -4px;" class="border-0">
+                                                    <option selected value="#">{% blocktrans %}Notificaciones{% endblocktrans %}</option>
+                                                    {% if user_alarm != 0 %}
+                                                    <option value="/admin_user_sales">({{user_alarm}}) {% blocktrans %}Usuario {% endblocktrans %}</option>
+                                                    {% else %}
+                                                    {% endif %}
+                                                    {% if notificaciones_myweb != 0 %}
+                                                    <option value="/AdminMywebCrm">({{notificaciones_myweb}}) {% blocktrans %}Solicitud Myweb{% endblocktrans %}</option>
+                                                    {% else %}
+                                                    {% endif %}
+                                                    {% if palabras_claves != 0 %}
+                                                    <option value="/AdminKeywordCrm">({{palabras_claves}}) {% blocktrans %}Palabra clave{% endblocktrans %}</option>
+                                                    {% else %}
+                                                    {% endif %}
+                                                    
+                                                </select>                            
+                                            </div>
+                                            <div class="col-md-1 mt-1">
+                                                <span >{{total_notificaciones}}</span>
+                                            </div>
+                                            {% else %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                            <div class="row d-flex align-items-center d-none d-lg-flex">
+                                <div class="col-sm-3">
+                                    <a href="{% url 'FAQ' %}">{% blocktrans %}FAQ{% endblocktrans %}</a>
+                                </div>
+                                <div class="col-sm-9">
+                                    <ul class="nav nav-pills d-flex align-items-center">
+                                        <li class="nav-item dropdown">
+                                            <form id="form-lenguaje" class="position-relative" style="text-align: start;" action="{% url 'set_language' %}" method="POST">
+                                                {% csrf_token %}
+                                                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                                <select class="form-control form-control-sm ml-2 leng-style pad-flag lenguaje-seleccionado" id="lenguaje-seleccionado" name="language" style="width: auto;border:0px;">
+                                                {% for language in languages %}
+                                                    <option style="min-width: 8em;" value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %} >
+                                                        {% if language.code == "es" %}
+                                                            Español ({{ language.code }})
+                                                        {% elif language.code == "fr" %}
+                                                            Français ({{ language.code }})
+                                                        {% elif language.code == "it" %}
+                                                            Italiano ({{ language.code }})
+                                                        {% elif language.code == "ja" %}
+                                                            日本語 (jp) 
+                                                        {% else %}
+                                                            {{language.name_local}} ({{ language.code }})
+                                                        {% endif %}
+                                                    </option>
+                                                {% endfor %}
+                                                </select>
+                                                <div class="d-flex align-items-center imgFlag" style="position: absolute;right: 20px;top: 8px;">
+                                                    {% if language_selected == 4   %}<!-- español -->
+                                                        <img src="{% static 'img/Banderas/es.png' %}">
+                                                    {% elif language_selected == 3 %}<!-- ingles -->
+                                                        <img src="{% static 'img/Banderas/gb.png' %}">
+                                                    {% elif language_selected == 2 %}<!-- aleman -->
+                                                        <img src="{% static 'img/Banderas/de.png' %}">
+                                                    {% elif language_selected == 5 %}<!-- frances -->
+                                                        <img src="{% static 'img/Banderas/fr.png' %}">
+                                                    {% elif language_selected == 7 %}<!-- portugues -->
+                                                        <img src="{% static 'img/Banderas/pt.png' %}">
+                                                    {% elif language_selected == 6 %}<!-- italiano -->
+                                                        <img src="{% static 'img/Banderas/it.png' %}">
+                                                    {% elif language_selected == 1 %}<!-- chino -->
+                                                        <img src="{% static 'img/Banderas/cn.png' %}">
+                                                    {% elif language_selected == 8 %}<!-- chino -->
+                                                        <img src="{% static 'img/Banderas/cn.png' %}">
+                                                    {% elif language_selected == 9 %}<!-- japon -->
+                                                        <img src="{% static 'img/Banderas/jp.png' %}">
+                                                    {% endif %}
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Navbar nuevo-->
+                <div class="menu_bar">
+                    <button class="navbar-toggler bt-menu" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon">
+                            <i class="fa fa-bars nav_bar" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="collapse movil-menu" id="navbarToggleExternalContent" style="overflow-y:auto;">
+                    <div>
+                        <ul class="nav nav-pills d-flex flex-column nav-new" id="movil-menu1">
+                            <li class="nav-item padding-menu-movil">
+                                <form id="form-lenguaje2" action="{% url 'set_language' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                    <select class="form-control form-control-sm leng-style lenguaje-seleccionado2" name="language">
+                                        {% for language in languages %}
+                                            <option style="min-width: 8em;" value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %} >
+                                                {% if language.code == "es" %}
+                                                    Español ({{ language.code }})
+                                                {% elif language.code == "fr" %}
+                                                    Français ({{ language.code }})
+                                                {% elif language.code == "it" %}
+                                                    Italiano ({{ language.code }})
+                                                {% elif language.code == "ja" %}
+                                                    日本語 (jp) 
+                                                {% else %}
+                                                    {{language.name_local}} ({{ language.code }})
+                                                {% endif %}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="d-flex align-items-center imgFlag">
+                                        {% if language_selected == 4   %}<!-- español -->
+                                            <img src="{% static 'img/Banderas/es.png' %}">
+                                        {% elif language_selected == 3 %}<!-- ingles -->
+                                            <img src="{% static 'img/Banderas/gb.png' %}">
+                                        {% elif language_selected == 2 %}<!-- aleman -->
+                                            <img src="{% static 'img/Banderas/de.png' %}">
+                                        {% elif language_selected == 5 %}<!-- frances -->
+                                            <img src="{% static 'img/Banderas/fr.png' %}">
+                                        {% elif language_selected == 7 %}<!-- portugues -->
+                                            <img src="{% static 'img/Banderas/pt.png' %}">
+                                        {% elif language_selected == 6 %}<!-- italiano -->
+                                            <img src="{% static 'img/Banderas/it.png' %}">
+                                        {% elif language_selected == 1 %}<!-- chino -->
+                                            <img src="{% static 'img/Banderas/cn.png' %}">
+                                        {% elif language_selected == 8 %}<!-- chino -->
+                                            <img src="{% static 'img/Banderas/cn.png' %}">
+                                        {% elif language_selected == 9 %}<!-- japon -->
+                                            <img src="{% static 'img/Banderas/jp.png' %}">
+                                        {% endif %}
+                                    </div>
+                                </form>
+                            </li>
+                            <li class="nav-item">
+                                <hr />
+                            </li>
+                            {% for user_context in context %}
+                                {% if user_context.first_name %}
+                                    <li class="nav-item padding-menu-movil">
+                                        <span>
+                                            <a href="{% url 'view_profiledetail' user.id %}">
+                                                {% if user_context.picture %}
+                                                    <img src="{{ user.picture.url }}" height="50" width="50" style="border-radius: 50%;" alt="user of Medcombo.com">
+                                                {% else %}
+                                                    <img src="/static/img/userdefault.jpeg" height="50"width="50" style="border-radius: 50%;" alt="user of Medcombo.com">
+                                                {% endif %}
+                                            </a>
+                                        </span>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil">
+                                        <span><a href="{% url 'view_profiledetail' user.id %}">{{ user_context.first_name }} {{ user_context.last_name }}</a></span>
+                                    </li>
+                                    
+                                {% else %}
+                                    <li class="nav-item padding-menu-movil">
+                                        <span>
+                                            <a href="{% url 'view_profiledetail' user.id %}">
+                                                {% if user_context.picture %}
+                                                    <img src="{{ user.picture.url }}" height="50" width="50" style="border-radius: 50%;" alt="user of Medcombo.com">
+                                                {% else %}
+                                                    <img src="/static/img/userdefault.jpeg" height="50" width="50" style="border-radius: 50%;" alt="user of Medcombo.com">
+                                                {% endif %}
+                                            </a>
+                                        </span>
+                                    </li>
+                                    <li class="nav-item padding-menu-movil">
+                                         <span><a href="{% url 'view_profiledetail' user.id %}">{{ user_context.username }}</a></span>
+                                    </li>
+                                    {% if user_context.email %}
+                                        <li class="nav-item padding-menu-movil">
+                                            <span><a href="{% url 'view_profiledetail' user.id %}">{{ user_context.email }}</a></span>
+                                        </li>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            <li class="nav-item">
+                                <hr />
+                            </li>
+                            <li class="nav-item padding-menu-movil {% if 'dashboard_client' in request.path %}active2{% endif %}">
+                                <a class="nav-link pl-0" href="{% url 'dashboard_client' %}">{% blocktrans %}Home{% endblocktrans %}</a>
+                            </li>
+                            <li class="nav-item padding-menu-movil {% if 'Profile/Detail' in request.path or 'Profile/Update' in request.path %}active2{% endif %}">
+                                <a class="nav-link pl-0" href="{% url 'view_profiledetail' user.id %}">{% blocktrans %}Datos Personales{% endblocktrans %}</a>
+                            </li>
+                            <li class="nav-item padding-menu-movil {% if 'inbox' in request.path %}active2{% endif %}">
+                                <a class="nav-link pl-0" href="{% url 'messenger' %}">{% blocktrans %}Mensajes{% endblocktrans %}</a>
+                            </li>
+                            <li class="nav-item padding-menu-movil {% if 'contacts/list' in request.path %}active2{% endif %}">
+                                <a class="nav-link pl-0" href="{% url 'contacts_list' %}">{% blocktrans %}Contactos{% endblocktrans %}</a>
+                            </li> 
+                            <li class="nav-item padding-menu-movil {% if '/chat_list/' in request.path or '/chat_history/' in request.path %}active2{% endif %}">
+                                <a class="nav-link pl-0" href="{% url 'chat_list' %}">{% blocktrans %}Chat{% endblocktrans %}</a>
+                            </li>
+                            <li class="nav-item padding-menu-movil {% if '/favorites/' in request.path %}active2{% endif %}">
+                                <a class="nav-link pl-0" href="{% url 'list_favorites' %}">{% blocktrans %}Favoritos{% endblocktrans %}</a>
+                            </li>
+                            <li class="nav-item">
+                                <hr style="margin-bottom: 0em;" />
+                            </li>
+                            {% if request.user.company %}
+                                <li class="nav-item padding-menu-movil active">
+                                    <a class="nav-link pl-0" href="#">{% blocktrans %}My Web{% endblocktrans%}</a>
+                                </li>
+                                <li class="nav-item padding-menu-movil {% if 'company/detail' in request.path or '/company/update/' in request.path or '/description/' in request.path %}active2{% endif %}">
+                                    <a class="nav-link pl-0" href="{% url 'detail_company' user.company.id %}">{% blocktrans %}Empresa{% endblocktrans %}</a>
+                                </li>
+                                <li class="nav-item padding-menu-movil {% if 'facturacion' in request.path %}active2{% endif %}">
+                                    <a class="nav-link pl-0" href="{% url 'detail_company_facturacion' user.company.id %}">{% blocktrans %}Facturación{% endblocktrans %}</a>
+                                </li>
+                                <li class="nav-item padding-menu-movil {% if 'proposal' in request.path %}active2{% endif %}">
+                                    <a class="nav-link pl-0" href="{% url 'proposalmethod' user.id %}">{% blocktrans %}Propuestas economicas{% endblocktrans %}</a>
+                                </li>
+                                <li class="nav-item padding-menu-movil {% if 'product' in request.path %}active2{% endif %}">
+                                    <a class="nav-link pl-0" href="{% url 'MyWebProductAdminList' %}">{% blocktrans %}Productos{% endblocktrans %}</a>
+                                </li>     
+                                <li class="nav-item padding-menu-movil {% if 'catalogue' in request.path %}active2{% endif %}">
+                                    <a class="nav-link pl-0" href="{% url 'MyWebCatalogueAdminList' %}">{% blocktrans %}Catálogo{% endblocktrans %}</a>
+                                </li>
+                                <li class="nav-item padding-menu-movil {% if 'post' in request.path %}active2{% endif %}">
+                                    <a class="nav-link pl-0" href="{% url 'post_createList' %}">{% blocktrans %}Post{% endblocktrans %}</a>
+                                </li>
+                                <li class="nav-item padding-menu-movil {% if 'list_offers' in request.path or 'job_offers' in request.path or 'list_participants' in request.path or 'job_participant' in request.path %}active2{% endif %}">
+                                    <a class="nav-link pl-0" href="{% url 'list_offers' %}">{% blocktrans %}Ofertas y Candidatos{% endblocktrans %}</a>
+                                </li>
+                                <li class="nav-item padding-menu-movil {% if 'create_offer' in request.path or 'update_offer' in request.path %}active2{% endif %}">
+                                    <a class="nav-link pl-0" href="{% url 'create_offer' %}">{% blocktrans %}Crear ofertas{% endblocktrans %}</a>
+                                </li>
+                                <li class="nav-item padding-menu-movil">               
+                                    <a class="nav-link pl-0" href="{% url 'my_web_home' user.company.id %}">{% blocktrans %}Ver my web{% endblocktrans %}</a>
+                                </li> 
+                            {% else %}
+                                <li class="nav-item padding-menu-movil active">
+                                    <a class="nav-link pl-0" href="{% url 'create_company' %}">{% blocktrans %}My Web{% endblocktrans%}</a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <hr />
+                            </li>
+                            {% if perms.usercustom.marketing_user or perms.usercustom.sales_user or perms.usercustom.management_user or perms.usercustom.system_user %}
+                                <li class="nav-item padding-menu-movil">
+                                    {% if perms.usercustom.marketing_user %}
+                                        <a class="nav-link pl-0" href="{% url 'AdminCategoryCrm' %}">{% blocktrans %}Dashboard Admin{% endblocktrans %}</a>
+                                    {% elif perms.usercustom.management_user %}
+                                        <a class="nav-link pl-0" href="{% url 'Import_CSV' %}">{% blocktrans %}Dashboard Admin{% endblocktrans %}</a>
+                                    {% elif perms.usercustom.sales_user %}
+                                        <a class="nav-link pl-0" href="{% url 'ListContacCrm' %}">{% blocktrans %}Dashboard Admin{% endblocktrans %}</a>
+                                    {% else %}
+                                        <a class="nav-link pl-0" href="{% url 'admin_employ_list' %}">{% blocktrans %}Dashboard Admin{% endblocktrans %}</a>
+                                    {% endif %}
+                                </li>
+                                <li class="nav-item">
+                                    <hr />
+                                </li>
+                                <li class="nav-item mb-3 padding-menu-movil">
+                                    <span><a href="{% url 'view_logout' %}"><i class="fas fa-sign-out-alt mr-3"></i>{% blocktrans %}SALIR{% endblocktrans %}</a></span>
+                                </li>
+                            {% else %}
+                                <li class="nav-item mb-3 padding-menu-movil">
+                                    <span><a href="{% url 'view_logout' %}"><i class="fas fa-sign-out-alt mr-3"></i>{% blocktrans %}SALIR{% endblocktrans %}</a></span>
+                                </li>
+                            {% endif %}  
+                        </ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 d-none d-lg-block" id="main-menu">
+                <ul class="nav flex-column">
+                    <li class="nav-item {% if 'dashboard_client' in request.path %}active2{% endif %}">
+                        <a class="nav-link" href="{% url 'dashboard_client' %}">
+                            <img src="{% static 'img/icon-menu/home.png' %}" alt="" class="pr-1">{% blocktrans %}Home{% endblocktrans %}
+                        </a>
+                    </li>
+                    <li class="nav-item {% if 'Profile/Detail' in request.path or 'Profile/Update' in request.path %}active2{% endif %} two-words">
+                        <a class="nav-link" href="{% url 'view_profiledetail' user.id %}">
+                            <img src="{% static 'img/icon-menu/datosper.png' %}" alt="" class="pr-1">{% blocktrans %}Datos Personales{% endblocktrans %}
+                        </a>
+                    </li>
+                    <li class="nav-item two-words {% if 'messenger' in request.path %}active2{% endif %}">
+                        <a class="nav-link" href="{% url 'messenger' %}">
+                            <img src="{% static 'img/icon-menu/mensajes.png' %}" alt="" class="pr-1">{% blocktrans %}Mensajes{% endblocktrans %}
+                        </a>
+                    </li>
+                    <li class="nav-item {% if 'contacts/list' in request.path %}active2{% endif %}">
+                        <a class="nav-link" href="{% url 'contacts_list' %}">
+                            <img src="{% static 'img/icon-menu/contactos.png' %}" alt="" class="pr-1">{% blocktrans %}Contactos{% endblocktrans %}
+                        </a>
+                    </li> 
+                    <li class="nav-item {% if '/chat_list/' in request.path or '/chat_history/' in request.path %}active2{% endif %}">
+                        <a class="nav-link" href="{% url 'chat_list' %}">
+                            <img src="{% static 'img/icon-menu/chat.png' %}" alt="" class="pr-1">{% blocktrans %}Chat{% endblocktrans %}
+                        </a>
+                    </li>
+                    <li class="nav-item {% if '/favorites/' in request.path %}active2{% endif %}">
+                        <a class="nav-link" href="{% url 'list_favorites' %}">
+                            <img src="{% static 'img/icon-menu/favoritos.png' %}" alt="" class="pr-1">{% blocktrans %}Favoritos{% endblocktrans %}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav flex-column" id="main-menu2">
+                    {% if request.user.company %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">{% blocktrans %}My Web{% endblocktrans %}</a>
+                        </li>
+                        <li class="nav-item space {% if 'company/detail' in request.path or '/company/update/' in request.path or '/description/' in request.path %}active2{% endif %}">
+                            <a class="nav-link" href="{% url 'detail_company' user.company.id %}">
+                                <img src="{% static 'img/icon-menu/empresa.png' %}" alt="" class="pr-1">{% blocktrans %}Empresa{% endblocktrans %}
+                            </a>
+                        </li>
+                        <li class="nav-item space {% if 'facturacion' in request.path %}active2{% endif %}">
+                            <a class="nav-link" href="{% url 'detail_company_facturacion' user.company.id %}">
+                                <img src="{% static 'img/icon-menu/facturacion.png' %}" alt="" class="pr-1">{% blocktrans %}Facturación{% endblocktrans %}
+                            </a>
+                        </li>
+                        <li class="nav-item space {% if 'proposal' in request.path %}active2{% endif %}">
+                            <a class="nav-link" href="{% url 'proposalmethod' user.id %}">
+                                <img src="{% static 'img/icon-menu/proposal.png' %}" alt="" class="pr-1">{% blocktrans %}Propuestas economicas{% endblocktrans %}
+                            </a>
+                        </li>
+                        <li class="nav-item space {% if 'product' in request.path %}active2{% endif %}">
+                            <a class="nav-link" href="{% url 'MyWebProductAdminList' %}">
+                                <img src="{% static 'img/icon-menu/producto.png' %}" alt="" class="pr-1">{% blocktrans %}Productos{% endblocktrans %}
+                            </a>
+                        </li>     
+                        <li class="nav-item space {% if 'catalogue' in request.path %}active2{% endif %}">
+                            <a class="nav-link" href="{% url 'MyWebCatalogueAdminList' %}">
+                                <img src="{% static 'img/icon-menu/catalogo.png' %}" alt="" class="pr-1">{% blocktrans %}Catálogo{% endblocktrans %}
+                            </a>
+                        </li>
+                        <li class="nav-item space {% if 'post' in request.path %}active2{% endif %}">
+                            <a class="nav-link" href="{% url 'post_createList' %}">
+                                <img src="{% static 'img/icon-menu/post.png' %}" alt="" class="pr-1">{% blocktrans %}Post{% endblocktrans %}
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown space">
+                            {% if 'create_offer' in request.path or 'list_offers' in request.path or 'job_offers' in request.path or 'list_participants' in request.path or 'job_participant' in request.path or 'update_offer' in request.path %}
+                                <!--Items are active-->
+                                <a id="active-dropdown" class="nav-link dropdown-toggle" data-toggle="collapse" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <img src="{% static 'img/icon-menu/empleo.png' %}" alt="" class="pr-1">{% blocktrans %}Empleo{% endblocktrans %}
+                                </a>
+                                <script>
+                                    $(function(){
+                                        //It is active when is charge the page.
+                                        $('#active-dropdown').dropdown('toggle');
+                                        //Function Change data-toggle when mouse is entering. Hide with click
+                                        $('#active-dropdown').mouseenter(function(){
+                                            $('#active-dropdown').attr('data-toggle','dropdown');
+                                        });
+                                        //Function Change data-toggle when mouse is leaving. No hide.
+                                        $('#active-dropdown').mouseleave(function(){
+                                            $('#active-dropdown').attr('data-toggle','collapse');
+                                        });
+                                        $('#list_ofert_id').click(function(e){
+                                            $('#active-dropdown').attr('data-toggle','dropdown');
+                                        });
+                                        $('#create_offer_id').click(function(e){
+                                            $('#active-dropdown').attr('data-toggle','dropdown');
+                                        });
+                                    });
+                                </script>
+                            {% else %}
+                                <!--Items are not active-->
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <img src="{% static 'img/icon-menu/empleo.png' %}" alt="" class="pr-1">{% blocktrans %}Empleo{% endblocktrans %}
+                                </a>
+                            {% endif %}
+                            <div class="dropdown-menu" id="menu-lat-dashboard_client">
+                                <a id="list_ofert_id" class="dropdown-item {% if 'list_offers' in request.path or 'job_offers' in request.path or 'list_participants' in request.path or 'job_participant' in request.path %}active2{% endif %}" href="{% url 'list_offers' %}">{% blocktrans %}Ofertas y Candidatos{% endblocktrans %}</a>
+                                <a id="create_offer_id" class="dropdown-item {% if 'create_offer' in request.path or 'update_offer' in request.path %}active2{% endif %}" href="{% url 'create_offer' %}">{% blocktrans %}Crear ofertas{% endblocktrans %}</a>
+                            </div>
+                        </li>
+                        {% if request.user.company %}            
+                            <li class="nav-item space">               
+                                <a class="nav-link" href="{% url 'my_web_home' user.company.id %}"><img src="{% static 'img/icon-menu/verMyWeb.png' %}" alt="" class="pr-1">{% blocktrans %}Ver my web{% endblocktrans %}</a>
+                            </li> 
+                        {% endif %}         
+                    {% else %}
+                        <li class="nav-item active2">
+                            <a class="nav-link" href="{% url 'create_company' %}">{% blocktrans %}My Web{% endblocktrans %}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <ul class="nav flex-column" id="main-menu2">
+                    {% if perms.usercustom.marketing_user or perms.usercustom.sales_user or perms.usercustom.management_user or perms.usercustom.system_user %}
+                        <li class="nav-item">
+                            {% if perms.usercustom.marketing_user %}
+                                <a class="nav-link" href="{% url 'AdminCategoryCrm' %}">{% blocktrans %}Dashboard Admin{% endblocktrans %}</a>
+                            {% elif perms.usercustom.management_user %}
+                                <a class="nav-link" href="{% url 'Import_CSV' %}">{% blocktrans %}Dashboard Admin{% endblocktrans %}</a>
+                            {% elif perms.usercustom.sales_user %}
+                                <a class="nav-link" href="{% url 'ListContacCrm' %}">{% blocktrans %}Dashboard Admin{% endblocktrans %}</a>
+                            {% else %}
+                                <a class="nav-link" href="{% url 'admin_employ_list' %}">{% blocktrans %}Dashboard Admin{% endblocktrans %}</a>
+                            {% endif %}
+                        </li>
+                    {% endif %}        
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{% url 'view_logout' %}"><i class="fa fa-power-off" style="font-size:18px"></i>&nbsp;&nbsp;{% blocktrans %}Salir{% endblocktrans %}</a>
+                    </li>
+                </ul>
+            </div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <script src="{% static 'js/handlebars-v1.3.0.js' %}" type="text/javascript"></script>
+    <!--JRating-->
+    <script src="{% static 'js/jrating.js' %}" type="text/javascript"></script>
+    {% block extra_js %}{% endblock extra_js %}
+    <script src="{% static 'bootstrap/js/popper.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/jquery.idle.js' %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        // Apply form-control class to the select tag
+        $("select, input, textarea").addClass("form-control");
+        $("input[type='checkbox'], input[type='submit']").removeClass("form-control");
+    </script>
+    <script>
+        var contador = 1;
+        var _opened = false;
+        $('.navbar-toggler').click(function(){
+		    if (contador == 1) {
+			    $('.movil-menu').animate({
+				    //left: '0'
+                    left: '0'
+			    },500);
+			    contador = 0;
+                _opened = true;
+                $(".nav_bar").css("color", "#df8771");
+		    } else {
+			    $('.movil-menu').animate({
+				    left: '-100%'
+			    },500);
+                contador = 1;
+                _opened = false;
+                $(".nav_bar").css("color", "#7f9bcd");
+            }
+	    });
+        $(document).click(function (event) {
+            var clickover = $(event.target);
+            if (_opened === true && !clickover.hasClass("nav_bar") && !clickover.hasClass("navbar-toggler") && !clickover.hasClass("nav-pills")&& !clickover.hasClass("nav-item")&&!clickover.hasClass("form-control")) {
+                $("button.navbar-toggler").click();
+                _opened = false;
+            }
+        });
+    </script>
+    <script>
+        //Function To Hide and Show.
+        $(document).idle({
+            onHide: function(){
+                console.log('I\'m hidden');
+                $.ajax({
+                    headers: { "X-CSRFToken": '{{csrf_token}}' },
+                    type: 'POST',
+                    url: "{% url 'change_view' %}",
+                    data: {
+                        'data': ''
+                    },
+                    success: function(msg){
+                        console.log(msg);
+                    }
+                });
+            },
+            onShow: function(){
+                console.log('Hey, I\'m visible!');
+                $.ajax({
+                    headers: { "X-CSRFToken": '{{csrf_token}}' },
+                    type: 'POST',
+                    url: "{% url 'change_view_active' %}",
+                    data: {
+                        'data': ''
+                    },
+                    success: function(msg){
+                        console.log(msg);
+                    }
+                });
+            }
+        });
+        //Change or Close Tab
+        window.onbeforeunload = function(e){
+            console.log('Listo');
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'change_view' %}",
+                data: {
+                    'data': ''
+                },
+                success: function(msg){
+                }
+            });
+        }
+        //Change or Close Tab - User is Inactive
+        window.onunload = function unloadPage(e) {
+            e.preventDefault();
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'change_view' %}",
+                data: {
+                    'data': ''
+                },
+                success: function(msg){
+                }
+            });
+            console.log("See you soon!");
+        }
+        //Move the mouse once, User is Active Again
+        setTimeout(function(){
+            var counter = 0;
+            $(document).mouseout(function(e){
+                counter += 1;
+                if(counter == 1) {
+                    $.ajax({
+                        headers: { "X-CSRFToken": '{{csrf_token}}' },
+                        type: 'POST',
+                        url: "{% url 'change_view_active' %}",
+                        data: {
+                            'data': ''
+                        },
+                        success: function(msg){
+                            console.log('Hey, user is back!');
+                        }
+                    });
+                }
+                else{
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            });
+        },5000);
+        //Leave of the document
+        $(document).mouseleave(function(){
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'change_view' %}",
+                data: {
+                    'data': ''
+                },
+                success: function(msg){
+                    console.log("Leave of the document!");
+                }
+            });
+        });
+        //Enter in the document
+        $(document).mouseenter(function(){
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'change_view_active' %}",
+                data: {
+                    'data': ''
+                },
+                success: function(msg){
+                    console.log('Enter in the document!');
+                }
+            });
+        });
+
+        hoverResize();
+
+        $(window).resize(function () {
+            hoverResize();
+        });
+        function hoverResize(){
+            var parentWidth = $(".hoverWrapper").parents("div").width();
+            $("#hoverShow1").css("margin-left",(parentWidth/2-225)+"px");
+        }
+    </script>
+    <script>
+        function formatState (state) {
+            if (!state.id) {
+                return state.text;
+            }
+            var baseUrl = "{% static '' %}img/Banderas/";
+            var name = state.element.value.toLowerCase();
+            if(name == 'en') {
+                name = 'gb'
+            }
+            else if(name == 'zh-hans' || name == 'zh-hant') {
+                name = 'cn'
+            }
+            else {
+                if(name == 'ja') {
+                    name = 'jp'
+                }
+            }
+            var $state = $(
+                '<span class="d-flex justify-content-between">' + state.text + '<div class="d-flex align-items-center"><img src="' + baseUrl + name + '.png" class="img-flag" height="17px" /></div></span>'
+            );
+            return $state;
+        };
+        $("#lenguaje-seleccionado").select2({
+            templateResult: formatState,
+            minimumResultsForSearch: -1
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            //Change to select
+            $('.lenguaje-seleccionado').change(function(e){
+                e.preventDefault();
+                lang_form = $('#form-lenguaje');
+                lang_form.submit();
+            });
+            $('.lenguaje-seleccionado2').change(function(e){
+                e.preventDefault();
+                lang_form = $('#form-lenguaje2');
+                lang_form.submit();
+            });
+            //Autocomplete
+            var options = {
+                url: function(phrase) {
+                    return "/ajax_calls/search/";
+                },
+                getValue: function(element) {
+                    return element.toLowerCase();
+                },
+                ajaxSettings: {
+                    headers: { "X-CSRFToken": '{{csrf_token}}' },
+                    dataType: "json",
+                    method: "POST",
+                    data: {
+                        dataType: "json"
+                    }
+                },
+                preparePostData: function(data) {
+                    data.phrase = $("#id_name").val();
+                    return data;
+                },
+                requestDelay: 400,
+                list: {
+                    match: {
+                        enabled: true
+                    },
+                    sort: {
+                        enabled: false
+                    },
+                    maxNumberOfElements: 10
+                },
+                theme: "square",
+                template: {
+                    type: "custom",
+                    method: function(value, item) {
+                        return '<img src="{% static "img/search-img/mbrisearch_99556.svg" %}" />&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;' + value.toLowerCase();
+                    }
+                },
+            };
+            //$("#id_name").easyAutocomplete(options);
+        });
+        
+        $("#notificaciones_select").change(function(){
+             var url= $('select[id=notificaciones_select]').val()
+             document.location.href = url;
+             //$('#valor2').val($(this).val());
+         });
+    </script>
+    <script>
+        $( document ).ready(function() {
+            setInterval(get_message_list, 60 * 1000 * 5);
+            function get_message_list(){
+                var token = '{{csrf_token}}';
+                $.ajax({
+                    headers: { "X-CSRFToken": token },
+                    method: 'POST',
+                    url: '{% url "get_msg_news" %}',
+                    data: {
+                        'owner_id': '{{ request.user.id }}',
+                    },
+                    success: function(data) {
+                        $('#message_news').html(data);
+                        console.log("detect new messages!");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
+                <form class="formulario d-flex justify-content-center" action="" method="post">
+                    <h5 style="text-align: center;">{% blocktrans %}Usuario ha sido creado{% endblocktrans%}</h5>
+                </form>
+            </div>
+            <div class="col-sm-1 col-lg-2"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="container-fluid" style="padding-bottom: 30px;">
+		<div class="row detail-cuadro-back">
+			<div class="col-12">
+				<div class="row detail-title-name">
+					<div class="col-12">
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<div class="row">
+									<div class="col-12 col-md-8 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Contacto{% endblocktrans%}</h5>
+										<p class="col-12 col-sm-7">{{user.first_name}} {{user.last_name}}</p>
+									</div>
+									<div class="col-md-4"></div>
+								</div>
+							</div>
+							<div class="col-12 col-md-6">
+								<div class="row">
+									<div class="col-12 col-md-8 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Empresa{% endblocktrans%}</h5>
+										<p class="col-12 col-sm-7">{{user.company.name}}</p>
+									</div>
+									<div class="col-md-4"></div>
+								</div>
+							</div>
+						</div>
+						<!--<div class="icons">
+							<span class="my_cursor my_hover"><i class="fas fa-pen"></i></span>
+                     <span class="my_cursor my_hover"><i class="pl-3 fas fa-trash-alt"></i></span>
+						</div>-->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<div class="row">
+							<div class="col-12 col-md-8">
+								<div class="row">
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Ocupación{% endblocktrans%}</h5>
+										<p class="col-12 col-sm-7">{{user.work}}</p>
+									</div>
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Telefono{% endblocktrans%}</h5>
+										<p class="col-12 col-sm-7">{{user.telephone}}</p>
+									</div>
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Email{% endblocktrans%}</h5>
+										<p class="col-12 col-sm-7">{{user.email}}</p>
+									</div>
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Pais{% endblocktrans%}</h5>
+										<p class="col-12 col-sm-7">{{user.country}}</p>
+									</div>
+								</div>	
+							</div>
+							<div class="col-12 col-md-4">
+								{% if user.company.picture %}
+                                <img class="py-4 pl-4 mt-1" src="{{ user.company.picture.url }}" alt="" height="150px" width="auto">
+								{% else %}
+								<img class="py-4 pl-4 mt-1" src="{% static 'img/userdefault.jpeg' %}" alt="" height="150px" width="auto">
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="row">
+							<div class="col-12 col-md-8">
+								<div class="row">
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Web{% endblocktrans%}</h5>
+										<p class="col-12 col-sm-7">{{user.company.web}}</p>
+									</div>
+									<div class="col-12 d-sm-flex py-2 py-md-0">
+										<h6 class="col-12 col-sm-5">{% blocktrans %}Direccion{% endblocktrans%}</h5>
+										<p class="col-12 col-sm-7">{{user.company.address}}</p>
+									</div>
+									{% if user.company.policy_accept == 0 %}
+										<div class="col-12 d-sm-flex py-2 py-md-0 ">
+											<button class="btn btn-primary btn-sm" style="margin-top: 15px;" data-toggle="modal" data-target="#sendemail{{ user.pk }}">{% blocktrans %}Enviar Politica de Privacidad{% endblocktrans %}</button>
+										</div>
+									{% else %}
+										<div class="col-12 d-sm-flex py-2 py-md-0">
+											<h6 class="col-12 col-sm-5">{% blocktrans %}Politica de Privacidad{% endblocktrans%}</h5>
+											<p class="col-12 col-sm-7">{% blocktrans %}Aceptada{% endblocktrans%}</p>
+										</div>
+									{% endif %}
+								</div>	
+							</div>
+							<div class="col-12 col-md-4">
+								<img class="py-4 mt-1" src="{% static 'img/company.png' %}" alt="" height="150px" width="auto">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="sendemail{{ user.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+			<div class="modal-dialog modal-xs">
+				<div class="modal-content" style="border-radius: 25px;">
+					<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+							<div class="d-flex align-items-center">
+							<i class="far fa-list-alt" style="color: white;"></i>
+						<h5 class="modal-title ml-3" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}ENVIAR POLÍTICA DE PRIVACIDAD{% endblocktrans%}</h5>
+						</div>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" style="color: #fff;">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="col-12 d-flex justify-content-center">
+							<h5>{% blocktrans %}¿Desea enviar la política de privacidad a este contacto?{% endblocktrans %}</h5>
+						</div>
+					</div>
+					<div class="modal-footer justify-content-center">
+						<button id="send-button" class="btn btn-primary datos-form-buttom" >{% blocktrans %}SI{% endblocktrans %}</button>
+						<button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$('#send-button').click(function(e){
+				var value = '{{user.pk}}';
+				var company = '{{user.company.id}}';
+				var email = '{{user.email}}';
+				var url = '{% url "PrivacyPolitySend" %}';
+				var token = '{{csrf_token}}';
+				$.ajax({
+					headers: { "X-CSRFToken": token },
+					method: 'POST',
+					url: url,
+					data: {
+						'value': value,
+						'company_id': company,
+						'user_email': email
+					},
+					success: function(data) {
+						if(data == 'Ok') {
+							location.reload();
+						}
+					}
+				});
+			});
+		</script>
+		<div class="row detail-cuadro-back mt-4">
+			<div class="col-12">
+				<div class="row detail-title-name">
+					<div class="col-12">
+						<h6>{% blocktrans %}Historial de Tareas{% endblocktrans%}</h6>
+					</div>
+				</div>
+				<div class="row">
+					{% if histories %}
+						{% for history in histories %}
+							<div class="col-12 d-sm-flex py-2 py-md-0">
+								<h6 class="col-12 col-sm-4 col-md-3"> {{ history.date|date:'d-m-Y h:m a' }} </h6>
+								<p class="col-12 col-sm-8 col-md-9"> {{ history.notes }} </p>
+							</div>
+						{% endfor %}
+					{% else %}
+						<div class="col-12 d-sm-flex py-2 py-md-0">
+							<h6 class="col-12 col-sm-12 col-md-12"> {% blocktrans %}No existen registros {% endblocktrans%}</h6>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="row detail-cuadro-back mt-4">
+			<div class="col-12">
+				<div class="row detail-title-name">
+					<div class="col-12">
+						<h6>{% blocktrans %}Historial de llamadas{% endblocktrans%}</h6>
+					</div>
+				</div>
+				<div class="row">
+					{% if calls %}
+						{% for call in calls %}
+							<div class="col-12 d-sm-flex py-2 py-md-0">
+								<h6 class="col-12 col-sm-4 col-md-3"> {{ call.date|date:'d-m-Y h:m a' }} </h6>
+								<p class="col-12 col-sm-4 col-md-6"> {{ call.notes }} </p>
+								<p class="col-12 col-sm-4 col-md-3"> {{ call.result }} </p>
+							</div>
+						{% endfor %}
+					{% else %}
+						<div class="col-12 d-sm-flex py-2 py-md-0">
+							<h6 class="col-12 col-sm-12 col-md-12">{% blocktrans %} No existen registros{% endblocktrans%} </h6>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("h6,p").addClass("mb-0 py-md-2");
+</script>
+{% endblock %}

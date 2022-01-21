@@ -1,0 +1,95 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-lg-3 col-sm-4 col-md-3 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}OPORTUNIDADES{% endblocktrans %}</h5>
+		</div>
+		<div class="col-lg-3 col-sm-4 col-md-3">
+			<button type="button" class="btn btn-primary crm-button-anadir mb-1" data-toggle="modal" data-target="#create">{% blocktrans %}AÑADIR{% endblocktrans%}</button>
+		</div>
+		<div class="col-lg-4 col-sm-4 col-md-4 m-1">
+			<div class="input-group flex-nowrap">
+				<input id="search_opportunity" type="search" class="form-control input-right-border" placeholder={% blocktrans %}"Buscar"{% endblocktrans%} id="buscar">
+				<div class="input-group-prepend">
+					<span class="input-group-text my_cursor" id="buscar-fa"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<div class="row d-flex align-items-end">
+		<div class="col-12 col-md-6 padding-movil">
+			<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-xl">
+					<div class="modal-content" style="border-radius: 25px;">
+					    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-search fa-flip-horizontal icons_size_title_second"></i>
+					            <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}AÑADIR OPORTUNIDAD{% endblocktrans%}</p>
+					        </div>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					            <span style="color: white;" aria-hidden="true">&times;</span>
+					        </button>
+					    </div>
+					    <div class="modal-body">
+                            <object height="380" width="100%" data="{% url 'CreateOpportunityCrm' %}"></object>
+				        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-md-4"></div>
+		<div class="col-md-2"></div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12">
+			<div id="contact-table">
+				<table class="table table-responsive-md">
+			        <thead>
+			            <tr>
+			                <th scope="col">{% blocktrans %}Título{% endblocktrans%}</th>
+			                <th scope="col">{% blocktrans %}Cliente{% endblocktrans%}</th>
+			                <th scope="col">{% blocktrans %}Responsable{% endblocktrans%}</th>
+			                <th scope="col">{% blocktrans %}Fase{% endblocktrans%}</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+                        {% if object_list %}
+                            {% for opportunity in object_list %}			  	
+			                    <tr>
+			                        <td scope="row"><a href="{% url 'DetailOpportunityCrm' opportunity.id %}">{{ opportunity.title }}</a></td>
+			                        <td>{{ opportunity.client }}</td>
+			                        <td>{{ opportunity.responsible }}</td>
+			                        <td>{{ opportunity.state }}</td>
+			                    </tr>
+		                    {% endfor %}
+	                    {% else %}
+	                        <tr>
+	                            <td scope="row">{% blocktrans %}No existen oportunidades{% endblocktrans%}</td>
+	                        </tr>
+		                {% endif %}
+			        </tbody>
+			    </table>
+			    <script>
+				    $("#search_opportunity").keyup(function(){
+					    _this = this;
+					    // Show only matching TR, hide rest of them
+					    $.each($("table tbody tr"), function() {
+						    if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+							    $(this).hide();
+						    }
+						    else {
+						        $(this).show();
+						    }
+				 	    });
+				    });
+			    </script>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

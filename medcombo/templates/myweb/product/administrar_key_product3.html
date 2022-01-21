@@ -1,0 +1,73 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-9 background">
+	<div class="container-fluid pb-5">
+		<div class="row myweb-list-background">
+			<div class="col-12">
+				<div class="row mb-5">
+					<div class="col-12">
+
+						<div class="row pb-4" id="myurl" data-contact-url="{% url 'ajax_productoadministrar_listado' %}">
+							<div class="col-12 px-0 px-sm-3">
+								<div id="contact-table">sdfsdf
+									<table class="table table-hover table-myweb-crm">
+										<thead>
+											<tr>
+												<th scope="col">{% blocktrans %}Palabra clave{% endblocktrans %}</th> 
+												<th scope="col">{% blocktrans %}Idioma{% endblocktrans %}</th>
+												<th scope="col"></th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for key in keywords %}
+											<tr>
+
+												<td scope="row">{{key.name}}</td>
+												<td scope="row">{{key.language}}</td>
+												<td scope="row"><button type="button" class="btn btn-primary datos-form-buttom" id="key{{key.pk}}">{% blocktrans %}Seleccionar Productos{% endblocktrans%}</button></td>
+											</tr>	
+
+											<script type="text/javascript">
+													
+													
+											$('#key{{key.pk}}').click(function(e){
+
+											var url = $("#myurl").attr("data-contact-url");  
+											var userid= '{{request.user.pk}}';
+											var keyid= '{{key.pk}}';
+											$.ajax({                      
+												url: url,
+												data: {
+													'userid': userid,
+													'keyid': keyid,     
+												},
+												success: function (data) {  
+													 $("#listado").html(data);
+												}
+											});
+										});
+														
+														
+												</script>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+						</div>
+<div id="listado"></div>
+
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<div class="col-lg-1 background"></div>
+
+
+{% endblock %}

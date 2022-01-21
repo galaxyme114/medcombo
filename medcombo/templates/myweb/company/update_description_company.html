@@ -1,0 +1,118 @@
+{% extends "dashboard_client.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ckeditor/adapters/jquery.js' %}"></script>
+<script type="text/javascript">            
+	// jquery document ready function
+	$(function(){                    
+		CKEDITOR.replace( 'paragraph',
+        {
+            toolbar :
+            [
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+            ]
+        });             
+	});    
+</script>
+<script type="text/javascript">
+	{% if messages %}
+	{% for message in messages %}
+	$.notify("{{ message }}", "error");
+	{% endfor %}
+	{% endif %}
+</script>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}INFORMACIÓN ADICIONAL DE LA EMPRESA{% endblocktrans%}</h5>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+	<div class="container-fluid mb-5">
+	    <div class="row ventana-productos">
+			<div class="col-12">
+				<div class="row padding-row">
+					<div class="col-12">
+                        <form class="needs-validation" action="." id="formulario" method="post" target="_parent" enctype='multipart/form-data' novalidate>	
+							{% csrf_token %}
+							<input type="hidden" value="" id="send_description" name="description" >
+							<input type="hidden" id="pk" name="pk" value="{{descriptioncompany.pk}}" />
+							<input type="hidden" id="pkcompany" name="pkcompany" value="{{descriptioncompany.company.pk}}" />
+							<div class="col-12">
+								<div class="form-group">
+									<input type="text" class="form-control" id="title" name="title" required {{form.title}}
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca el primer título{% endblocktrans %}
+									</div>
+								</div>
+								<div class="form-group">
+									<textarea  style="border-radius: 10px;height:300px;width:750px;" name="paragraph" id="paragraph" rows="5" class="w-100" value={{form.paragraph}}</textarea>
+								</div>
+							</div>
+							<!--video-->
+							<div class="col-12 col-md-4 py-4">
+								<h5 for="video">{% blocktrans %}Video{% endblocktrans %}</h5>
+								<div class="custom-file">
+									<input type="file" class="form-control-file" id="video"  name="video" accept="video/*" value="{{descriptioncompany.video}}">
+									<label id="label-video-file" class="custom-file-label" for="video">{% blocktrans %}Añadir video{% endblocktrans %}</label>
+								</div>
+							</div>
+							<div class="col-12 col-md-10">
+								<div class="polig d-flex align-items-center justify-content-center detail-video">
+									<video width="100%" controls controlsList="nodownload">
+										{% if descriptioncompany.video %}
+											<source id="company-video-reload" src='{{ descriptioncompany.video.url }}' type='video/mp4' >
+										{% else %}
+											<source id="company-video-reload" src='' type='video/mp4' >
+										{% endif %}
+										{% blocktrans%}Su navegador no soporta la etiqueta de vídeo.{% endblocktrans %}
+									</video>
+								</div>
+							</div>
+							<div class="row py-4"></div>
+							<div>
+								<div class="d-md-flex justify-content-center mt-4 text-center">
+									<button type="submit" class="btn btn-primary datos-form-buttom mr-0 mr-md-3 mt-3">{% blocktrans %}GUARDAR{% endblocktrans %}</button> 
+									<a href="{% url 'update_company' descriptioncompany.company.pk %}" class="btn btn-primary datos-form-buttom mt-3">{% blocktrans %}CANCELAR{% endblocktrans %}</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    
+    //Video
+    $(document).on("change", "#video", function(evt) {
+        var $source = $('#company-video-reload');
+        $source[0].src = URL.createObjectURL(this.files[0]);
+        $source.parent()[0].load();
+    });
+    $('#video').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 25) {
+		    $(inputFile).parent()
+                .find('#label-video-file')
+                .html(inputFile.files[0].name.substring(0,25));
+	    }
+	    else {
+		    $(inputFile).parent()
+                .find('#label-video-file')
+                .html(inputFile.files[0].name.substring(0,25)+'...');
+	    }
+    }); 
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

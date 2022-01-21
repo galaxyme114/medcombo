@@ -1,0 +1,466 @@
+[
+  {
+    "model": "job.workday",
+    "pk": 1,
+    "fields": {
+      "name": "Jornada Continuada",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 2,
+    "fields": {
+      "name": "Jornada Partida",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 3,
+    "fields": {
+      "name": "Trabajo a Turnos",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 4,
+    "fields": {
+      "name": "Jornada Reducida",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 5,
+    "fields": {
+      "name": "Jornada Completa",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 6,
+    "fields": {
+      "name": "Jornada Parcial o Media Jornada",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 7,
+    "fields": {
+      "name": "Jornada Parcial por Horas",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 8,
+    "fields": {
+      "name": "Fixed shift",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 9,
+    "fields": {
+      "name": "Rotating shift",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 10,
+    "fields": {
+      "name": "Split shift",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 11,
+    "fields": {
+      "name": "On-call shift",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 12,
+    "fields": {
+      "name": "Weekday/weekend shift",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 15,
+    "fields": {
+      "name": "Vollzeit",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 16,
+    "fields": {
+      "name": "Gleitzeit",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 17,
+    "fields": {
+      "name": "Teilzeit",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 18,
+    "fields": {
+      "name": "Vertrauensarbeitszeit",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 19,
+    "fields": {
+      "name": "Schichtarbeit",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 20,
+    "fields": {
+      "name": "Home-Office",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 21,
+    "fields": {
+      "name": "Journ\u00e9e continue",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 22,
+    "fields": {
+      "name": "Jeu de jour",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 23,
+    "fields": {
+      "name": "travail",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 24,
+    "fields": {
+      "name": "Jour r\u00e9duit",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 25,
+    "fields": {
+      "name": "Journ\u00e9e compl\u00e8te",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 26,
+    "fields": {
+      "name": "Partie ou demi-journ\u00e9e",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 27,
+    "fields": {
+      "name": "Journ\u00e9e d'heures partielles",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 28,
+    "fields": {
+      "name": "Giornata continua",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 29,
+    "fields": {
+      "name": "Contratto occasionale",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 30,
+    "fields": {
+      "name": "Lavoro a turni",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 31,
+    "fields": {
+      "name": "Giornata ridotta",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 32,
+    "fields": {
+      "name": "Giornata intera",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 33,
+    "fields": {
+      "name": "Parziale o mezza giornata",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 34,
+    "fields": {
+      "name": "Ore parziali per ore",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 35,
+    "fields": {
+      "name": "Horas parciais por horas",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 36,
+    "fields": {
+      "name": "Dia da partida",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 37,
+    "fields": {
+      "name": "Trabalho por turnos",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 38,
+    "fields": {
+      "name": "Dia reduzido",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 39,
+    "fields": {
+      "name": "Jornada completa",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 40,
+    "fields": {
+      "name": "Parcial ou meio dia",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 41,
+    "fields": {
+      "name": "Horas parciais por horas",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 42,
+    "fields": {
+      "name": "\u8fde\u7eed\u65e5",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 43,
+    "fields": {
+      "name": "\u51fa\u53d1\u65e5",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 44,
+    "fields": {
+      "name": "\u8f6e\u73ed\u5de5\u4f5c",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 45,
+    "fields": {
+      "name": "\u51cf\u5c11\u5929\u6570",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 46,
+    "fields": {
+      "name": "\u5168\u65e5",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 47,
+    "fields": {
+      "name": "\u534a\u5929\u6216\u534a\u5929",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 48,
+    "fields": {
+      "name": "\u90e8\u5206\u5c0f\u65f6\u6570",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 49,
+    "fields": {
+      "name": "\u81ea\u7531\u30b7\u30d5\u30c8",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 50,
+    "fields": {
+      "name": "\u56fa\u5b9a\u30b7\u30d5\u30c8",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 51,
+    "fields": {
+      "name": "\u5b8c\u5168\u30b7\u30d5\u30c8",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 52,
+    "fields": {
+      "name": "\u6d3e\u9063",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 53,
+    "fields": {
+      "name": "\u6b63\u793e\u54e1",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 54,
+    "fields": {
+      "name": "\u9023\u7e8c\u65e5",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 55,
+    "fields": {
+      "name": "\u51fa\u767c\u65e5",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 56,
+    "fields": {
+      "name": "\u8f2a\u73ed\u5de5\u4f5c",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 57,
+    "fields": {
+      "name": "\u6e1b\u5c11\u5929\u6578",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 58,
+    "fields": {
+      "name": "\u5168\u65e5",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 59,
+    "fields": {
+      "name": "\u534a\u5929\u6216\u534a\u5929",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.workday",
+    "pk": 60,
+    "fields": {
+      "name": "\u90e8\u5206\u5c0f\u6642\u6578",
+      "language": 1
+    }
+  }
+]

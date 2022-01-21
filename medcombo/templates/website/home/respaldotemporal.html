@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide.html' %}
+{% if k %}
+    {% for key in k %}
+        <form id="form-search-product" class="d-flex w-100" action="/es/product/" method="POST">
+            {% csrf_token %}
+            <a href="#" id="search-product-id{{key.pk}}">{{ key.name }}</a>
+ 	          {% if key.image %}
+                <div class="polig foto-img">
+					          <img id="product-img-reload" src="{{ key.image.url }}" alt="" height="50px" width="auto">
+			          </div>
+            {% else %}
+                <div class="polig foto-img">
+					          <img id="product-img-reload"  src="{% static 'img/bandeja.png' %}" alt="" height="50px" width="auto">
+				        </div>
+            {% endif %}
+        </form>
+        <script type="text/javascript">
+            $('#search-product-id{{key.pk}}').click(function(evt){
+                evt.preventDefault();
+                var my_url = "{% url 'list_categories' %}";
+                var my_value = "{{key.name}}";
+                var token = '{{csrf_token}}';
+                var my_area;
+                var my_category;
+                var my_subcategory;
+                var my_language = $('#lenguaje-seleccionado').val();
+		            $.ajax({
+			              headers: { "X-CSRFToken": token },
+			              type: 'POST',
+			              url: my_url,
+			              data: {
+			                  'key': my_value
+			              },
+			              success: function(msg){
+				                my_area = msg[0].toLowerCase().replace(/\//g,"");
+		                    my_category = msg[1].toLowerCase().replace(/\//g,"");
+		                    my_subcategory = msg[2].toLowerCase().replace(/\//g,"");
+			              }
+		            });
+		            setTimeout(function(){
+			              my_form = $('#form-search-product');
+		                url_replace = "{{key.name}}".toLowerCase();
+                    if(url_replace.trim() == ''){
+                        url_replace = 'empty';
+                    }
+                    my_form.attr("action","/"+my_language+"/product/"+my_area.replace(/\s/g,"-")+"/"+my_category.replace(/\s/g,"-")+"/"+my_subcategory.replace(/\s/g,"-")+"/"+url_replace.replace(/\s/g,"-")+"/");
+                    my_form.submit();
+                }, 500);
+            });
+        </script>
+    {% endfor %}
+{% endif %}
+{% endblock %}
+

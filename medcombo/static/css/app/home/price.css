@@ -1,0 +1,109 @@
+/*------------------------------
+------------ price.css ----------
+------------------------------*/
+.card-pricing{
+	border-radius: 13px 13px 13px 13px;
+	-moz-box-shadow: 2px 4px 4px rgba(0, 0, 0,0.5);
+	-webkit-box-shadow: 2px 4px 4px rgba(0, 0, 0, .5);
+	box-shadow: 2px 4px 4px rgba(0, 0, 0, .5);
+}
+.card-pricing h5{
+	color: black;
+}
+.card-pricing__header {
+	position: relative;
+	top: 0;
+	width: 60%;
+	font-weight: 800;
+	padding: 10px 15px;
+	margin: 0 auto;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	margin: 0;
+	display: inline-block;
+	color: #ffffff;
+	text-transform: uppercase;
+	border-radius: 3px 3px 13px 16px;
+	-moz-box-shadow: 2px 4px 4px rgba(0, 0, 0,0.5);
+	-webkit-box-shadow: 2px 4px 4px rgba(0, 0, 0, .5);
+	box-shadow: 2px 4px 4px rgba(0, 0, 0, .5);
+}
+.card-pricing__list{
+	/*height: 380px;*/
+	margin-bottom: 0px;
+	list-style: none;
+	padding-bottom: 20px;
+}
+/*@media (max-width:330px) {
+	.card-pricing__list{
+		height: 430px;
+	}
+}
+@media (min-width:331px) and (max-width:413px) {
+	.card-pricing__list{
+		height: 410px;
+	}
+}
+@media (min-width:414px) and (max-width:767px) {
+	.card-pricing__list{
+		height: 380px;
+	}
+}
+@media (min-width:768px) and (max-width:1200px) {
+	.card-pricing__list{
+		height: 430px;
+	}
+}*/
+.pricing-li{
+	text-align: left;
+}
+.pricing-btn{
+	border-radius: 50px;
+}
+.li-basic::before {
+  content: "\2022";
+  color: #b6b4b5;
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em;
+  margin-left: -1em;
+  padding-top: 30px;
+}
+.li-standar::before {
+  content: "\2022";
+  color: #7f9bcd;
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em;
+  margin-left: -1em;
+  padding-top: 10px;
+}
+.li-premium::before {
+  content: "\2022";
+  color: #df8771;
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em;
+  margin-left: -1em;
+  padding-top: 6px;
+}
+.btn-second:hover {
+	color: #fff;
+	background-color: #c2c2c2;
+	border-color: #c2c2c2;
+}
+.btn-second {
+	color: #fff;
+	background-color: #6c757d;
+	border-color: #6c757d;
+}
+.btn-orange:hover {
+	color: #fff;
+	background-color: #c2c2c2;
+	border-color: #c2c2c2;
+}
+.btn-orange {
+	color: #fff;
+	background-color: #df8771;
+	border-color: #df8771;
+}

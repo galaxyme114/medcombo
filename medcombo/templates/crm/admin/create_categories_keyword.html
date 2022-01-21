@@ -1,0 +1,372 @@
+{% extends "dashboard_admin.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% blocktrans %}Añadir Categorias{% endblocktrans %}</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+</head>
+<body>
+    <div class="col-12 col-lg-10 background">
+	    <div class="container-fluid">
+		    <div class="row">
+			    <div class="col-12">
+				    <h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}NUEVA CATEGORÍA{% endblocktrans%}</h5>
+			    </div>
+		    </div>
+	    </div>
+		<div class="title-seperator row mb-4"></div>
+	    <div class="container-fluid mb-5">
+		    <div class="row ventana-productos">
+			    <div class="col-12">
+				    <div class="row padding-row">
+					    <div class="col-12">
+						    <form action="." id="formulario" method="POST" target="_parent" enctype='multipart/form-data'>
+							    {% csrf_token %}
+								<!--Select-->
+								<div class="col-lg-3 col-md-6 col-sm-12 d-flex">
+									<span class="pr-3" style="font-weight: 700;">{% blocktrans %}IDIOMA{% endblocktrans %}</span>
+									<span id='select_flag'></span>
+									<select class="form-control form-control-sm" id="languages_select">
+										{% for language in language_filter %}
+											<option style="min-width: 1em;" value="{{ language.value_language}}" {% if language.id == language_pk %} selected {% else %}{% endif %} >
+												{% if language.value_language == "es" %}
+													Español ({{ language.value_language }}) 
+												{% elif language.value_language == "fr" %}
+													Français ({{ language.value_language }})
+												{% elif language.value_language == "it" %} 
+													Italiano ({{ language.value_language }})
+												{% elif language.value_language == "ja" %} 
+													日本語 (jp)
+												{% elif language.value_language == "pt" %} 
+													Português ({{ language.value_language }})
+												{% elif language.value_language == "zh-hans" %}
+													简体中文 ({{ language.value_language }})
+												{% elif language.value_language == "zh-hant" %} 
+													繁體中文 ({{ language.value_language }})
+												{% elif language.value_language == "en" %} 
+													English ({{ language.value_language }})
+												{% else %} 
+													{% if language.value_language == "de" %}
+														Deutsch ({{ language.value_language }})
+													{% endif %}
+												{% endif %}
+											</option>
+										{% endfor %}
+									</select>
+									<script>
+										$('#languages_select').change(function(){
+											var language = $('#languages_select').val();
+											if(language == 'en') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+											}
+											else if(language == 'ja') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+											}
+											else if(language == 'zh-hans' || language == 'zh-hant') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+											}
+											else {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+											}
+											$.each($('#container_list #lang'),function(){
+												if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+													$(this).hide();
+												}
+												else {
+													$(this).show();
+												}
+												if(language == 'all'){
+													$(this).show();
+												}
+											});
+										});
+										$(function(){
+											$('#languages_select').ready(function(){
+												var language = $('#languages_select').val();
+												if(language == 'en') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+												}
+												else if(language == 'ja') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+												}
+												else if(language == 'zh-hans' || language == 'zh-hant') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+												}
+												else {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+												}
+												$.each($('#container_list #lang'),function(){
+													if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+														$(this).hide();
+													}
+													else {
+														$(this).show();
+													}
+													if(language == 'all'){
+														$(this).show();
+													}
+												});
+											});
+										});
+									</script>
+								</div>
+								<!--./ Select-->
+							    <div class="row">
+								    <div class="col-12 col-md-8">
+									    
+									    <h4 class="mt-3" for="inputGroupSelect">{% blocktrans %}Nombre{% endblocktrans%}</h4>
+									    <div class="d-flex inputWithSelect">
+										    <input value="1" name="nivel" type="hidden" id="nivel">
+										    <input value="1" name="relationship" type="hidden" id="relationship">
+										    <input value="4" name="language" type="hidden" id="language">
+										    <input type="text" name="name" class="form-control">										    
+									    </div>
+								    </div>
+								    <div class="col-md-4"></div>
+                                    <!----------------------- boton active -------------------------------------->
+								    <div class="col-12 col-md-6 d-flex align-items-center py-5" id="button_active">
+									    <h4 class="mb-0">{% blocktrans %}Activo{% endblocktrans%}</h4>&nbsp;&nbsp;
+									    <input value="True" name="isActive" type="hidden" id="isActive">
+									    <input name="boton1" id="boton1" type="button"  class="btn btnActive" value={% blocktrans %} "SI" {% endblocktrans%} onclick="ChangeColor(this.name,'boton1,boton2')" />&nbsp;&nbsp;  
+									    <input name="boton2" id="boton2" type="button" class="btn btn-primary" value={% blocktrans %} "NO" {% endblocktrans%} onclick="ChangeColor(this.name,'boton1,boton2')"/>
+								    </div>
+					                <!------- fin boton active------------------>
+								    <!------------------- arbol de categorias ---------------- --- -->
+									<div class="col-12 col-md-8">
+									    <h4 class="mt-3" for="inputGroupSelect">{% blocktrans %}Mayor palabra clave{% endblocktrans%}</h4>
+									    <div class="d-flex inputWithSelect">
+										    <input type="text" name="mainkey" class="form-control">										    
+									    </div>
+								    </div>
+								    <div class="col-md-6 pt-3"></div>
+								    <div class="col-12 col-md-8">
+									    <h4>{% blocktrans %}Categoria Madre{% endblocktrans%}</h4>
+									    <div class="row py-2" id="list-collapse">
+										    <div class="col-12 pl-5">
+								                <ul class="nav nav-stacked" id="parent-category">
+												    <li class="panel">
+														<input class="form-check-input" type="radio" name="miradio" value="1" id="0" checked>
+													    <a class="collapsed" data-toggle="collapse" data-parent="#parent-category" href="#phsysical">{% blocktrans %}Menú inicio{% endblocktrans%}</a>
+								                        <ul id="phsysical" class="collapse pl-3">
+								                            {% if areas %}
+							                                    {% for area in areas %}
+																    <li class="panel"><input class="form-check-input" type="radio" name="miradio" value="2" id="{{area.pk}}">
+																	    <a class="collapsed" data-toggle="collapse" data-parent="#phsysical" href="#area{{area.pk}}">{{area.name}}</a>
+									               	                    <ul id="area{{area.pk}}" class="collapse dark pl-3">
+									               	                        {% for category in area.category.all %}
+																			    <li class="panel"><input class="form-check-input" type="radio" name="miradio" value="3" id="{{category.pk}}">
+																				    <a class="collapsed" data-toggle="collapse" data-parent="#area{{area.pk}}" href="#category{{area.pk}}{{category.pk}}">{{category.name}}</a>
+											               	                        <ul id="category{{area.pk}}{{category.pk}}" class="collapse">
+											               		                        {% for subcategory in category.subcategory.all %}
+												                                            <li>
+																							    <a class="collapsed" data-toggle="collapse" data-parent="#area{{area.pk}}" href="#scategory{{subcategory.pk}}">- {{subcategory.name}}</a>
+												            	                            </li><!--- subcategorias -->
+												            	                        {% endfor %}
+											               	                        </ul>
+												                                </li><!--- categorias -->
+												                            {% endfor %}  
+									               	                    </ul>
+										                            </li><!--- areas -->
+										                        {% endfor %}
+										                    {% endif %}
+								                        </ul>
+								                    </li>
+								                </ul>							    
+										    </div>
+									    </div>
+								    </div>
+							        <div class="col-md-4"></div>
+							    </div>
+							    <!------------------------- descripcion ------------------------- -->
+							    <div class="row py-4">
+								    <div class="col-12 col-md-9">
+									    <h4>{% blocktrans %}Descripcion{% endblocktrans%}</h4>
+									    <textarea style="border-radius: 10px;" name="description" id="description" rows="5" class="w-100"></textarea>
+								    </div>
+								    <div class="col-md-3"></div>
+							    </div>
+							    <!---------------------- imagen ------------------- -->
+							    <div class="row">
+								    <div class="col-12 col-sm-6 col-md-6 img-new-product">
+									    <h4>{% blocktrans %}Imagen miniatura{% endblocktrans%}</h4>
+									    <div class="custom-file">
+									        <input type="file" class="custom-file-input" id="product-img" onchange="readURL(this);" name=picture>
+									        <label class="custom-file-label" for="product-img">{% blocktrans %}Añadir imagen{% endblocktrans%}</label>
+									    </div>
+								    </div>
+								    <div class="col-12 col-sm-6 col-md-3 img-new-product">
+									    <div class="polig foto-img">
+										    <img id="product-img-reload" src="" alt="">
+									    </div>
+								    </div>
+								    <div class="col-md-3"></div>
+							    </div>
+                                <!-- botones guardar y eliminar -->
+                                <div class="row py-4"></div>
+							    <div class="row">
+								    <div class="col-12 d-flex flex-column flex-md-row justify-content-around btnBotton">
+									    <center>
+									        <button type="submit" class="btn btn-primary button-category">{% blocktrans %}Guardar{% endblocktrans%}</button>&nbsp;&nbsp; 
+									        <a href="{% url 'AdminCategoryCrm' %}"> <button type="button" class="btn btn-primary button-category">{% blocktrans %}cancelar{% endblocktrans%}</button></a>
+								        </center>
+								    </div>
+							    </div>
+							    <!-- fin de codigo nuevo -->
+						    </form>
+					    </div>
+				    </div>						
+			    </div>					
+		    </div>
+	    </div>
+    </div>
+
+    <script type="text/javascript">
+    	{% if messages %}
+    	{% for message in messages %}
+    	$.notify("{{ message }}", "error");
+    	{% endfor %}
+   		{% endif %}
+    </script>
+    <script>
+    	CKEDITOR.replace( 'description',
+        {
+            toolbar :
+            [
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+            ]
+        });
+	    function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#product-img-reload')
+                        .attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+	    $("i").addClass("px-1");
+	    function ChangeColor(name,nombreBotones) {
+	        var partesBotones = nombreBotones.split(",");
+	        for(i=0;i<partesBotones.length;i++) {
+		        if (name == 'boton1'){
+			        $("#isActive").val('True');
+                    var boton = document.getElementById(partesBotones[i]); 
+		            if(boton.name == name)boton.style.background = '#04B431';
+		            else boton.style.background = '#848484';
+		        }
+		        else {
+			        $("#isActive").val('False');
+                    var boton = document.getElementById(partesBotones[i]); 
+		            if(boton.name == name)boton.style.background = '#DF013A';
+		            else boton.style.background = '#848484';
+			    }
+		    }
+  	    }
+        $('#formulario input').on('change', function() {
+            $("#nivel").val($('input[name=miradio]:checked', '#formulario').val());
+            $("#relationship").val($('input[name=miradio]:checked', '#formulario').attr("id"));
+            console.log("dddddd"+$("#nivel").val());
+        });
+        $(document).ready(function(){
+	        $('#languages_select').on('change', function() {
+				var language_mult = $("#languages_select").val();
+				if(language_mult=="es"){
+					var lang = 4;
+					url = "{% url 'AdminCategoryKeywordCrm' language=4 %}";
+					location.href = url;
+				}
+				else if (language_mult=="de"){
+					var lang = 2;
+					url = "{% url 'AdminCategoryKeywordCrm' language=2 %}";
+					location.href = url;
+				}
+				else if (language_mult=="en"){
+					var lang = 3;
+					url = "{% url 'AdminCategoryKeywordCrm' language=3 %}";
+					location.href = url;
+				}
+				else if (language_mult=="fr"){
+					var lang = 5;
+					url = "{% url 'AdminCategoryKeywordCrm' language=5 %}";
+					location.href = url;
+				}
+				else if (language_mult=="it"){
+					var lang = 6;
+					url = "{% url 'AdminCategoryKeywordCrm' language=6 %}";
+					location.href = url;
+				}
+				else if (language_mult=="pt"){
+					var lang = 7;
+					url = "{% url 'AdminCategoryKeywordCrm' language=7 %}";
+					location.href = url;
+				}
+				else if (language_mult=="zh-hans"){
+					var lang = 8;
+					url = "{% url 'AdminCategoryKeywordCrm' language=8 %}";
+					location.href = url;
+				}
+				else if (language_mult=="ja"){
+					var lang = 9
+					url = "{% url 'AdminCategoryKeywordCrm' language=9 %}";
+					location.href = url;
+				}
+				else{
+					var lang = 1;
+					url = "{% url 'AdminCategoryKeywordCrm' language=1 %}";
+					location.href = url;
+				}
+				$("#language").val(lang);
+				console.log($("#language").val());
+				
+			});
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

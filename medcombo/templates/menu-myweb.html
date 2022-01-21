@@ -1,0 +1,66 @@
+{% load staticfiles %}
+<style>
+.btnHelp {
+    position: fixed;
+    right: 5px;
+    top: 67vh;
+    border-color: #70ab13 !important;
+    padding: 2px 6px 5px;
+    z-index: 1;
+}
+
+.btnfont {
+    background-color: #70ab13;
+    border-color: #ffffff;
+}
+
+</style>
+{% load i18n %}
+{% if request.user.is_authenticated %}
+    <div class="btn-group-vertical btnHelp">
+        <a href="#" id="scroll" class="btn btn-success btnfont"><i class="fas fa-angle-up" style="font-size:24px;"></i></a>
+        <a href="{% url 'dashboard_client' %}" class="btn btn-success btnfont"><i class="fa fa-home" style="font-size:20px"></i></i></a>
+        <a href="#" id ="scroll-chat" class="btn btn-success btnfont"><i class="far fa-comment-alt" style="font-size:20px;"></i></a>
+    </div>
+{% endif %}
+<div class="container-fluid menu-myweb position-relative">
+    <div class="row d-md-flex">
+        <div class="col-md-1 col-xl-2 d-flex align-items-center justify-content-center">
+        </div>
+        <div class="col-12 col-md-10 col-xl-8">
+            <ul class="nav justify-content-center menu-font">
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_home' in request.path %}active{% endif %}" href="{% url 'my_web_home' id_myweb %}">{% blocktrans %}home{% endblocktrans%}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_product' in request.path %}active{% endif %}" href="{% url 'MyWebProductList' id_myweb %}">{% blocktrans %}producto{% endblocktrans%}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_catalogue' in request.path %}active{% endif %}" href="{% url 'MyWebCatalogueList' id_myweb %}">{% blocktrans %}catálogos{% endblocktrans%}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_news' in request.path or 'my_web_post_menu' in request.path %}active{% endif %}" href="{% url 'MyWebNewsList' id_myweb %}">{% blocktrans %}noticias{% endblocktrans%}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_contact' in request.path %}active{% endif %}" href="{% url 'my_web_contact' id_myweb %}">{% blocktrans %}contacto{% endblocktrans%}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-1 col-xl-2"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $(".chat-content").hide();
+    });
+    $("#scroll").click(function() {
+        $("html, body").animate({ 
+            scrollTop: 0 
+        }, "slow");
+        return false;
+    });
+    $("#scroll-chat").click(function() {
+        $(".chat-content").show();
+        $("#chat_button").click();
+    })
+</script>

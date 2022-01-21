@@ -1,0 +1,127 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<!-- Styles -->
+<link href="{% static 'fullcalendar/core/main.css' %}" rel='stylesheet' />
+<link href="{% static 'fullcalendar/daygrid/main.css' %}" rel='stylesheet' />
+<link href="{% static 'fullcalendar/timeGrid/main.css' %}" rel='stylesheet' />
+<link href="{% static 'fullcalendar/list/main.css' %}" rel='stylesheet' />
+<style>
+	#calendar {
+	    max-width: 900px;
+		margin: 0 auto;
+	}
+	.fc-content span{
+		color: black !important;
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+</style>
+<!-- Scripts -->
+<script src="{% static 'fullcalendar/core/main.js' %}"></script>
+<script src="{% static 'fullcalendar/core/locales-all.js' %}"></script>
+<script src="{% static  'fullcalendar/interaction/main.js' %}"></script>
+<script src="{% static  'fullcalendar/daygrid/main.js' %}"></script>
+<script src="{% static  'fullcalendar/timegrid/main.js' %}"></script>
+<script src="{% static  'fullcalendar/list/main.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+  	    var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'dayGrid', 'timeGrid', 'interaction', ],
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek,dayGridDay',
+            },
+            locale: 'es',
+            businessHours: true,
+            defaultDate: new Date(y, m, d),
+            navLinks: true, // can click day/week names to navigate views
+            editable: false,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {% if tasks %}
+			        {% for task in tasks %}
+			            {
+                            title: '{{task.call}}',
+                            start: '{{task.deadline|date:"Y-m-d"}}',
+							color: '#dce3f0',
+                            constraint: 'availableForMeeting',
+                            url: '/AppointmentBookCrm/detail/{{task.pk}}',
+                            //url: '/AppointmentBookCrm/detail/{{task.responsible.pk}}',
+        	            },
+			        {% endfor %}
+	            {% endif %}
+        
+            ]
+        });
+        calendar.render();
+        {% if language_selected == 1 %}
+            calendar.setOption('locale', 'zh-tw');
+        {% endif %}
+    	{% if  language_selected == 2 %}
+    	    calendar.setOption('locale', 'de');
+    	{% endif %}
+    	{% if  language_selected == 3 %}
+    		calendar.setOption('locale', 'en');
+    	{% endif %}
+    	{% if  language_selected == 4 %}
+    		calendar.setOption('locale', 'es');
+    	{% endif %}
+    	{% if  language_selected == 5 %}
+    		calendar.setOption('locale', 'fr');
+        {% endif %}
+    	{% if  language_selected == 6 %}
+    		calendar.setOption('locale', 'it');
+    	{% endif %}
+    	{% if  language_selected == 7 %}
+    		calendar.setOption('locale', 'pt');
+    	{% endif %}
+    	{% if  language_selected == 8 %}
+    		calendar.setOption('locale', 'zh-cn');
+    	{% endif %}
+    	{% if  language_selected == 9 %}
+    		calendar.setOption('locale', 'ja');
+    	{% endif %}
+    });
+</script>
+<div class="col-12 col-lg-10 background" id="appointment_book">
+	<div class="tab-content pt-2 mb-5" id="nav-tabContent">
+		<div class="tab-pane fade" id="list-month" role="tabpanel" aria-labelledby="list-month-list">...</div>
+	    <div class="tab-pane fade show active" id="list-week" role="tabpanel" aria-labelledby="list-week-list">
+	   	    <div class="row px-3">
+		   		<div class="form-group row">
+					<div class="col-sm-12">
+						<form action="" method="post" >
+							{% csrf_token %}
+					      	<select id="empleado" name="empleado" class="form-control" onchange="this.form.submit()">
+					      	    <option value= '0'>{% blocktrans %}Todos los usuarios{% endblocktrans %}</option>
+					      	    {% for user in users %}
+					                <option value="{{user.pk}}">{{user.first_name}} {{user.last_name}}</option>	
+					            {% endfor %}
+					        </select>
+					    </form>
+					</div>
+				</div>
+				<div class="col-14 divTask divOverflow">
+					<div class="row">	
+						<div id='calendar'></div> 
+					</div>
+				</div>
+			</div>
+	   </div>  
+	</div>
+</div>
+<script>
+	$("p").addClass("mb-0");
+	$( document ).ready(function() {
+  		$("#empleado option[value={{pk_empleado}}]").attr('selected', 'selected');
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,17 @@
+[
+    {"model": "dashboard_admin.languagecampaign", "pk": 1, "fields": {"name_language": "Arabe", "value_language": "ar"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 2, "fields": {"name_language": "Catalan", "value_language": "ca"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 3, "fields": {"name_language": "Mandarin", "value_language": "zh"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 4, "fields": {"name_language": "Aleman", "value_language": "de"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 5, "fields": {"name_language": "Griego", "value_language": "el"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 6, "fields": {"name_language": "Ingles", "value_language": "en"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 7, "fields": {"name_language": "Español","value_language": "es"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 8, "fields": {"name_language": "Frances", "value_language": "fr"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 9, "fields": {"name_language": "Hebreo", "value_language": "he"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 10, "fields": {"name_language": "Italiano", "value_language": "el"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 11, "fields": {"name_language": "Japones", "value_language": "ja"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 12, "fields": {"name_language": "Coreano","value_language": "ko"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 13, "fields": {"name_language": "Portugues", "value_language": "pt"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 14, "fields": {"name_language": "Ruso", "value_language": "ru"}},
+    {"model": "dashboard_admin.languagecampaign", "pk": 15, "fields": {"name_language": "Cantones", "value_language": "yue"}}
+]

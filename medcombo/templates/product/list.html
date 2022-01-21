@@ -1,0 +1,658 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../slide.html' %}
+<!-- <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" /> -->
+<div id="detail-favorites-border3" data-contact-url="{% url 'ajax_add_favorite' %}">
+	<section id="breadcrumb">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 py-2 pl-4">
+                    <h6><p class="m-0">&nbsp;&nbsp;<a href="{% url 'home' %}">{% blocktrans %}Home{% endblocktrans%}</a> / {% blocktrans %}Productos{% endblocktrans%}</p></h6> 
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container-fluid">
+	    <div class="row productos-row">
+		    <div class="col-12 col-lg-9">
+			    <div class="col-12 py-2 pl-2">
+                    <p class="mt-o">&nbsp;&nbsp;<a style="color: #595959; font-size: 1em;">{{totalproducts}} Resultados "{{namekeyword}}"</a></p>
+         	    </div>
+			    <!--Seccion Busqueda 1-->
+			    <div class="row productos-breadcumbs">
+				    <div class="col-12">
+					    <h5><strong>{% blocktrans %}Resultados de la Búsqueda{% endblocktrans%} </strong>  <i class="fas fa-angle-right" style="font-size: 0.8em !important;"></i>  {{namekeyword}}</h5>
+				    </div>
+			    </div>
+			    <div class="col-12 pt-4">
+				    <div class="row padding-row ventana-productos">
+					    {% if product %}
+					        {% for products in product %}
+					            <div class="col-sm-3">
+						            <div class="row">
+							            <div class="col-12 d-flex flex-column align-items-center">
+								            <div class="col-12" id="detail-favorites-border">
+												<!-- Sponsor icon -->
+												{% if sponsor_icon %}
+													{% for sponsor in sponsor_icon %}
+													    {% if sponsor.id == products.id %}
+													        <div class="fav-tag">
+														        <img class="img-fluid" src="{% static 'img/IconoPatrocinado.png' %}" />
+														    </div>
+														{% endif %}
+													{% endfor %}
+												{% endif %}
+												<!-- ./ Heart icon -->
+									            <button class="iconHeart" id="favorito{{products.id}}">
+										            <i class="far fa-heart" id="miestado{{products.id}}"></i>
+									            </button>
+												<!-- ./ Icon Mail & Comment -->
+												{% if user.is_authenticated %}
+													{% if user.company.id != products.company.id %}
+									                    <button class="iconMailEnv" id="msg-country{{products.id}}" data-toggle="modal" data-target="#msg_country-modal{{products.id}}" style="outline: none!important;">
+									 	        	        <i class="far fa-envelope"></i>
+									                    </button>
+									                    <button class="iconChatEnv" onclick="showChatDialog('{{products.company.id}}')" style="outline: none!important;">
+									 	        	        <i class="far fa-comment-alt"></i>
+													    </button>
+													{% endif %}
+												{% else %}
+													<button class="iconMailEnv" onclick="send_login()" style="outline: none!important;">
+														<i class="far fa-envelope"></i>
+												   </button>
+												   <button class="iconChatEnv" onclick="send_login()" style="outline: none!important;">
+														<i class="far fa-comment-alt"></i>
+												   </button>
+												{% endif %}
+									            {% if products.picture %}
+										            <a href="{% url 'detail_product' products.id %}" target="_blank">
+											            <img class="img-fluid" src="{{ products.picture.url }}">	
+										            </a>
+									            {% else %}
+										            <a href="{% url 'detail_product' products.id %}" target="_blank">
+											            <img class="img-fluid" src="{% static 'img/default.png' %}">	
+									 	            </a>
+									            {% endif %}
+								            </div>
+							            </div>
+						            </div>
+						            <div class="row" style="padding: 1.5em 0em 2em 0em;">
+							            <div class="col-12">
+							            	<p>{{ products.name }}</p>	
+								            <span class="d-flex justify-content-center pt-1">
+									            <span class="jRating" id="jmRating{{forloop.counter0}}">
+										            <span class="jRating-star" index="0"></span>
+										            <span class="jRating-number"></span>
+										            <span id="rating_number_l1{{products.id}}" index="1" style="padding-left: 10px;font-size: 12px;font-weight: bold;"></span>
+										            <span class="jRating-number"></span>
+									            </span>
+								            </span>
+										    <div class="dropdown-divider"></div>
+							            </div>
+							            <div class="col-12 d-flex justify-content-between score">
+								            {% if products.company.logo %}
+									            <a href="{% url 'my_web_home' products.company.id %}"><img class="img-fluid fit-img" src="{{ products.company.logo.url }}" alt=""/></a>
+								            {% else %}
+									            <a href="{% url 'my_web_home' products.company.id %}"><img class="img-fluid fit-img" src="{% static 'img/default.png' %}"/></a>	
+								            {% endif %}
+								            <span class="d-flex justify-content-center p-1">
+								            	<span><a href="{% url 'my_web_home' products.company.id %}">{{products.company.name}}</a></span>
+								            </span>
+							                <span style="font-size: 9px;">
+							                    {{products.company.country_company.code2}}&nbsp;&nbsp;<img src="{% static ''%}img/Banderas/{{products.company.country_company.code2|lower}}.png" style="width: 18px;height: 12px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{products.company.country_company.name}}"  />
+								            </span>
+							            </div>
+						            </div>
+								</div>
+								{% if user.is_authenticated %}
+									{% if user.company.id != products.company.id %}
+								        <!--./Modal Chat-->
+										<!--Modal Message-->
+	                                    <div class="modal fade" id="msg_country-modal{{products.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+			                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			                                    <div class="modal-content" style="border-radius: 10px;">
+					                                <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+						                                <div class="d-flex align-items-center">
+						                                    <i class="far fa-envelope pr-3 pl-3" style="color: white;"></i>
+						                                    <h5 class="modal-title" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}Mensaje{% endblocktrans%}</h5>
+						                                </div>
+						                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							                                <span aria-hidden="true">&times;</span>
+						                                </button>
+						                            </div>
+						                            <div class="modal-body">
+							                            <object class="object-msg" width="100%" data="{% url 'message_modal_list' products.company.id products.id %}"></object>
+						                            </div>
+					                            </div>
+				                            </div>
+	                                    </div>
+		                                <!--./Modal Message-->
+								    {% endif %}
+								{% endif %}
+					            <script>
+					            	//marcar favoritos mismo paises/////////////////////////////
+					            	$(document).ready(function(){
+					            		{% if favoritos %}
+					            		    {% for favorito in favoritos %}
+					            		        {% if favorito.product.id == products.id  %}
+					            		            document.getElementById("miestado{{products.id}}").className = "fa fa-heart";
+					            		        {% endif %}
+					            		    {% endfor %}
+					            		{% endif %}
+					            	});
+					                $(document).ready(function(){
+						                var number_counter = '{{forloop.counter0}}';
+						                var product_rating = '{{products.rating_average}}';
+										$('#rating_number_l1{{products.id}}').ready(function(){
+											$('#rating_number_l1{{products.id}}').html('{{products.rating_average}}')
+										});
+						                if(Number.isInteger(product_rating) == true){
+							                product_rating = parseInt('{{products.rating_average}}');
+						                }
+						                else {
+											if(parseInt('{{products.rating_average}}') == 0) {
+												product_rating = parseInt('{{products.rating_average}}');
+											}
+											else {
+												product_rating = parseInt('{{products.rating_average}}') + 0.5;
+											}
+						                }
+						                new JRating(document.getElementById('jmRating'+number_counter), product_rating, false);
+					                });
+					            </script>
+					            <!--- pruebas favoritos -->
+						        <script>
+					                $("#favorito{{products.id}}").click(function () {
+						                var div1 = document.getElementById("miestado{{products.id}}");
+						                var status = div1.getAttribute("class");
+						                if( status == "fa fa-heart"){
+							                document.getElementById("miestado{{products.id}}").className = "far fa-heart";
+							                //document.getElementById("miestados{{products.id}}").className = "far fa-heart";
+							                //document.getElementById("miestadosx{{products.id}}").className = "far fa-heart";
+						                    var url = $("#detail-favorites-border3").attr("data-contact-url");  
+						                    var user_id = '{{request.user.id}}';
+						                    var product_id = '{{products.id}}';
+						                    $.ajax({
+							                    url: url,
+							                    data: {
+								                    'product_id': product_id,
+								                    'user_id': user_id      
+							                    },
+							                    success: function (data) {   
+								                    $.notify("{% blocktrans %}Eliminado de Favoritos{% endblocktrans %}", "success");
+							                    }
+						                    }); 
+						                }
+						                else if(status == "far fa-heart"){
+							                document.getElementById("miestado{{products.id}}").className = "fa fa-heart";
+							                //document.getElementById("miestados{{products.id}}").className = "fa fa-heart";
+							                //document.getElementById("miestadosx{{products.id}}").className = "fa fa-heart";
+						                    var url = $("#detail-favorites-border3").attr("data-contact-url");  
+						                    var user_id = '{{request.user.id}}';
+						                    var product_id = '{{products.id}}';
+						                    $.ajax({
+							                    url: url,
+							                    data: {
+								                    'product_id': product_id,
+								                    'user_id': user_id    
+							                    },
+							                    success: function (data) {   
+								                    $.notify("{% blocktrans %}Agregado a Favoritos{% endblocktrans %}", "success");
+							                    }
+						                    });
+						                }
+					                });
+				                </script>
+					            <!--- fin pruebas ---->
+					        {% endfor %}
+					    {% else %}
+					        <span class="pl-3" style="font-size: 1.3em;">{% blocktrans %}No se encontraron registros{% endblocktrans %}</span>
+					        <br />
+					    {% endif %}
+				    </div>	
+				    <br /><br />
+				    <!--<section id="breadcrumb"></section>-->
+				    <br />
+			    </div>
+			    <!--Seccion Otros Paises-->
+			    <div class="row productos-breadcumbs">
+				    <div class="col-12">
+					    <h5><strong>{% blocktrans %}Resultados de otros países{% endblocktrans%} </strong>  <i class="fas fa-angle-right" style="font-size: 0.8em !important;"></i>  {{namekeyword}}</h5>
+				    </div>
+			    </div>
+			    <div class="col-12 pt-4">
+				    <div class="row padding-row ventana-productos">
+					    {% if product_another %}
+					        {% for products in product_another %}
+					            <div class="col-sm-3">
+						            <div class="row">
+							            <div class="col-12 d-flex flex-column align-items-center">
+									        <div class="col-12" id="detail-favorites-border">
+											    <!-- Sponsor icon -->
+												{% if sponsor_icon_other %}
+													{% for sponsor in sponsor_icon_other %}
+													    {% if sponsor.id == products.id %}
+													        <div class="fav-tag">
+														        <img class="img-fluid" src="{% static 'img/IconoPatrocinado.png' %}" />
+														    </div>
+														{% endif %}
+													{% endfor %}
+												{% endif %}
+												<!-- ./ Sponsor icon -->
+									            <button class="iconHeart" id="favoritos{{products.id}}">
+												    <i class="far fa-heart" id="miestados{{products.id}}"></i>
+									            </button>
+												<!-- ./ Icon Mail & Comment -->
+												{% if user.is_authenticated %}
+												    {% if user.company.id != products.company.id %}
+									                    <button class="iconMailEnv" id="msg-other{{products.id}}" data-toggle="modal" data-target="#msg_other-modal{{products.id}}" style="outline: none!important;">
+									 	        	        <i class="far fa-envelope"></i>
+									                    </button>
+									                    <button class="iconChatEnv" onclick="showChatDialog('{{products.company.id}}')" style="outline: none!important;">
+									 	        	        <i class="far fa-comment-alt"></i>
+													    </button>
+													{% endif %}
+												{% else %}
+												    <button class="iconMailEnv" onclick="send_login()" style="outline: none!important;">
+													    <i class="far fa-envelope"></i>
+											        </button>
+											        <button class="iconChatEnv" onclick="send_login()" style="outline: none!important;">
+													    <i class="far fa-comment-alt"></i>
+											        </button>
+												{% endif %}
+									            {% if products.picture %}
+										            <a href="{% url 'detail_product' products.id %}" target="_blank">
+											            <img class="img-fluid" src="{{ products.picture.url }}" >	
+										            </a>
+									            {% else %}
+										            <a href="{% url 'detail_product' products.id %}" target="_blank">
+											            <img class="img-fluid" src="{% static 'img/default.png' %}">	
+									 	            </a>
+									            {% endif %}
+								            </div>
+							            </div>
+						            </div>
+						            <div class="row" style="padding: 1.5em 0em 2em 0em;">
+						            	<div class="col-12">
+							            	<p>{{ products.name }}</p>	
+								            <span class="d-flex justify-content-center pt-1">
+									            <span class="jRating" id="jmRatingx{{forloop.counter0}}">
+										            <span class="jRating-star" index="0"></span>
+										            <span class="jRating-number"></span>
+										            <span id="rating_number_l2{{products.id}}" index="1" style="padding-left: 10px;font-size: 12px;font-weight: bold;"></span>
+										            <span class="jRating-number"></span>
+									            </span>
+								            </span>
+										    <div class="dropdown-divider"></div>
+							            </div>
+							            <div class="col-12 d-flex justify-content-between score">
+								            {% if products.company.logo %}
+								                <a href="{% url 'my_web_home' products.company.id %}"><img class="img-fluid" src="{{ products.company.logo.url }}" alt="" style="height: 35px;" /></a>
+								            {% else %}
+								                <a href="{% url 'my_web_home' products.company.id %}"><img class="img-fluid" src="{% static 'img/default.png' %}" style="height: 35px;" /></a>	
+								            {% endif %}
+								            <span class="d-flex justify-content-center p-3">
+								            	<span style="padding: 0px 33px 0px 33px;font-size: 12px;"><a href="{% url 'my_web_home' products.company.id %}">{{products.company.name}}</a></span>
+								            </span>
+											<!--<span>{{ products.company.country_company }}</span>-->
+						                    <span style="font-size: 9px;">
+							                    {{products.company.country_company.code2}}&nbsp;&nbsp;<img src="{% static ''%}img/Banderas/{{products.company.country_company.code2|lower}}.png" style="width: 18px;height: 12px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{products.company.country_company.name}}" />
+						                    </span>
+							            </div>
+									</div>
+								</div>
+								{% if user.is_authenticated %}
+									{% if user.company.id != products.company.id %}
+								        <!--Modal Chat-->
+	                                    <div class="modal fade" id="chat_other-modal{{products.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalTitle" aria-hidden="true">
+									        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+										        <div class="modal-content" style="border-radius: 10px;">
+											        <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+												        <h4 class="modal-title" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}Chat{% endblocktrans %}</h4>
+												        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													        <span aria-hidden="true">&times;</span>
+												        </button>
+											        </div>
+											        <div class="modal-body">
+												        <object class="object-chat" width="100%" data="{% url 'messenger_modal_list' products.company.id %}"></object>
+											        </div>
+										        </div>
+									        </div>
+								        </div>
+										<!--./Modal Chat-->
+										<!--Modal Message-->
+	                                    <div class="modal fade" id="msg_other-modal{{products.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+											<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+												<div class="modal-content" style="border-radius: 10px;">
+													<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+														<div class="d-flex align-items-center">
+															<i class="far fa-envelope pr-3 pl-3" style="color: white;"></i>
+															<h5 class="modal-title" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}Mensaje{% endblocktrans%}</h5>
+														</div>
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														<object class="object-msg" width="100%" data="{% url 'message_modal_list' products.company.id products.id %}"></object>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--./Modal Message-->
+								    {% endif %}
+								{% endif %}
+					            <script>
+					            	//marcar favoritos otros paises/////////////////////////////
+					            	$(document).ready(function(){
+					            		{% if favoritos %}
+					            		    {% for favorito in favoritos %}
+					            		        {% if favorito.product.id == products.id  %}
+					            		            document.getElementById("miestados{{products.id}}").className = "fa fa-heart";
+					            		        {% endif %}
+					            		    {% endfor %}
+					            		{% endif %}
+					            	});
+					                $(document).ready(function(){
+						                var number_counter = '{{forloop.counter0}}';
+						                var product_rating = '{{products.rating_average}}';
+										$('#rating_number_l2{{products.id}}').ready(function(){
+											$('#rating_number_l2{{products.id}}').html('{{products.rating_average}}')
+										});
+						                if(Number.isInteger(product_rating) == true){
+							                product_rating = parseInt('{{products.rating_average}}');
+						                }
+						                else {
+							                if(parseInt('{{products.rating_average}}') == 0) {
+												product_rating = parseInt('{{products.rating_average}}');
+											}
+											else {
+												product_rating = parseInt('{{products.rating_average}}') + 0.5;
+											}
+						                }
+						                new JRating(document.getElementById('jmRatingx'+number_counter), product_rating, false);
+					                });
+					            </script>
+						        <script>
+					                $("#favoritos{{products.id}}").click(function () {
+						                var div1 = document.getElementById("miestados{{products.id}}");
+						                var status = div1.getAttribute("class");
+						                if( status == "fa fa-heart"){
+							                //document.getElementById("miestado{{products.id}}").className = "far fa-heart";
+							                document.getElementById("miestados{{products.id}}").className = "far fa-heart";
+							                //document.getElementById("miestadosx{{products.id}}").className = "far fa-heart";
+						                    var url = $("#detail-favorites-border3").attr("data-contact-url");  
+						                    var user_id = '{{request.user.id}}';
+						                    var product_id = '{{products.id}}';
+						                    $.ajax({
+							                    url: url,
+							                    data: {
+								                    'product_id': product_id,
+								                    'user_id': user_id
+							                    },
+							                    success: function (data) {   
+								                    $.notify("{% blocktrans %}Eliminado de Favoritos{% endblocktrans %}", "success");
+							                    }
+						                    }); 
+						                }
+						                else if(status == "far fa-heart"){
+							                document.getElementById("miestados{{products.id}}").className = "fa fa-heart";
+							                var url = $("#detail-favorites-border3").attr("data-contact-url");  
+						                    var user_id = '{{request.user.id}}';
+						                    var product_id = '{{products.id}}';
+						                    $.ajax({
+							                    url: url,
+							                    data: {
+								                    'product_id': product_id,
+								                    'user_id': user_id
+							                    },
+							                    success: function (data) {   
+								                    $.notify("{% blocktrans %}Agregado a Favoritos{% endblocktrans %}", "success");
+							                    }
+						                    });
+						                }
+					                });
+				                </script>
+					        {% endfor %}
+					    {% else %}
+					        <span class="pl-3" style="font-size: 1.3em;">{% blocktrans %}No se encontraron registros{% endblocktrans%}</span>
+					        <br />
+					    {% endif %}
+				    </div>
+				    <br /><br />
+				    <!--<section id="breadcrumb"></section>-->
+				    <br />
+				</div>
+		   </div>
+		   <!--Seccion Patrocinados-->
+		   <div class="col-12 col-lg-3">
+			    <div class="row productos-breadcumbs1">
+				    <div class="col-12 pt-2 pb-2">
+					    <h5 class="color-font font-product m-0"><strong>{% blocktrans %}Productos Patrocinados{% endblocktrans%}</strong></h5>
+				    </div>
+			    </div>
+			    <div class="row center-block" style="padding-top: 1.6em;" >
+				    <div id="sponsors-movil" class="offset-2 col-10">
+					    <div class="col-12 ventana-productos" >
+						    {% if patrocinados %}
+						        {% for products in patrocinados %}
+							        <div id="container-products-sponsor" class="col-12">
+								        <div class="col-12" id="detail-favorites-border">
+									        <div class="col-12 d-flex flex-column align-items-center">
+										        <button class="iconHeart" id="favoritosx{{products.product.id}}">
+											        <i class="far fa-heart" id="miestadosx{{products.product.id}}"></i>
+										        </button>
+										        {% if products.product.picture %}
+											        <a href="{% url 'detail_product' products.product.id %}">
+												        <img class="img-fluid" src="{{ products.product.picture.url }}">	
+											        </a>
+										        {% else %}
+											        <a href="{% url 'detail_product' products.product.id %}">
+										  		        <img class="img-fluid" src="{% static 'img/default.png' %}">	
+											        </a>
+										        {% endif %}
+									        </div>
+								        </div>
+								        <div class="row" style="padding: 1.5em 0em 2em 0em;">
+									        <div class="col-12">
+									 	        <p>{{ products.product.name }}</p>
+										        <div class="dropdown-divider"></div>
+									        </div>
+									        <div class="col-12 d-flex justify-content-between score">
+										        {% if products.company.logo %}
+										            <a href="{% url 'my_web_home' products.company.id %}"><img src="{{ products.company.logo.url }}" alt="" style="height: 25px;" /></a>
+										        {% else %}
+										            <a href="{% url 'my_web_home' products.company.id %}"><img src="{% static 'img/default.png' %}" style="height: 25px;" /></a>
+										        {% endif %}
+										        <span class="d-flex justify-content-center p-3">
+											        <span class="jRating" id="jmRatings{{forloop.counter0}}">
+												        <span class="jRating-star" index="0"></span>
+												        <span class="jRating-star" index="1"></span>
+												        <span class="jRating-star" index="2"></span>
+											 	        <span class="jRating-star" index="3"></span>
+												        <span class="jRating-star" index="4"></span>
+												        <span class="jRating-number"></span>
+											        </span>
+										        </span>
+			    						        <span>
+							                        {{products.company.country_company.code2}}&nbsp;&nbsp;<img src="{% static ''%}img/Banderas/{{products.company.country_company.code2|lower}}.png" style="height: 20px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{products.company.country_company.name}}" />
+										        </span>
+									        </div>
+								        </div>
+							        </div>
+							        <script>
+							        	//marcar favoritos sponsor/////////////////////////////
+							        	$(document).ready(function(){
+							        		{% if favoritos %}
+							        			{% for favorito in favoritos %}
+							        			    {% if favorito.product.id == products.product.id  %}
+							        			        document.getElementById("miestadosx{{products.product.id}}").className = "fa fa-heart";
+							        			    {% endif %}
+							        			{% endfor %}
+							        		{% endif %}
+							        	});
+							        </script>
+							        <script>
+										$(document).ready(function(){
+								        	//almacena el nombre de la keyword para usarlo luego en las migas de pan
+									        var number_counter = '{{forloop.counter0}}';
+									        var product_rating = '{{products.product.rating_average}}';
+									        if(Number.isInteger(product_rating) == true){
+										        product_rating = parseInt('{{products.product.rating_average}}');
+									        }
+									        else {
+										        if(parseInt('{{products.product.rating_average}}') == 0) {
+												    product_rating = parseInt('{{products.product.rating_average}}');
+											    }
+											    else {
+												    product_rating = parseInt('{{products.product.rating_average}}') + 0.5;
+											    }
+									        }
+									        new JRating(document.getElementById('jmRatings'+number_counter), product_rating, false);
+								        });
+							        </script>
+							        <script>
+								        $("#favoritosx{{products.product.id}}").click(function () {
+									        var div1 = document.getElementById("miestadosx{{products.product.id}}");
+									        var status = div1.getAttribute("class");
+									        if( status == "fa fa-heart"){
+										        document.getElementById("miestadosx{{products.product.id}}").className = "far fa-heart";
+										        // document.getElementById("miestados{{products.product.id}}").className = "far fa-heart";
+										        // document.getElementById("miestado{{products.product.id}}").className = "far fa-heart";
+										        var url = $("#detail-favorites-border3").attr("data-contact-url");  
+										        var user_id = '{{request.user.id}}';
+										        var product_id = '{{products.product.id}}';
+										        $.ajax({
+											        url: url,
+											        data: {
+												        'product_id': product_id,
+												        'user_id': user_id      
+										 	        },
+											        success: function (data) {   
+												        $.notify("{% blocktrans %}Eliminado de Favoritos{% endblocktrans %}", "success");
+											        }
+										        });
+									        }
+									        else if(status == "far fa-heart"){
+										        document.getElementById("miestadosx{{products.product.id}}").className = "fa fa-heart";
+										        // document.getElementById("miestados{{products.product.id}}").className = "fa fa-heart";
+										        // document.getElementById("miestado{{products.product.id}}").className = "far fa-heart";
+										        var url = $("#detail-favorites-border3").attr("data-contact-url");  
+										        var user_id = '{{request.user.id}}';
+										        var product_id = '{{products.product.id}}';
+										        $.ajax({
+											        url: url,
+											        data: {
+												        'product_id': product_id,
+												        'user_id': user_id      
+											        },
+											        success: function (data) {   
+												        $.notify("{% blocktrans %}Agregado a Favoritos{% endblocktrans %}", "success");
+											        }
+										        }); 
+									        }
+								        });
+							        </script>
+					 	        {% endfor %}
+					 	    {% else %}
+						        <span style="font-size: 1.3em;">{% blocktrans %}No existen patrocinados productos{% endblocktrans%}</span>
+						        <br />
+					        {% endif %}
+					    </div>
+					    <br /><br />
+					    <section id="breadcrumb"></section>
+					    <br />
+				    </div>
+			    </div>
+		    </div>
+		</div>
+    </div>
+   <section id="breadcrumb">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 py-2 pl-4">
+                    <p class="m-0">&nbsp;&nbsp;</p> 
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container-fluid">	
+        <div class="row">
+            <div class="col-12 py-2 pl-4">
+                <div class="txt-pd5">
+                	<div style="float:left;" class="pr-3 mobile-category">
+	                    {% if keypicture %}
+							<img class="img-fluid" src="{{ keypicture.url }}" style="max-width:180px;max-height:180px;">	
+	        		    {% else %}
+	        			    <!--<img class="img-fluid" src="{% static 'img/default.png' %}">-->	
+	        		    {% endif %}
+	        		</div>
+	        		<table style="height:90px;"><tr><td>{{keyword|safe}}</td></tr></table>
+        		</div>  
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	$(document).ready(function(){
+		sessionStorage.setItem('namekey', '{{namekeyword}}' ); //almaceno el nombre de la keyword, para luego utilizarlo en la pagina siguiente en la migaja de pan al regresarme
+	});
+    $(function() {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+	/*Login chat and Message*/
+	function send_login(){
+		url = "{% url 'view_login' %}?next={{request.path}}";
+		$(location).attr('href',url);
+	}
+	function showChatDialog(company_id){
+		$.ajax({
+            headers: { "X-CSRFToken": '{{csrf_token}}' },
+            method: 'POST',
+            url: '{% url "get_user_from_product" %}',
+            data: {
+                'company_id': company_id,
+            },
+            success: function(data) {
+            	selected_user_id = data["user_id"];
+            	var name = "";
+            	var company_name = "";
+            	if(data["first_name"]){
+            		name = data["first_name"] + " " + data["last_name"];
+                }else{
+                	name = data["username"];
+                }
+                if(data["company_name"]){
+                	company_name = data["company_name"];
+                }
+                if(name.length > 20){
+                    $("#current_chat_name").html(name.substring(0, 20) + "...");
+                }else{
+                    $("#current_chat_name").html(name);
+                }
+                if(company_name.length > 10){
+                    $("#current_company_name").html(company_name.substring(0, 10) + "...");
+                }else{
+                    $("#current_company_name").html(company_name);
+                }
+                $(".chat_history").show();
+                var current_li = $(".chat_list_body li[data-id=" + selected_user_id + "]");
+                current_li.addClass('active');
+                sessionStorage.setItem('chat_history', 'opened');
+                sessionStorage.setItem('selected_user_id', selected_user_id);
+                if(refreshHistoryTimer != null){
+                    clearInterval(refreshHistoryTimer);   
+                    refreshHistoryTimer = null;
+                }
+                get_chat_history();    
+            }
+        });
+	}
+</script>
+
+
+{% endblock %}

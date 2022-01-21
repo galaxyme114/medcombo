@@ -1,0 +1,130 @@
+{% load staticfiles %}
+{% load i18n %}
+<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+<script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+<link rel="stylesheet" href="{% static 'css/dashboard_admin.css' %}">
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ckeditor/adapters/jquery.js' %}"></script>
+<script type="text/javascript">            
+	// jquery document ready function
+	$(function(){                    
+		// 1. change the textarea into an editor
+		CKEDITOR.replace( 'id_notes',
+	        {
+	            toolbar :
+	            [
+	                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+	                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+	                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+	                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+	                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+	                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+	            ]
+	        });              
+	});    
+</script>
+<body>
+	<div class="container-fluid">
+		<div class="row pt-4">
+			<div class="col-12 create-contact-form">
+				<form class="needs-validation" action="." method="POST" target="_parent" novalidate>
+					{% csrf_token %}
+					<!--Error Message-->
+					<div class="text-center-container">
+						{% if form.errors %}
+							{% for field in form %}
+								{% for error in field.errors %}
+									<div class="alert alert-danger alert-dismissible fade show" role="alert">
+										<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+								{% endfor %}
+							{% endfor %}
+							{% for error in form.non_field_errors %}
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+					<div class="form-group row">
+					  	<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="producto" class="col-sm-2 col-form-label">{% blocktrans %}Producto{% endblocktrans%}</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" required {{ form.name }}
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca el producto{% endblocktrans %}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="precio" class="col-sm-2 col-form-label">{% blocktrans %}Precio{% endblocktrans%}</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" required {{ form.price }}
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca el precio{% endblocktrans %}
+									</div>
+								</div>
+							</div>
+						</div>
+		   			</div>
+		   			<div class="form-group row">
+					  	<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="id-product" class="col-sm-2 col-form-label">{% blocktrans %}ID{% endblocktrans%}</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" required {{ form.product_ID }}
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca el ID{% endblocktrans %}
+									</div>
+								</div>
+							</div>
+		   				</div>
+						<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="ref" class="col-sm-2 col-form-label">{% blocktrans %}REF{% endblocktrans%}</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" required {{ form.ref }}
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca la REF{% endblocktrans %}
+									</div>
+								</div>
+							</div>
+		   				</div>
+		   			</div>
+		   			<div class="form-group row">
+					  	<div class="col-12">
+							<div class="form-group row">
+								<label for="notas" class="col-sm-2 col-md-1 col-form-label">{% blocktrans %}Notas{% endblocktrans %}</label>
+								<div class="col-sm-10 col-md-11">
+									<textarea class="w-100"  rows="5" style="border-radius: 10px" {{ form.notes }}
+								</div>
+							</div>
+						</div>
+					</div>
+		   			<div class="row">
+		   				<div class="col-12 d-flex justify-content-center">
+		   					<button class="btn btn-primary crm-button-anadir">{% blocktrans %}GUARDAR{% endblocktrans %}</button>
+		   				</div>
+		   			</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="{% static 'js/app/validations.js' %}"></script>
+</body>
+<script src="{% static 'js/handlebars-v1.3.0.js' %}" type="text/javascript"></script>
+<script src="{% static 'bootstrap/js/popper.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>

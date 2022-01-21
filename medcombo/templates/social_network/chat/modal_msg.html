@@ -1,0 +1,117 @@
+{% load staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+    <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <link rel="stylesheet" href="{% static 'css/base_my_web.css' %}">
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+    </script>
+    <style>
+        body {
+            overflow-x:hidden;
+        }
+    </style>
+
+</head>
+<body id="body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 d-sm-flex">
+                <div class="col-12 col-sm-6 mt-2">
+                    <style>
+                        .select2-container {
+                            min-width: 100% !important;
+                            width: 100% !important;
+                        }
+                        .select2-container .select2-selection--single {
+                            height: 38px !important;
+                        }
+                        span.select2.select2-container.select2-container--default {
+                            width: 100% !important;
+                        }
+                    </style>
+                    <p style="font-weight: bold;">{% blocktrans %}Para{% endblocktrans%}:</p>
+                    <p class="ml-1">
+                        {{form.contacts}}
+                        {{form.media}}
+                    </p>
+                </div>
+                <div class="col-12 col-sm-6 mt-2"><!--style="border-left: solid 1px #b5b6b6;">-->
+                    <p style="font-weight: bold;">{% blocktrans %}Asunto{% endblocktrans%}:</p>
+                    <p><input type="text" id="subject" name="subject" class="form-control" /></p>
+                </div>
+            </div>
+        </div>
+        <div class="row"><!--style="border-top: solid 1px #b5b6b6;">-->
+            <div class="col-12 mt-2">
+                <div class="col-12">
+                    <p style="font-weight: bold;">{% blocktrans %}Mensaje{% endblocktrans %}:</p>
+                </div>
+                <div class="col-12">
+                    <textarea style="resize: none;" class="form-control" name="message" id="message" rows="5" placeholder={% blocktrans %}"Write your message here..."{% endblocktrans%} ></textarea>
+                </div>
+                <br />
+                <div class="col-12 text-center detail-favorite-button">
+                    <button id="send-message" class="btn btn-primary datos-form-buttom">{% blocktrans %}ENVIAR{% endblocktrans%}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/handlebars-v1.3.0.js' %}" type="text/javascript"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/notify.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/notify.min.js' %}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function(){
+            $('#send-message').click(function(evt){
+                var my_url = "{% url 'send_msg' %}";
+                var my_text = $('#message').val();
+                var my_owner = $("#select2-id_contacts-container").text();
+                var my_subject = $('#subject').val();
+                var token = '{{csrf_token}}';
+                $.ajax({
+                    headers: { "X-CSRFToken": token },
+                    type: 'POST',
+                    url: my_url,
+                    data: {
+                        'text': my_text,
+                        'owner': my_owner,
+                        'subject': my_subject
+                    },
+                    success: function(msg){
+                        $("#message").val('');
+                        $('#subject').val(' ');
+                        if(msg == 'Ok'){
+                            $.notify("{% blocktrans %}Su mensaje ha sido enviado!{% endblocktrans %}", "success");
+                            setTimeout(function(e){
+                                parent.document.location.reload()
+                            },500);
+                        }
+                        else {
+                            if(msg == 'Empty'){
+                                $.notify("{% blocktrans %}No se puede enviar un mensaje vacío!{% endblocktrans %}");
+                            }
+                            else{
+                                $.notify("{% blocktrans %}Ocurrió un error de envío!{% endblocktrans %}");
+                            }
+                        }
+                    }
+                });
+	          });
+        });
+    </script>
+</body>

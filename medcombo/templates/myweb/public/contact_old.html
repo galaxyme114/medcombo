@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide_company.html' %}
+{% include '../../menu-myweb.html' %}
+<style type="text/css">
+    .none {
+        border: none;
+        background-color: white;
+        outline:none;
+    }
+    button:focus {
+        outline: none;
+	}
+</style>
+<div class="container pb-5" id="container-user-plus" data-contact-url="{% url 'ajax_add_contact' %}" novalidate>
+    <div class="row" style="padding-top: 30px; min-height: 180px;">
+        <div class="col-12 offset-lg-1 col-lg-10 offset-xl-2 col-xl-8">
+			<div class="row item-post">
+				<!-- main for -->
+				{% for user_contact in company.user_relationship.all %}	
+					<div class="col-12 col-sm-4 col-md-2 d-flex justify-content-center align-items-center">
+					    {% if user_contact.picture %}
+						    <img src="{{ user_contact.picture.url }}"  height="50" width="auto">
+					    {% else %}
+						    <img src="{% static 'img/userdefault.jpeg' %}" style="margin: 0.5em 0;" height="50" width="auto">
+	                    {% endif %}
+					</div>
+					<div class="col-12 col-sm-4 col-md-2 d-flex justify-content-center align-items-center">
+						<span>{{ user_contact.first_name }} {{ user_contact.last_name }} </span>
+					</div>
+					<div class="col-12 col-sm-4 col-md-3 d-flex justify-content-center align-items-center text-center">
+						<span>{{ user_contact.work }}</span>
+					</div>
+					<div class="col-12 col-md-5 d-column d-flex flex-row-reverse align-items-center justify-content-between">
+						<!-- if main-->
+						{% if user_contact.id in contactscontext %}
+							<!-- user.id != user_contact.id -->
+							{% if user.id != user_contact.id %}
+								<!-- user.is_authenticated -->
+		                        {% if user.is_authenticated %}
+			                        <button class="iconContac" data-toggle="modal" data-target="#my_message"><i class="far fa-envelope"></i>{% blocktrans %}Mensaje{% endblocktrans %}</button>
+			                        <button class="iconChat" data-toggle="modal" data-target="#create"><i class="far fa-comment-alt"></i>{% blocktrans %}Chat{% endblocktrans %}</button>
+		                        {% else %}
+		                            <button class="iconContac" onclick="redirect_login()"><i class="far fa-envelope"></i>{% blocktrans %}Mensaje{% endblocktrans %}</button>
+			                        <button class="iconChat" onclick="redirect_login()"><i class="far fa-comment-alt"></i>{% blocktrans %}Chat{% endblocktrans %}</button>
+								{% endif %}
+								<!-- ./ user.is_authenticated -->
+								<!-- for -->
+								{% for contacto in contactos %}
+									<!-- conditional -->
+									{% if contacto.relationship.id == user_contact.id and contacto.owner == request.user %}
+										<!-- if contacto.favorite == False -->
+										{% if contacto.favorite == False %}
+											<!-- if user.is_authenticated -->
+											{% if user.is_authenticated %}
+						                        <div id="container-user-favorite" data-contact-url="{% url 'ajax_add_contact_favorite' %}">
+													<button class="none" id="user-favorite" value="{{ user_contact.id }}"><i class="far fa-star"></i></button>
+												</div>
+											{% else %}
+												<div id="container-user-favorite" data-contact-url="{% url 'ajax_add_contact_favorite' %}">
+													<button class="none" onclick="redirect_login()" value=""><i class="far fa-star"></i></button>
+												</div>
+											{% endif %}
+											<!-- ./ if user.is_authenticated -->
+										{% else %}
+											<div class="none">
+												<button class="none"><i class="jRating-star full"></i></button>
+											</div>
+										{% endif %}
+										<!-- ./ if contacto.favorite == False -->
+									{% endif %}
+									<!-- ./ conditional -->
+								{% endfor %}
+								<!-- ./ for -->
+							{% else %}
+							    <!--Anything Here-->
+						    {% endif %}
+						    <!-- ./ user.id != user_contact.id -->
+					    {% else %}
+					        <!-- if user.id != user_contact.id -->
+					        {% if user.id != user_contact.id %}
+						        <!-- user.is_authenticated 1 -->
+	                            {% if user.is_authenticated %}
+	                                <button class="iconContac" data-toggle="modal" data-target="#my_message"><i class="far fa-envelope"></i>{% blocktrans %}Mensaje{% endblocktrans %}</button>
+	                                <button class="iconChat" data-toggle="modal" data-target="#create"><i class="far fa-comment-alt"></i>Chat</button>
+	                            {% else %}
+	                                <button class="iconContac" onclick="redirect_login()"><i class="far fa-envelope"></i>{% blocktrans %}Mensaje{% endblocktrans %}</button>
+	                                <button class="iconChat" onclick="redirect_login()"><i class="far fa-comment-alt"></i>Chat</button>
+						        {% endif %}
+						        <!-- ./ user.is_authenticated 1 -->
+						        <!-- ./ user.is_authenticated 2 -->
+						        {% if user.is_authenticated %}
+						            <div id="container-user-favorite" data-contact-url="{% url 'ajax_add_contact_favorite' %}" class="none">
+								        <button class="none" id="user-favorite" value="{{ user_contact.id }}"><i class="far fa-star"></i></button>
+							        </div>
+						            <div id="container-user-favorite" data-contact-url="{% url 'ajax_add_contact_favorite' %}">
+								        <button class="none" id="user-plus" value="{{ user_contact.id }}"><i class='fas fa-user-plus'></i></button>
+							        </div>
+					 	        {% else %}
+							        <div id="container-user-favorite" data-contact-url="{% url 'ajax_add_contact_favorite' %}" class="none">
+								        <button class="none" onclick="redirect_login()" value=""><i class="far fa-star"></i></button>
+							        </div>
+							        <div id="container-user-favorite" data-contact-url="{% url 'ajax_add_contact_favorite' %}">
+								        <button class="none" onclick="redirect_login()" value=""><i class='fas fa-user-plus'></i></button>
+							        </div>
+						        {% endif %}
+						        <!-- ./ user.is_authenticated 2 -->
+					        {% endif %}
+					        <!-- ./ if user.id != user_contact.id -->
+				        {% endif %}
+				        <!-- endif main -->			
+				        <!--Modal Chat-->
+					    <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+					        <div class="modal-dialog modal-xl" role="document">
+					            <div class="modal-content" style="border-radius: 10px;">
+					                <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+					                    <h4 class="modal-title" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}Chat{% endblocktrans%}</h4>
+					                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                        <span style="color: white;" aria-hidden="true">&times;</span>
+					                    </button>
+					                </div>
+					                <div class="modal-body">
+					                    <object class="object-chat" width="100%" data="{% url 'messenger_modal' user_contact.id %}"></object>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					    <!--./Modal Chat-->
+					    <!--Modal Message-->
+	                    <div class="modal fade" id="my_message" tabindex="-1" role="dialog" aria-labelledby="my_modalMSG" aria-hidden="true">
+			                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			                    <div class="modal-content" style="border-radius: 10px;">
+					                <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+						                <div class="d-flex align-items-center">
+						                    <i class="far fa-envelope pr-3 pl-3" style="color: white;"></i>
+						                    <h5 class="modal-title" style="color: white;" id="my_modalMSG">{% blocktrans %}Mensaje{% endblocktrans%}</h5>
+						                </div>
+						                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							                <span style="color: white;" aria-hidden="true">&times;</span>
+						                </button>
+						            </div>
+					                <div class="modal-body">
+						                <object class="object-msg" width="100%" data="{% url 'message_modal' user_contact.id None %}"></object>
+						            </div>
+				                </div>
+				            </div>
+		                </div>
+		                <!--./Modal Message-->			
+					    <script type="text/javascript">
+					        function redirect_login(){
+								url = "{% url 'view_login' %}?next={{request.path}}";
+		                        $(location).attr('href',url);
+						    }
+                            $("#user-plus").click(function () {
+                                $("#user-plus{{ user_contact.owner.id }}").hide()
+                                var url = $("#container-user-plus").attr("data-contact-url");  
+                                var user_id = $(this).val();
+                                console.log(user_id);
+                                $.ajax({                      
+                                    url: url,                    
+                                    data: {
+                                        'user_id': user_id      
+                                    },
+                                    success: function (data) {   
+									    $("#user-plus").notify("{% blocktrans %}EL USUARIO FUE AGREGADO A SUS CONTACTOS{% endblocktrans %}", "success");
+                                    }
+                                });                                   
+                            });
+						    $("#user-favorite").click(function () {
+                                $("#user-favorite{{ user_contact.owner.id }}").hide()
+                                $("#user-plus{{ user_contact.owner.id }}").hide()
+                                var url = $("#container-user-favorite").attr("data-contact-url");  
+                                var user_id = $(this).val();
+                                console.log(user_id);
+                                $.ajax({                      
+                                    url: url,                    
+                                    data: {
+                                      'user_id': user_id      
+                                    },
+                                    success: function (data) {   
+									    $.notify("{% blocktrans %}EL CONTACTO FUE AGREGADO A FAVORITOS{% endblocktrans %}", "success");
+                                    }
+                                });                                   
+                            });
+                        </script>                           				
+				    </div>
+				{% endfor %}
+				<!-- ./ main for -->					
+			</div>
+		</div>
+		<div class="col-lg-1 col-xl-2"></div>
+	</div>
+</div>
+{% endblock %}

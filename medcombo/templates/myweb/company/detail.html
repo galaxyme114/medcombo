@@ -1,0 +1,154 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load contact_tags %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="col-12 col-lg-10 background">
+    <div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}DATOS EMPRESA{% endblocktrans %}</h5>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <a href="{% url 'update_company' company.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans %}</button></a>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+	<form class="datos-form">
+		<div class="row">
+			<div class="col-12 col-md-7">
+				<div class="form-row d-flex align-items-end">
+					<div class="col-12">
+						<label for="company-name">{% blocktrans %}Nombre de la compañía{% endblocktrans %}</label>
+						<input name="company-name" type="text" class="form-control" placeholder="{{ company.name }}" disabled="true">
+					</div>
+				</div>
+				<label for="inputEmail4">{% blocktrans %}Dirección{% endblocktrans %}</label>
+				<input type="text" class="form-control" placeholder="{{ company.address }}" disabled="true">
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="telephone">{% blocktrans %}Teléfono{% endblocktrans %}</label>
+						<input name="telephone" type="text" class="form-control" placeholder="{{ company.telephone}}" disabled="true">
+					</div>
+					<div class="col-12 col-sm-6 w-100">
+						<label for="codigo-postal">{% blocktrans %}Código Postal{% endblocktrans %}</label>
+						<input name="codigo postal" type="text" class="form-control" placeholder="{{ company.code_postal }}" disabled="true">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="inputState">{% blocktrans %}País{% endblocktrans %}</label>
+						<input class="form-control" placeholder="{{ company.country_company }}" disabled="true">
+					</div>
+					<div class="col-12 col-sm-6 w-100">
+						<label for="ciudad">{% blocktrans %}Ciudad{% endblocktrans %}</label>
+						<input type="text" placeholder="{{ company.city_company }}" disabled="true">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="type_company">{% blocktrans %}Tipo de Compañía{% endblocktrans %}</label>
+						<select id="type_company" class="form-control" disabled>
+							<option value="1">{% blocktrans %}Hospital{% endblocktrans %}</option>
+							<option value="2">{% blocktrans %}Residencia de ancianos{% endblocktrans %}</option>
+							<option value="3">{% blocktrans %}Centro de cuidados{% endblocktrans %}</option>
+							<option value="4">{% blocktrans %}Centro de rehabilitacion{% endblocktrans %}</option>
+							<option value="5">{% blocktrans %}Laboratorio{% endblocktrans %}</option>
+							<option value="6">{% blocktrans %}Spa{% endblocktrans %}</option>
+							<option value="7">{% blocktrans %}Gimnasio{% endblocktrans %}</option>
+							<option value="8">{% blocktrans %}Fabricante de equipos medicos{% endblocktrans %}</option>
+							<option value="9">{% blocktrans %}Distribuidor{% endblocktrans %}</option>
+							<option value="10">{% blocktrans %}Empresa de mantenimiento o servicio{% endblocktrans %}</option>
+							<option value="11">{% blocktrans %}ONG{% endblocktrans %}</option>
+							<option value="12">{% blocktrans %}Universidad{% endblocktrans %}</option>
+							<option value="13">{% blocktrans %}Otro{% endblocktrans %}</option>
+						</select>
+					</div>
+					<div class="col-12 col-sm-6 w-100">
+						<label for="type_company">{% blocktrans %}Certificación ISO{% endblocktrans %}</label>
+						<input type="text" value="{{company.certification_iso}}" disabled>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-5">
+				<label for="web">{% blocktrans %}Web{% endblocktrans %}</label>
+				<input name="web" type="text" class="form-control" placeholder="{{ company.web }}" disabled="true">
+				<div class="row">
+					<div class="col-12 col-sm-6">
+						<label for="logo">{% blocktrans %}Logo{% endblocktrans %}</label>
+						<input type="text" class="form-control" id="exampleFormControlFile1" value=""  disabled="True">
+					</div>
+					<div class="col-12 col-sm-6">
+					    {% if company.logo %}
+							<img class="company-img-reload" src="{{ company.logo.url }}" style="margin: 0.5em 0; max-width: 100%; max-height: 160px;">
+					    {% else %}
+							<img class="company-img-reload" src="{% static 'img/company.png' %}" style="margin: 0.5em 0;max-width: 100%; max-height: 160px;">
+					    {% endif %}
+					</div>
+				</div>
+				<label for="company">{% blocktrans %}CIF{% endblocktrans %}</label>
+				<input name="company" type="text" class="form-control" placeholder="{{ company.cif }}" disabled="true">
+			</div>
+		</div>
+	</form>
+	<div class="row mt-5">
+		<div class="col-12">
+			<p class="text-home-job">{% blocktrans %}INFORMACIÓN ADICIONAL DE LA EMPRESA{% endblocktrans %}</p>
+		</div>
+	</div>
+	<div class="datos-form mb-5">
+		<table class="table table-responsive-md">
+			<thead>
+			    <tr>
+			        <th scope="col" style="color:#7f9bcd;">{% blocktrans %}Descripción de la empresa{% endblocktrans %}</th>
+			    </tr>
+			</thead>
+			<tbody>
+				{% if descriptions %}
+				    {% for description in descriptions %}
+					    {% if description.company.id == company.id %}			  	
+				            <tr>
+				                <td scope="row">
+					                <a onclick="return false" style="text-decoration:none; color: gray; cursor:default;" aria-disabled="true">
+			      					    {% if description.language.pk == 4   %}<!-- español -->
+                                            <img src="{% static 'img/flag/es.png' %}" alt="" style="height:20px;width:30px;"> ({{description.language.value_language}})
+                                        {% elif description.language.pk == 3 %}<!-- ingles -->
+                                            <img src="{% static 'img/flag/en.png' %}" style="height:30px;width:30px;"> ({{description.language.value_language}})
+                                        {% elif description.language.pk == 2 %}<!-- aleman -->
+                                            <img src="{% static 'img/flag/de.png' %}" style="height:30px;width:30px;"> ({{description.language.value_language}})
+                                        {% elif description.language.pk == 5 %}<!-- frances -->
+                                            <img src="{% static 'img/flag/fr.png' %}" style="height:30px;width:30px;"> ({{description.language.value_language}})
+                                        {% elif description.language.pk == 7 %}<!-- portugues -->
+                                            <img src="{% static 'img/flag/pt.png' %}" style="height:30px;width:30px;"> ({{description.language.value_language}})
+                                        {% elif description.language.pk == 6 %}<!-- italiano -->
+                                            <img src="{% static 'img/flag/it.png' %}" style="height:30px;width:30px;"> ({{description.language.value_language}})
+                                        {% elif description.language.pk == 1 %}<!-- chino -->
+                                            <img src="{% static 'img/flag/zh-hant.png' %}" style="height:30px;width:30px;"> ({{description.language.value_language}})
+                                        {% elif description.language.pk == 8 %}<!-- chino -->
+                                            <img src="{% static 'img/flag/zh-hans.png' %}" style="height:30px;width:30px;"> ({{description.language.value_language}})
+                                        {% elif description.language.pk == 9 %}<!-- japon -->
+                                            <img src="{% static 'img/flag/ja.png' %}" style="height:30px;width:30px;"> ({{description.language.value_language}}) 
+                                        {% endif %}
+									    {% blocktrans %}Información adicional {% endblocktrans %}
+								    </a>
+				                </td>
+				            </tr>
+					    {% endif %}
+				    {% endfor %}
+				{% else %}
+				    <tr>
+					    <td scope="row">{% blocktrans %}No existen registros{% endblocktrans %}</td>
+				    </tr>
+				{% endif %}
+			</tbody>
+		</table>	
+	</div>
+</div>
+<!--Type Company-->
+<script>
+	$(document).ready(function(){
+		$("#type_company").val('{{company.type_company}}');
+	});
+</script>
+<!--./Type Company-->
+{% endblock %}

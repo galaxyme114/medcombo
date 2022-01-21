@@ -1,0 +1,158 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="row">
+		<div class="col-12">
+			<h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}BANNER{% endblocktrans%}</h5>
+		</div>
+	</div>
+	<br />
+	<!--Create Banner-->
+    <form class="needs-validation mb-2" action="." method="POST" enctype="multipart/form-data" novalidate>
+		{% csrf_token %}
+		<input type="hidden" id="campaignId" name="campaignId" value="{{campaign}}">
+		<input type="hidden" id="requestID" name="requestID" value="create" />
+	    <div class="row m-0 list-fondo">
+		    <div class="col-12">
+				<div class="row">
+					<div class="col-12">
+						<p class="ml-3 mt-3">{% blocktrans %}Enlace{% endblocktrans%}</p>
+						<div class="pl-3 pr-3 mt-2 update-anadir-banner">
+							<input type='url' class='form-control col-sm-12' name='urlBanner' id='urlBanner' required />
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca un enlace{% endblocktrans %}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-12 d-md-flex">
+						<div class="col-12 col-md-6">
+							<img id="picture-banner" src="/static/img/banner.jpg" alt=""  width="100%" height="80" >
+						</div>
+						<div class="col-12 col-md-3">
+							<div class="col-12 col-md-12 update-banner p-0 mr-4 mt-3">
+								<span class="d-flex" style="border: solid 1px #b5b6b6; width: 100%;">
+									<i class="fas fa-file"></i>
+									<span class="custom-file">
+										<label id="label-file" class="mt-2" for="customFileBanner"></label>
+										<input type='file' class='custom-file-input' id='customFileEs' name='customFileBanner' onchange='readURL(this);' />
+									</span>
+								</span>
+							</div>
+						</div>
+						<div class="col-12 col-md-3">
+							<select class="form-control mt-3" id="selectBanner" name="selectBanner" required>
+								{% for lang in language %}
+									<option value="{{lang.id}}">{{lang.name_language}}</option>
+								{% endfor %}
+							</select>
+							<div class="invalid-feedback">
+								{% blocktrans %}Seleccione un idioma{% endblocktrans %}
+							</div>
+						</div>
+					</div>
+				</div>
+			   <div class="list-separator mt-5"></div>
+			    <div class="row py-4">
+				    <div class="col-12 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}GUARDAR{% endblocktrans%}</button>
+					    <a href="{% url 'BannerList' %}" type="button" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+    </form>
+	<br />
+	<!--Update Banner-->
+	{% if banner %}
+	    <div class="row m-0 list-fondo">
+		    <div class="col-12">
+			    {% for object in banner %}
+			        <form class="needs-validation mb-3 mt-3" action="." method="POST" enctype="multipart/form-data" novalidate>
+				        {% csrf_token %}
+				        <input type="hidden" id="campaignId" name="campaignId" value="{{campaign}}">
+				        <input type="hidden" id="bannerId" name="bannerId" value="{{object.id}}">
+				        <input type="hidden" id="requestID" name="requestID" value="update" />
+				        <input type="hidden" id="img_saved" name="img_saved" />
+				        <input type="hidden" id="selectBanner" name="selectBanner" value="{{ object.language_campaign.id }}" />
+				        <div class="row mt-2 mb-2 pl-3">
+					        <p>{{ object.language_campaign.value_language }}</p>
+				        </div>
+			            <div class="row">
+					        <div class="col-md-6">
+						        <div class="my-img-upload">
+							        <label for="picture_campaign{{forloop.counter0}}">
+								        {% if object.picture_campaign %}
+									        <img id="img{{forloop.counter0}}" src="{{ object.picture_campaign.url }}" alt="" />
+									        <input type="hidden" id="img_saved" name="img_saved" value="{{object.picture_campaign}}" />
+								        {% else %}
+									        <img id="img{{forloop.counter0}}" src="{% static 'img/banner.jpg' %}" alt="" />
+								        {% endif %}
+							        </label>
+							        <input type="file" class="form-control-file" id="picture_campaign{{forloop.counter0}}" name='customFileBanner' onchange='readURLUpdate(this,"{{forloop.counter0}}")' />
+						        </div>
+					        </div>
+					        <div class="col-md-4">
+								<input type="text" class="form-control" name='urlBanner' id='urlBanner' required value="{{object.url_campaign}}" />
+								<div class="invalid-feedback">
+									{% blocktrans %}Introduzca un enlace{% endblocktrans %}
+								</div>
+					        </div>
+					        <div class="col-md-2 mt-3 mt-md-0">
+						        <button type="submit" class="btn btn-primary crm-button-anadir col-12">{% blocktrans %}MODIFICAR{% endblocktrans %}</button>
+					        </div>
+				        </div>
+			        </form>
+				    {% if not forloop.last %}
+				        <div class="list-separator"></div>
+				    {% endif %}
+			    {% endfor %}
+		   </div>
+	    </div>
+    {% else %}
+		<h4 class="text-primary">{% blocktrans %}Sin Registros{% endblocktrans%}</h4>
+	{% endif %}
+    <br />
+</div>
+<script>
+	$("p").addClass("mb-0");
+	$('.custom-file-input').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 30) {
+		    $(inputFile).parent()
+                .find('#label-file')
+                .html(inputFile.files[0].name.substring(0,30));
+	        }
+	    else {
+		    $(inputFile).parent()
+                .find('#label-file')
+                .html(inputFile.files[0].name.substring(0,30)+'...');
+	    }
+    }); 
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function (e) {
+			    $('#picture-banner')
+				    .attr('src', e.target.result);
+		    };
+		    reader.readAsDataURL(input.files[0]);
+	    }
+    }
+</script>
+<script>
+	function readURLUpdate(input,value_num) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('#img'+value_num).attr('src', e.target.result);
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

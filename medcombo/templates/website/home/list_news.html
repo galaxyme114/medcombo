@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="container-fluid" id="news">
+    <div class="row pt-5">
+        <div class="col-12 pt-5">
+            <h5 class="pb-2"><strong>{% blocktrans %}NOTICIAS{% endblocktrans%}</strong></h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="news-cuadros">
+    <div id="container-list" class="row" style="padding: 3rem 10rem 0rem 10rem;margin: auto;">
+        {% for banner in banner_list %}
+            <div id="detail_banner" style="cursor: pointer;" onclick="my_link('{{banner.pk}}')" class="col-12 col-sm-6 col-lg-3 cuadro mb-4">
+                <div class="card mb-3" style="padding: 0px;">
+                    {% if banner.picture %}
+                        <img class="img-fluid" style="height: 250px;" src="{{ banner.picture.url }}" alt="{{banner.title|truncatechars:160}}" >
+                    {% else %}
+                        <img class="img-fluid" style="height: 250px;" src="{% static 'img/default.png' %}" alt="{{banner.title|truncatechars:160}}" >
+                    {% endif %}
+                </div>
+                <div class="card mb-3" style="border: 0;">
+                    <div class="card-body" style="padding-left: 5px;">
+                        <p class="card-text" style="font-size: 16px; text-align: justify !important;">{{banner.title|truncatechars:100}}</p>
+                    </div>
+                    <div class="card-body mt-3 mb-2" style="padding-left: 5px;">
+                        <textarea id="textarea-banner{{banner.pk}}" style="display: none;">{{ banner.description|safe|escape}}</textarea>
+                        <div id="ready{{banner.pk}}" class="card-text" style="font-weight: 510;font-size: 14px;color: #3b3b3b;text-align: justify !important;"></div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-11 d-flex" style="font-size: 13px;padding: 0px;border-top: 1px solid;">
+                        <div class="col-6">
+                            <span>{{banner.date|date:"d M Y"}}</span>
+                        </div>
+                        <div class="col-6 d-flex" style="justify-content: flex-end;">
+                            <span>
+                                <a href="{% url 'detail_news' banner.pk %}" style="color: #3b3b3b;">{% blocktrans %}+info{% endblocktrans%}</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function(){
+                    $("#ready{{banner.pk}}").ready(function(){
+                        var text_html = $("#textarea-banner{{banner.pk}}").text();
+                        if(text_html.length > 250) {
+                            $("#ready{{banner.pk}}").text(text_html.replace(/<[^>]*>?/g, '').substring(0,250)+'...');
+                        }
+                        else {
+                            $("#ready{{banner.pk}}").text(text_html.replace(/<[^>]*>?/g, '').substring(0,250));
+                        }
+                    });
+                });
+            </script>
+        {% endfor %}
+    </div>    
+</div>
+<script>
+    function my_link(value) {
+        var url = "{% url 'detail_news' 0 %}".replace(0,value);
+        location.href = url;
+    }
+</script>
+{% endblock %}

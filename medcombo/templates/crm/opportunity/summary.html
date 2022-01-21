@@ -1,0 +1,74 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="row d-flex align-items-end">
+		<div class="col-12 col-md-6 padding-movil">
+			<h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}COMERCIALES{% endblocktrans%}</h5>
+			<div class="input-group flex-nowrap">
+				<input id="search_summary" type="search" class="form-control input-right-border" placeholder={% blocktrans %}"Buscar"{% endblocktrans%} id="buscar">
+				<div class="input-group-prepend">
+					<span class="input-group-text my_cursor" id="buscar-fa"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-md-4"></div>
+		<div class="col-md-2"></div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12">
+			<div id="contact-table">
+				<table class="table table-hover table-responsive-md">
+			        <thead>
+			            <tr>
+                            <th scope="col"></th>
+			                <th scope="col">{% blocktrans %}Nombre{% endblocktrans %}</th>
+			                <th scope="col">{% blocktrans %}Email{% endblocktrans %}</th>
+                            <th scope="col">{% blocktrans %}Teléfono{% endblocktrans %}</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+                        {% if object_list %}
+                            {% for my_user in object_list %}			  	
+			                    <tr>
+                                    <td class="text-center">
+                                        <div>
+                                            {% if my_user.picture %}
+                                                <img src="{{my_user.picture.url}}" height="70" width="70px" alt="" />
+                                            {% else %}
+                                                <img src="{% static 'img/userdefault.jpeg' %}" height="70" width="70px" alt="" />
+                                            {% endif %}
+                                        </div>
+                                    </td>
+			                        <td scope="row"><a href="{% url 'OpportunitySummaryDetail' my_user.id %}">{{ my_user.first_name }} {{ my_user.last_name }} </a></td>
+			                        <td>{{ my_user.email }}</td>
+			                        <td>{{ my_user.telephone }}</td>
+			                    </tr>
+		                    {% endfor %}
+	                    {% else %}
+	                        <tr>
+	                            <td scope="row">{% blocktrans %}No existen comerciales{% endblocktrans %}</td>
+	                        </tr>
+		                {% endif %}
+			        </tbody>
+			    </table>
+			    <script>
+				    $("#search_summary").keyup(function(){
+					    _this = this;
+					    // Show only matching TR, hide rest of them
+					    $.each($("table tbody tr"), function() {
+						    if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+							    $(this).hide();
+						    }
+						    else {
+							    $(this).show();
+						    }
+					    });
+				    });
+			    </script>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

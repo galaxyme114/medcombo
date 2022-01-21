@@ -1,0 +1,75 @@
+{% extends "dashboard_admin.html" %}
+{% load i18n %}
+{% block content %}
+<center>
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+</center>
+<div class="col-12 col-lg-10 background">
+	<div class="row">
+		<div class="col-12 col-lg-10">
+			<h4>{% blocktrans %}Registrar Lead{% endblocktrans%}</h4>
+			<form class="formulario" action="." method="POST"  id="personForm" data-cities-url="{% url 'ajax_load_cities' %}" novalidate>
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<div class="form-group">{% blocktrans %}Email{% endblocktrans%}</label>
+							<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name=email>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="form-group">
+							<label for="company">{% blocktrans %}País{% endblocktrans%}</label>
+                          	<select id="id_country" class="form-control" {{ form.country }}
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="form-group">
+							<label for="exampleInputPassword1">{% blocktrans %}Contraseña{% endblocktrans%}</label>
+							<input type="password" class="form-control" id="exampleInputPassword1" name=password1>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="form-group">
+							<label for="exampleInputPassword1">{% blocktrans %}Confirmar contraseña{% endblocktrans%}</label>
+							<input type="password" class="form-control" id="exampleInputPassword2" name=password2>
+						</div>
+					</div>
+					<div class="col-12 d-flex justify-content-center pt-4">
+						<button type="submit" class="btn btn-primary formulario-button">{% blocktrans %}Confirmar{% endblocktrans%}</button>
+					</div>	
+				</div>
+			</form>
+		</div>
+		<div class="col-lg-2"></div>
+	</div>
+</div>
+<script type="text/javascript">
+    $("#id_country").change(function () {
+        var url = $("#personForm").attr("data-cities-url");  // get the url of the `load_cities` view
+        var countryId = $(this).val();
+        console.log(countryId)  // get the selected country ID from the HTML input
+        $.ajax({  // initialize an AJAX request
+            url: url,  // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+                'country': countryId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+                $("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
+            }
+        });
+    });
+</script>	
+{% endblock %}

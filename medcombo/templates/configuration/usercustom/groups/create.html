@@ -1,0 +1,42 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<style>
+    #permissions-id-list ul {list-style-type: none;}
+</style>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+    <div class="row">
+        <div class="col-12">
+            <h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}CREAR GRUPO{% endblocktrans%}</h5>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+    <div class="row m-0 list-fondo mb-5">
+        <div class="col-12 p-4">
+            <form class="needs-validation" action="." method="POST" novalidate>
+                {% csrf_token %}
+                <div class="row">
+                    <div id="permissions-id-list" class="col-12 py-3">
+                        <label for="name">{% blocktrans %}Nombre:{% endblocktrans%}</label>
+                        <input class="form-control col-md-8" id="name" name= name {{ form.name }}
+                        <div class="invalid-feedback">
+                            {% blocktrans %}Introduzca un nombre para el grupo{% endblocktrans %}
+                        </div>
+                        <h6 class="pt-5">{% blocktrans %}Permisos:{% endblocktrans%}</h6>
+                        {{ form.permissions }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary crm-button-anadir mr-3">{% blocktrans %}GUARDAR{% endblocktrans%}</button>
+                        <a href="{% url 'list_groups' %}" type="button" class="btn btn-primary crm-button-anadir">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

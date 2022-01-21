@@ -1,0 +1,375 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<script type="text/javascript" src="{% static 'js/jstz.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="col-12 col-lg-10 background">
+    <div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <p class="text-home-job">{% blocktrans %}LISTADO DE MENSAJES{% endblocktrans%}</p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <button class="btn btn-primary datos-form-buttom" data-toggle="modal" data-target="#my_msg_modal">{% blocktrans %}NUEVO MENSAJE{% endblocktrans%}</button>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+    <div class="row">
+        <div class="col-12 col-md-6 padding-movil">
+            <!--Searcher-->
+            <div class="input-group flex-nowrap">
+                <input type="search" class="form-control input-right-border" placeholder="{% blocktrans %}Buscar{% endblocktrans%}" id="my_search">
+                <div class="input-group-prepend">
+                    <span class="input-group-text my_cursor" id="search-fa-two"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+                </div>
+            </div>
+            <!--./Searcher-->
+            <!--List Messages-->
+            
+            <div class="col-12 mt-3">
+                <div style="padding: 10px 15px 10px 15px; height: 750px; overflow: auto;" class="row conversacion" id="list-msg">
+                    <div style="padding: 0px;" class="col-12">
+                        <!--My Messages Sent-->
+                        {% if mgs_sent %}
+                            <div class="col-12 pl-0 pr-0" style="border-bottom: 1px solid rgb(194, 192, 192);"><span>{% blocktrans %}ENVIADOS{% endblocktrans%}</span></div>
+                            <div class="col-12 pl-0 pr-0">
+                                {% for info in info_user %}
+                                    <!--Accordion wrapper-->
+                                    <div class="col-12 accordion pl-0 pr-0" id="accordionExU{{forloop.counter0}}" role="tablist" aria-multiselectable="false">
+                                        <!-- Accordion card -->
+                                        <div class="card" style="border-top: none; border-right: none; border-left: none;">
+                                            <!-- Card header -->
+                                            <div class="card-header" role="tab" id="headingTwoU{{forloop.counter0}}">
+                                                <a style="text-decoration: none;" class="collapsed d-flex" data-toggle="collapse" data-parent="#accordionExU{{forloop.counter0}}" href="#collapseTwoU{{forloop.counter0}}" aria-expanded="false" aria-controls="collapseTwoU{{forloop.counter0}}">
+                                                    <div class="col-4 col-lg-2 pl-0 pr-0">
+                                                        {% if info.picture %}
+                                                            <img class="rounded-circle mb-2" src="{{ info.picture.url }}" width="auto" height="50">
+                                                        {% else %}
+                                                            <img class="rounded-circle mb-2" src="{% static 'img/userdefault.jpeg' %}" width="auto" height="50">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-6 col-lg-5 pl-0 pr-0">
+                                                        <span class="row" style="font-size:16px;">{{info.first_name}} {{info.last_name}}</span>
+                                                        <span class="row d-inline d-lg-none">{{info.work.name}}</span>
+                                                        <span class="row" style="font-size:14px;">({{info.username}})</span>
+                                                    </div>
+                                                    <div class="col-2 col-lg-5 pl-0 pr-0 text-right">
+                                                        <span id="read-own{{forloop.counter0}}"></span><span class="d-none d-lg-inline">{{info.work.name}}</span><i id="iU{{forloop.counter0}}" class="fas fa-caret-down ml-0 ml-lg-3"></i>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <!-- Card body -->
+                                            <div id="collapseTwoU{{forloop.counter0}}" class="collapse" role="tabpanel" aria-labelledby="headingTwoU{{forloop.counter0}}" data-parent="#accordionExU{{forloop.counter0}}">
+                                                <div id="collapse-bodyU{{forloop.counter0}}" class="card-body"></div>
+                                            </div>
+                                        </div>
+                                        <!-- Accordion card -->
+                                    </div>
+                                    <script>
+                                        function paint_data(table_id, id_msg){
+                                            var token = '{{csrf_token}}';
+                                            var my_url = '{% url "get_message" %}';
+                                            var tz = jstz.determine(); // Determines the time zone of the browser client
+                                            var timezone = tz.name();
+                                            $.ajax({
+                                                headers: { "X-CSRFToken": token },
+                                                method: 'POST',
+                                                url: my_url,
+                                                data: {
+                                                    'id': id_msg,
+                                                    'zone': timezone
+                                                },
+                                                success: function(data) {
+                                                    $('#conversation').html(data);
+                                                    $('#message-sending').html(
+                                                        '<div style="padding: 0px;" class="col-12">'+
+                                                            '<span>{% blocktrans %}Continuar conversación{% endblocktrans%}</span>'+
+                                                            '<textarea onkeyup="functionSent()" style="resize: none;" class="form-control" name="message" id="message" rows="3" placeholder="{% blocktrans %}Escribe tu mensaje aqui...{% endblocktrans%}"></textarea>'+
+                                                        '</div>'
+                                                    );
+                                                }
+                                            });
+                                        }
+                                        function functionSent(){
+                                            var evt = event;
+                                            var keycode = evt.keyCode || evt.which;
+                                            if (keycode == 13) {
+                                                var my_text = $('#message').val();
+                                                var id_msg = $('#msg_root').attr('data-val');
+                                                var token = '{{csrf_token}}';
+                                                var my_url = '{% url "extended_message" %}';
+                                                var tz = jstz.determine(); // Determines the time zone of the browser client
+                                                var timezone = tz.name();
+                                                
+                                                $.ajax({
+                                                    headers: { "X-CSRFToken": token },
+                                                    method: 'POST',
+                                                    url: my_url,
+                                                    data: {
+                                                        'id': id_msg,
+                                                        'text': my_text.trim(),
+                                                        'zone': timezone
+                                                    },
+                                                    success: function(data) {
+                                                        $('#message').val('');
+                                                        $("#container-extend-msg").html('');
+                                                        $("#container-extend-msg").html(data);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        $("#accordionExU{{forloop.counter0}}").ready(function(evt){
+                                            var mailer = 'Vacio';
+                                            var my_id = '{{info.id}}'
+                                            var token = '{{csrf_token}}';
+                                            var icon = 'read-own{{forloop.counter0}}';
+                                            var my_url = '{% url "list_message" %}';
+                                            $.ajax({
+                                                headers: { "X-CSRFToken": token },
+                                                method: 'POST',
+                                                url: my_url,
+                                                data: {
+                                                    'id': my_id,
+                                                    'mailer': mailer,
+                                                    'icon': icon
+                                                },
+                                                success: function(data) {
+                                                    $("#collapse-bodyU{{forloop.counter0}}").html(data);
+                                                    var token = '{{csrf_token}}';
+                                                    var my_url = '{% url "alert_msg_mailer" %}';
+                                                    var mailer = 'Vacio';
+                                                    $.ajax({
+                                                        headers: { "X-CSRFToken": token },
+                                                        method: 'POST',
+                                                        url: my_url,
+                                                        data: {
+                                                            'mailer': mailer
+                                                        },
+                                                        success: function(data) {
+                                                            if(data != 0) {
+                                                                $('#read-own{{forloop.counter0}}').html('<i class="fas fa-envelope text-info"></i> <span class="d-none d-lg-inline">|</span> ');
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        });
+                                        $('#accordionExU{{forloop.counter0}}').on('show.bs.collapse', function () {
+                                            $("#iU{{forloop.counter0}}").removeClass('fas fa-caret-down');
+                                            $("#iU{{forloop.counter0}}").addClass('fas fa-caret-right');
+                                        });
+                                        $('#accordionExU{{forloop.counter0}}').on('hide.bs.collapse', function () {
+                                            $("#iU{{forloop.counter0}}").removeClass('fas fa-caret-right');
+                                            $("#iU{{forloop.counter0}}").addClass('fas fa-caret-down');
+                                        });
+                                    </script>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <!--./My Messages Sent-->
+                        <!--My Messages received-->
+                        {% if list_contacts %}
+                            <div class="col-12 pl-0 pr-0" style="border-bottom: 1px solid rgb(194, 192, 192);"><span>{% blocktrans %}RECIBIDOS{% endblocktrans%}</span></div>
+                            <div class="col-12 pl-0 pr-0">
+                                {% for contacts in list_contacts %}
+                                    <!--Accordion wrapper-->
+                                    <div class="col-12 accordion pl-0 pr-0" id="accordionEx{{forloop.counter0}}" role="tablist" aria-multiselectable="true">
+                                        <!-- Accordion card -->
+                                        <div class="card" {% if forloop.counter0 == 0 %} style="border-top: none; border-right: none; border-left: none;" {% else %} style="border-right: none; border-left: none;" {% endif %}>
+                                            <!-- Card header -->
+                                            <div class="card-header" role="tab" id="headingTwo{{forloop.counter0}}">
+                                                <a style="text-decoration: none;" class="collapsed d-flex" data-toggle="collapse" data-parent="#accordionEx{{forloop.counter0}}" href="#collapseTwo{{forloop.counter0}}" aria-expanded="false" aria-controls="collapseTwo{{forloop.counter0}}">
+                                                    <!--<div class="col-12 col-lg-7 d-flex">-->
+                                                    <div class="col-4 col-lg-2 pl-0 pr-0">
+                                                        {% if contacts.picture %}
+                                                            <img class="rounded-circle mb-2" src="{{ contacts.picture.url }}" width="auto" height="50">
+                                                        {% else %}
+                                                            <img class="rounded-circle mb-2" src="{% static 'img/userdefault.jpeg' %}" width="auto" height="50">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-6 col-lg-5 pl-0 pr-0">
+                                                        <span class="row" style="font-size:16px;">{{contacts.first_name}} {{contacts.last_name}}</span>
+                                                        <span class="row d-inline d-lg-none">{{contacts.work.name}}</span>
+                                                        <span class="row" style="font-size:14px;">({{contacts.username}})</span>
+                                                    </div>
+                                                    <!--</div>-->
+                                                    <div class="col-2 col-lg-5 pl-0 pr-0 text-right">
+                                                        <span id="read-u{{forloop.counter0}}"></span><span class="d-none d-lg-inline">{{contacts.work.name}}</span><i id="i{{forloop.counter0}}" class="fas fa-caret-down ml-0 ml-lg-3"></i>
+                                                    </div>
+                                    
+                                                </a>
+                                            </div>
+                                            <!-- Card body -->
+                                            <div id="collapseTwo{{forloop.counter0}}" class="collapse" role="tabpanel" aria-labelledby="headingTwo{{forloop.counter0}}" data-parent="#accordionEx{{forloop.counter0}}">
+                                                <div id="collapse-body{{forloop.counter0}}" class="card-body"></div>
+                                            </div>
+                                        </div>
+                                        <!-- Accordion card -->
+                                    </div>
+                                    <script>
+                                        function paint_data(table_id, id_msg){
+                                            var token = '{{csrf_token}}';
+                                            var my_url = '{% url "get_message" %}';
+                                            var tz = jstz.determine(); // Determines the time zone of the browser client
+                                            var timezone = tz.name();
+                                            $.ajax({
+                                                headers: { "X-CSRFToken": token },
+                                                method: 'POST',
+                                                url: my_url,
+                                                data: {
+                                                    'id': id_msg,
+                                                    'zone': timezone
+                                                },
+                                                success: function(data) {
+                                                    $('#conversation').html(data);
+                                                    $('#message-sending').html(
+                                                        '<div style="padding: 0px;" class="col-12">'+
+                                                            '<span>{% blocktrans %}Continuar conversación{% endblocktrans%}</span>'+
+                                                            '<textarea onkeyup="functionSentTwo()" style="resize: none;" class="form-control" name="message" id="message" rows="3" placeholder="{% blocktrans %}Escribe tu mensaje aqui...{% endblocktrans%}"></textarea>'+
+                                                        '</div>'
+                                                    );
+                                                }
+                                            });
+                                        }
+                                        function functionSentTwo(){
+                                            var evt = event;
+                                            var keycode = evt.keyCode || evt.which;
+                                            if (keycode == 13) {
+                                                var my_text = $('#message').val();
+                                                var id_msg = $('#msg_root').attr('data-val');
+                                                var token = '{{csrf_token}}';
+                                                var my_url = '{% url "extended_message" %}';
+                                                var tz = jstz.determine(); // Determines the time zone of the browser client
+                                                var timezone = tz.name();
+                                                $.ajax({
+                                                    headers: { "X-CSRFToken": token },
+                                                    method: 'POST',
+                                                    url: my_url,
+                                                    data: {
+                                                        'id': id_msg,
+                                                        'text': my_text,
+                                                        'zone': timezone
+
+                                                    },
+                                                    success: function(data) {
+                                                        $('#message').val('');
+                                                        $("#container-extend-msg").html('');
+                                                        $("#container-extend-msg").html(data);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        $("#accordionEx{{forloop.counter0}}").ready(function(evt){
+                                            var mailer = '{{contacts.id}}';
+                                            var my_id = '{{list_user}}'
+                                            var token = '{{csrf_token}}';
+                                            var icon = 'read-u{{forloop.counter0}}';
+                                            var my_url = '{% url "list_message" %}';
+                                            $.ajax({
+                                                headers: { "X-CSRFToken": token },
+                                                method: 'POST',
+                                                url: my_url,
+                                                data: {
+                                                    'id': my_id,
+                                                    'mailer': mailer,
+                                                    'icon': icon
+                                                },
+                                                success: function(data) {
+                                                    $("#collapse-body{{forloop.counter0}}").html(data);
+                                                    var mailer = '{{contacts.id}}';
+                                                    var token = '{{csrf_token}}';
+                                                    var my_url = '{% url "alert_msg_contact" %}';
+                                                    $.ajax({
+                                                        headers: { "X-CSRFToken": token },
+                                                        method: 'POST',
+                                                        url: my_url,
+                                                        data: {
+                                                            'mailer': mailer
+                                                        },
+                                                        success: function(data) {
+                                                            if(data != 0) {
+                                                                $('#read-u{{forloop.counter0}}').html('<i class="fas fa-envelope text-info"></i> <span class="d-none d-lg-inline">|</span> ');
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        });
+                                        $('#accordionEx{{forloop.counter0}}').on('show.bs.collapse', function () {
+                                            $("#i{{forloop.counter0}}").removeClass('fas fa-caret-down');
+                                            $("#i{{forloop.counter0}}").addClass('fas fa-caret-right');
+                                        });
+                                        $('#accordionEx{{forloop.counter0}}').on('hide.bs.collapse', function () {
+                                            $("#i{{forloop.counter0}}").removeClass('fas fa-caret-right');
+                                            $("#i{{forloop.counter0}}").addClass('fas fa-caret-down');
+                                        });
+                                    </script>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <!--./My Messages Received-->
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 padding-final-todos mt-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}CONVERSACIÓN{% endblocktrans%}</p>
+                        <div class="row conversacion" style="height: 800px;">
+                            <div id="conversation" style="height: 600px;overflow: auto;" class="col-12"></div>
+                            <div id="message-sending" style="height: 100px;" class="col-12"></div>
+                        </div>              
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal Message-->
+<div class="modal fade" id="my_msg_modal" tabindex="-1" role="dialog" aria-labelledby="modalMSG" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	      <div class="modal-content" style="border-radius: 10px;">
+				<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+					<div class="d-flex align-items-center">
+					    <i class="far fa-envelope icons_size_title_second mt-1"></i>
+					    <p class="modal-title ml-3 text_size_title_second" id="modalMSG">{% blocktrans %}MENSAJE{% endblocktrans%}</p>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span style="color: white;" aria-hidden="true">&times;</span>
+					</button>
+				</div>
+	            <div class="modal-body p-0">
+	                <object class="object-msg" width="100%" data="{% url 'modal_msg' %}"></object>
+			    </div>
+	      </div>
+	  </div>
+</div>
+<!--./Modal Message-->
+<script>
+    $("#my_search").keyup(function(){
+        _this = this;
+        // Show only matching TR, hide rest of them
+        $.each($("table tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+                $(this).hide();
+            }
+            else {
+                $('div.collapse').toggleClass('show');
+                $(this).show();
+            }
+        });
+    });
+    $("#search-fa-two").click(function(){
+        _this = this;
+        if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+            $(this).hide();
+        }
+        else {
+            $('div.collapse').toggleClass('show');
+            $(this).show();
+        }
+    });
+</script>
+{% endblock %}

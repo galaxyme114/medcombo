@@ -1,0 +1,168 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-9 background">
+	<div class="container-fluid pb-5">
+		<div class="row myweb-list-background">
+			<div class="col-12">
+				<div class="row mb-5">
+					<div class="col-12">
+							<a href="{% url 'MywebProductCreate' %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}NUEVO PRODUCTO{% endblocktrans%}</button></a>
+							<a href="{% url 'MywebProductAdmininistrar' %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}ADMINISTRAR{% endblocktrans%}</button></a>
+					</div>
+				</div>
+				<div class="row padding-row ventana-productos">
+				   {% for product in object_list %}
+				    <!-- and product.language.pk == language_selected-->
+					{% if request.user.company == product.company %}
+					<div class="col-12 col-sm-6 col-md-4 col-xl-3">
+							<div class="myweb-list-img">
+								{% if product.picture %}
+									<img src="{{ product.picture.url }}" height="130px" width="auto">
+								{% else %}
+									<img src="{% static 'img/default.png' %}" height="130px" width="auto">
+								{% endif %}
+								<!--<div class="myweb-list-editImg d-none">-->
+								<div class="myweb-list-editImg">
+								{% if product.language.pk == 4 %}
+							    	<a href="{% url 'MywebProductUpdate' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+							    {% endif %}
+							    {% if product.language.pk == 1 %}
+							    	<a href="{% url 'MywebProductUpdateChinoTradicional' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+							    {% endif %}
+							    {% if product.language.pk == 2 %}
+							    	<a href="{% url 'MywebProductUpdateAleman' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+							    {% endif %}
+							    {% if product.language.pk == 3 %}
+							    	<a href="{% url 'MywebProductUpdateIngles' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+							    {% endif %}
+							    {% if product.language.pk == 5 %}
+							    	<a href="{% url 'MywebProductUpdateFrances' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+							    {% endif %}
+							    {% if product.language.pk == 6 %}
+							    	<a href="{% url 'MywebProductUpdateItaliano' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+							    {% endif %}
+							    {% if product.language.pk == 7 %}
+							    	<a href="{% url 'MywebProductUpdatePortugues' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+							    {% endif %}
+							    {% if product.language.pk == 8 %}
+							    	<a href="{% url 'MywebProductUpdateChinoSimplificado' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+							    {% endif %}
+							    {% if product.language.pk == 9 %}
+							    	<a href="{% url 'MywebProductUpdateJapones' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+							    {% endif %}
+								    
+								    <span id="my_hover" class="my_cursor" data-toggle="modal" data-target="#delete{{ product.id }}"><i class="fas fa-trash-alt"></i></span>
+								</div>
+								<div class="modal fade" id="delete{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								<div class="modal-dialog modal-xs">
+									<div class="modal-content" style="border-radius: 25px;">
+										<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+										    <div class="d-flex align-items-center">
+												<i class="fas fa-trash-alt icons_size_title"></i>
+											    <p class="modal-title ml-3 text_size_title mt-1" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR PRODUCTO{% endblocktrans%}</p>
+											</div>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true" style="color: #fff;">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+												<div class="col-12 d-flex justify-content-start">
+													<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+												</div>
+											<!--<object height="150" width="101%" data="{% url 'MywebProductDelete' product.id %}"></object>-->
+										</div>
+										<div class="modal-footer">
+												<div class="col-12 d-flex justify-content-center">
+													<button id="delete-button{{product.id}}" data-del="{{product.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+													<button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+												</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<script>
+								$('#delete-button{{product.id}}').click(function(e){
+									var value = '{{product.id}}';
+									var url = '{% url "ProductDelete" %}';
+									var token = '{{csrf_token}}';
+									$.ajax({
+										headers: { "X-CSRFToken": token },
+										method: 'POST',
+										url: url,
+										data: {
+											'value': value
+										},
+										success: function(data) {
+											if(data == 'Ok') {
+												location.href = '{% url "MyWebProductAdminList" %}';
+											}
+										}
+									});
+								});
+							</script>
+							</div>
+							<p>{{ product.name }}</p>
+							<div class="row mt-4">
+								<div class="col-12 d-flex justify-content-between score pb-2 pt-2">
+									{% if product.company.logo %}
+										<img src="{{ product.company.logo.url }}" height="35px">
+									{% else %}
+										<img src="{% static 'img/default.png' %}" height="35px">
+									{% endif %}
+									<span class="jRating" id="jRating{{forloop.counter0}}">
+										<span class="jRating-star" index="0"></span>
+										<span class="jRating-star" index="1"></span>
+										<span class="jRating-star" index="2"></span>
+										<span class="jRating-star" index="3"></span>
+										<span class="jRating-star" index="4"></span>
+									</span>							
+									<span class="producto-pais">{{ product.company.country_company }}</span>
+								</div>
+							</div>
+							<div class="bottom-divider"></div>
+						</div>
+						<script>
+							$(document).ready(function(){
+								var number_counter = '{{forloop.counter0}}';
+								var product_rating = '{{product.rating_average}}';
+								if(Number.isInteger(product_rating) == true){
+									product_rating = parseInt('{{product.rating_average}}');
+								}
+								else {
+									product_rating = parseInt('{{product.rating_average}}') + 0.5;
+								}
+								new JRating(document.getElementById('jRating'+number_counter), product_rating, false);
+							});
+						</script>
+					 {% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="col-lg-3"></div>
+		</div>
+	</div>
+</div>
+<div class="col-lg-1 background"></div>
+
+
+
+<script type="text/javascript">
+	//Video
+	$('#csv').on('change', function(event) {
+      var inputFile = event.currentTarget;
+	  if(inputFile.files[0].name.length <= 30) {
+		$(inputFile).parent()
+        .find('.custom-file-label')
+        .html(inputFile.files[0].name.substring(0,25));
+	  }
+	  else {
+		$(inputFile).parent()
+        .find('.custom-file-label')
+        .html(inputFile.files[0].name.substring(0,25)+'...');
+	  }
+    });
+
+</script>
+{% endblock %}

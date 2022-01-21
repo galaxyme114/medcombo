@@ -1,0 +1,170 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<style>
+	.wrapper {
+		width: 100%;
+	}
+	.dbox {
+		width: 100%;
+		margin-bottom: 25px;
+	}
+	.dbox .icon {
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		background: #7e9acd;
+		margin: 0 auto;
+		margin-bottom: 20px;
+	}
+	.dbox .icon i {
+		font-size: 20px;
+		color: #fff;
+	}
+	.dbox p span {
+		font-weight: 500;
+		color: #000000;
+	}
+	.custom-border{
+		background-color: #fff;
+		border: solid 1px #b5b6b6;
+		border-radius: 10px;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+</style>
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}Home{% endblocktrans %}</5>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+    <div class="col-lg-10">
+		<div class="row point-border py-4">
+			<div class="home-col">
+				<div data-url="{% url 'view_profiledetail' user.id %}" onclick="my_link($(this).attr('data-url'))" class="col d-flex flex-column align-items-center my_cursor">
+					<h5 style="text-align: center">{% blocktrans %}Datos Personales{% endblocktrans %}</h5>
+					<img src="{% static 'img/icon-menu/datosG.png' %}" alt="" class="pr-1">
+					<span>{{completed_registration}}%</span>
+					<p></p>
+				</div>
+			</div>
+			<div class="home-col">
+				<div data-url="{% url 'messenger' %}" onclick="my_link($(this).attr('data-url'))" class="col d-flex flex-column align-items-center my_cursor">
+					<h5>{% blocktrans %}Mensajes{% endblocktrans %}</h5>
+					<img src="{% static 'img/icon-menu/mensajesG.png' %}" alt="" class="pr-1">
+					<span>{{my_msgs}}</span>
+					<p>{% blocktrans %}Tienes mensajes sin leer{% endblocktrans %}</p>
+				</div>
+			</div>
+			<div class="home-col">
+				<div data-url="{% url 'chat_list' %}" onclick="my_link($(this).attr('data-url'))" class="col d-flex flex-column align-items-center my_cursor">
+					<h5>{% blocktrans %}Chat{% endblocktrans %}</h5>
+					<img src="{% static 'img/icon-menu/chatG.png' %}" alt="" class="pr-1">
+					<span>{{my_chats}}</span>
+					<p>{% blocktrans %}Alguien tiene una consulta{% endblocktrans %}</p>
+				</div>
+			</div>
+			<div class="home-col">
+				<div data-url="{% url 'contacts_list' %}" onclick="my_link($(this).attr('data-url'))" class="col d-flex flex-column align-items-center my_cursor">
+					<h5>{% blocktrans %}Contacto{% endblocktrans %}</h5>
+					<img src="{% static 'img/icon-menu/contactoG.png' %}" alt="" class="pr-1">
+					<span>{{my_contacts}}</span>
+					<p>{% blocktrans %}Alguien te ha agregado a sus contactos{% endblocktrans %}</p>
+				</div>
+			</div>
+			<div class="home-col-last">
+				<div data-url="{% url 'list_favorites' %}" onclick="my_link($(this).attr('data-url'))" class="col d-flex flex-column align-items-center my_cursor">
+					<h5>{% blocktrans %}Favoritos{% endblocktrans %}</h5>
+					<img src="{% static 'img/icon-menu/favoritosG.png' %}" alt="" class="pr-1">
+					<span>{{my_favorite}}</span>
+					
+				</div>
+			</div>
+		</div>
+		<div class="row custom-border py-4 pl-4 pr-4 pt-5 mb-4 mt-5">
+		
+			<div class="col-12">
+				<h5 style="word-break:break-all;"><b>{% blocktrans %}Dear Mr/Mrs{% endblocktrans%}</b>
+				{% if request.user.first_name and request.user.last_name %}
+					&nbsp;&nbsp;{{request.user.first_name|capfirst}}&nbsp;{{request.user.last_name|capfirst}}
+				{% else %}
+					{{request.user.username|capfirst}}
+				{% endif %}
+				!</h5>
+			</div>
+			<div class="col-12 mt-2">
+				<p class="text-home-text" style="word-break: break-all;">
+					{% blocktrans %}We are more than happy to welcome you as a new Medcombo member. In order to help you get started, we created a little step by step guide for you.{% endblocktrans%}
+				</p>
+				<p class="pl-4 pr-4">
+					1.  <a href="{% url 'view_profiledetail' user.id %}"><b>{% blocktrans %}Complete your profile.{% endblocktrans%}</b></a> {% blocktrans %}On the home page under “Personal Information,” you can complete your profile by adding or changing  your information.{% endblocktrans%} 
+				</p>
+				<p class="pl-4 pr-4">
+					2.  {% if not request.user.company %} <a href="{% url 'create_company' %}"><b>{% blocktrans %}Create your “My Web”.{% endblocktrans%}</b></a>{% else %} <a href="#"><b>{% blocktrans %}Create your “My Web”.{% endblocktrans%}</b></a>{% endif %} {% blocktrans %}Under “My Web” you have the possibility to create your own webshop by registering your business.{% endblocktrans%}
+				</p>
+				<p class="pl-4 pr-4">
+					3.  {% if not request.user.company %} <a href="{% url 'create_company' %}"><b>{% blocktrans %}Your first Product.{% endblocktrans%}</b></a>{% else %} <a href="{% url 'MyWebProductAdminList' %}"><b>{% blocktrans %}Your first Product.{% endblocktrans%}</b></a>{% endif %} {% blocktrans %}After creating your webshop, you can start adding products to it. You can use up to four pictures, a video, suitable keywords, and a description to promote it.{% endblocktrans%}
+				</p>
+				<p class="pl-4 pr-4">
+					4.  {% if not request.user.company %} <a href="{% url 'create_company' %}"><b>{% blocktrans %}Publish articles, job offers, catalogs.{% endblocktrans%}</b></a>{% else %} <a href="{% url 'post_createList' %}"><b>{% blocktrans %}Publish articles,{% endblocktrans%}</b></a><a href="{% url 'create_offer' %}"><b> {% blocktrans %}job offers,{% endblocktrans%}</b></a><a href="{% url 'MyWebCatalogueAdminList' %}"><b> {% blocktrans %}catalogs.{% endblocktrans%}</b></a>{% endif %} {% blocktrans %}In your My Web, you can publish articles about products or your company. Furthermore, you can announce job offers and upload your catalog.{% endblocktrans%} 
+				</p>
+				<p class="text-home-text">
+					{% blocktrans %}If you have further questions, please have a look at our{% endblocktrans%} <a href="{% url 'FAQ' %}"><b>FAQ</b></a> {% blocktrans %}section. Also please do not hesitate to email us your questions or remands.{% endblocktrans%} <br> {% blocktrans %}We would be happy to help you.{% endblocktrans%}
+				</p>
+			</div>
+			<div class="row custom-border m-2">
+				<div class="col-12">
+					<p class="text-home-text">
+						<a href="{% url 'Contacto' %}"><h5 style="color: #df8771;"><b>{% blocktrans %}Contact Medcombo{% endblocktrans%}</b></h5></a>
+					</p>
+				</div>
+				<div class="col-12 mt-2 pt-3">
+					<div class="wrapper">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="dbox w-100 text-center">
+									<div class="icon d-flex align-items-center justify-content-center">
+										<i class="fa fa-map-marker"></i>
+									</div>
+									<div class="text">
+										<p><span><b>{% blocktrans %}Address:{% endblocktrans%}</b></span> {% blocktrans %}INFORMACIÓN Y SOLUCIONES, S.L. C / Valle de Oro, 4 Urb,  28660 Boadilla del Monte (Madrid) CIF: B88427174{% endblocktrans%}</p>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-md-4">
+								<div class="dbox w-100 text-center">
+									<div class="icon d-flex align-items-center justify-content-center">
+										<i class="fa fa-paper-plane"></i>
+									</div>
+									<div class="text">
+										<p><span><b>{% blocktrans %}Email: {% endblocktrans%}</b></span> <a href="mailto:hello@medcombo.com">hello@medcombo.com</a></p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="dbox w-100 text-center">
+									<div class="icon d-flex align-items-center justify-content-center">
+										<i class="fa fa-globe"></i>
+									</div>
+									<div class="text">
+										<p><span><b>{% blocktrans %}Website: {% endblocktrans%}</b></span> <a href="{% url 'Contacto' %}">medcombo.com</a></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<!-- Links to Profile Sections -->
+<script src="{% static 'js/app/home/home.js' %}"></script>
+{% endblock %}

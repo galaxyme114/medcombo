@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block meta %}
+    {% for banner in consult_banner %}
+        {{banner.title|safe|escape}}
+    {% endfor %}
+{% endblock %}
+
+{% block title %}
+    {% for banner in consult_banner %}
+        {{banner.title|safe|escape}}
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<style type="text/css">
+    .btn_hover {
+        background-color: white; 
+        color: black; 
+        border: 2px solid #7f9bcd;
+    }
+    .btn_hover:hover {
+        background-color: #7f9bcd;
+        color: white;
+    }
+    #title_magazine h3 {
+        color: #7f9bcd;
+        text-transform: uppercase;
+        font-weight: 300;
+        position: relative;
+        padding-bottom: 25px;
+    }
+    #title_magazine p {
+        color: gray;
+    }
+    video {
+        width: 100%;
+        height: auto;
+    }
+</style>
+<div class="container-fluid" id="news">
+    <div class="row pt-5">
+        <div class="col-12 pt-5">
+            <h3 class="pb-2"><strong>{% blocktrans %}NOTICIAS{% endblocktrans%}</strong></h3>
+        </div>
+    </div>
+</div> 
+<div class="container-fluid" id="news-cuadros">
+    <div class="row row-img-news">
+        <div class="container-fluid" style="max-width: 1480px;">
+            {% for banner in consult_banner %}
+            <div class="row p-3 border mb-5 pl-5" >
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 text-center p-5">
+                    {% if banner.picture %}
+                        {% if banner.video %}
+                            <video width="400" controls poster="{{banner.picture.url}}" preload="none">
+                                <source src="{{banner.video.url}}" type="video/mp4">
+                            </video>
+                        {% else %}
+                            <img class="img-fluid" src="{{ banner.picture.url }}" alt="{{banner.title|safe|escape}}">
+                        {% endif %}
+                    {% else %}
+                        {% if banner.video %}
+                            <video width="400" controls preload="none">
+                                <source src="{{banner.video.url}}" type="video/mp4">
+                            </video>
+                        {% else %}
+                            <img class="img-fluid" src="{% static 'img/banner.jpg' %}" alt="{{banner.title|safe|escape}}">
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 p-5">
+                    <div id="title_magazine" class="col-12 col-sm-12 col-md-12 col-lg-12" >
+                        <h1 class="text-primary hero">{{banner.title|safe|escape}}</h1>
+                        <p><span style="line-height:0px; color: #7f9bcd;">{% blocktrans %}Publicado por:{% endblocktrans%} </span><span>{{banner.author}}</span></p>
+                        <p><span class="mb-5" style="color: #7f9bcd;">{% blocktrans %}Fecha:{% endblocktrans%}</span><span> {{banner.date|date:"d M Y"}}</span></p>
+                        <p style="border-bottom:1px solid #7e9acd;"></p>
+                        {{banner.description|safe|escape}}
+                    </div>
+                </div>
+                {% comment %} <div class="col-12 col-sm-6 col-md-6 col-lg-3 pt-5" >
+                    <span class="font-weight-bold">{% blocktrans %}VIDEO{% endblocktrans%}</span>
+                    <div style="max-height:465px;">
+                        <div class="row pt-3" >
+                            <div class="col-sm-6">
+                                {% if banner.picture %}
+                                    {% if banner.video %}
+                                        <video width="30" controls poster="{{banner.picture.url}}">
+                                            <source src="{{banner.video.url}}" type="video/mp4">
+                                        </video>
+                                    {% else %}
+                                        <video width="400" controls poster="{% static 'img/banner.jpg' %}">
+                                            <source src="" type="video/mp4">
+                                        </video>
+                                    {% endif %}
+                                {% else %}
+                                    <video width="30" controls poster="{% static 'img/banner.jpg' %}">
+                                        <source src="" type="video/mp4">
+                                    </video>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="word-break:break-all;">{{banner.title|safe|escape}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+            </div>
+            
+            {% endfor %}    
+        </div>
+        <div class="col-12 hr-divi pt-4"></div>
+        <div class="container-fluid" style="max-width: 1480px;">
+            <div class="col-12">
+                <h4>{% blocktrans %}Otros artículos que te pueden interesar:{% endblocktrans%}</h4>
+            </div>
+            <div id="pad-banner" class="row pt-5">
+                {% for banner in foot_detail_banner %}
+                    <div id="detail_banner" style="cursor: pointer;" onclick="my_link('{{banner.pk}}')" class="col-12 col-sm-6 col-lg-3 cuadro mb-4">
+                        {% if forloop.counter0 < 4 %} <!--Limita solo a 4 registros-->
+                            <div class="card mb-3" style="padding: 0px;">
+                                {% if banner.picture %}
+                                    <a href="{% url 'detail_news' banner.pk %}" style="text-align: center;"><img class="img-fluid" style="width: fit-content;" src="{{ banner.picture.url }}" alt="{{banner.title}}"></a>
+                                {% else %}
+                                    <a href="{% url 'detail_news' banner.pk %}" style="text-align: center;"><img class="img-fluid" style="width: fit-content;" src="{% static 'img/banner.jpg' %}" alt="{{banner.title}}"></a>
+                                {% endif %}
+                            </div>
+                            <div class="card mb-3" style="border: 0;">
+                                <div class="card-body" style="padding-left: 5px;">
+                                    <p class="card-text" style="font-size: 16px; text-align: justify !important;">{{banner.title}}</p>
+                                </div>
+                                <div class="card-body mt-3 mb-2" style="padding-left: 5px;">
+                                    <textarea id="textarea-banner{{banner.pk}}" style="display: none;">{{ banner.description|safe|escape}}</textarea>
+                                    <div id="ready{{banner.pk}}" class="card-text" style="font-weight: 510;font-size: 14px;color: #3b3b3b;text-align: justify !important;"></div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-11 d-flex" style="font-size: 13px;padding: 0px;border-top: 1px solid;">
+                                    <div class="col-6">
+                                        <p>{{banner.date|date:"d M Y"}}</p>    
+                                    </div>
+                                    <div class="col-6 d-flex" style="justify-content: flex-end;">
+                                        <span>
+                                            <a href="{% url 'detail_news' banner.pk %}" style="color: #595959;">{% blocktrans %}+info{% endblocktrans%}</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>                        
+                        {% endif %}
+                    </div>
+                    <script>
+                        $(function(){
+                            $("#ready{{banner.pk}}").ready(function(){
+                                var text_html = $("#textarea-banner{{banner.pk}}").text();
+                                if(text_html.length > 250) {
+                                    $("#ready{{banner.pk}}").text(text_html.replace(/<[^>]*>?/g, '').substring(0,250)+'...');
+                                }
+                                else {
+                                    $("#ready{{banner.pk}}").text(text_html.replace(/<[^>]*>?/g, '').substring(0,250));
+                                }
+                            });
+                        });
+                    </script>
+                {% endfor %}
+                {% if count_detail_banner > 4 %}
+                    <!-- Botón dentro del contenedor -->
+                    <div class="social-more2"><!--social-more">-->
+                        <a class="btn btn-primary btn_hover" href="{% url 'list_news' %}" role="button">+</a>
+                    </div>
+                    <!-- ./ Botón dentro del contenedor -->
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function my_link(value) {
+        var url = "{% url 'detail_news' 0 %}".replace(0,value);
+        location.href = url;
+    }
+</script>
+{% endblock  %}

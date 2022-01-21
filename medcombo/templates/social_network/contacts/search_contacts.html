@@ -1,0 +1,170 @@
+{% load staticfiles %}
+{% load i18n %}
+{% for x in userx %}
+    {% for user in contacts %}
+        {% if request.user == user.owner and x.id == user.relationship.id and request.user != user.relationship %}
+            <li style="list-style:none;" class="px-3">                                
+                <div class="row item-post">
+                    <div class="col-2">
+                        {% if user.relationship.picture %}
+                            <img class="rounded-circle img-online" src="{{ user.relationship.picture.url }}" style="margin: 0.5em 0;" height="auto" width="60">
+                        {% else %}
+                            <img class="rounded-circle img-online" src="{% static 'img/userdefault.jpeg' %}" style="margin: 0.5em 0;" height="auto" width="60">		
+                        {% endif %}
+                    </div>
+                    <div class="media-body" id="contact_info{{user.relationship.id}}">
+                        {% if user.relationship.first_name %}
+                            <h6>{{ user.relationship.first_name }} {{ user.relationship.last_name }}</h6>
+                        {% else %}
+                            <h6>{{ user.relationship.username }}</h6>
+                        {% endif %}
+                        {% if user.relationship.work %}
+                            <div class="media-content">
+                                {{ user.relationship.work }}
+                            </div>
+                        {% else %}
+                            <div class="media-content">
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-3" style="padding-left: 0px;">
+                        {% if user.relationship.company %}
+                            <span>{{ user.relationship.company.name}}</span>
+                        {% else %}
+                            <span></span>
+                        {% endif %}
+                    </div>
+                    <div id="container-user-favorite" data-contact-url="{% url 'ajax_add_contact_favorite' %}" class="col-3 d-column d-flex flex-row-reverse" style="padding-right: 0px;">
+                        {% if user.relationship.id in contactscontext %}
+                            <button class="none bg-transparent p-2" data-toggle="modal" data-target="#my_delete_chat{{user.relationship.id}}"><i class="far fa-trash-alt" style="font-size:1.3em;color:#7f9bcd;"></i></button>
+                            <button class="none bg-transparent p-2" data-toggle="modal" data-target="#my_message{{ user.relationship.id }}"><i class="far fa-envelope" style="font-size:1.3em;color:#7f9bcd;"></i></button>
+                            <button class="none bg-transparent p-2" data-toggle="modal" data-target="#create{{ user.relationship.id }}"><i class="far fa-comment-alt" style="font-size:1.3em;color:#7f9bcd;"></i></button>
+                            {% if user.favorite == True %}
+                                <button class="none bg-transparent" data-condition="{{user.favorite}}" id="user-favorite{{ user.relationship.id }}" value="{{ user.relationship.id }}"><span class="jRating-star full"></span></button>
+                            {% else %}     
+                                <button class="none bg-transparent" data-condition="{{user.favorite}}" id="user-favorite{{ user.relationship.id }}" value="{{ user.relationship.id }}"><i class='far fa-star'></i></button>
+                            {% endif %}                                          
+                        {% else %}
+                            <button class="none bg-transparent" data-toggle="modal" data-target="#my_delete_chat{{user.relationship.id}}"><i class="far fa-trash-alt"></i></button>
+                            <button class="none bg-transparent" id="link_chat{{ user.relationship.id }}" value="{{ user.relationship.id }}"><i class='fas far fa-envelope'></i></button>                                      
+                            <button class="none bg-transparent"><i class='far fa-star'></i></button>                                        
+                            <button class="none bg-transparent" id="user-plus{{ user.relationship.id }}" value="{{ user.relationship.id }}"><i class='fas fa-user-plus'></i></button>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+            <!-- Modal Delete Contact -->
+            <div class="modal fade" id="my_delete_chat{{user.relationship.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="border-radius: 25px;">
+                        <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-trash-alt icons_size_title"></i>
+                                <p class="modal-title ml-3 text_size_title" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR CONTACTO{% endblocktrans %}</p>
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span style="color: white;" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-12 d-flex justify-content-start">
+                                <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-12 d-flex justify-content-center">
+                                <button id="delete-contact{{user.relationship.id}}" data-del="{{user.relationship.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+                                <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $('#delete-contact{{user.relationship.id}}').click(function(e){
+                    var value = '{{user.relationship.id}}';
+                    var url = '{% url "ajax_delete_contact" %}';
+                    var token = '{{csrf_token}}';
+                    $.ajax({
+                        headers: { "X-CSRFToken": token },
+                        method: 'POST',
+                        url: url,
+                        data: {
+                            'value': value
+                        },
+                        success: function(data) {
+                            if(data == 'Ok') {
+                                location.reload();
+                            }
+                        }
+                    });
+                });
+            </script>
+            <!-- ./Modal Delete Contact -->
+            <!--Modal Chat-->
+            <div class="modal fade" id="create{{ user.relationship.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content" style="border-radius: 10px;">
+                        <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+                            <i class="far fa-comment-alt icons_size_title mt-1"></i>
+                            <p class="modal-title ml-3 text_size_title" id="exampleModalLongTitle">{% blocktrans %}CHAT{% endblocktrans%}</p>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span style="color: white;" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <object height="500px" width="100%" data="{% url 'messenger_modal' user.relationship.id %}"></object>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--./Modal Chat-->
+            <!--Modal Message-->
+            <div class="modal fade" id="my_message{{ user.relationship.id }}" tabindex="-1" role="dialog" aria-labelledby="my_modalMSG" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content" style="border-radius: 10px;">
+                        <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+                            <div class="d-flex align-items-center">
+                                <i class="far fa-envelope icons_size_title"></i>
+                                <p class="modal-title ml-3 text_size_title" id="my_modalMSG">{% blocktrans %}MENSAJE{% endblocktrans %}</p>
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span style="color: white;" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body p-0">
+                            <object height="370" width="100%" data="{% url 'message_modal' user.relationship.id None %}"></object>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--./Modal Message-->
+            <!-- Favorites -->
+            <script type="text/javascript">
+                $("#user-favorite{{ user.relationship.id }}").click(function () {
+                    if ($("#user-favorite{{ user.relationship.id }}").attr('data-condition') == 'True') {
+                        $("#user-favorite{{ user.relationship.id }}").attr('data-condition', 'False');
+                        $("#user-favorite{{ user.relationship.id }}").html('<i class="far fa-star"></i>');
+                    }
+                    else {
+                        $("#user-favorite{{ user.relationship.id }}").attr('data-condition', "True");
+                        $("#user-favorite{{ user.relationship.id }}").html('<span class="jRating-star full"></span>');
+                    }
+                    //$("#user-favorite{{ user.relationship.id }}").hide();
+                    var url = $("#container-user-favorite").attr("data-contact-url");  
+                    var user = $("#user-favorite{{ user.relationship.id }}").val();
+                    $.ajax({                      
+                        url: url,                    
+                        data: {
+                            'user_id': user      
+                        },
+                        success: function (data) {   
+                            $("#user-favorite{{ user.relationship.id }}").notify("{% blocktrans %}ACTUALIZADO EXITOSAMENTE{% endblocktrans %}", "success");
+                        }
+                    });
+                });
+            </script>
+            <!-- ./Favorites -->
+        {% endif %}
+    {% endfor %}
+{% endfor %}

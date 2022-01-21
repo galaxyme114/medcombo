@@ -1,0 +1,456 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<style type="text/css">
+    .none {
+        border: none;
+        background-color: white;
+        outline:none;
+    }
+    button:focus {
+        outline: none;
+    }
+</style>
+<link rel="stylesheet" href="{% static 'css/app/check_validations.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 style="color: #7f9bcd; font-weight: 700;text-transform: uppercase;">{% blocktrans %}Post{% endblocktrans %}</h5>
+        </div>
+		<div class="col-12 col-md-3">
+		    <button type="button" class="btn btn-primary datos-form-buttom" id="mostrar">{% blocktrans %}NUEVO POST{% endblocktrans%}</button>
+		</div>
+		<div class="col-12 col-md-4">
+			<div class="input-group flex-nowrap">
+				<input class="input-right-border" name="q" type="text" id="search" placeholder="{% blocktrans %}Buscar{% endblocktrans %}" onKeypress="if(event.keyCode == 13) event.returnValue = false;">
+				<div class="input-group-prepend" id="url_id" data-contact-url="{% url 'ajax_load_post' %}" novalidate>
+					<!--<li style="list-style:none; cursor: pointer;"  id="search-fa" value="{{ user.owner.id }}">-->
+					<span class="input-group-text my_cursor" id="search-fa" value="{{ user.owner.id }}"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span> 
+					<!--</li>-->
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<div class="col-12 col-md-10 pr-0 mr-0 mt-2">
+		<div class="perfilText2 text-justify"><span>{% blocktrans %}Desde este apartado puede añadir los catalogos en .pdf{% endblocktrans %}</span></div>
+	</div>
+	<!------ seccion a ocultarse ----------->
+	<div class="row">
+		<!--Seccion izquierda-->
+		<div class="col-12 col-sm-11" name="div_crear_post" id="div_crear_post">
+			<div class="row d-flex">
+				
+			    <div class="col-12 col-md-5 mb-5 pt-3" id="contenido">
+					<p class="text-center text-md-left pl-4" style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}LISTADO DE POST{% endblocktrans %}</p>
+				    <form class="datos-form needs-validation" id="formulario" method="POST" enctype='multipart/form-data' novalidate>
+					    {% csrf_token %}
+ 			            
+			            <!--------------- post del contexto ------------------>
+			            <div class="col-12" id="post_contexto">
+			 	            <div id="new_change_post" class="row">
+			                    <div class="datos-form-post w-100">
+						            {% if objects != None %}
+						                {% if objects %} 
+						                    <div id="container_list">
+	  					                        {% for x in objects %}
+	  					                            {% if x.user.username == request.user.username %}
+	  					                                <div id="lang" data-language="{{x.language.value_language}}" >
+	                                                        <li style="list-style:none;" class="mt-1">                                
+	 							                                <div class="row item-post text-justify" style="font-size:1.1rem;">
+									                                <!--<div class="col-10 d-flex" style="font-size:1.2rem;">
+										                                <span data-toggle="modal" data-target="#EditDelete{{x.id}}">
+														                    <a href="#">- {{ x.title }}</a>
+													                    </span> 
+													                    <span class="text-nowrap mb-0 pl-2">{{ x.date|date:'d/m/y' }}</span>
+																	</div>-->
+																	<div class="col-4 col-sm-6">
+																		<!--<span data-toggle="modal" data-target="#EditDelete{{x.id}}">
+														                    <a href="#">- {{ x.title }}</a>
+																		</span>-->
+																		<a href="{% url 'post_detail' x.id %}">- {{ x.title }}</a>
+																		
+																		
+																	</div>
+
+																	<div class="col-3 col-sm-2 pl-0">
+																		<span class="text-nowrap mb-0 pl-0">{{ x.date|date:'d/m/y' }}</span>
+																	</div>
+																	<div class="col-2 col-sm-1 text-right pl-0">
+																		<span data-toggle="modal" data-target="#EditDelete{{x.id}}">
+														                    <a href="#"><i style="color:#7f9bcd !important;" class="fas fa-search-plus"></i></a>
+																		</span>
+																	</div>
+																	<div class="col-3 col-sm-3">
+																		<span class="mt-2 d-none d-lg-inline" style="font-size: 14px;">
+																			{{x.language.value_language|upper}}&nbsp;&nbsp;<img src="{% static ''%}img/flag/{{x.language.value_language|lower}}.png" style="width: 28px;height: auto;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{x.language.name_language}}"  />
+																		</span>
+																	</div>
+	 							                                </div>
+							                                </li>
+			                                                <!-- modal para eliminar Post -->
+			                                                <div class="modal fade" id="EditDelete{{x.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+			                                                    <div class="modal-dialog modal-xs">
+			                                                        <div class="modal-content" style="border-radius: 25px;">
+			                    	                                    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+			                                                                <div class="d-flex align-items-center">
+			                                                                    <i class="fas fa-search fa-flip-horizontal icons_size_title_second"></i>
+			                                                                    <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}SELECCIONE{% endblocktrans%}</p>
+			                                                                </div>
+			                      	                                        <button type="button" class="close" data-dismiss="modal" aria-label="{% blocktrans %}Close{% endblocktrans %}">
+			                        	                                        <span aria-hidden="true" style="color: #fff;">&times;</span>
+			                      	                                        </button>
+			                    	                                    </div>
+			                    	                                    <div class="modal-body">
+											                                <div class="col-12 d-flex justify-content-start">
+												                                <h5>{% blocktrans %}¿Qué desea hacer con el Post?{% endblocktrans %}</h5>
+											                                </div>
+			                                                                <!--<object height="150" width="101%" data="{% url 'DeleteUpdatePost' x.pk %}"></object>-->
+										                                </div>
+										                                <div class="modal-footer">
+											                                <div class="col-12 d-flex justify-content-center">
+												                                <button id="delete-button{{x.id}}" data-del="{{x.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}ELIMINAR{% endblocktrans %}</button>
+												                                <!-- <a href="{% url 'post_detail' x.id %}" class="btn btn-primary datos-form-buttom" >{% blocktrans %}DETALLE{% endblocktrans %}</a> -->
+
+												                                <a href="{% url 'post_update' x.id %}" class="btn btn-primary datos-form-buttom" >{% blocktrans %}EDITAR{% endblocktrans %}</a> 
+											                                </div>
+										                                </div>
+			                                                        </div>
+			                                                    </div>
+						  	                                </div>
+							                                <script>
+								                                $('#delete-button{{x.id}}').click(function(e){
+																	e.preventDefault();
+																	e.stopPropagation();
+									                                var value = '{{x.id}}';
+									                                var url = '{% url "PostDeleteAjax" %}';
+									                                var token = '{{csrf_token}}';
+									                                $.ajax({
+										                                headers: { "X-CSRFToken": token },
+										                                method: 'POST',
+										                                url: url,
+										                                data: {
+											                                'value': value
+										                                },
+										                                success: function(data) {
+											                                if(data == 'Ok') {
+												                                location.href = '{% url "post_createList" %}';
+											                                }
+										                                }
+									                                });
+								                                });
+							                                 </script>
+														    <!---------------------- fin del modal ------------- --> 
+													    </div>
+						                            {% endif %}
+						                        {% endfor %}
+							                </div>
+						                {% endif %}
+						            {% endif %}
+					            </div>
+				            </div>
+			            </div>
+			            <!------------------- fin del post del contexto ---------------------------->
+			            <!----- este es el post del ajax search ----------- -->
+			            <div class="pt-3" id="post_createList"></div>
+				    </form>
+			    </div>
+				<div style="margin-top: 1.9rem;" class="col-12 col-md-5 mb-4 pt-3" id="contenido">
+					<div id="oculto" hidden>
+					    <form class="datos-form needs-validation" id="formulario" method="POST" enctype='multipart/form-data' novalidate>
+						    {% csrf_token %}
+						    <div class="text-center-container">
+							    {% if form.errors %}
+								    {% for field in form %}
+									    {% for error in field.errors %}
+										    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+											    <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+											    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												    <span aria-hidden="true">&times;</span>
+											    </button>
+										    </div>
+									    {% endfor %}
+								    {% endfor %}
+								    {% for error in form.non_field_errors %}
+									    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+										    <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+										    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											    <span aria-hidden="true">&times;</span>
+										    </button>
+									    </div>
+								    {% endfor %}
+							    {% endif %}
+						    </div>
+							<div class="row">
+								<span class="ml-3" style="vertical-align:middle;">{% blocktrans %}idioma{% endblocktrans %}</span>
+								<div class="col-12 col-md-6 d-flex">
+									<span id='select_flag'></span>
+									<select class="form-control form-control-sm" id="languages_select">
+										{% for language in language_filters %}
+											<option style="min-width: 1em;" value="{{ language.value_language}}" {% if language.value_language == "es" %} selected {% else %}{% endif %} >
+												{% if language.value_language == "es" %}<!-- es -->
+													Español ({{ language.value_language }}) 
+												{% elif language.value_language == "fr" %}<!-- fr -->
+													Français ({{ language.value_language }})
+												{% elif language.value_language == "it" %} <!-- it -->
+													Italiano ({{ language.value_language }})
+												{% elif language.value_language == "ja" %} <!-- ja -->
+													日本語 (jp)
+												{% elif language.value_language == "pt" %} <!-- pt -->
+													Português ({{ language.value_language }})
+												{% elif language.value_language == "zh-hans" %} <!-- zh-hans -->
+													简体中文 ({{ language.value_language }})
+												{% elif language.value_language == "zh-hant" %} <!-- zh-hant -->
+													繁體中文 ({{ language.value_language }})
+												{% elif language.value_language == "en" %} <!-- en -->
+													English ({{ language.value_language }})
+												{% else %} <!-- de -->
+													{% if language.value_language == "de" %}
+														Deutsch ({{ language.value_language }})
+													{% endif %}
+												{% endif %}
+											</option>
+										{% endfor %}
+									</select>			
+									<script>
+										$('#languages_select').change(function(){
+											var language = $('#languages_select').val();
+											
+											if(language == 'en') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+											}
+											else if(language == 'ja') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+											}
+											else if(language == 'zh-hans' || language == 'zh-hant') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+											}
+											else {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+											}
+											/*
+											$.each($('#container_list #lang'),function(){
+												if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+													$(this).hide();
+												}
+												else {
+													$(this).show();
+												}
+												if(language == 'all'){
+													$(this).show();
+												}
+											});
+											*/
+										});
+										$(function(){
+											$('#languages_select').ready(function(){
+												var language = $('#languages_select').val();
+												
+												if(language == 'en') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+												}
+												else if(language == 'ja') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+												}
+												else if(language == 'zh-hans' || language == 'zh-hant') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+												}
+												else {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+												}
+												/*
+												$.each($('#container_list #lang'),function(){
+													if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+														$(this).hide();
+													}
+													else {
+														$(this).show();
+													}
+													if(language == 'all'){
+														$(this).show();
+													}
+												});
+												*/
+											});
+										});
+									</script>
+								</div>
+							</div>
+						    <input value="4" name="language" type="hidden" id="language">
+						    <div class="form-row pt-3">
+							    <div class="col-12 col-sm-8 pb-1">
+								    <span>{% blocktrans %}Asunto{% endblocktrans %}</span>
+								    <div id="affai">
+									    {{ form.title }}
+									    <div class="invalid-feedback">
+										    {% blocktrans %}Introduzca un título{% endblocktrans %}
+							            </div>
+								    </div>
+							    </div>
+							    <div class="col-12 pb-1">
+								    <span>{% blocktrans %}Texto{% endblocktrans %}</span>
+								    <textarea class="form-control" id="id_description" name="description" required="true" style="height: 130px;"></textarea>
+								    <div class="invalid-feedback">
+									    {% blocktrans %}Introduzca una descripción{% endblocktrans %}
+								    </div>
+							    </div>
+							    <input type="hidden"  value="{{request.user.id}}" name="user"/>
+						        <input type="hidden"  value="{{request.user.company.id}}" name="company"/>
+							    <div class="col-12">
+								    <span>{% blocktrans %}Imagen{% endblocktrans %}</span><span id="affai"> </span>
+							    </div>
+							    <!---------------------  ADD IMAGE POST---->
+							    <div class="row">
+								    <div class="col-12 col-md-8">
+									    <div class="custom-file mb-3">
+										    <input type="file" class="custom-file-input" id="product-img" onchange="readURL(this);" name=image>
+										    <label class="custom-file-label" for="product-img">{% blocktrans %}Añadir imagen{% endblocktrans %}</label>
+									    </div>
+									    <div class="col-12 col-md-12 new-post-img mb-4">
+										    <img id="product-img-reload">
+									    </div>
+								    </div>
+							    </div>
+							    <!------------------ FIN DE PRUEBA ADD IMAGE -POST---->
+							    <div class="col-12">
+								    <center><button class="btn btn-primary datos-form-buttom" type="submit">{% blocktrans %}CREAR POST{% endblocktrans %}</button></center>
+						        </div>
+						    </div>
+					    </form>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+	    <!-----------hasta aqui es la seccion izquierda-->
+    </div>
+</div>
+<script type="text/javascript">
+function validar(e) {
+  tecla = (document.all) ? e.keyCode : e.which;
+  if (tecla==13){
+  	var url = $("#url_id").attr("data-contact-url");
+        var post = $("#search").val();
+        console.log(post);
+        $.ajax({
+            url: url,                    
+            data: {
+                'postes': post       
+            },
+            success: function (data) {
+				//$("#post_createList").html(data);
+				$("#new_change_post").html(data);
+			}
+        });
+  }
+}
+</script>
+<script type="text/javascript">
+    $("#search-fa").click(function () {
+        //document.getElementById('post_contexto').hidden = true;
+        var url = $("#url_id").attr("data-contact-url");
+        var post = $("#search").val();
+        console.log(post);
+        $.ajax({
+            url: url,                    
+            data: {
+                'postes': post       
+            },
+            success: function (data) {
+				//$("#post_createList").html(data);
+				$("#new_change_post").html(data);
+			}
+        });
+    });
+	/*
+    $('#formulario input').on('change', function() {
+        $("#language").val($('input[name=inlineRadioOptions]:checked', '#formulario').val());
+    });
+	*/
+	$('#languages_select').on('change', function() {
+		var language_mult = $("#languages_select").val();
+		if(language_mult=="es"){
+			var lang = 4;
+		}
+		else if (language_mult=="de"){
+			var lang = 2;
+		}
+		else if (language_mult=="en"){
+			var lang = 3;
+		}
+		else if (language_mult=="fr"){
+			var lang = 5;
+		}
+		else if (language_mult=="it"){
+			var lang = 6;
+		}
+		else if (language_mult=="pt"){
+			var lang = 7;
+		}
+		else if (language_mult=="zh-hans"){
+			var lang = 8;
+		}
+		else if (language_mult=="ja"){
+			var lang = 9
+		}
+		else{
+			var lang = 1;
+		}
+	    $("#language").val(lang);
+    });
+    $("#mostrar").click(function () {
+        document.getElementById('oculto').hidden = false;
+    });
+    $('#product-img').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 30) {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,25));
+	    }
+	    else {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,25)+'...');
+	    }
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#product-img-reload')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% block content %}
+{% load i18n %}
+<style>
+	.contact-data-table {
+		background-color: #fff;
+		border: solid 1px #b5b6b6;
+		border-radius: 10px;
+		overflow-y: auto;
+		padding: 20px;
+	}
+	.dataTables_filter input[type="search"] {
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		-ms-border-radius: 0;
+		border-radius: 0;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		-ms-box-shadow: none;
+		box-shadow: none;
+		border: none;
+		font-size: 12px;
+		transition: 0.25s ease-in;
+    	border-bottom: 2px solid #1f91f3;
+	}
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'datatables/css/jquery.dataTables.css' %}">
+<script src="{% static 'datatables/js/jquery.dataTables.js' %}"></script>
+<script type="text/javascript">
+	{% if messages %}
+	{% for message in messages %}
+	$.notify("{{ message }}", "error");
+	{% endfor %}
+	{% endif %}
+</script>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-4 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}SOLICITUDES DE PALABRA CLAVE{% endblocktrans %}</h5>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<div class="container-fluid">
+		<input value="4" name="language" type="hidden" id="language">
+		<div class="row pb-4 pt-3">
+			<div class="col-12 col-md-8 px-0">
+				<div class="contact-data-table">
+					{% if key %}
+					    <table id="datatables" class="table table-striped table-hover dataTable">
+					        <thead>
+					            <tr>
+					                <th scope="col">{% blocktrans %}Nombre{% endblocktrans %}</th> 
+					                <th scope="col" class="text-center">{% blocktrans%}Palabra Clave{% endblocktrans %}</th>
+					                <th scope="col" class="text-center">{% blocktrans %}Aceptada{% endblocktrans %}</th>
+									<th scope="col"></th>
+									<th scope="col"></th>
+									<th scope="col"></th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					 	        {% for keywords in key %}	
+					                <tr>
+					                    <td scope="row">{{keywords.user.first_name}} {{keywords.user.last_name}}</td>
+					                    <td class="text-center">{{keywords.name}}</td>
+					                    {% if keywords.status == "En Proceso" %}
+					                        <td class="text-center"></td>
+											<td>
+												<span class="mt-2 d-none d-lg-inline" style="font-size: 14px;">
+													<img src="{% static ''%}img/flag/{{keywords.language.value_language|lower}}.png" style="width: 28px;height: auto;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{keywords.language.name_language}}"  />&nbsp;&nbsp;{{keywords.language.value_language|upper}}
+												</span>
+											</td>
+					                        <td class="text-right" id="url_id"> 			 
+					      	                    <button class="btn btn-primary btn-crm-produt" data-toggle="modal" data-target='#cate_click{{keywords.id}}'>{% blocktrans %}CATEGORIZAR{% endblocktrans %}</button>
+					                        </td>
+					                    {% else %}
+					                        <td class="text-center"><i class="fas fa-check"></i></td>
+					                        <td></td>
+					                    {% endif %}
+										<td>
+											<span class="my_cursor my_hover" data-toggle="modal" onclick="delete_key('{{keywords.id}}')"><i class="pl-1 fas fa-trash-alt"></i></span>
+				                        </td>
+									</tr>
+									<div class="modal fade" id="cate_click{{keywords.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalTitle" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+											<div class="modal-content" style="border-radius: 10px;">
+												<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+													<h4 class="modal-title" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}Categorizar Palabra Clave{% endblocktrans %}</h4>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span style="color:white;" aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<object class="object-chat" width="100%" data="{% url 'ajax_load_keyword' keywords.id keywords.language_id %}"></object>
+												</div>
+											</div>
+										</div>
+									</div>
+					            {% endfor %}
+					        </tbody>
+					    </table>
+					{% else %}
+					    <br><br><center><h1 style="color:black;">{% blocktrans %} No hay solicitudes{% endblocktrans %} </h1></center><br><br>
+				    {% endif %}
+				</div>
+			</div>
+		</div>
+		<div id="listado"></div><br>
+	    <div class="col-md-4"></div>
+	</div>
+</div>	
+<!--Delete Keywords-->
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog modal-xs">
+		<div class="modal-content" style="border-radius: 25px;">
+			<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				<div class="d-flex align-items-center">
+					<i class="fas fa-trash-alt icons_size_title_second"></i>
+					<p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR PALABRA CLAVE{% endblocktrans %}</p>
+				</div>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="color: #fff;">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 d-flex justify-content-start">
+					<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+				</div>
+			</div>
+			<input type="hidden" id="keyword_del" value="-1" />
+			<div class="modal-footer">
+				<div class="col-12 d-flex justify-content-center">
+					<button id="delete-keywords" class="btn btn-primary crm-button-anadir mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+					<button data-dismiss="modal" class="btn btn-primary crm-button-anadir" >{% blocktrans %}NO{% endblocktrans %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function delete_key(id){
+		$("#keyword_del").val(id);
+		$("#delete").modal();
+	}
+	$('#delete-keywords').click(function(e){
+		var value = $("#keyword_del").val()
+		var url = '{% url "KeywordDelete" %}';
+		var token = '{{csrf_token}}';
+		$.ajax({
+			headers: { "X-CSRFToken": token },
+			method: 'POST',
+			url: url,
+			data: {
+				'value': value
+			},
+			success: function(data) {
+				if(data == 'Ok') {
+					location.reload();
+				}
+			}
+		});
+	});
+	$("td").addClass("align-middle");
+	$('#datatables').DataTable({
+		"pageLength": 20,
+		lengthMenu : [ [ 20 , 50 , 100 ], [ 20 , 50 , 100 ] ],
+		{% if LANGUAGE_CODE == 'es' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+		},
+		{% elif LANGUAGE_CODE == 'de' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/German.json"
+		},
+		{% elif LANGUAGE_CODE == 'en' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
+		},
+
+		{% elif LANGUAGE_CODE == 'fr' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/French.json"
+		},
+		{% elif LANGUAGE_CODE == 'ja' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Japanese.json"
+		},
+		{% elif LANGUAGE_CODE == 'pt' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese.json"
+		},
+
+		{% elif LANGUAGE_CODE == 'it' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Italian.json"
+		},
+		
+		{% elif LANGUAGE_CODE == 'zh-hans' or LANGUAGE_CODE == 'zh-hant' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Chinese.json"
+		},
+		{% endif %} 
+    });
+</script>	
+{% endblock %}

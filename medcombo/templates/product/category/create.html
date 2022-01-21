@@ -1,0 +1,113 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="row d-flex align-items-end">
+		<div class="col-12 padding-movil">
+			<span class="category-btn-new">{% blocktrans %}Nueva Área{% endblocktrans%}</span>
+		</div>
+	</div>
+	<form class="datos-form my-4">
+		<h4 class="pb-4">{% blocktrans %}Añadir Área{% endblocktrans%}</h4>
+    	<div class="form-group row">
+		  	<div class="col-12 col-md-6">
+				<label for="carros-informaticos">{% blocktrans %}Nombre{% endblocktrans%}</label>
+				<select id="carros-informaticos" class="form-control">
+			    	<option>{% blocktrans %}Carros Informáticos{% endblocktrans%}</option>
+			    	<option>...</option>
+			   </select>
+			</div>
+			<div class="col-md-6"></div>
+		</div>
+		<div class="row">
+			<div class="col-12 d-flex justify-content-center">
+				<button type="submit" class="btn btn-primary" id="create-contact-btn">{% blocktrans %}Guardar{% endblocktrans%}</button>
+			</div>
+		</div>
+   </form>
+   <div class="row d-flex align-items-end pt-4">
+		<div class="col-12 padding-movil">
+			<span class="category-btn-new">{% blocktrans %}Nueva Categoria{% endblocktrans%}</span>
+		</div>
+	</div>
+	<form class="datos-form my-4">
+		<h4 class="pb-4">{% blocktrans %}Añadir Categoria{% endblocktrans%}</h4>
+    	<div class="form-group row">
+		  	<div class="col-12 col-md-6">
+				<label for="carros-informaticos-2">{% blocktrans %}Nombre{% endblocktrans%}</label>
+				<select id="carros-informaticos-2" class="form-control">
+			    	<option>{% blocktrans %}Carros Informáticos{% endblocktrans%}</option>
+			    	<option>...</option>
+			   </select>
+			</div>
+			<div class="col-12 col-md-6">
+				<label for="Categoria-madre">{% blocktrans %}Categoria Madre{% endblocktrans%}</label>
+				<select id="Categoria-madre" class="form-control">
+			    	<option>...</option>
+			    	<option>...</option>
+			   </select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 d-flex justify-content-center">
+				<button type="submit" class="btn btn-primary" id="create-contact-btn">{% blocktrans %}Guardar{% endblocktrans%}</button>
+			</div>
+		</div>
+   </form>
+   <div class="row d-flex align-items-end pt-4">
+		<div class="col-12 padding-movil">
+			<span class="category-btn-new">{% blocktrans %}Nueva Subcategoria{% endblocktrans%}</span>
+		</div>
+	</div>
+	<form class="datos-form my-4">
+		<h4 class="pb-4">{% blocktrans %}Añadir Categoria{% endblocktrans%}</h4>
+    	<div class="form-group row">
+		  	<div class="col-12 col-md-6">
+				<label for="carros-informaticos-3">{% blocktrans %}Nombre{% endblocktrans%}</label>
+				<select id="carros-informaticos-3" class="form-control">
+			    	<option>{% blocktrans %}Carros Informáticos{% endblocktrans%}</option>
+			    	<option>...</option>
+			   </select>
+			   <label for="Categoria-madre-2">{% blocktrans %}Categoria Madre{% endblocktrans%}</label>
+				<select id="Categoria-madre-2" class="form-control">
+			    	<option>...</option>
+			    	<option>...</option>
+			   </select>
+			</div>
+			<div class="col-12 col-md-6">
+				<label for="palabras-clave">{% blocktrans %}Palabras Clave Relacionadas{% endblocktrans%}</label>
+				<select id="palabras-clave" class="form-control">
+			    	<option>...</option>
+			    	<option>...</option>
+			   </select>
+			   <div class="row pb-4">
+					<div class="col-12 pt-1">
+						<button type="submit" class="btn btn-primary" id="create-contact-btn">{% blocktrans %}Añadir Palabra Clave{% endblocktrans%}</button>
+					</div>
+				</div>
+				<div class="row d-flex align-items-end">
+					<div class="col-10">
+						<label for="carros-informaticos-4" class="mb-0">{% blocktrans %}Nombre{% endblocktrans%}</label>
+						<select id="carros-informaticos-4" class="form-control">
+					    	<option>{% blocktrans %}Carros Informáticos{% endblocktrans%}</option>
+					    	<option>...</option>
+					   </select>
+					</div>
+					<div class="col-2">
+						<button type="submit" class="btn btn-primary" id="create-contact-btn-ok">{% blocktrans %}ok{% endblocktrans%}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 d-flex justify-content-center">
+				<button type="submit" class="btn btn-primary" id="create-contact-btn">{% blocktrans %}Guardar{% endblocktrans%}</button>
+			</div>
+		</div>
+   </form>
+</div>
+<script>
+	$("label:not(label[for='carros-informaticos-4'])").addClass("mb-0 mt-3");
+</script>
+{% endblock %}

@@ -1,0 +1,806 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background" id="appointment_book">
+	<div class="row">
+		<div class="col-12 col-md-10 col-xl-8">
+			<div class="row">
+				<div class="col-12 col-sm-4 verticalAlignCenter">
+					<div class="list-group" id="list-tab" role="tablist">
+						<a id="list-month-list" data-toggle="list" href="#list-month" role="tab" aria-controls="month">{% blocktrans %}Mes{% endblocktrans %}</a>
+						<a class="active" id="list-week-list" data-toggle="list" href="#list-week" role="tab" aria-controls="week">{% blocktrans %}Semana{% endblocktrans %}</a>
+						<a id="list-day-list" data-toggle="list" href="#list-day" role="tab" aria-controls="day">{% blocktrans %}Día{% endblocktrans %}</a>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 verticalAlignCenter">
+					<div class="currentDate">
+						<button><i class="fas fa-angle-left"></i></button>
+						<p class="text-center">03/09/2019</p>
+						<button><i class="fas fa-angle-right"></i></button>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 verticalAlignCenter">
+					<select class="custom-select">
+						<option selected>{% blocktrans %}Todos los usuarios{% endblocktrans %}</option>
+						<option value="1">...</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 col-xl-6"></div>
+	</div>
+	<div class="tab-content pt-2 mb-5" id="nav-tabContent">
+		<div class="tab-pane fade" id="list-month" role="tabpanel" aria-labelledby="list-month-list">...</div>
+	   <div class="tab-pane fade show active" id="list-week" role="tabpanel" aria-labelledby="list-week-list">
+	   	<div class="row px-3">
+				<div class="col-12 divTask divOverflow">
+					<div class="row">
+						<div class="col-12 divWeek">
+							<div class="hoursWeek">
+								<span>0</span>
+								<span>1</span>
+								<span>2</span>
+								<span>3</span>
+								<span>4</span>
+								<span>5</span>
+								<span>6</span>
+								<span>7</span>
+								<span>8</span>
+								<span>9</span>
+								<span>10</span>
+								<span>11</span>
+								<span>12</span>
+								<span>13</span>
+								<span>14</span>
+								<span>15</span>
+								<span>16</span>
+								<span>17</span>
+								<span>18</span>
+								<span>19</span>
+								<span>20</span>
+								<span>21</span>
+								<span>22</span>
+								<span>23</span>
+								<span>24</span>
+							</div>
+							<div class="dayTask">
+								<div class="dayDate">
+									<a href="#" onclick="return false;">01/03/19<br>{% blocktrans %}Lunes{% endblocktrans %}</a>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="dayTask">
+								<div class="dayDate">
+									<a href="#" onclick="return false;">01/03/19<br>{% blocktrans %}Martes{% endblocktrans %}</a>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p style="background: #ecefff">Llamada</p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="dayTask">
+								<div class="dayDate">
+									<a href="#" onclick="return false;">01/03/19<br>{% blocktrans %}Miercoles{% endblocktrans %}</a>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="dayTask">
+								<div class="dayDate">
+									<a href="#" onclick="return false;">01/03/19<br>{% blocktrans %}Jueves{% endblocktrans %}</a>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p style="background: #ecefff">Reunion</p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="dayTask">
+								<div class="dayDate">
+									<a href="#" onclick="return false;">01/03/19<br>{% blocktrans %}Viernes{% endblocktrans %}</a>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="dayTask">
+								<div class="dayDate">
+									<a href="#" onclick="return false;">01/03/19<br>{% blocktrans %}Sábado{% endblocktrans %}</a>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="dayTask">
+								<div class="dayDate">
+									<a href="#" onclick="return false;">01/03/19<br>{% blocktrans %}Domingo{% endblocktrans %}</a>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	   </div>
+	   <div class="tab-pane fade" id="list-day" role="tabpanel" aria-labelledby="list-day-list">
+			<div class="row px-3">
+				<div class="col-12 col-lg-10 divTask">
+					<div class="row">
+						<div class="col-12 col-md-6 hoursTask pt-2">
+							<div class="d-flex">
+								<span>0</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>1</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>2</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>3</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>4</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>5</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>6</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>7</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>8</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>9</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>10</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>11</span>
+								<div class="dialyTasks">
+									<p style="background: #ecefff">Lamada</p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>12</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>13</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>14</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>15</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>16</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>17</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>18</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>19</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>20</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>21</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>22</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>23</span>
+								<div class="dialyTasks">
+									<p></p>
+								</div>
+							</div>
+							<div class="d-flex">
+								<span>24</span>
+								<div class="dialyTasks">
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<h6>{% blocktrans %}Tareas Pendientes{% endblocktrans %}</h6>
+							<div class="pendingTasks">
+								<div class="mb-2">
+									<p>Patrick</p>
+									<p>Llamada a empresa</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("p").addClass("mb-0");
+</script>
+{% endblock %}

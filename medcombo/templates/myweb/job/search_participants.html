@@ -1,0 +1,41 @@
+{% load i18n %}
+{% for users in object_list %}
+                        <div  class="d-md-flex mt-3 mb-3 items-align-center">
+                          <div class="col-4 justify-text-list p-1 my_cursor">
+                            <a class="text-job-name" href="{% url 'detail_participant' users.id %}">{{users.participant.first_name}} {{users.participant.last_name}}</a>
+                          </div>
+                          <div class="col-8 d-md-flex">
+                            <div class="col-2 text-center items-align-center">
+                              <div>{% blocktrans %}Edad{% endblocktrans %}</div>
+                              <div class="number-job-items">{{ users.age }}</div>
+                            </div>
+                            <div class="col-4 text-center">
+                              <div>{% blocktrans %}Provincia{% endblocktrans %}</div>
+                              <div class="number-job-items">{{ users.city }}</div>
+                            </div>
+                            <div class="col-2 text-center">
+                              <div>{% blocktrans %}Curriculum{% endblocktrans %}</div>
+                              <div class="number-job-items"><i class="far fa-file"></i></div>
+                            </div>
+                            <div class="col-2 text-center">
+                              <div>{% blocktrans %}Proceso{% endblocktrans %}</div>
+                              <div class="number-job-items">
+                                {% if users.condition == "Processing" %}
+                                  <i class="fas fa-check"></i>
+                                {% endif %}
+                              </div>
+                            </div>
+                            <div class="col-2 text-center">
+                              <div>{% blocktrans %}Descartado{% endblocktrans %}</div>
+                              <div class="number-job-items">
+                                {% if users.condition == "Discarding" %}
+                                  <i class="fas fa-check"></i>
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+				                {% if not forloop.last %}
+				                  <div class="list-separator"></div>
+                        {% endif %}
+                      {% endfor %}

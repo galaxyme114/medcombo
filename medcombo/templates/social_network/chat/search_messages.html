@@ -1,0 +1,206 @@
+{% load staticfiles %}
+{% load i18n %}
+<style>
+    .highlight { background-color: #dfe1e6; }
+    .text-table-msg {font-weight: bold;}
+    .text-table-msg-normal {font-weight: normal;}
+</style>
+<table id="table-{{mailer}}" class="table table-borderless table-hover table-responsive" style="cursor:pointer;">
+    <tbody>
+        {% for message in my_messages%}
+            <!--Messages Received-->
+            {%if message.mailer.id != user.id %}
+                {% if message.read == False %}
+                    <tr class="text-table-msg" id="msg{{message.mailer.id}}{{forloop.counter0}}" onclick="paint_data('msg{{forloop.counter0}}','{{message.id}}')" >
+                        <td>{% blocktrans %}Asunto{% endblocktrans%}</td>
+                        <td>{{message.subject}}</td>
+                        <td>{{message.created|date:"Y-m-d"}}</td>
+                        <td><a href="#" class="my_color" data-toggle="modal" data-target="#delete-msg{{message.id}}{{forloop.counter0}}"><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+                {% else %}
+                    <tr class="text-table-msg-normal" id="msg{{message.mailer.id}}{{forloop.counter0}}" onclick="paint_data('msg{{forloop.counter0}}','{{message.id}}')" >
+                        <td>{% blocktrans %}Asunto{% endblocktrans%}</td>
+                        <td>{{message.subject}}</td>
+                        <td>{{message.created|date:"Y-m-d"}}</td>
+                        <td><a href="#" class="my_color" data-toggle="modal" data-target="#delete-msg{{message.id}}{{forloop.counter0}}"><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+                {% endif %}
+                <!--Delete Msg-->
+                <div class="modal fade" id="delete-msg{{message.id}}{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	                <div class="modal-dialog modal-xs">
+		                <div class="modal-content" style="border-radius: 25px;">
+			                <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				                <div class="d-flex align-items-center">
+				                    <i class="fas fa-trash-alt icons_size_title_second"></i>
+				                    <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR MENSAJE{% endblocktrans %}</p>
+			                    </div>
+			                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                    <span aria-hidden="true" style="color: #fff;">&times;</span>
+			                    </button>
+			                </div>
+			                <div class="modal-body">
+			                    <div class="col-12 d-flex justify-content-center">
+					                <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+			                    </div>
+			                </div>
+			                <div class="modal-footer justify-content-center">
+			                    <button id="delete-button{{message.id}}{{forloop.counter0}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+			                    <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+			                </div>
+		                </div>
+	                </div>
+                </div>
+                <script>
+	                $('#delete-button{{message.id}}{{forloop.counter0}}').click(function(e){
+		                var value = '{{message.id}}';
+                        var url = '{% url "delete_messages" %}';
+                        var token = '{{csrf_token}}';
+                        $.ajax({
+                            headers: { "X-CSRFToken": token },
+                            method: 'POST',
+                            url: url,
+                            data: {
+                                'value': value
+                            },
+                            success: function(data) {
+                                if(data == 'Ok') {
+                                    location.href = '{% url "messenger" %}';
+                                }
+                            }
+                        });
+	                });
+                </script>
+                <!--./Delete Msg-->
+            {% else %}
+                {% if message.read_mailer == False %}
+                    <tr class="text-table-msg" id="msg{{message.mailer.id}}{{forloop.counter0}}" onclick="paint_data('msg{{forloop.counter0}}','{{message.id}}')" >
+                        {% if message.receiver.first_name == None and message.receiver.last_name == None  %}
+                            <td>{{message.receiver.username}}</td>
+                        {% elif message.receiver.first_name == None and message.receiver.last_name == "" %}
+                            <td>{{message.receiver.username}}</td>
+                        {% elif message.receiver.first_name == "" and message.receiver.last_name == None %}
+                            <td>{{message.receiver.username}}</td>
+                        {% elif message.receiver.first_name == "" and message.receiver.last_name == "" %}
+                            <td>{{message.receiver.username}}</td>
+                        {% else %}
+                            <td>{{message.receiver.first_name}} {{message.receiver.last_name}}</td>
+                        {% endif %}
+                        <td>{{message.subject}}</td>
+                        <td>{{message.created|date:"Y-m-d"}}</td>
+                        <td><a href="#" class="my_color" data-toggle="modal" data-target="#delete-msg2{{message.id}}{{forloop.counter0}}"><i class="pl-3 fas fa-trash-alt"></i></a></td>
+                    </tr>
+                {% else %}
+                    <tr class="text-table-msg-normal" id="msg{{message.mailer.id}}{{forloop.counter0}}" onclick="paint_data('msg{{forloop.counter0}}','{{message.id}}')" >
+                        {% if message.receiver.first_name == None and message.receiver.last_name == None  %}
+                            <td>{{message.receiver.username}}</td>
+                        {% elif message.receiver.first_name == None and message.receiver.last_name == "" %}
+                            <td>{{message.receiver.username}}</td>
+                        {% elif message.receiver.first_name == "" and message.receiver.last_name == None %}
+                            <td>{{message.receiver.username}}</td>
+                        {% elif message.receiver.first_name == "" and message.receiver.last_name == "" %}
+                            <td>{{message.receiver.username}}</td>
+                        {% else %}
+                            <td>{{message.receiver.first_name}} {{message.receiver.last_name}} ({{message.receiver.username}})
+                            </td>
+                        {% endif %}
+                        <td>{{message.subject}}</td>
+                        <td>{{message.created|date:"Y-m-d"}}</td>
+                        <td><a href="#" class="my_color" data-toggle="modal" data-target="#delete-msg2{{message.id}}{{forloop.counter0}}"><i class="pl-3 fas fa-trash-alt"></i></a></td>
+                    </tr>
+                {% endif %}
+                <!--Delete Msg-->
+                <div class="modal fade" id="delete-msg2{{message.id}}{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	                <div class="modal-dialog modal-xs">
+		                <div class="modal-content" style="border-radius: 25px;">
+			                <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				                <div class="d-flex align-items-center">
+				                    <i class="fas fa-trash-alt icons_size_title_second"></i>
+				                    <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR MENSAJE{% endblocktrans %}</p>
+			                    </div>
+			                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                    <span aria-hidden="true" style="color: #fff;">&times;</span>
+			                    </button>
+			                </div>
+			                <div class="modal-body">
+			                    <div class="col-12 d-flex justify-content-center">
+					                <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+			                    </div>
+			                </div>
+			                <div class="modal-footer justify-content-center">
+			                    <button id="delete-button2{{message.id}}{{forloop.counter0}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+			                    <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+			                </div>
+		                </div>
+	                </div>
+                </div>
+                <script>
+	                $('#delete-button2{{message.id}}{{forloop.counter0}}').click(function(e){
+		                var value = '{{message.id}}';
+                        var url = '{% url "delete_messages" %}';
+                        var token = '{{csrf_token}}';
+                        $.ajax({
+                            headers: { "X-CSRFToken": token },
+                            method: 'POST',
+                            url: url,
+                            data: {
+                                'value': value
+                            },
+                            success: function(data) {
+                                if(data == 'Ok') {
+                                    location.href = '{% url "messenger" %}';
+                                }
+                            }
+                        });
+	                });
+                </script>
+                <!--./Delete Msg-->
+            {% endif %}
+            <script>
+                $('#msg{{message.mailer.id}}{{forloop.counter0}}').click(function(evt){
+                    var token = '{{csrf_token}}';
+                    var my_mailer = '{{message.mailer.id}}';
+                    var my_message = '{{message.id}}';
+                    my_url = '{% url "read_message" %}'
+                    $.ajax({
+                        headers: { "X-CSRFToken": token },
+                        method: 'POST',
+                        url: my_url,
+                        data: {
+                            'mailer': my_mailer,
+                            'message': my_message
+                        },
+                        success: function(data) {
+                            if(data == 'Ok'){
+                                $('#msg{{message.mailer.id}}{{forloop.counter0}}').removeClass('text-table-msg');
+                                $('#msg{{message.mailer.id}}{{forloop.counter0}}').removeClass('text-table-msg-normal');
+                                var mailer = '{{message.mailer.id}}';
+                                var token = '{{csrf_token}}';
+                                var my_url = '{% url "alert_msg_contact" %}';
+                                $.ajax({
+                                    headers: { "X-CSRFToken": token },
+                                    method: 'POST',
+                                    url: my_url,
+                                    data: {
+                                        'mailer': mailer
+                                    },
+                                    success: function(data) {
+                                        if(data == 0) {
+                                            $('#{{icon}}').html('');
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+            </script>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    $('#table-{{mailer}} tr').click(function(){
+        var selected = $(this).hasClass("highlight");
+        $("#table-{{mailer}} tr").removeClass("highlight");
+        if(!selected) $(this).addClass("highlight");
+    });
+</script>

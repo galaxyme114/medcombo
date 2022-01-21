@@ -1,0 +1,112 @@
+{% load staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+	<script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+	<link rel="stylesheet" href="{% static 'css/dashboard_client.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <link rel="stylesheet" href="{% static 'css/dashboard_admin.css' %}">
+</head>
+<body>
+	<div class="container-fluid">
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %} 
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="row pt-4">
+            <div class="col-12 create-contact-form">
+                <form method="POST" target="_parent" novalidate>
+                    {% csrf_token %}
+				    <div class="form-group row">
+					  	<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="cliente" class="col-sm-2 col-form-label">{% blocktrans %}Cliente{% endblocktrans %}</label>
+								<div class="col-sm-10">
+									<select id="inputState" class="form-control" {{ form.client }}
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="telefono" class="col-sm-2 col-form-label">{% blocktrans %}Asignado{% endblocktrans %}</label>
+								<div class="col-sm-10">
+									<select id="inputState" class="form-control" {{ form.responsible }}
+								    </select>
+								</div>
+							</div>
+		   				</div>
+		   			</div>
+		   			<div class="form-group row">
+					  	<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="telefono" class="col-sm-2 col-form-label">{% blocktrans %}Teléfono{% endblocktrans %}</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="telefono" {{ form.telephone }}
+								</div>
+							</div>
+						</div>
+		   			</div>
+		   			<div class="form-group row">
+					  	<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="fecha" class="col-sm-2 col-form-label">{% blocktrans %}Fecha{% endblocktrans %}</label>
+								<div class="col-sm-10 d-flex align-items-center">
+									<input type="date" class="form-control" name="date" id="date" {{ form.date }}
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="hora" class="col-sm-2 col-form-label">{% blocktrans %}Hora{% endblocktrans %}</label>
+								<div class="col-sm-10 d-flex align-items-center">
+									<input type="time" class="form-control" name="hour" id="hour" {{ form.hour }}
+								</div>
+							</div>
+		   				</div>
+		   			</div>
+		   			<div class="form-group row">
+					  	<div class="col-12">
+							<div class="form-group row">
+								<label for="notas" class="col-sm-2 col-md-1 col-form-label">{% blocktrans %}Notas{% endblocktrans %}</label>
+								<div class="col-sm-10 col-md-11">
+									<textarea class="w-100" id="notas" rows="5" style="border-radius: 10px" {{ form.notes }}
+									</textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+		   			<div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary" id="create-contact-btn">{% blocktrans %}Guardar{% endblocktrans %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+	</div>
+</body>
+</html>

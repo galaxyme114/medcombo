@@ -1,0 +1,5000 @@
+[
+{
+ "model": "cities_light.region",
+ "pk": 1,
+ "fields": {
+  "name": "Provence-Alpes-C\u00f4te d'Azur",
+  "name_ascii": "Provence-Alpes-Cote d'Azur",
+  "slug": "provence-alpes-cote-dazur",
+  "geoname_id": 2985244,
+  "alternate_names": "Provence-Alpes-C\u00f4te d'Azur Region;Provence-Alpes-C\u00f4te d\u2019Azur;Provenza-Alpes-Costa Azul;Provenza-Alpi-Costa Azzurra;Proven\u00e7a-Alpes-Costa Azul;R\u00e9gion PACA;R\u00e9gion Provence-Alpes-C\u00f4te d'Azur",
+  "display_name": "Provence-Alpes-C\u00f4te d'Azur, France",
+  "geoname_code": "93",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 2,
+ "fields": {
+  "name": "Pays de la Loire",
+  "name_ascii": "Pays de la Loire",
+  "slug": "pays-de-la-loire",
+  "geoname_id": 2988289,
+  "alternate_names": "Paesi della Loira;Pays de la Loire Region;Pa\u00eds do Loire;R\u00e9gion Pays de la Loire",
+  "display_name": "Pays de la Loire, France",
+  "geoname_code": "52",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 3,
+ "fields": {
+  "name": "\u00cele-de-France",
+  "name_ascii": "Ile-de-France",
+  "slug": "ile-de-france",
+  "geoname_id": 3012874,
+  "alternate_names": "Ilha de Fran\u00e7a;R\u00e9gion parisienne;R\u00e9gion \u00cele-de-France;\u00cele-de-France Region",
+  "display_name": "\u00cele-de-France, France",
+  "geoname_code": "11",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 4,
+ "fields": {
+  "name": "Corsica",
+  "name_ascii": "Corsica",
+  "slug": "corsica",
+  "geoname_id": 3023519,
+  "alternate_names": "Collectivit\u00e9 Territoriale de Corse;Corsica Region;Korsika;R\u00e9gion Corse;Territorial Collectivity of Corsica",
+  "display_name": "Corsica, France",
+  "geoname_code": "94",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 5,
+ "fields": {
+  "name": "Centre",
+  "name_ascii": "Centre",
+  "slug": "centre",
+  "geoname_id": 3027939,
+  "alternate_names": "Centre-Val de Loire;Centro-Valle de Loira;Centro-Valle della Loira;R\u00e9gion Centre-Val de Loire",
+  "display_name": "Centre, France",
+  "geoname_code": "24",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 6,
+ "fields": {
+  "name": "Brittany",
+  "name_ascii": "Brittany",
+  "slug": "brittany",
+  "geoname_id": 3030293,
+  "alternate_names": "Bretagna;Bretagne;Bretanha;Breta\u00f1a;Brittany Region;R\u00e9gion Bretagne",
+  "display_name": "Brittany, France",
+  "geoname_code": "53",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 7,
+ "fields": {
+  "name": "Bourgogne-Franche-Comt\u00e9",
+  "name_ascii": "Bourgogne-Franche-Comte",
+  "slug": "bourgogne-franche-comte",
+  "geoname_id": 11071619,
+  "alternate_names": "Borgogna-Franca Contea",
+  "display_name": "Bourgogne-Franche-Comt\u00e9, France",
+  "geoname_code": "27",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 8,
+ "fields": {
+  "name": "Nouvelle-Aquitaine",
+  "name_ascii": "Nouvelle-Aquitaine",
+  "slug": "nouvelle-aquitaine",
+  "geoname_id": 11071620,
+  "alternate_names": "Aquitaine-Limousin-Poitou-Charentes;Aquitania-Limosino-Poitou-Charentes",
+  "display_name": "Nouvelle-Aquitaine, France",
+  "geoname_code": "75",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 9,
+ "fields": {
+  "name": "Normandy",
+  "name_ascii": "Normandy",
+  "slug": "normandy",
+  "geoname_id": 11071621,
+  "alternate_names": "Normandia;Normandie;Normand\u00eda",
+  "display_name": "Normandy, France",
+  "geoname_code": "28",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 10,
+ "fields": {
+  "name": "Grand Est",
+  "name_ascii": "Grand Est",
+  "slug": "grand-est",
+  "geoname_id": 11071622,
+  "alternate_names": "Alsace-Champagne-Ardenne-Lorraine;Alsazia-Champagne-Ardenne-Lorena",
+  "display_name": "Grand Est, France",
+  "geoname_code": "44",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 11,
+ "fields": {
+  "name": "Occitanie",
+  "name_ascii": "Occitanie",
+  "slug": "occitanie",
+  "geoname_id": 11071623,
+  "alternate_names": "R\u00e9gion Occitanie;R\u00e9gion Occitanie (Pyr\u00e9n\u00e9es-M\u00e9diterran\u00e9e)",
+  "display_name": "Occitanie, France",
+  "geoname_code": "76",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 12,
+ "fields": {
+  "name": "Hauts-de-France",
+  "name_ascii": "Hauts-de-France",
+  "slug": "hauts-de-france",
+  "geoname_id": 11071624,
+  "alternate_names": "Nord-Passo di Calais-Piccardia",
+  "display_name": "Hauts-de-France, France",
+  "geoname_code": "32",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 13,
+ "fields": {
+  "name": "Auvergne-Rh\u00f4ne-Alpes",
+  "name_ascii": "Auvergne-Rhone-Alpes",
+  "slug": "auvergne-rhone-alpes",
+  "geoname_id": 11071625,
+  "alternate_names": "Alvernia-Rodano-Alpi",
+  "display_name": "Auvergne-Rh\u00f4ne-Alpes, France",
+  "geoname_code": "84",
+  "country": 1
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 14,
+ "fields": {
+  "name": "Sant Juli\u00e0 de Loria",
+  "name_ascii": "Sant Julia de Loria",
+  "slug": "sant-julia-de-loria",
+  "geoname_id": 3039162,
+  "alternate_names": "",
+  "display_name": "Sant Juli\u00e0 de Loria, Andorra",
+  "geoname_code": "06",
+  "country": 2
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 15,
+ "fields": {
+  "name": "Ordino",
+  "name_ascii": "Ordino",
+  "slug": "ordino",
+  "geoname_id": 3039676,
+  "alternate_names": "",
+  "display_name": "Ordino, Andorra",
+  "geoname_code": "05",
+  "country": 2
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 16,
+ "fields": {
+  "name": "La Massana",
+  "name_ascii": "La Massana",
+  "slug": "la-massana",
+  "geoname_id": 3040131,
+  "alternate_names": "",
+  "display_name": "La Massana, Andorra",
+  "geoname_code": "04",
+  "country": 2
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 17,
+ "fields": {
+  "name": "Encamp",
+  "name_ascii": "Encamp",
+  "slug": "encamp",
+  "geoname_id": 3040684,
+  "alternate_names": "",
+  "display_name": "Encamp, Andorra",
+  "geoname_code": "03",
+  "country": 2
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 18,
+ "fields": {
+  "name": "Canillo",
+  "name_ascii": "Canillo",
+  "slug": "canillo",
+  "geoname_id": 3041203,
+  "alternate_names": "",
+  "display_name": "Canillo, Andorra",
+  "geoname_code": "02",
+  "country": 2
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 19,
+ "fields": {
+  "name": "Andorra la Vella",
+  "name_ascii": "Andorra la Vella",
+  "slug": "andorra-la-vella",
+  "geoname_id": 3041566,
+  "alternate_names": "",
+  "display_name": "Andorra la Vella, Andorra",
+  "geoname_code": "07",
+  "country": 2
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 20,
+ "fields": {
+  "name": "Escaldes-Engordany",
+  "name_ascii": "Escaldes-Engordany",
+  "slug": "escaldes-engordany",
+  "geoname_id": 3338529,
+  "alternate_names": "",
+  "display_name": "Escaldes-Engordany, Andorra",
+  "geoname_code": "08",
+  "country": 2
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 21,
+ "fields": {
+  "name": "Umm al Qaywayn",
+  "name_ascii": "Umm al Qaywayn",
+  "slug": "umm-al-qaywayn",
+  "geoname_id": 290595,
+  "alternate_names": "",
+  "display_name": "Umm al Qaywayn, United Arab Emirates",
+  "geoname_code": "07",
+  "country": 3
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 22,
+ "fields": {
+  "name": "Ra\u02bcs al Khaymah",
+  "name_ascii": "Ra's al Khaymah",
+  "slug": "ras-al-khaymah",
+  "geoname_id": 291075,
+  "alternate_names": "",
+  "display_name": "Ra\u02bcs al Khaymah, United Arab Emirates",
+  "geoname_code": "05",
+  "country": 3
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 23,
+ "fields": {
+  "name": "Dubai",
+  "name_ascii": "Dubai",
+  "slug": "dubai",
+  "geoname_id": 292224,
+  "alternate_names": "",
+  "display_name": "Dubai, United Arab Emirates",
+  "geoname_code": "03",
+  "country": 3
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 24,
+ "fields": {
+  "name": "Sharjah",
+  "name_ascii": "Sharjah",
+  "slug": "sharjah",
+  "geoname_id": 292673,
+  "alternate_names": "",
+  "display_name": "Sharjah, United Arab Emirates",
+  "geoname_code": "06",
+  "country": 3
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 25,
+ "fields": {
+  "name": "Fujairah",
+  "name_ascii": "Fujairah",
+  "slug": "fujairah",
+  "geoname_id": 292879,
+  "alternate_names": "",
+  "display_name": "Fujairah, United Arab Emirates",
+  "geoname_code": "04",
+  "country": 3
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 26,
+ "fields": {
+  "name": "Ajman",
+  "name_ascii": "Ajman",
+  "slug": "ajman",
+  "geoname_id": 292933,
+  "alternate_names": "",
+  "display_name": "Ajman, United Arab Emirates",
+  "geoname_code": "02",
+  "country": 3
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 27,
+ "fields": {
+  "name": "Abu Dhabi",
+  "name_ascii": "Abu Dhabi",
+  "slug": "abu-dhabi",
+  "geoname_id": 292969,
+  "alternate_names": "",
+  "display_name": "Abu Dhabi, United Arab Emirates",
+  "geoname_code": "01",
+  "country": 3
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 28,
+ "fields": {
+  "name": "Zabul",
+  "name_ascii": "Zabul",
+  "slug": "zabul",
+  "geoname_id": 1121143,
+  "alternate_names": "",
+  "display_name": "Zabul, Afghanistan",
+  "geoname_code": "28",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 29,
+ "fields": {
+  "name": "Vardak",
+  "name_ascii": "Vardak",
+  "slug": "vardak",
+  "geoname_id": 1121863,
+  "alternate_names": "",
+  "display_name": "Vardak, Afghanistan",
+  "geoname_code": "27",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 30,
+ "fields": {
+  "name": "Takhar",
+  "name_ascii": "Takhar",
+  "slug": "takhar",
+  "geoname_id": 1123230,
+  "alternate_names": "",
+  "display_name": "Takhar, Afghanistan",
+  "geoname_code": "26",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 31,
+ "fields": {
+  "name": "Sar-e Pol",
+  "name_ascii": "Sar-e Pol",
+  "slug": "sar-e-pol",
+  "geoname_id": 1127106,
+  "alternate_names": "",
+  "display_name": "Sar-e Pol, Afghanistan",
+  "geoname_code": "33",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 32,
+ "fields": {
+  "name": "Samangan",
+  "name_ascii": "Samangan",
+  "slug": "samangan",
+  "geoname_id": 1127766,
+  "alternate_names": "",
+  "display_name": "Samangan, Afghanistan",
+  "geoname_code": "32",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 33,
+ "fields": {
+  "name": "Parwan",
+  "name_ascii": "Parwan",
+  "slug": "parwan",
+  "geoname_id": 1131054,
+  "alternate_names": "",
+  "display_name": "Parwan, Afghanistan",
+  "geoname_code": "40",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 34,
+ "fields": {
+  "name": "Paktika",
+  "name_ascii": "Paktika",
+  "slug": "paktika",
+  "geoname_id": 1131256,
+  "alternate_names": "",
+  "display_name": "Paktika, Afghanistan",
+  "geoname_code": "29",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 35,
+ "fields": {
+  "name": "Paktia",
+  "name_ascii": "Paktia",
+  "slug": "paktia",
+  "geoname_id": 1131257,
+  "alternate_names": "",
+  "display_name": "Paktia, Afghanistan",
+  "geoname_code": "36",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 36,
+ "fields": {
+  "name": "Oruzgan",
+  "name_ascii": "Oruzgan",
+  "slug": "oruzgan",
+  "geoname_id": 1131461,
+  "alternate_names": "",
+  "display_name": "Oruzgan, Afghanistan",
+  "geoname_code": "39",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 37,
+ "fields": {
+  "name": "Nimroz",
+  "name_ascii": "Nimroz",
+  "slug": "nimroz",
+  "geoname_id": 1131821,
+  "alternate_names": "",
+  "display_name": "Nimroz, Afghanistan",
+  "geoname_code": "19",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 38,
+ "fields": {
+  "name": "Nangarhar",
+  "name_ascii": "Nangarhar",
+  "slug": "nangarhar",
+  "geoname_id": 1132366,
+  "alternate_names": "",
+  "display_name": "Nangarhar, Afghanistan",
+  "geoname_code": "18",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 39,
+ "fields": {
+  "name": "Logar",
+  "name_ascii": "Logar",
+  "slug": "logar",
+  "geoname_id": 1134561,
+  "alternate_names": "",
+  "display_name": "Logar, Afghanistan",
+  "geoname_code": "17",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 40,
+ "fields": {
+  "name": "Laghman",
+  "name_ascii": "Laghman",
+  "slug": "laghman",
+  "geoname_id": 1135022,
+  "alternate_names": "",
+  "display_name": "Laghman, Afghanistan",
+  "geoname_code": "35",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 41,
+ "fields": {
+  "name": "Kunduz",
+  "name_ascii": "Kunduz",
+  "slug": "kunduz",
+  "geoname_id": 1135690,
+  "alternate_names": "",
+  "display_name": "Kunduz, Afghanistan",
+  "geoname_code": "24",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 42,
+ "fields": {
+  "name": "Kunar",
+  "name_ascii": "Kunar",
+  "slug": "kunar",
+  "geoname_id": 1135702,
+  "alternate_names": "",
+  "display_name": "Kunar, Afghanistan",
+  "geoname_code": "34",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 43,
+ "fields": {
+  "name": "Kapisa",
+  "name_ascii": "Kapisa",
+  "slug": "kapisa",
+  "geoname_id": 1138255,
+  "alternate_names": "",
+  "display_name": "Kapisa, Afghanistan",
+  "geoname_code": "14",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 44,
+ "fields": {
+  "name": "Kandahar",
+  "name_ascii": "Kandahar",
+  "slug": "kandahar",
+  "geoname_id": 1138335,
+  "alternate_names": "",
+  "display_name": "Kandahar, Afghanistan",
+  "geoname_code": "23",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 45,
+ "fields": {
+  "name": "Kabul",
+  "name_ascii": "Kabul",
+  "slug": "kabul",
+  "geoname_id": 1138957,
+  "alternate_names": "",
+  "display_name": "Kabul, Afghanistan",
+  "geoname_code": "13",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 46,
+ "fields": {
+  "name": "Jowzjan",
+  "name_ascii": "Jowzjan",
+  "slug": "jowzjan",
+  "geoname_id": 1139049,
+  "alternate_names": "",
+  "display_name": "Jowzjan, Afghanistan",
+  "geoname_code": "31",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 47,
+ "fields": {
+  "name": "Herat",
+  "name_ascii": "Herat",
+  "slug": "herat",
+  "geoname_id": 1140025,
+  "alternate_names": "",
+  "display_name": "Herat, Afghanistan",
+  "geoname_code": "11",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 48,
+ "fields": {
+  "name": "Helmand",
+  "name_ascii": "Helmand",
+  "slug": "helmand",
+  "geoname_id": 1140043,
+  "alternate_names": "",
+  "display_name": "Helmand, Afghanistan",
+  "geoname_code": "10",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 49,
+ "fields": {
+  "name": "Ghowr",
+  "name_ascii": "Ghowr",
+  "slug": "ghowr",
+  "geoname_id": 1141103,
+  "alternate_names": "",
+  "display_name": "Ghowr, Afghanistan",
+  "geoname_code": "09",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 50,
+ "fields": {
+  "name": "Ghazni",
+  "name_ascii": "Ghazni",
+  "slug": "ghazni",
+  "geoname_id": 1141268,
+  "alternate_names": "",
+  "display_name": "Ghazni, Afghanistan",
+  "geoname_code": "08",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 51,
+ "fields": {
+  "name": "Faryab",
+  "name_ascii": "Faryab",
+  "slug": "faryab",
+  "geoname_id": 1142226,
+  "alternate_names": "",
+  "display_name": "Faryab, Afghanistan",
+  "geoname_code": "07",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 52,
+ "fields": {
+  "name": "Farah",
+  "name_ascii": "Farah",
+  "slug": "farah",
+  "geoname_id": 1142263,
+  "alternate_names": "",
+  "display_name": "Farah, Afghanistan",
+  "geoname_code": "06",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 53,
+ "fields": {
+  "name": "Bamyan",
+  "name_ascii": "Bamyan",
+  "slug": "bamyan",
+  "geoname_id": 1147239,
+  "alternate_names": "",
+  "display_name": "Bamyan, Afghanistan",
+  "geoname_code": "05",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 54,
+ "fields": {
+  "name": "Balkh",
+  "name_ascii": "Balkh",
+  "slug": "balkh",
+  "geoname_id": 1147288,
+  "alternate_names": "",
+  "display_name": "Balkh, Afghanistan",
+  "geoname_code": "30",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 55,
+ "fields": {
+  "name": "Baghlan",
+  "name_ascii": "Baghlan",
+  "slug": "baghlan",
+  "geoname_id": 1147537,
+  "alternate_names": "",
+  "display_name": "Baghlan, Afghanistan",
+  "geoname_code": "03",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 56,
+ "fields": {
+  "name": "Badghis",
+  "name_ascii": "Badghis",
+  "slug": "badghis",
+  "geoname_id": 1147707,
+  "alternate_names": "",
+  "display_name": "Badghis, Afghanistan",
+  "geoname_code": "02",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 57,
+ "fields": {
+  "name": "Badakhshan",
+  "name_ascii": "Badakhshan",
+  "slug": "badakhshan",
+  "geoname_id": 1147745,
+  "alternate_names": "",
+  "display_name": "Badakhshan, Afghanistan",
+  "geoname_code": "01",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 58,
+ "fields": {
+  "name": "Khowst",
+  "name_ascii": "Khowst",
+  "slug": "khowst",
+  "geoname_id": 1444362,
+  "alternate_names": "",
+  "display_name": "Khowst, Afghanistan",
+  "geoname_code": "37",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 59,
+ "fields": {
+  "name": "Nuristan",
+  "name_ascii": "Nuristan",
+  "slug": "nuristan",
+  "geoname_id": 1444363,
+  "alternate_names": "",
+  "display_name": "Nuristan, Afghanistan",
+  "geoname_code": "38",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 60,
+ "fields": {
+  "name": "Daykundi",
+  "name_ascii": "Daykundi",
+  "slug": "daykundi",
+  "geoname_id": 6957553,
+  "alternate_names": "",
+  "display_name": "Daykundi, Afghanistan",
+  "geoname_code": "41",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 61,
+ "fields": {
+  "name": "Panjshir",
+  "name_ascii": "Panjshir",
+  "slug": "panjshir",
+  "geoname_id": 6957555,
+  "alternate_names": "",
+  "display_name": "Panjshir, Afghanistan",
+  "geoname_code": "42",
+  "country": 4
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 62,
+ "fields": {
+  "name": "Saint Philip",
+  "name_ascii": "Saint Philip",
+  "slug": "saint-philip",
+  "geoname_id": 3576015,
+  "alternate_names": "",
+  "display_name": "Saint Philip, Antigua and Barbuda",
+  "geoname_code": "08",
+  "country": 5
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 63,
+ "fields": {
+  "name": "Saint Peter",
+  "name_ascii": "Saint Peter",
+  "slug": "saint-peter",
+  "geoname_id": 3576016,
+  "alternate_names": "",
+  "display_name": "Saint Peter, Antigua and Barbuda",
+  "geoname_code": "07",
+  "country": 5
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 64,
+ "fields": {
+  "name": "Saint Paul",
+  "name_ascii": "Saint Paul",
+  "slug": "saint-paul",
+  "geoname_id": 3576017,
+  "alternate_names": "",
+  "display_name": "Saint Paul, Antigua and Barbuda",
+  "geoname_code": "06",
+  "country": 5
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 65,
+ "fields": {
+  "name": "Saint Mary",
+  "name_ascii": "Saint Mary",
+  "slug": "saint-mary",
+  "geoname_id": 3576018,
+  "alternate_names": "",
+  "display_name": "Saint Mary, Antigua and Barbuda",
+  "geoname_code": "05",
+  "country": 5
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 66,
+ "fields": {
+  "name": "Saint John",
+  "name_ascii": "Saint John",
+  "slug": "saint-john",
+  "geoname_id": 3576023,
+  "alternate_names": "",
+  "display_name": "Saint John, Antigua and Barbuda",
+  "geoname_code": "04",
+  "country": 5
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 67,
+ "fields": {
+  "name": "Saint George",
+  "name_ascii": "Saint George",
+  "slug": "saint-george",
+  "geoname_id": 3576024,
+  "alternate_names": "",
+  "display_name": "Saint George, Antigua and Barbuda",
+  "geoname_code": "03",
+  "country": 5
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 68,
+ "fields": {
+  "name": "Redonda",
+  "name_ascii": "Redonda",
+  "slug": "redonda",
+  "geoname_id": 3576037,
+  "alternate_names": "",
+  "display_name": "Redonda, Antigua and Barbuda",
+  "geoname_code": "09",
+  "country": 5
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 69,
+ "fields": {
+  "name": "Barbuda",
+  "name_ascii": "Barbuda",
+  "slug": "barbuda",
+  "geoname_id": 3576390,
+  "alternate_names": "",
+  "display_name": "Barbuda, Antigua and Barbuda",
+  "geoname_code": "01",
+  "country": 5
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 70,
+ "fields": {
+  "name": "Blowing Point",
+  "name_ascii": "Blowing Point",
+  "slug": "blowing-point",
+  "geoname_id": 11205389,
+  "alternate_names": "",
+  "display_name": "Blowing Point, Anguilla",
+  "geoname_code": "11205389",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 71,
+ "fields": {
+  "name": "Sandy Ground",
+  "name_ascii": "Sandy Ground",
+  "slug": "sandy-ground",
+  "geoname_id": 11205392,
+  "alternate_names": "",
+  "display_name": "Sandy Ground, Anguilla",
+  "geoname_code": "11205392",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 72,
+ "fields": {
+  "name": "Sandy Hill",
+  "name_ascii": "Sandy Hill",
+  "slug": "sandy-hill",
+  "geoname_id": 11205393,
+  "alternate_names": "",
+  "display_name": "Sandy Hill, Anguilla",
+  "geoname_code": "11205393",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 73,
+ "fields": {
+  "name": "The Valley",
+  "name_ascii": "The Valley",
+  "slug": "the-valley",
+  "geoname_id": 11205396,
+  "alternate_names": "",
+  "display_name": "The Valley, Anguilla",
+  "geoname_code": "11205396",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 74,
+ "fields": {
+  "name": "East End",
+  "name_ascii": "East End",
+  "slug": "east-end",
+  "geoname_id": 11205433,
+  "alternate_names": "",
+  "display_name": "East End, Anguilla",
+  "geoname_code": "11205433",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 75,
+ "fields": {
+  "name": "North Hill",
+  "name_ascii": "North Hill",
+  "slug": "north-hill",
+  "geoname_id": 11205436,
+  "alternate_names": "",
+  "display_name": "North Hill, Anguilla",
+  "geoname_code": "11205436",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 76,
+ "fields": {
+  "name": "West End",
+  "name_ascii": "West End",
+  "slug": "west-end",
+  "geoname_id": 11205437,
+  "alternate_names": "",
+  "display_name": "West End, Anguilla",
+  "geoname_code": "11205437",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 77,
+ "fields": {
+  "name": "South Hill",
+  "name_ascii": "South Hill",
+  "slug": "south-hill",
+  "geoname_id": 11205438,
+  "alternate_names": "",
+  "display_name": "South Hill, Anguilla",
+  "geoname_code": "11205438",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 78,
+ "fields": {
+  "name": "The Quarter",
+  "name_ascii": "The Quarter",
+  "slug": "the-quarter",
+  "geoname_id": 11205439,
+  "alternate_names": "",
+  "display_name": "The Quarter, Anguilla",
+  "geoname_code": "11205439",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 79,
+ "fields": {
+  "name": "North Side",
+  "name_ascii": "North Side",
+  "slug": "north-side",
+  "geoname_id": 11205440,
+  "alternate_names": "",
+  "display_name": "North Side, Anguilla",
+  "geoname_code": "11205440",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 80,
+ "fields": {
+  "name": "Island Harbour",
+  "name_ascii": "Island Harbour",
+  "slug": "island-harbour",
+  "geoname_id": 11205441,
+  "alternate_names": "",
+  "display_name": "Island Harbour, Anguilla",
+  "geoname_code": "11205441",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 81,
+ "fields": {
+  "name": "George Hill",
+  "name_ascii": "George Hill",
+  "slug": "george-hill",
+  "geoname_id": 11205442,
+  "alternate_names": "",
+  "display_name": "George Hill, Anguilla",
+  "geoname_code": "11205442",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 82,
+ "fields": {
+  "name": "Stoney Ground",
+  "name_ascii": "Stoney Ground",
+  "slug": "stoney-ground",
+  "geoname_id": 11205443,
+  "alternate_names": "",
+  "display_name": "Stoney Ground, Anguilla",
+  "geoname_code": "11205443",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 83,
+ "fields": {
+  "name": "The Farrington",
+  "name_ascii": "The Farrington",
+  "slug": "the-farrington",
+  "geoname_id": 11205444,
+  "alternate_names": "",
+  "display_name": "The Farrington, Anguilla",
+  "geoname_code": "11205444",
+  "country": 6
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 84,
+ "fields": {
+  "name": "Berat",
+  "name_ascii": "Berat",
+  "slug": "berat",
+  "geoname_id": 865730,
+  "alternate_names": "",
+  "display_name": "Berat, Albania",
+  "geoname_code": "40",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 85,
+ "fields": {
+  "name": "Dib\u00ebr",
+  "name_ascii": "Diber",
+  "slug": "diber",
+  "geoname_id": 865731,
+  "alternate_names": "",
+  "display_name": "Dib\u00ebr, Albania",
+  "geoname_code": "41",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 86,
+ "fields": {
+  "name": "Elbasan",
+  "name_ascii": "Elbasan",
+  "slug": "elbasan",
+  "geoname_id": 865732,
+  "alternate_names": "",
+  "display_name": "Elbasan, Albania",
+  "geoname_code": "43",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 87,
+ "fields": {
+  "name": "Gjirokast\u00ebr",
+  "name_ascii": "Gjirokaster",
+  "slug": "gjirokaster",
+  "geoname_id": 865733,
+  "alternate_names": "",
+  "display_name": "Gjirokast\u00ebr, Albania",
+  "geoname_code": "45",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 88,
+ "fields": {
+  "name": "Kor\u00e7\u00eb",
+  "name_ascii": "Korce",
+  "slug": "korce",
+  "geoname_id": 865734,
+  "alternate_names": "",
+  "display_name": "Kor\u00e7\u00eb, Albania",
+  "geoname_code": "46",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 89,
+ "fields": {
+  "name": "Kuk\u00ebs",
+  "name_ascii": "Kukes",
+  "slug": "kukes",
+  "geoname_id": 865735,
+  "alternate_names": "",
+  "display_name": "Kuk\u00ebs, Albania",
+  "geoname_code": "47",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 90,
+ "fields": {
+  "name": "Durr\u00ebs",
+  "name_ascii": "Durres",
+  "slug": "durres",
+  "geoname_id": 3344947,
+  "alternate_names": "",
+  "display_name": "Durr\u00ebs, Albania",
+  "geoname_code": "42",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 91,
+ "fields": {
+  "name": "Fier",
+  "name_ascii": "Fier",
+  "slug": "fier",
+  "geoname_id": 3344948,
+  "alternate_names": "",
+  "display_name": "Fier, Albania",
+  "geoname_code": "44",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 92,
+ "fields": {
+  "name": "Lezh\u00eb",
+  "name_ascii": "Lezhe",
+  "slug": "lezhe",
+  "geoname_id": 3344949,
+  "alternate_names": "",
+  "display_name": "Lezh\u00eb, Albania",
+  "geoname_code": "48",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 93,
+ "fields": {
+  "name": "Shkod\u00ebr",
+  "name_ascii": "Shkoder",
+  "slug": "shkoder",
+  "geoname_id": 3344950,
+  "alternate_names": "",
+  "display_name": "Shkod\u00ebr, Albania",
+  "geoname_code": "49",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 94,
+ "fields": {
+  "name": "Tirana",
+  "name_ascii": "Tirana",
+  "slug": "tirana",
+  "geoname_id": 3344951,
+  "alternate_names": "",
+  "display_name": "Tirana, Albania",
+  "geoname_code": "50",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 95,
+ "fields": {
+  "name": "Vlor\u00eb",
+  "name_ascii": "Vlore",
+  "slug": "vlore",
+  "geoname_id": 3344952,
+  "alternate_names": "",
+  "display_name": "Vlor\u00eb, Albania",
+  "geoname_code": "51",
+  "country": 7
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 96,
+ "fields": {
+  "name": "Ararat",
+  "name_ascii": "Ararat",
+  "slug": "ararat",
+  "geoname_id": 409313,
+  "alternate_names": "",
+  "display_name": "Ararat, Armenia",
+  "geoname_code": "02",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 97,
+ "fields": {
+  "name": "Syunik",
+  "name_ascii": "Syunik",
+  "slug": "syunik",
+  "geoname_id": 409314,
+  "alternate_names": "",
+  "display_name": "Syunik, Armenia",
+  "geoname_code": "08",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 98,
+ "fields": {
+  "name": "Vayots Dzor",
+  "name_ascii": "Vayots Dzor",
+  "slug": "vayots-dzor",
+  "geoname_id": 409315,
+  "alternate_names": "",
+  "display_name": "Vayots Dzor, Armenia",
+  "geoname_code": "10",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 99,
+ "fields": {
+  "name": "Yerevan",
+  "name_ascii": "Yerevan",
+  "slug": "yerevan",
+  "geoname_id": 616051,
+  "alternate_names": "",
+  "display_name": "Yerevan, Armenia",
+  "geoname_code": "11",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 100,
+ "fields": {
+  "name": "Aragatsotn",
+  "name_ascii": "Aragatsotn",
+  "slug": "aragatsotn",
+  "geoname_id": 828259,
+  "alternate_names": "",
+  "display_name": "Aragatsotn, Armenia",
+  "geoname_code": "01",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 101,
+ "fields": {
+  "name": "Armavir",
+  "name_ascii": "Armavir",
+  "slug": "armavir",
+  "geoname_id": 828260,
+  "alternate_names": "",
+  "display_name": "Armavir, Armenia",
+  "geoname_code": "03",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 102,
+ "fields": {
+  "name": "Gegharkunik",
+  "name_ascii": "Gegharkunik",
+  "slug": "gegharkunik",
+  "geoname_id": 828261,
+  "alternate_names": "",
+  "display_name": "Gegharkunik, Armenia",
+  "geoname_code": "04",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 103,
+ "fields": {
+  "name": "Kotayk",
+  "name_ascii": "Kotayk",
+  "slug": "kotayk",
+  "geoname_id": 828262,
+  "alternate_names": "",
+  "display_name": "Kotayk, Armenia",
+  "geoname_code": "05",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 104,
+ "fields": {
+  "name": "Lori",
+  "name_ascii": "Lori",
+  "slug": "lori",
+  "geoname_id": 828263,
+  "alternate_names": "",
+  "display_name": "Lori, Armenia",
+  "geoname_code": "06",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 105,
+ "fields": {
+  "name": "Shirak",
+  "name_ascii": "Shirak",
+  "slug": "shirak",
+  "geoname_id": 828264,
+  "alternate_names": "",
+  "display_name": "Shirak, Armenia",
+  "geoname_code": "07",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 106,
+ "fields": {
+  "name": "Tavush",
+  "name_ascii": "Tavush",
+  "slug": "tavush",
+  "geoname_id": 828265,
+  "alternate_names": "",
+  "display_name": "Tavush, Armenia",
+  "geoname_code": "09",
+  "country": 8
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 107,
+ "fields": {
+  "name": "Lunda Sul",
+  "name_ascii": "Lunda Sul",
+  "slug": "lunda-sul",
+  "geoname_id": 145701,
+  "alternate_names": "",
+  "display_name": "Lunda Sul, Angola",
+  "geoname_code": "18",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 108,
+ "fields": {
+  "name": "Luanda Norte",
+  "name_ascii": "Luanda Norte",
+  "slug": "luanda-norte",
+  "geoname_id": 145702,
+  "alternate_names": "",
+  "display_name": "Luanda Norte, Angola",
+  "geoname_code": "17",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 109,
+ "fields": {
+  "name": "Moxico",
+  "name_ascii": "Moxico",
+  "slug": "moxico",
+  "geoname_id": 875996,
+  "alternate_names": "",
+  "display_name": "Moxico, Angola",
+  "geoname_code": "14",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 110,
+ "fields": {
+  "name": "Cuando Cobango",
+  "name_ascii": "Cuando Cobango",
+  "slug": "cuando-cobango",
+  "geoname_id": 876337,
+  "alternate_names": "",
+  "display_name": "Cuando Cobango, Angola",
+  "geoname_code": "04",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 111,
+ "fields": {
+  "name": "Zaire",
+  "name_ascii": "Zaire",
+  "slug": "zaire",
+  "geoname_id": 2236355,
+  "alternate_names": "",
+  "display_name": "Zaire, Angola",
+  "geoname_code": "16",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 112,
+ "fields": {
+  "name": "U\u00edge",
+  "name_ascii": "Uige",
+  "slug": "uige",
+  "geoname_id": 2236566,
+  "alternate_names": "",
+  "display_name": "U\u00edge, Angola",
+  "geoname_code": "15",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 113,
+ "fields": {
+  "name": "Malanje",
+  "name_ascii": "Malanje",
+  "slug": "malanje",
+  "geoname_id": 2239858,
+  "alternate_names": "",
+  "display_name": "Malanje, Angola",
+  "geoname_code": "12",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 114,
+ "fields": {
+  "name": "Luanda",
+  "name_ascii": "Luanda",
+  "slug": "luanda",
+  "geoname_id": 2240444,
+  "alternate_names": "",
+  "display_name": "Luanda, Angola",
+  "geoname_code": "20",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 115,
+ "fields": {
+  "name": "Cuanza Norte",
+  "name_ascii": "Cuanza Norte",
+  "slug": "cuanza-norte",
+  "geoname_id": 2241660,
+  "alternate_names": "",
+  "display_name": "Cuanza Norte, Angola",
+  "geoname_code": "05",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 116,
+ "fields": {
+  "name": "Cabinda",
+  "name_ascii": "Cabinda",
+  "slug": "cabinda",
+  "geoname_id": 2243266,
+  "alternate_names": "",
+  "display_name": "Cabinda, Angola",
+  "geoname_code": "03",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 117,
+ "fields": {
+  "name": "Bengo",
+  "name_ascii": "Bengo",
+  "slug": "bengo",
+  "geoname_id": 2243598,
+  "alternate_names": "",
+  "display_name": "Bengo, Angola",
+  "geoname_code": "19",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 118,
+ "fields": {
+  "name": "Namibe",
+  "name_ascii": "Namibe",
+  "slug": "namibe",
+  "geoname_id": 3347016,
+  "alternate_names": "",
+  "display_name": "Namibe, Angola",
+  "geoname_code": "13",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 119,
+ "fields": {
+  "name": "Hu\u00edla",
+  "name_ascii": "Huila",
+  "slug": "huila",
+  "geoname_id": 3348303,
+  "alternate_names": "",
+  "display_name": "Hu\u00edla, Angola",
+  "geoname_code": "09",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 120,
+ "fields": {
+  "name": "Huambo",
+  "name_ascii": "Huambo",
+  "slug": "huambo",
+  "geoname_id": 3348310,
+  "alternate_names": "",
+  "display_name": "Huambo, Angola",
+  "geoname_code": "08",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 121,
+ "fields": {
+  "name": "Cunene",
+  "name_ascii": "Cunene",
+  "slug": "cunene",
+  "geoname_id": 3349096,
+  "alternate_names": "",
+  "display_name": "Cunene, Angola",
+  "geoname_code": "07",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 122,
+ "fields": {
+  "name": "Kwanza Sul",
+  "name_ascii": "Kwanza Sul",
+  "slug": "kwanza-sul",
+  "geoname_id": 3349234,
+  "alternate_names": "",
+  "display_name": "Kwanza Sul, Angola",
+  "geoname_code": "06",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 123,
+ "fields": {
+  "name": "B\u00ede",
+  "name_ascii": "Bie",
+  "slug": "bie",
+  "geoname_id": 3351640,
+  "alternate_names": "",
+  "display_name": "B\u00ede, Angola",
+  "geoname_code": "02",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 124,
+ "fields": {
+  "name": "Benguela",
+  "name_ascii": "Benguela",
+  "slug": "benguela",
+  "geoname_id": 3351660,
+  "alternate_names": "",
+  "display_name": "Benguela, Angola",
+  "geoname_code": "01",
+  "country": 9
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 125,
+ "fields": {
+  "name": "Misiones",
+  "name_ascii": "Misiones",
+  "slug": "misiones",
+  "geoname_id": 3430657,
+  "alternate_names": "",
+  "display_name": "Misiones, Argentina",
+  "geoname_code": "14",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 126,
+ "fields": {
+  "name": "Formosa",
+  "name_ascii": "Formosa",
+  "slug": "formosa",
+  "geoname_id": 3433896,
+  "alternate_names": "",
+  "display_name": "Formosa, Argentina",
+  "geoname_code": "09",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 127,
+ "fields": {
+  "name": "Buenos Aires F.D.",
+  "name_ascii": "Buenos Aires F.D.",
+  "slug": "buenos-aires-fd",
+  "geoname_id": 3433955,
+  "alternate_names": "",
+  "display_name": "Buenos Aires F.D., Argentina",
+  "geoname_code": "07",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 128,
+ "fields": {
+  "name": "Entre Rios",
+  "name_ascii": "Entre Rios",
+  "slug": "entre-rios",
+  "geoname_id": 3434137,
+  "alternate_names": "",
+  "display_name": "Entre Rios, Argentina",
+  "geoname_code": "08",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 129,
+ "fields": {
+  "name": "Corrientes",
+  "name_ascii": "Corrientes",
+  "slug": "corrientes",
+  "geoname_id": 3435214,
+  "alternate_names": "",
+  "display_name": "Corrientes, Argentina",
+  "geoname_code": "06",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 130,
+ "fields": {
+  "name": "Buenos Aires",
+  "name_ascii": "Buenos Aires",
+  "slug": "buenos-aires",
+  "geoname_id": 3435907,
+  "alternate_names": "",
+  "display_name": "Buenos Aires, Argentina",
+  "geoname_code": "01",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 131,
+ "fields": {
+  "name": "Tucuman",
+  "name_ascii": "Tucuman",
+  "slug": "tucuman",
+  "geoname_id": 3833578,
+  "alternate_names": "",
+  "display_name": "Tucuman, Argentina",
+  "geoname_code": "24",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 132,
+ "fields": {
+  "name": "Tierra del Fuego",
+  "name_ascii": "Tierra del Fuego",
+  "slug": "tierra-del-fuego",
+  "geoname_id": 3834450,
+  "alternate_names": "",
+  "display_name": "Tierra del Fuego, Argentina",
+  "geoname_code": "23",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 133,
+ "fields": {
+  "name": "Santiago del Estero",
+  "name_ascii": "Santiago del Estero",
+  "slug": "santiago-del-estero",
+  "geoname_id": 3835868,
+  "alternate_names": "",
+  "display_name": "Santiago del Estero, Argentina",
+  "geoname_code": "22",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 134,
+ "fields": {
+  "name": "Santa Fe",
+  "name_ascii": "Santa Fe",
+  "slug": "santa-fe",
+  "geoname_id": 3836276,
+  "alternate_names": "",
+  "display_name": "Santa Fe, Argentina",
+  "geoname_code": "21",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 135,
+ "fields": {
+  "name": "Santa Cruz",
+  "name_ascii": "Santa Cruz",
+  "slug": "santa-cruz",
+  "geoname_id": 3836350,
+  "alternate_names": "",
+  "display_name": "Santa Cruz, Argentina",
+  "geoname_code": "20",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 136,
+ "fields": {
+  "name": "San Luis",
+  "name_ascii": "San Luis",
+  "slug": "san-luis",
+  "geoname_id": 3837029,
+  "alternate_names": "",
+  "display_name": "San Luis, Argentina",
+  "geoname_code": "19",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 137,
+ "fields": {
+  "name": "San Juan",
+  "name_ascii": "San Juan",
+  "slug": "san-juan",
+  "geoname_id": 3837152,
+  "alternate_names": "",
+  "display_name": "San Juan, Argentina",
+  "geoname_code": "18",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 138,
+ "fields": {
+  "name": "Salta",
+  "name_ascii": "Salta",
+  "slug": "salta",
+  "geoname_id": 3838231,
+  "alternate_names": "",
+  "display_name": "Salta, Argentina",
+  "geoname_code": "17",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 139,
+ "fields": {
+  "name": "Rio Negro",
+  "name_ascii": "Rio Negro",
+  "slug": "rio-negro",
+  "geoname_id": 3838830,
+  "alternate_names": "",
+  "display_name": "Rio Negro, Argentina",
+  "geoname_code": "16",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 140,
+ "fields": {
+  "name": "Neuquen",
+  "name_ascii": "Neuquen",
+  "slug": "neuquen",
+  "geoname_id": 3843122,
+  "alternate_names": "",
+  "display_name": "Neuquen, Argentina",
+  "geoname_code": "15",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 141,
+ "fields": {
+  "name": "Mendoza",
+  "name_ascii": "Mendoza",
+  "slug": "mendoza",
+  "geoname_id": 3844419,
+  "alternate_names": "",
+  "display_name": "Mendoza, Argentina",
+  "geoname_code": "13",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 142,
+ "fields": {
+  "name": "La Rioja",
+  "name_ascii": "La Rioja",
+  "slug": "la-rioja",
+  "geoname_id": 3848949,
+  "alternate_names": "",
+  "display_name": "La Rioja, Argentina",
+  "geoname_code": "12",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 143,
+ "fields": {
+  "name": "La Pampa",
+  "name_ascii": "La Pampa",
+  "slug": "la-pampa",
+  "geoname_id": 3849574,
+  "alternate_names": "",
+  "display_name": "La Pampa, Argentina",
+  "geoname_code": "11",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 144,
+ "fields": {
+  "name": "Jujuy",
+  "name_ascii": "Jujuy",
+  "slug": "jujuy",
+  "geoname_id": 3853404,
+  "alternate_names": "",
+  "display_name": "Jujuy, Argentina",
+  "geoname_code": "10",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 145,
+ "fields": {
+  "name": "Cordoba",
+  "name_ascii": "Cordoba",
+  "slug": "cordoba",
+  "geoname_id": 3860255,
+  "alternate_names": "",
+  "display_name": "Cordoba, Argentina",
+  "geoname_code": "05",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 146,
+ "fields": {
+  "name": "Chubut",
+  "name_ascii": "Chubut",
+  "slug": "chubut",
+  "geoname_id": 3861244,
+  "alternate_names": "",
+  "display_name": "Chubut, Argentina",
+  "geoname_code": "04",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 147,
+ "fields": {
+  "name": "Chaco",
+  "name_ascii": "Chaco",
+  "slug": "chaco",
+  "geoname_id": 3861887,
+  "alternate_names": "",
+  "display_name": "Chaco, Argentina",
+  "geoname_code": "03",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 148,
+ "fields": {
+  "name": "Catamarca",
+  "name_ascii": "Catamarca",
+  "slug": "catamarca",
+  "geoname_id": 3862286,
+  "alternate_names": "",
+  "display_name": "Catamarca, Argentina",
+  "geoname_code": "02",
+  "country": 11
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 149,
+ "fields": {
+  "name": "Western District",
+  "name_ascii": "Western District",
+  "slug": "western-district",
+  "geoname_id": 5880873,
+  "alternate_names": "",
+  "display_name": "Western District, American Samoa",
+  "geoname_code": "050",
+  "country": 12
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 150,
+ "fields": {
+  "name": "Swains Island",
+  "name_ascii": "Swains Island",
+  "slug": "swains-island",
+  "geoname_id": 5881199,
+  "alternate_names": "",
+  "display_name": "Swains Island, American Samoa",
+  "geoname_code": "040",
+  "country": 12
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 151,
+ "fields": {
+  "name": "Eastern District",
+  "name_ascii": "Eastern District",
+  "slug": "eastern-district",
+  "geoname_id": 5881219,
+  "alternate_names": "",
+  "display_name": "Eastern District, American Samoa",
+  "geoname_code": "010",
+  "country": 12
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 152,
+ "fields": {
+  "name": "Manu'a",
+  "name_ascii": "Manu'a",
+  "slug": "manua",
+  "geoname_id": 5881436,
+  "alternate_names": "",
+  "display_name": "Manu'a, American Samoa",
+  "geoname_code": "020",
+  "country": 12
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 153,
+ "fields": {
+  "name": "Rose Island",
+  "name_ascii": "Rose Island",
+  "slug": "rose-island",
+  "geoname_id": 7309441,
+  "alternate_names": "",
+  "display_name": "Rose Island, American Samoa",
+  "geoname_code": "030",
+  "country": 12
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 154,
+ "fields": {
+  "name": "Vienna",
+  "name_ascii": "Vienna",
+  "slug": "vienna",
+  "geoname_id": 2761367,
+  "alternate_names": "",
+  "display_name": "Vienna, Austria",
+  "geoname_code": "09",
+  "country": 13
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 155,
+ "fields": {
+  "name": "Vorarlberg",
+  "name_ascii": "Vorarlberg",
+  "slug": "vorarlberg",
+  "geoname_id": 2762300,
+  "alternate_names": "",
+  "display_name": "Vorarlberg, Austria",
+  "geoname_code": "08",
+  "country": 13
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 156,
+ "fields": {
+  "name": "Tyrol",
+  "name_ascii": "Tyrol",
+  "slug": "tyrol",
+  "geoname_id": 2763586,
+  "alternate_names": "",
+  "display_name": "Tyrol, Austria",
+  "geoname_code": "07",
+  "country": 13
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 157,
+ "fields": {
+  "name": "Styria",
+  "name_ascii": "Styria",
+  "slug": "styria",
+  "geoname_id": 2764581,
+  "alternate_names": "",
+  "display_name": "Styria, Austria",
+  "geoname_code": "06",
+  "country": 13
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 158,
+ "fields": {
+  "name": "Salzburg",
+  "name_ascii": "Salzburg",
+  "slug": "salzburg",
+  "geoname_id": 2766823,
+  "alternate_names": "",
+  "display_name": "Salzburg, Austria",
+  "geoname_code": "05",
+  "country": 13
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 159,
+ "fields": {
+  "name": "Upper Austria",
+  "name_ascii": "Upper Austria",
+  "slug": "upper-austria",
+  "geoname_id": 2769848,
+  "alternate_names": "",
+  "display_name": "Upper Austria, Austria",
+  "geoname_code": "04",
+  "country": 13
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 160,
+ "fields": {
+  "name": "Lower Austria",
+  "name_ascii": "Lower Austria",
+  "slug": "lower-austria",
+  "geoname_id": 2770542,
+  "alternate_names": "",
+  "display_name": "Lower Austria, Austria",
+  "geoname_code": "03",
+  "country": 13
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 161,
+ "fields": {
+  "name": "Carinthia",
+  "name_ascii": "Carinthia",
+  "slug": "carinthia",
+  "geoname_id": 2774686,
+  "alternate_names": "",
+  "display_name": "Carinthia, Austria",
+  "geoname_code": "02",
+  "country": 13
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 162,
+ "fields": {
+  "name": "Burgenland",
+  "name_ascii": "Burgenland",
+  "slug": "burgenland",
+  "geoname_id": 2781194,
+  "alternate_names": "",
+  "display_name": "Burgenland, Austria",
+  "geoname_code": "01",
+  "country": 13
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 163,
+ "fields": {
+  "name": "Western Australia",
+  "name_ascii": "Western Australia",
+  "slug": "western-australia",
+  "geoname_id": 2058645,
+  "alternate_names": "",
+  "display_name": "Western Australia, Australia",
+  "geoname_code": "08",
+  "country": 14
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 164,
+ "fields": {
+  "name": "South Australia",
+  "name_ascii": "South Australia",
+  "slug": "south-australia",
+  "geoname_id": 2061327,
+  "alternate_names": "",
+  "display_name": "South Australia, Australia",
+  "geoname_code": "05",
+  "country": 14
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 165,
+ "fields": {
+  "name": "Northern Territory",
+  "name_ascii": "Northern Territory",
+  "slug": "northern-territory",
+  "geoname_id": 2064513,
+  "alternate_names": "",
+  "display_name": "Northern Territory, Australia",
+  "geoname_code": "03",
+  "country": 14
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 166,
+ "fields": {
+  "name": "Victoria",
+  "name_ascii": "Victoria",
+  "slug": "victoria",
+  "geoname_id": 2145234,
+  "alternate_names": "",
+  "display_name": "Victoria, Australia",
+  "geoname_code": "07",
+  "country": 14
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 167,
+ "fields": {
+  "name": "Tasmania",
+  "name_ascii": "Tasmania",
+  "slug": "tasmania",
+  "geoname_id": 2147291,
+  "alternate_names": "",
+  "display_name": "Tasmania, Australia",
+  "geoname_code": "06",
+  "country": 14
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 168,
+ "fields": {
+  "name": "Queensland",
+  "name_ascii": "Queensland",
+  "slug": "queensland",
+  "geoname_id": 2152274,
+  "alternate_names": "",
+  "display_name": "Queensland, Australia",
+  "geoname_code": "04",
+  "country": 14
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 169,
+ "fields": {
+  "name": "New South Wales",
+  "name_ascii": "New South Wales",
+  "slug": "new-south-wales",
+  "geoname_id": 2155400,
+  "alternate_names": "",
+  "display_name": "New South Wales, Australia",
+  "geoname_code": "02",
+  "country": 14
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 170,
+ "fields": {
+  "name": "ACT",
+  "name_ascii": "ACT",
+  "slug": "act",
+  "geoname_id": 2177478,
+  "alternate_names": "",
+  "display_name": "ACT, Australia",
+  "geoname_code": "01",
+  "country": 14
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 171,
+ "fields": {
+  "name": "Mariehamns stad",
+  "name_ascii": "Mariehamns stad",
+  "slug": "mariehamns-stad",
+  "geoname_id": 9611689,
+  "alternate_names": "",
+  "display_name": "Mariehamns stad, Aland Islands",
+  "geoname_code": "211",
+  "country": 16
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 172,
+ "fields": {
+  "name": "\u00c5lands landsbygd",
+  "name_ascii": "Alands landsbygd",
+  "slug": "alands-landsbygd",
+  "geoname_id": 9611692,
+  "alternate_names": "",
+  "display_name": "\u00c5lands landsbygd, Aland Islands",
+  "geoname_code": "212",
+  "country": 16
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 173,
+ "fields": {
+  "name": "\u00c5lands sk\u00e4rg\u00e5rd",
+  "name_ascii": "Alands skaergard",
+  "slug": "alands-skaergard",
+  "geoname_id": 9611694,
+  "alternate_names": "",
+  "display_name": "\u00c5lands sk\u00e4rg\u00e5rd, Aland Islands",
+  "geoname_code": "213",
+  "country": 16
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 174,
+ "fields": {
+  "name": "Beyl\u0259qan",
+  "name_ascii": "Beylaqan",
+  "slug": "beylaqan",
+  "geoname_id": 146879,
+  "alternate_names": "",
+  "display_name": "Beyl\u0259qan, Azerbaijan",
+  "geoname_code": "12",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 175,
+ "fields": {
+  "name": "Z\u01ddngilan",
+  "name_ascii": "Zangilan Rayon",
+  "slug": "zangilan-rayon",
+  "geoname_id": 146900,
+  "alternate_names": "",
+  "display_name": "Z\u01ddngilan, Azerbaijan",
+  "geoname_code": "69",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 176,
+ "fields": {
+  "name": "Yard\u0131ml\u0131",
+  "name_ascii": "Yardimli",
+  "slug": "yardimli",
+  "geoname_id": 146962,
+  "alternate_names": "",
+  "display_name": "Yard\u0131ml\u0131, Azerbaijan",
+  "geoname_code": "66",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 177,
+ "fields": {
+  "name": "Shusha",
+  "name_ascii": "Shusha",
+  "slug": "shusha",
+  "geoname_id": 147163,
+  "alternate_names": "",
+  "display_name": "Shusha, Azerbaijan",
+  "geoname_code": "55",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 178,
+ "fields": {
+  "name": "Salyan",
+  "name_ascii": "Salyan",
+  "slug": "salyan",
+  "geoname_id": 147269,
+  "alternate_names": "",
+  "display_name": "Salyan, Azerbaijan",
+  "geoname_code": "49",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 179,
+ "fields": {
+  "name": "Sabirabad",
+  "name_ascii": "Sabirabad",
+  "slug": "sabirabad",
+  "geoname_id": 147284,
+  "alternate_names": "",
+  "display_name": "Sabirabad, Azerbaijan",
+  "geoname_code": "46",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 180,
+ "fields": {
+  "name": "Saatl\u0131",
+  "name_ascii": "Saatli",
+  "slug": "saatli",
+  "geoname_id": 147287,
+  "alternate_names": "",
+  "display_name": "Saatl\u0131, Azerbaijan",
+  "geoname_code": "45",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 181,
+ "fields": {
+  "name": "Bil\u01ddsuvar",
+  "name_ascii": "Bilasuvar Rayon",
+  "slug": "bilasuvar-rayon",
+  "geoname_id": 147310,
+  "alternate_names": "",
+  "display_name": "Bil\u01ddsuvar, Azerbaijan",
+  "geoname_code": "13",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 182,
+ "fields": {
+  "name": "Neft\u00e7ala",
+  "name_ascii": "Neftcala",
+  "slug": "neftcala",
+  "geoname_id": 147422,
+  "alternate_names": "",
+  "display_name": "Neft\u00e7ala, Azerbaijan",
+  "geoname_code": "36",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 183,
+ "fields": {
+  "name": "Nakhichevan",
+  "name_ascii": "Nakhichevan",
+  "slug": "nakhichevan",
+  "geoname_id": 147435,
+  "alternate_names": "",
+  "display_name": "Nakhichevan, Azerbaijan",
+  "geoname_code": "35",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 184,
+ "fields": {
+  "name": "Masally",
+  "name_ascii": "Masally",
+  "slug": "masally",
+  "geoname_id": 147551,
+  "alternate_names": "",
+  "display_name": "Masally, Azerbaijan",
+  "geoname_code": "32",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 185,
+ "fields": {
+  "name": "Lerik",
+  "name_ascii": "Lerik",
+  "slug": "lerik",
+  "geoname_id": 147610,
+  "alternate_names": "",
+  "display_name": "Lerik, Azerbaijan",
+  "geoname_code": "31",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 186,
+ "fields": {
+  "name": "L\u0259nk\u0259ran",
+  "name_ascii": "Lankaran",
+  "slug": "lankaran",
+  "geoname_id": 147613,
+  "alternate_names": "",
+  "display_name": "L\u0259nk\u0259ran, Azerbaijan",
+  "geoname_code": "29",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 187,
+ "fields": {
+  "name": "La\u00e7\u0131n",
+  "name_ascii": "Lacin",
+  "slug": "lacin",
+  "geoname_id": 147626,
+  "alternate_names": "",
+  "display_name": "La\u00e7\u0131n, Azerbaijan",
+  "geoname_code": "28",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 188,
+ "fields": {
+  "name": "Qubadl\u0131",
+  "name_ascii": "Qubadli",
+  "slug": "qubadli",
+  "geoname_id": 147694,
+  "alternate_names": "",
+  "display_name": "Qubadl\u0131, Azerbaijan",
+  "geoname_code": "43",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 189,
+ "fields": {
+  "name": "\u0130mi\u015fli",
+  "name_ascii": "Imisli",
+  "slug": "imisli",
+  "geoname_id": 147983,
+  "alternate_names": "",
+  "display_name": "\u0130mi\u015fli, Azerbaijan",
+  "geoname_code": "24",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 190,
+ "fields": {
+  "name": "F\u00fczuli",
+  "name_ascii": "Fuezuli",
+  "slug": "fuezuli",
+  "geoname_id": 148107,
+  "alternate_names": "",
+  "display_name": "F\u00fczuli, Azerbaijan",
+  "geoname_code": "18",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 191,
+ "fields": {
+  "name": "Jabrayil",
+  "name_ascii": "Jabrayil",
+  "slug": "jabrayil",
+  "geoname_id": 148140,
+  "alternate_names": "",
+  "display_name": "Jabrayil, Azerbaijan",
+  "geoname_code": "14",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 192,
+ "fields": {
+  "name": "Jalilabad",
+  "name_ascii": "Jalilabad",
+  "slug": "jalilabad",
+  "geoname_id": 148155,
+  "alternate_names": "",
+  "display_name": "Jalilabad, Azerbaijan",
+  "geoname_code": "15",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 193,
+ "fields": {
+  "name": "Astara",
+  "name_ascii": "Astara",
+  "slug": "astara",
+  "geoname_id": 148442,
+  "alternate_names": "",
+  "display_name": "Astara, Azerbaijan",
+  "geoname_code": "08",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 194,
+ "fields": {
+  "name": "Xocal\u0131",
+  "name_ascii": "Xocali",
+  "slug": "xocali",
+  "geoname_id": 148449,
+  "alternate_names": "",
+  "display_name": "Xocal\u0131, Azerbaijan",
+  "geoname_code": "64",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 195,
+ "fields": {
+  "name": "A\u011fcab\u01dddi",
+  "name_ascii": "Aghjabadi Rayon",
+  "slug": "aghjabadi-rayon",
+  "geoname_id": 148615,
+  "alternate_names": "",
+  "display_name": "A\u011fcab\u01dddi, Azerbaijan",
+  "geoname_code": "02",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 196,
+ "fields": {
+  "name": "A\u011fdam",
+  "name_ascii": "Agdam",
+  "slug": "agdam",
+  "geoname_id": 148617,
+  "alternate_names": "",
+  "display_name": "A\u011fdam, Azerbaijan",
+  "geoname_code": "03",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 197,
+ "fields": {
+  "name": "Shirvan",
+  "name_ascii": "Shirvan",
+  "slug": "shirvan",
+  "geoname_id": 409417,
+  "alternate_names": "",
+  "display_name": "Shirvan, Azerbaijan",
+  "geoname_code": "07",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 198,
+ "fields": {
+  "name": "Lankaran Sahari",
+  "name_ascii": "Lankaran Sahari",
+  "slug": "lankaran-sahari",
+  "geoname_id": 409418,
+  "alternate_names": "",
+  "display_name": "Lankaran Sahari, Azerbaijan",
+  "geoname_code": "30",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 199,
+ "fields": {
+  "name": "Shusha City",
+  "name_ascii": "Shusha City",
+  "slug": "shusha-city",
+  "geoname_id": 409419,
+  "alternate_names": "",
+  "display_name": "Shusha City, Azerbaijan",
+  "geoname_code": "56",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 200,
+ "fields": {
+  "name": "T\u01ddrt\u01ddr",
+  "name_ascii": "Tartar Rayon",
+  "slug": "tartar-rayon",
+  "geoname_id": 409420,
+  "alternate_names": "",
+  "display_name": "T\u01ddrt\u01ddr, Azerbaijan",
+  "geoname_code": "57",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 201,
+ "fields": {
+  "name": "Xank\u01ddndi",
+  "name_ascii": "Xankandi Sahari",
+  "slug": "xankandi-sahari",
+  "geoname_id": 409421,
+  "alternate_names": "",
+  "display_name": "Xank\u01ddndi, Azerbaijan",
+  "geoname_code": "61",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 202,
+ "fields": {
+  "name": "Khojavend",
+  "name_ascii": "Khojavend",
+  "slug": "khojavend",
+  "geoname_id": 409423,
+  "alternate_names": "",
+  "display_name": "Khojavend, Azerbaijan",
+  "geoname_code": "65",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 203,
+ "fields": {
+  "name": "Z\u0259rdab",
+  "name_ascii": "Zardab",
+  "slug": "zardab",
+  "geoname_id": 584583,
+  "alternate_names": "",
+  "display_name": "Z\u0259rdab, Azerbaijan",
+  "geoname_code": "71",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 204,
+ "fields": {
+  "name": "Zaqatala",
+  "name_ascii": "Zaqatala",
+  "slug": "zaqatala",
+  "geoname_id": 584604,
+  "alternate_names": "",
+  "display_name": "Zaqatala, Azerbaijan",
+  "geoname_code": "70",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 205,
+ "fields": {
+  "name": "Yevlax",
+  "name_ascii": "Yevlax",
+  "slug": "yevlax",
+  "geoname_id": 584650,
+  "alternate_names": "",
+  "display_name": "Yevlax, Azerbaijan",
+  "geoname_code": "67",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 206,
+ "fields": {
+  "name": "O\u011fuz",
+  "name_ascii": "Oguz",
+  "slug": "oguz",
+  "geoname_id": 584742,
+  "alternate_names": "",
+  "display_name": "O\u011fuz, Azerbaijan",
+  "geoname_code": "37",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 207,
+ "fields": {
+  "name": "Ucar",
+  "name_ascii": "Ucar",
+  "slug": "ucar",
+  "geoname_id": 584783,
+  "alternate_names": "",
+  "display_name": "Ucar, Azerbaijan",
+  "geoname_code": "59",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 208,
+ "fields": {
+  "name": "Tovuz",
+  "name_ascii": "Tovuz",
+  "slug": "tovuz",
+  "geoname_id": 584861,
+  "alternate_names": "",
+  "display_name": "Tovuz, Azerbaijan",
+  "geoname_code": "58",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 209,
+ "fields": {
+  "name": "\u015eamax\u0131",
+  "name_ascii": "Samaxi",
+  "slug": "samaxi",
+  "geoname_id": 585030,
+  "alternate_names": "",
+  "display_name": "\u015eamax\u0131, Azerbaijan",
+  "geoname_code": "50",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 210,
+ "fields": {
+  "name": "Shaki",
+  "name_ascii": "Shaki",
+  "slug": "shaki",
+  "geoname_id": 585031,
+  "alternate_names": "",
+  "display_name": "Shaki, Azerbaijan",
+  "geoname_code": "47",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 211,
+ "fields": {
+  "name": "\u015e\u01ddmkir",
+  "name_ascii": "Shamkir Rayon",
+  "slug": "shamkir-rayon",
+  "geoname_id": 585059,
+  "alternate_names": "",
+  "display_name": "\u015e\u01ddmkir, Azerbaijan",
+  "geoname_code": "51",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 212,
+ "fields": {
+  "name": "K\u00fcrd\u01ddmir",
+  "name_ascii": "Kurdamir Rayon",
+  "slug": "kurdamir-rayon",
+  "geoname_id": 585686,
+  "alternate_names": "",
+  "display_name": "K\u00fcrd\u01ddmir, Azerbaijan",
+  "geoname_code": "27",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 213,
+ "fields": {
+  "name": "Q\u01ddb\u01ddl\u01dd",
+  "name_ascii": "Qabala Rayon",
+  "slug": "qabala-rayon",
+  "geoname_id": 585738,
+  "alternate_names": "",
+  "display_name": "Q\u01ddb\u01ddl\u01dd, Azerbaijan",
+  "geoname_code": "38",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 214,
+ "fields": {
+  "name": "Qusar",
+  "name_ascii": "Qusar",
+  "slug": "qusar",
+  "geoname_id": 585749,
+  "alternate_names": "",
+  "display_name": "Qusar, Azerbaijan",
+  "geoname_code": "44",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 215,
+ "fields": {
+  "name": "Quba",
+  "name_ascii": "Quba",
+  "slug": "quba",
+  "geoname_id": 585786,
+  "alternate_names": "",
+  "display_name": "Quba, Azerbaijan",
+  "geoname_code": "42",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 216,
+ "fields": {
+  "name": "Goygol Rayon",
+  "name_ascii": "Goygol Rayon",
+  "slug": "goygol-rayon",
+  "geoname_id": 585967,
+  "alternate_names": "",
+  "display_name": "Goygol Rayon, Azerbaijan",
+  "geoname_code": "62",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 217,
+ "fields": {
+  "name": "Xa\u00e7maz",
+  "name_ascii": "Xacmaz",
+  "slug": "xacmaz",
+  "geoname_id": 586001,
+  "alternate_names": "",
+  "display_name": "Xa\u00e7maz, Azerbaijan",
+  "geoname_code": "60",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 218,
+ "fields": {
+  "name": "Kalbajar",
+  "name_ascii": "Kalbajar",
+  "slug": "kalbajar",
+  "geoname_id": 586047,
+  "alternate_names": "",
+  "display_name": "Kalbajar, Azerbaijan",
+  "geoname_code": "26",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 219,
+ "fields": {
+  "name": "Qazax",
+  "name_ascii": "Qazax",
+  "slug": "qazax",
+  "geoname_id": 586087,
+  "alternate_names": "",
+  "display_name": "Qazax, Azerbaijan",
+  "geoname_code": "40",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 220,
+ "fields": {
+  "name": "Goranboy",
+  "name_ascii": "Goranboy",
+  "slug": "goranboy",
+  "geoname_id": 586112,
+  "alternate_names": "",
+  "display_name": "Goranboy, Azerbaijan",
+  "geoname_code": "21",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 221,
+ "fields": {
+  "name": "Q\u01ddx",
+  "name_ascii": "Qakh Rayon",
+  "slug": "qakh-rayon",
+  "geoname_id": 586290,
+  "alternate_names": "",
+  "display_name": "Q\u01ddx, Azerbaijan",
+  "geoname_code": "39",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 222,
+ "fields": {
+  "name": "\u0130smay\u0131ll\u0131",
+  "name_ascii": "Ismayilli",
+  "slug": "ismayilli",
+  "geoname_id": 586320,
+  "alternate_names": "",
+  "display_name": "\u0130smay\u0131ll\u0131, Azerbaijan",
+  "geoname_code": "25",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 223,
+ "fields": {
+  "name": "G\u00f6y\u00e7ay",
+  "name_ascii": "Goeycay",
+  "slug": "goeycay",
+  "geoname_id": 586482,
+  "alternate_names": "",
+  "display_name": "G\u00f6y\u00e7ay, Azerbaijan",
+  "geoname_code": "22",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 224,
+ "fields": {
+  "name": "Shabran",
+  "name_ascii": "Shabran",
+  "slug": "shabran",
+  "geoname_id": 586725,
+  "alternate_names": "",
+  "display_name": "Shabran, Azerbaijan",
+  "geoname_code": "17",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 225,
+ "fields": {
+  "name": "Da\u015fk\u01dds\u01ddn",
+  "name_ascii": "Dashkasan Rayon",
+  "slug": "dashkasan-rayon",
+  "geoname_id": 586771,
+  "alternate_names": "",
+  "display_name": "Da\u015fk\u01dds\u01ddn, Azerbaijan",
+  "geoname_code": "16",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 226,
+ "fields": {
+  "name": "Balak\u01ddn",
+  "name_ascii": "Balakan Rayon",
+  "slug": "balakan-rayon",
+  "geoname_id": 587010,
+  "alternate_names": "",
+  "display_name": "Balak\u01ddn, Azerbaijan",
+  "geoname_code": "10",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 227,
+ "fields": {
+  "name": "B\u01ddrd\u01dd",
+  "name_ascii": "Barda Rayon",
+  "slug": "barda-rayon",
+  "geoname_id": 587056,
+  "alternate_names": "",
+  "display_name": "B\u01ddrd\u01dd, Azerbaijan",
+  "geoname_code": "11",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 228,
+ "fields": {
+  "name": "Baki",
+  "name_ascii": "Baki",
+  "slug": "baki",
+  "geoname_id": 587081,
+  "alternate_names": "",
+  "display_name": "Baki, Azerbaijan",
+  "geoname_code": "09",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 229,
+ "fields": {
+  "name": "Ab\u015feron",
+  "name_ascii": "Abseron",
+  "slug": "abseron",
+  "geoname_id": 587245,
+  "alternate_names": "",
+  "display_name": "Ab\u015feron, Azerbaijan",
+  "geoname_code": "01",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 230,
+ "fields": {
+  "name": "A\u011fsu",
+  "name_ascii": "Agsu",
+  "slug": "agsu",
+  "geoname_id": 587342,
+  "alternate_names": "",
+  "display_name": "A\u011fsu, Azerbaijan",
+  "geoname_code": "06",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 231,
+ "fields": {
+  "name": "A\u011fda\u015f",
+  "name_ascii": "Agdas",
+  "slug": "agdas",
+  "geoname_id": 587376,
+  "alternate_names": "",
+  "display_name": "A\u011fda\u015f, Azerbaijan",
+  "geoname_code": "04",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 232,
+ "fields": {
+  "name": "G\u01ddd\u01ddb\u01ddy",
+  "name_ascii": "Gadabay Rayon",
+  "slug": "gadabay-rayon",
+  "geoname_id": 627535,
+  "alternate_names": "",
+  "display_name": "G\u01ddd\u01ddb\u01ddy, Azerbaijan",
+  "geoname_code": "19",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 233,
+ "fields": {
+  "name": "A\u011fstafa",
+  "name_ascii": "Agstafa",
+  "slug": "agstafa",
+  "geoname_id": 828297,
+  "alternate_names": "",
+  "display_name": "A\u011fstafa, Azerbaijan",
+  "geoname_code": "05",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 234,
+ "fields": {
+  "name": "G\u01ddnc\u01dd",
+  "name_ascii": "Ganja City",
+  "slug": "ganja-city",
+  "geoname_id": 828298,
+  "alternate_names": "",
+  "display_name": "G\u01ddnc\u01dd, Azerbaijan",
+  "geoname_code": "20",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 235,
+ "fields": {
+  "name": "Ming\u01ddcevir",
+  "name_ascii": "Mingacevir City",
+  "slug": "mingacevir-city",
+  "geoname_id": 828299,
+  "alternate_names": "",
+  "display_name": "Ming\u01ddcevir, Azerbaijan",
+  "geoname_code": "33",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 236,
+ "fields": {
+  "name": "Naftalan",
+  "name_ascii": "Naftalan",
+  "slug": "naftalan",
+  "geoname_id": 828300,
+  "alternate_names": "",
+  "display_name": "Naftalan, Azerbaijan",
+  "geoname_code": "34",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 237,
+ "fields": {
+  "name": "Qobustan",
+  "name_ascii": "Qobustan",
+  "slug": "qobustan",
+  "geoname_id": 828301,
+  "alternate_names": "",
+  "display_name": "Qobustan, Azerbaijan",
+  "geoname_code": "41",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 238,
+ "fields": {
+  "name": "Samux",
+  "name_ascii": "Samux",
+  "slug": "samux",
+  "geoname_id": 828302,
+  "alternate_names": "",
+  "display_name": "Samux, Azerbaijan",
+  "geoname_code": "52",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 239,
+ "fields": {
+  "name": "Shaki City",
+  "name_ascii": "Shaki City",
+  "slug": "shaki-city",
+  "geoname_id": 828303,
+  "alternate_names": "",
+  "display_name": "Shaki City, Azerbaijan",
+  "geoname_code": "48",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 240,
+ "fields": {
+  "name": "Siy\u01ddz\u01ddn",
+  "name_ascii": "Siazan Rayon",
+  "slug": "siazan-rayon",
+  "geoname_id": 828304,
+  "alternate_names": "",
+  "display_name": "Siy\u01ddz\u01ddn, Azerbaijan",
+  "geoname_code": "53",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 241,
+ "fields": {
+  "name": "Sumqayit",
+  "name_ascii": "Sumqayit",
+  "slug": "sumqayit",
+  "geoname_id": 828305,
+  "alternate_names": "",
+  "display_name": "Sumqayit, Azerbaijan",
+  "geoname_code": "54",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 242,
+ "fields": {
+  "name": "X\u0131z\u0131",
+  "name_ascii": "Xizi",
+  "slug": "xizi",
+  "geoname_id": 828306,
+  "alternate_names": "",
+  "display_name": "X\u0131z\u0131, Azerbaijan",
+  "geoname_code": "63",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 243,
+ "fields": {
+  "name": "Yevlax City",
+  "name_ascii": "Yevlax City",
+  "slug": "yevlax-city",
+  "geoname_id": 828307,
+  "alternate_names": "",
+  "display_name": "Yevlax City, Azerbaijan",
+  "geoname_code": "68",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 244,
+ "fields": {
+  "name": "Hac\u0131qabul",
+  "name_ascii": "Haciqabul",
+  "slug": "haciqabul",
+  "geoname_id": 828315,
+  "alternate_names": "",
+  "display_name": "Hac\u0131qabul, Azerbaijan",
+  "geoname_code": "23",
+  "country": 17
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 245,
+ "fields": {
+  "name": "Federation of B&H",
+  "name_ascii": "Federation of B&H",
+  "slug": "federation-of-bh",
+  "geoname_id": 3229999,
+  "alternate_names": "",
+  "display_name": "Federation of B&H, Bosnia and Herzegovina",
+  "geoname_code": "01",
+  "country": 18
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 246,
+ "fields": {
+  "name": "Srpska",
+  "name_ascii": "Srpska",
+  "slug": "srpska",
+  "geoname_id": 3230000,
+  "alternate_names": "",
+  "display_name": "Srpska, Bosnia and Herzegovina",
+  "geoname_code": "02",
+  "country": 18
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 247,
+ "fields": {
+  "name": "Br\u010dko",
+  "name_ascii": "Brcko",
+  "slug": "brcko",
+  "geoname_id": 3294903,
+  "alternate_names": "",
+  "display_name": "Br\u010dko, Bosnia and Herzegovina",
+  "geoname_code": "BRC",
+  "country": 18
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 248,
+ "fields": {
+  "name": "Saint Thomas",
+  "name_ascii": "Saint Thomas",
+  "slug": "saint-thomas",
+  "geoname_id": 3373551,
+  "alternate_names": "",
+  "display_name": "Saint Thomas, Barbados",
+  "geoname_code": "11",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 249,
+ "fields": {
+  "name": "Saint Philip",
+  "name_ascii": "Saint Philip",
+  "slug": "saint-philip",
+  "geoname_id": 3373553,
+  "alternate_names": "",
+  "display_name": "Saint Philip, Barbados",
+  "geoname_code": "10",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 250,
+ "fields": {
+  "name": "Saint Peter",
+  "name_ascii": "Saint Peter",
+  "slug": "saint-peter",
+  "geoname_id": 3373554,
+  "alternate_names": "",
+  "display_name": "Saint Peter, Barbados",
+  "geoname_code": "09",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 251,
+ "fields": {
+  "name": "Saint Michael",
+  "name_ascii": "Saint Michael",
+  "slug": "saint-michael",
+  "geoname_id": 3373557,
+  "alternate_names": "",
+  "display_name": "Saint Michael, Barbados",
+  "geoname_code": "08",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 252,
+ "fields": {
+  "name": "Saint Lucy",
+  "name_ascii": "Saint Lucy",
+  "slug": "saint-lucy",
+  "geoname_id": 3373565,
+  "alternate_names": "",
+  "display_name": "Saint Lucy, Barbados",
+  "geoname_code": "07",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 253,
+ "fields": {
+  "name": "Saint Joseph",
+  "name_ascii": "Saint Joseph",
+  "slug": "saint-joseph",
+  "geoname_id": 3373568,
+  "alternate_names": "",
+  "display_name": "Saint Joseph, Barbados",
+  "geoname_code": "06",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 254,
+ "fields": {
+  "name": "Saint John",
+  "name_ascii": "Saint John",
+  "slug": "saint-john",
+  "geoname_id": 3373569,
+  "alternate_names": "",
+  "display_name": "Saint John, Barbados",
+  "geoname_code": "05",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 255,
+ "fields": {
+  "name": "Saint James",
+  "name_ascii": "Saint James",
+  "slug": "saint-james",
+  "geoname_id": 3373570,
+  "alternate_names": "",
+  "display_name": "Saint James, Barbados",
+  "geoname_code": "04",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 256,
+ "fields": {
+  "name": "Saint George",
+  "name_ascii": "Saint George",
+  "slug": "saint-george",
+  "geoname_id": 3373572,
+  "alternate_names": "",
+  "display_name": "Saint George, Barbados",
+  "geoname_code": "03",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 257,
+ "fields": {
+  "name": "Saint Andrew",
+  "name_ascii": "Saint Andrew",
+  "slug": "saint-andrew",
+  "geoname_id": 3373580,
+  "alternate_names": "",
+  "display_name": "Saint Andrew, Barbados",
+  "geoname_code": "02",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 258,
+ "fields": {
+  "name": "Christ Church",
+  "name_ascii": "Christ Church",
+  "slug": "christ-church",
+  "geoname_id": 3373988,
+  "alternate_names": "",
+  "display_name": "Christ Church, Barbados",
+  "geoname_code": "01",
+  "country": 19
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 259,
+ "fields": {
+  "name": "Rajshahi Division",
+  "name_ascii": "Rajshahi Division",
+  "slug": "rajshahi-division",
+  "geoname_id": 1337166,
+  "alternate_names": "",
+  "display_name": "Rajshahi Division, Bangladesh",
+  "geoname_code": "83",
+  "country": 20
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 260,
+ "fields": {
+  "name": "Dhaka",
+  "name_ascii": "Dhaka",
+  "slug": "dhaka",
+  "geoname_id": 1337179,
+  "alternate_names": "",
+  "display_name": "Dhaka, Bangladesh",
+  "geoname_code": "81",
+  "country": 20
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 261,
+ "fields": {
+  "name": "Chittagong",
+  "name_ascii": "Chittagong",
+  "slug": "chittagong",
+  "geoname_id": 1337200,
+  "alternate_names": "",
+  "display_name": "Chittagong, Bangladesh",
+  "geoname_code": "84",
+  "country": 20
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 262,
+ "fields": {
+  "name": "Khulna",
+  "name_ascii": "Khulna",
+  "slug": "khulna",
+  "geoname_id": 1337210,
+  "alternate_names": "",
+  "display_name": "Khulna, Bangladesh",
+  "geoname_code": "82",
+  "country": 20
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 263,
+ "fields": {
+  "name": "Baris\u0101l",
+  "name_ascii": "Barisal",
+  "slug": "barisal",
+  "geoname_id": 1337229,
+  "alternate_names": "",
+  "display_name": "Baris\u0101l, Bangladesh",
+  "geoname_code": "85",
+  "country": 20
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 264,
+ "fields": {
+  "name": "Sylhet",
+  "name_ascii": "Sylhet",
+  "slug": "sylhet",
+  "geoname_id": 1477362,
+  "alternate_names": "",
+  "display_name": "Sylhet, Bangladesh",
+  "geoname_code": "86",
+  "country": 20
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 265,
+ "fields": {
+  "name": "Rangpur Division",
+  "name_ascii": "Rangpur Division",
+  "slug": "rangpur-division",
+  "geoname_id": 7671048,
+  "alternate_names": "",
+  "display_name": "Rangpur Division, Bangladesh",
+  "geoname_code": "87",
+  "country": 20
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 266,
+ "fields": {
+  "name": "Mymensingh Division",
+  "name_ascii": "Mymensingh Division",
+  "slug": "mymensingh-division",
+  "geoname_id": 11287936,
+  "alternate_names": "",
+  "display_name": "Mymensingh Division, Bangladesh",
+  "geoname_code": "H",
+  "country": 20
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 267,
+ "fields": {
+  "name": "Brussels Capital",
+  "name_ascii": "Brussels Capital",
+  "slug": "brussels-capital",
+  "geoname_id": 2800867,
+  "alternate_names": "",
+  "display_name": "Brussels Capital, Belgium",
+  "geoname_code": "BRU",
+  "country": 21
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 268,
+ "fields": {
+  "name": "Wallonia",
+  "name_ascii": "Wallonia",
+  "slug": "wallonia",
+  "geoname_id": 3337387,
+  "alternate_names": "",
+  "display_name": "Wallonia, Belgium",
+  "geoname_code": "WAL",
+  "country": 21
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 269,
+ "fields": {
+  "name": "Flanders",
+  "name_ascii": "Flanders",
+  "slug": "flanders",
+  "geoname_id": 3337388,
+  "alternate_names": "",
+  "display_name": "Flanders, Belgium",
+  "geoname_code": "VLG",
+  "country": 21
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 270,
+ "fields": {
+  "name": "Boucle du Mouhoun",
+  "name_ascii": "Boucle du Mouhoun",
+  "slug": "boucle-du-mouhoun",
+  "geoname_id": 6930701,
+  "alternate_names": "",
+  "display_name": "Boucle du Mouhoun, Burkina Faso",
+  "geoname_code": "01",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 271,
+ "fields": {
+  "name": "Cascades",
+  "name_ascii": "Cascades",
+  "slug": "cascades",
+  "geoname_id": 6930703,
+  "alternate_names": "",
+  "display_name": "Cascades, Burkina Faso",
+  "geoname_code": "02",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 272,
+ "fields": {
+  "name": "Centre",
+  "name_ascii": "Centre",
+  "slug": "centre",
+  "geoname_id": 6930704,
+  "alternate_names": "",
+  "display_name": "Centre, Burkina Faso",
+  "geoname_code": "03",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 273,
+ "fields": {
+  "name": "Centre-Est",
+  "name_ascii": "Centre-Est",
+  "slug": "centre-est",
+  "geoname_id": 6930705,
+  "alternate_names": "",
+  "display_name": "Centre-Est, Burkina Faso",
+  "geoname_code": "04",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 274,
+ "fields": {
+  "name": "Centre-Nord",
+  "name_ascii": "Centre-Nord",
+  "slug": "centre-nord",
+  "geoname_id": 6930706,
+  "alternate_names": "",
+  "display_name": "Centre-Nord, Burkina Faso",
+  "geoname_code": "05",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 275,
+ "fields": {
+  "name": "Centre-Ouest",
+  "name_ascii": "Centre-Ouest",
+  "slug": "centre-ouest",
+  "geoname_id": 6930707,
+  "alternate_names": "",
+  "display_name": "Centre-Ouest, Burkina Faso",
+  "geoname_code": "06",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 276,
+ "fields": {
+  "name": "Centre-Sud",
+  "name_ascii": "Centre-Sud",
+  "slug": "centre-sud",
+  "geoname_id": 6930708,
+  "alternate_names": "",
+  "display_name": "Centre-Sud, Burkina Faso",
+  "geoname_code": "07",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 277,
+ "fields": {
+  "name": "Est",
+  "name_ascii": "Est",
+  "slug": "est",
+  "geoname_id": 6930709,
+  "alternate_names": "",
+  "display_name": "Est, Burkina Faso",
+  "geoname_code": "08",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 278,
+ "fields": {
+  "name": "Hauts-Bassins",
+  "name_ascii": "Hauts-Bassins",
+  "slug": "hauts-bassins",
+  "geoname_id": 6930710,
+  "alternate_names": "",
+  "display_name": "Hauts-Bassins, Burkina Faso",
+  "geoname_code": "09",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 279,
+ "fields": {
+  "name": "Nord",
+  "name_ascii": "Nord",
+  "slug": "nord",
+  "geoname_id": 6930711,
+  "alternate_names": "",
+  "display_name": "Nord, Burkina Faso",
+  "geoname_code": "10",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 280,
+ "fields": {
+  "name": "Plateau-Central",
+  "name_ascii": "Plateau-Central",
+  "slug": "plateau-central",
+  "geoname_id": 6930712,
+  "alternate_names": "",
+  "display_name": "Plateau-Central, Burkina Faso",
+  "geoname_code": "11",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 281,
+ "fields": {
+  "name": "Sahel",
+  "name_ascii": "Sahel",
+  "slug": "sahel",
+  "geoname_id": 6930713,
+  "alternate_names": "",
+  "display_name": "Sahel, Burkina Faso",
+  "geoname_code": "12",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 282,
+ "fields": {
+  "name": "Sud-Ouest",
+  "name_ascii": "Sud-Ouest",
+  "slug": "sud-ouest",
+  "geoname_id": 6930714,
+  "alternate_names": "",
+  "display_name": "Sud-Ouest, Burkina Faso",
+  "geoname_code": "13",
+  "country": 22
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 283,
+ "fields": {
+  "name": "Razgrad",
+  "name_ascii": "Razgrad",
+  "slug": "razgrad",
+  "geoname_id": 453751,
+  "alternate_names": "",
+  "display_name": "Razgrad, Bulgaria",
+  "geoname_code": "52",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 284,
+ "fields": {
+  "name": "Montana",
+  "name_ascii": "Montana",
+  "slug": "montana",
+  "geoname_id": 453753,
+  "alternate_names": "",
+  "display_name": "Montana, Bulgaria",
+  "geoname_code": "47",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 285,
+ "fields": {
+  "name": "Vratsa",
+  "name_ascii": "Vratsa",
+  "slug": "vratsa",
+  "geoname_id": 725713,
+  "alternate_names": "",
+  "display_name": "Vratsa, Bulgaria",
+  "geoname_code": "64",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 286,
+ "fields": {
+  "name": "Varna",
+  "name_ascii": "Varna",
+  "slug": "varna",
+  "geoname_id": 726051,
+  "alternate_names": "",
+  "display_name": "Varna, Bulgaria",
+  "geoname_code": "61",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 287,
+ "fields": {
+  "name": "Dobrich",
+  "name_ascii": "Dobrich",
+  "slug": "dobrich",
+  "geoname_id": 726419,
+  "alternate_names": "",
+  "display_name": "Dobrich, Bulgaria",
+  "geoname_code": "40",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 288,
+ "fields": {
+  "name": "Sofia",
+  "name_ascii": "Sofia",
+  "slug": "sofia",
+  "geoname_id": 727012,
+  "alternate_names": "",
+  "display_name": "Sofia, Bulgaria",
+  "geoname_code": "58",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 289,
+ "fields": {
+  "name": "Ruse",
+  "name_ascii": "Ruse",
+  "slug": "ruse",
+  "geoname_id": 727524,
+  "alternate_names": "",
+  "display_name": "Ruse, Bulgaria",
+  "geoname_code": "53",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 290,
+ "fields": {
+  "name": "Plovdiv",
+  "name_ascii": "Plovdiv",
+  "slug": "plovdiv",
+  "geoname_id": 728194,
+  "alternate_names": "",
+  "display_name": "Plovdiv, Bulgaria",
+  "geoname_code": "51",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 291,
+ "fields": {
+  "name": "Pleven",
+  "name_ascii": "Pleven",
+  "slug": "pleven",
+  "geoname_id": 728204,
+  "alternate_names": "",
+  "display_name": "Pleven, Bulgaria",
+  "geoname_code": "50",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 292,
+ "fields": {
+  "name": "Pernik",
+  "name_ascii": "Pernik",
+  "slug": "pernik",
+  "geoname_id": 728331,
+  "alternate_names": "",
+  "display_name": "Pernik, Bulgaria",
+  "geoname_code": "49",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 293,
+ "fields": {
+  "name": "Pazardzhik",
+  "name_ascii": "Pazardzhik",
+  "slug": "pazardzhik",
+  "geoname_id": 728379,
+  "alternate_names": "",
+  "display_name": "Pazardzhik, Bulgaria",
+  "geoname_code": "48",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 294,
+ "fields": {
+  "name": "Lovech",
+  "name_ascii": "Lovech",
+  "slug": "lovech",
+  "geoname_id": 729560,
+  "alternate_names": "",
+  "display_name": "Lovech, Bulgaria",
+  "geoname_code": "46",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 295,
+ "fields": {
+  "name": "Haskovo",
+  "name_ascii": "Haskovo",
+  "slug": "haskovo",
+  "geoname_id": 730436,
+  "alternate_names": "",
+  "display_name": "Haskovo, Bulgaria",
+  "geoname_code": "43",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 296,
+ "fields": {
+  "name": "Sofia-Capital",
+  "name_ascii": "Sofia-Capital",
+  "slug": "sofia-capital",
+  "geoname_id": 731061,
+  "alternate_names": "",
+  "display_name": "Sofia-Capital, Bulgaria",
+  "geoname_code": "42",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 297,
+ "fields": {
+  "name": "Burgas",
+  "name_ascii": "Burgas",
+  "slug": "burgas",
+  "geoname_id": 732771,
+  "alternate_names": "",
+  "display_name": "Burgas, Bulgaria",
+  "geoname_code": "39",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 298,
+ "fields": {
+  "name": "Blagoevgrad",
+  "name_ascii": "Blagoevgrad",
+  "slug": "blagoevgrad",
+  "geoname_id": 733192,
+  "alternate_names": "",
+  "display_name": "Blagoevgrad, Bulgaria",
+  "geoname_code": "38",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 299,
+ "fields": {
+  "name": "Gabrovo",
+  "name_ascii": "Gabrovo",
+  "slug": "gabrovo",
+  "geoname_id": 864552,
+  "alternate_names": "",
+  "display_name": "Gabrovo, Bulgaria",
+  "geoname_code": "41",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 300,
+ "fields": {
+  "name": "Kardzhali",
+  "name_ascii": "Kardzhali",
+  "slug": "kardzhali",
+  "geoname_id": 864553,
+  "alternate_names": "",
+  "display_name": "Kardzhali, Bulgaria",
+  "geoname_code": "44",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 301,
+ "fields": {
+  "name": "Kyustendil",
+  "name_ascii": "Kyustendil",
+  "slug": "kyustendil",
+  "geoname_id": 864554,
+  "alternate_names": "",
+  "display_name": "Kyustendil, Bulgaria",
+  "geoname_code": "45",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 302,
+ "fields": {
+  "name": "Shumen",
+  "name_ascii": "Shumen",
+  "slug": "shumen",
+  "geoname_id": 864555,
+  "alternate_names": "",
+  "display_name": "Shumen, Bulgaria",
+  "geoname_code": "54",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 303,
+ "fields": {
+  "name": "Silistra",
+  "name_ascii": "Silistra",
+  "slug": "silistra",
+  "geoname_id": 864556,
+  "alternate_names": "",
+  "display_name": "Silistra, Bulgaria",
+  "geoname_code": "55",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 304,
+ "fields": {
+  "name": "Sliven",
+  "name_ascii": "Sliven",
+  "slug": "sliven",
+  "geoname_id": 864557,
+  "alternate_names": "",
+  "display_name": "Sliven, Bulgaria",
+  "geoname_code": "56",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 305,
+ "fields": {
+  "name": "Smolyan",
+  "name_ascii": "Smolyan",
+  "slug": "smolyan",
+  "geoname_id": 864558,
+  "alternate_names": "",
+  "display_name": "Smolyan, Bulgaria",
+  "geoname_code": "57",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 306,
+ "fields": {
+  "name": "Stara Zagora",
+  "name_ascii": "Stara Zagora",
+  "slug": "stara-zagora",
+  "geoname_id": 864559,
+  "alternate_names": "",
+  "display_name": "Stara Zagora, Bulgaria",
+  "geoname_code": "59",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 307,
+ "fields": {
+  "name": "Targovishte",
+  "name_ascii": "Targovishte",
+  "slug": "targovishte",
+  "geoname_id": 864560,
+  "alternate_names": "",
+  "display_name": "Targovishte, Bulgaria",
+  "geoname_code": "60",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 308,
+ "fields": {
+  "name": "Veliko Tarnovo",
+  "name_ascii": "Veliko Tarnovo",
+  "slug": "veliko-tarnovo",
+  "geoname_id": 864561,
+  "alternate_names": "",
+  "display_name": "Veliko Tarnovo, Bulgaria",
+  "geoname_code": "62",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 309,
+ "fields": {
+  "name": "Vidin",
+  "name_ascii": "Vidin",
+  "slug": "vidin",
+  "geoname_id": 864562,
+  "alternate_names": "",
+  "display_name": "Vidin, Bulgaria",
+  "geoname_code": "63",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 310,
+ "fields": {
+  "name": "Yambol",
+  "name_ascii": "Yambol",
+  "slug": "yambol",
+  "geoname_id": 864563,
+  "alternate_names": "",
+  "display_name": "Yambol, Bulgaria",
+  "geoname_code": "65",
+  "country": 23
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 311,
+ "fields": {
+  "name": "Muharraq",
+  "name_ascii": "Muharraq",
+  "slug": "muharraq",
+  "geoname_id": 290333,
+  "alternate_names": "",
+  "display_name": "Muharraq, Bahrain",
+  "geoname_code": "15",
+  "country": 24
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 312,
+ "fields": {
+  "name": "Manama",
+  "name_ascii": "Manama",
+  "slug": "manama",
+  "geoname_id": 7090954,
+  "alternate_names": "",
+  "display_name": "Manama, Bahrain",
+  "geoname_code": "16",
+  "country": 24
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 313,
+ "fields": {
+  "name": "Southern Governorate",
+  "name_ascii": "Southern Governorate",
+  "slug": "southern-governorate",
+  "geoname_id": 7090972,
+  "alternate_names": "",
+  "display_name": "Southern Governorate, Bahrain",
+  "geoname_code": "17",
+  "country": 24
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 314,
+ "fields": {
+  "name": "Northern",
+  "name_ascii": "Northern",
+  "slug": "northern",
+  "geoname_id": 7090974,
+  "alternate_names": "",
+  "display_name": "Northern, Bahrain",
+  "geoname_code": "19",
+  "country": 24
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 315,
+ "fields": {
+  "name": "Makamba",
+  "name_ascii": "Makamba",
+  "slug": "makamba",
+  "geoname_id": 422233,
+  "alternate_names": "",
+  "display_name": "Makamba, Burundi",
+  "geoname_code": "17",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 316,
+ "fields": {
+  "name": "Bururi",
+  "name_ascii": "Bururi",
+  "slug": "bururi",
+  "geoname_id": 423327,
+  "alternate_names": "",
+  "display_name": "Bururi, Burundi",
+  "geoname_code": "10",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 317,
+ "fields": {
+  "name": "Muramvya",
+  "name_ascii": "Muramvya",
+  "slug": "muramvya",
+  "geoname_id": 425550,
+  "alternate_names": "",
+  "display_name": "Muramvya, Burundi",
+  "geoname_code": "22",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 318,
+ "fields": {
+  "name": "Gitega",
+  "name_ascii": "Gitega",
+  "slug": "gitega",
+  "geoname_id": 426271,
+  "alternate_names": "",
+  "display_name": "Gitega, Burundi",
+  "geoname_code": "13",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 319,
+ "fields": {
+  "name": "Ruyigi",
+  "name_ascii": "Ruyigi",
+  "slug": "ruyigi",
+  "geoname_id": 426699,
+  "alternate_names": "",
+  "display_name": "Ruyigi, Burundi",
+  "geoname_code": "21",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 320,
+ "fields": {
+  "name": "Cankuzo",
+  "name_ascii": "Cankuzo",
+  "slug": "cankuzo",
+  "geoname_id": 427700,
+  "alternate_names": "",
+  "display_name": "Cankuzo, Burundi",
+  "geoname_code": "11",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 321,
+ "fields": {
+  "name": "Karuzi",
+  "name_ascii": "Karuzi",
+  "slug": "karuzi",
+  "geoname_id": 428218,
+  "alternate_names": "",
+  "display_name": "Karuzi, Burundi",
+  "geoname_code": "14",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 322,
+ "fields": {
+  "name": "Bubanza",
+  "name_ascii": "Bubanza",
+  "slug": "bubanza",
+  "geoname_id": 428514,
+  "alternate_names": "",
+  "display_name": "Bubanza, Burundi",
+  "geoname_code": "09",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 323,
+ "fields": {
+  "name": "Cibitoke",
+  "name_ascii": "Cibitoke",
+  "slug": "cibitoke",
+  "geoname_id": 430020,
+  "alternate_names": "",
+  "display_name": "Cibitoke, Burundi",
+  "geoname_code": "12",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 324,
+ "fields": {
+  "name": "Ngozi",
+  "name_ascii": "Ngozi",
+  "slug": "ngozi",
+  "geoname_id": 430567,
+  "alternate_names": "",
+  "display_name": "Ngozi, Burundi",
+  "geoname_code": "19",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 325,
+ "fields": {
+  "name": "Kayanza",
+  "name_ascii": "Kayanza",
+  "slug": "kayanza",
+  "geoname_id": 430951,
+  "alternate_names": "",
+  "display_name": "Kayanza, Burundi",
+  "geoname_code": "15",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 326,
+ "fields": {
+  "name": "Muyinga",
+  "name_ascii": "Muyinga",
+  "slug": "muyinga",
+  "geoname_id": 431747,
+  "alternate_names": "",
+  "display_name": "Muyinga, Burundi",
+  "geoname_code": "18",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 327,
+ "fields": {
+  "name": "Kirundo",
+  "name_ascii": "Kirundo",
+  "slug": "kirundo",
+  "geoname_id": 432455,
+  "alternate_names": "",
+  "display_name": "Kirundo, Burundi",
+  "geoname_code": "16",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 328,
+ "fields": {
+  "name": "Rutana",
+  "name_ascii": "Rutana",
+  "slug": "rutana",
+  "geoname_id": 434147,
+  "alternate_names": "",
+  "display_name": "Rutana, Burundi",
+  "geoname_code": "20",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 329,
+ "fields": {
+  "name": "Mwaro",
+  "name_ascii": "Mwaro",
+  "slug": "mwaro",
+  "geoname_id": 434386,
+  "alternate_names": "",
+  "display_name": "Mwaro, Burundi",
+  "geoname_code": "23",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 330,
+ "fields": {
+  "name": "Bujumbura Mairie",
+  "name_ascii": "Bujumbura Mairie",
+  "slug": "bujumbura-mairie",
+  "geoname_id": 7303939,
+  "alternate_names": "",
+  "display_name": "Bujumbura Mairie, Burundi",
+  "geoname_code": "24",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 331,
+ "fields": {
+  "name": "Bujumbura Rural",
+  "name_ascii": "Bujumbura Rural",
+  "slug": "bujumbura-rural",
+  "geoname_id": 7303940,
+  "alternate_names": "",
+  "display_name": "Bujumbura Rural, Burundi",
+  "geoname_code": "25",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 332,
+ "fields": {
+  "name": "Rumonge",
+  "name_ascii": "Rumonge",
+  "slug": "rumonge",
+  "geoname_id": 11184798,
+  "alternate_names": "",
+  "display_name": "Rumonge, Burundi",
+  "geoname_code": "26",
+  "country": 25
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 333,
+ "fields": {
+  "name": "Zou",
+  "name_ascii": "Zou",
+  "slug": "zou",
+  "geoname_id": 2390719,
+  "alternate_names": "",
+  "display_name": "Zou, Benin",
+  "geoname_code": "18",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 334,
+ "fields": {
+  "name": "Ou\u00e9m\u00e9",
+  "name_ascii": "Oueme",
+  "slug": "oueme",
+  "geoname_id": 2392325,
+  "alternate_names": "",
+  "display_name": "Ou\u00e9m\u00e9, Benin",
+  "geoname_code": "16",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 335,
+ "fields": {
+  "name": "Mono",
+  "name_ascii": "Mono",
+  "slug": "mono",
+  "geoname_id": 2392716,
+  "alternate_names": "",
+  "display_name": "Mono, Benin",
+  "geoname_code": "15",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 336,
+ "fields": {
+  "name": "Borgou",
+  "name_ascii": "Borgou",
+  "slug": "borgou",
+  "geoname_id": 2394992,
+  "alternate_names": "",
+  "display_name": "Borgou, Benin",
+  "geoname_code": "10",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 337,
+ "fields": {
+  "name": "Atlantique",
+  "name_ascii": "Atlantique",
+  "slug": "atlantique",
+  "geoname_id": 2395504,
+  "alternate_names": "",
+  "display_name": "Atlantique, Benin",
+  "geoname_code": "09",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 338,
+ "fields": {
+  "name": "Atakora",
+  "name_ascii": "Atakora",
+  "slug": "atakora",
+  "geoname_id": 2395524,
+  "alternate_names": "",
+  "display_name": "Atakora, Benin",
+  "geoname_code": "08",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 339,
+ "fields": {
+  "name": "Alibori",
+  "name_ascii": "Alibori",
+  "slug": "alibori",
+  "geoname_id": 2597271,
+  "alternate_names": "",
+  "display_name": "Alibori, Benin",
+  "geoname_code": "07",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 340,
+ "fields": {
+  "name": "Collines",
+  "name_ascii": "Collines",
+  "slug": "collines",
+  "geoname_id": 2597272,
+  "alternate_names": "",
+  "display_name": "Collines, Benin",
+  "geoname_code": "11",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 341,
+ "fields": {
+  "name": "Kouffo",
+  "name_ascii": "Kouffo",
+  "slug": "kouffo",
+  "geoname_id": 2597273,
+  "alternate_names": "",
+  "display_name": "Kouffo, Benin",
+  "geoname_code": "12",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 342,
+ "fields": {
+  "name": "Donga",
+  "name_ascii": "Donga",
+  "slug": "donga",
+  "geoname_id": 2597274,
+  "alternate_names": "",
+  "display_name": "Donga, Benin",
+  "geoname_code": "13",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 343,
+ "fields": {
+  "name": "Littoral",
+  "name_ascii": "Littoral",
+  "slug": "littoral",
+  "geoname_id": 2597275,
+  "alternate_names": "",
+  "display_name": "Littoral, Benin",
+  "geoname_code": "14",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 344,
+ "fields": {
+  "name": "Plateau",
+  "name_ascii": "Plateau",
+  "slug": "plateau",
+  "geoname_id": 2597277,
+  "alternate_names": "",
+  "display_name": "Plateau, Benin",
+  "geoname_code": "17",
+  "country": 26
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 345,
+ "fields": {
+  "name": "Warwick",
+  "name_ascii": "Warwick",
+  "slug": "warwick",
+  "geoname_id": 3572972,
+  "alternate_names": "",
+  "display_name": "Warwick, Bermuda",
+  "geoname_code": "11",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 346,
+ "fields": {
+  "name": "Southampton",
+  "name_ascii": "Southampton",
+  "slug": "southampton",
+  "geoname_id": 3573026,
+  "alternate_names": "",
+  "display_name": "Southampton, Bermuda",
+  "geoname_code": "10",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 347,
+ "fields": {
+  "name": "Smith\u02bcs",
+  "name_ascii": "Smith's Parish",
+  "slug": "smiths-parish",
+  "geoname_id": 3573031,
+  "alternate_names": "",
+  "display_name": "Smith\u02bcs, Bermuda",
+  "geoname_code": "09",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 348,
+ "fields": {
+  "name": "Sandys",
+  "name_ascii": "Sandys",
+  "slug": "sandys",
+  "geoname_id": 3573050,
+  "alternate_names": "",
+  "display_name": "Sandys, Bermuda",
+  "geoname_code": "08",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 349,
+ "fields": {
+  "name": "Saint George\u02bcs",
+  "name_ascii": "Saint George's Parish",
+  "slug": "saint-georges-parish",
+  "geoname_id": 3573057,
+  "alternate_names": "",
+  "display_name": "Saint George\u02bcs, Bermuda",
+  "geoname_code": "07",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 350,
+ "fields": {
+  "name": "Saint George",
+  "name_ascii": "Saint George",
+  "slug": "saint-george",
+  "geoname_id": 3573062,
+  "alternate_names": "",
+  "display_name": "Saint George, Bermuda",
+  "geoname_code": "06",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 351,
+ "fields": {
+  "name": "Pembroke",
+  "name_ascii": "Pembroke",
+  "slug": "pembroke",
+  "geoname_id": 3573095,
+  "alternate_names": "",
+  "display_name": "Pembroke, Bermuda",
+  "geoname_code": "05",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 352,
+ "fields": {
+  "name": "Paget",
+  "name_ascii": "Paget",
+  "slug": "paget",
+  "geoname_id": 3573103,
+  "alternate_names": "",
+  "display_name": "Paget, Bermuda",
+  "geoname_code": "04",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 353,
+ "fields": {
+  "name": "Hamilton",
+  "name_ascii": "Hamilton",
+  "slug": "hamilton",
+  "geoname_id": 3573195,
+  "alternate_names": "",
+  "display_name": "Hamilton, Bermuda",
+  "geoname_code": "02",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 354,
+ "fields": {
+  "name": "Hamilton city",
+  "name_ascii": "Hamilton city",
+  "slug": "hamilton-city",
+  "geoname_id": 3573198,
+  "alternate_names": "",
+  "display_name": "Hamilton city, Bermuda",
+  "geoname_code": "03",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 355,
+ "fields": {
+  "name": "Devonshire",
+  "name_ascii": "Devonshire",
+  "slug": "devonshire",
+  "geoname_id": 3573251,
+  "alternate_names": "",
+  "display_name": "Devonshire, Bermuda",
+  "geoname_code": "01",
+  "country": 28
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 356,
+ "fields": {
+  "name": "Tutong",
+  "name_ascii": "Tutong",
+  "slug": "tutong",
+  "geoname_id": 1820068,
+  "alternate_names": "",
+  "display_name": "Tutong, Brunei",
+  "geoname_code": "04",
+  "country": 29
+ }
+},
+{
+ "model": "cities_light.region",
+ "pk": 357,
+ "fields": {
+  "name": "Temburong",
+  "name_ascii": "Temburong",
+  "slug": "temburong",
+  "geoname_id": 1820106,
+  "alternate_names": "",
+  "display_name": "Temburong, Brunei",
+  "geoname_code": "03",
+  "country": 29
+ }
+}
+]

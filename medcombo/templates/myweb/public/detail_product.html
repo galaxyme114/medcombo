@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% load i18n %}
+{% include '../../slide.html' %}
+{% include '../../menu-myweb.html' %}
+<div class="container" style="padding-top: 30px">
+	<div class="row pb-5">
+		<div class="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8 p-4" id="detail-favorites-border">
+			<div class="row">
+				<div class="col-12 col-sm-6">
+					<i class="far fa-heart"></i>
+					{% if product.picture %}
+					  <img class="img-fluid" src="/media/{{ product.picture }}" style="width: 340px;height: 225.55px;">
+					{% else %}
+					  <img src="{% static 'img/default.png' %}" style="width: 100%;height: 225.55px;">
+					{% endif %}
+				</div>
+				<div class="col-12 col-sm-6">
+					<h5 style="color: #595959">{{product.name}}</h5>
+					<span class="d-flex justify-content-center p-3">
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="far fa-star" aria-hidden="true"></i>
+					</span>
+					<div class="detail-favorites-divider"></div>
+					<div class="d-flex justify-content-around pt-3">
+						<p>{% blocktrans %}Contacto{% endblocktrans %}</p>
+						<p>{% for x in owner %} {{ x.first_name }} {{ x.last_name }} {% endfor %}</p>
+						<i class="fas fa-user-plus"></i>
+					</div>
+					<div class="d-flex flex-column align-items-center detail-favorites-button">
+						{% if user.is_authenticated %}
+						<button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#messenge-rmodal"><i class="far fa-envelope pr-3"></i>{% blocktrans %}MANDAR MENSAJE{% endblocktrans %}</button>
+						{% else %}
+						<button type="button" class="btn btn-primary mb-2"><i class="far fa-envelope pr-3"></i><a href="{% url 'view_login' %}" style="color:white; text-decoration:none;">{% blocktrans %}MANDAR MENSAJE{% endblocktrans %}</a></button>
+						{% endif %}
+						<button type="button" class="btn btn-primary mb-3"><i class="far fa-comment-alt pr-3"></i>{% blocktrans %}¿TIENES DUDAS?{% endblocktrans %}</button>
+					</div>
+					<div class="detail-favorites-divider"></div>
+					<div class="d-flex justify-content-around align-items-end py-3">
+					    {% if product.company.logo %}
+						<img src="/media/{{product.company.logo}}" alt="" style="height: 50px;">
+						{% else %}
+						<img src="{% static 'img/default.png' %}" height="180">
+						{% endif %}
+						<span>{{ product.company.country }}</span>
+					</div>
+					<div class="detail-favorites-divider"></div>
+					<h6 class="py-3">{% blocktrans %}Valora este producto{% endblocktrans %}</h6>
+				</div>
+			</div>
+			<!-- fotos del producto ---------->
+			{% if product.picture %}
+				<img class="img-fluid" src="{{ product.picture.url }}" style="height: auto; width: 60px;">
+			{% else %}
+			{% endif %}
+			{% if product.picture2 %}
+				<img class="img-fluid" src="{{ product.picture2.url }}" style="height: auto;width: 60px;">
+			{% else %}
+			{% endif %}
+			{% if product.picture3 %}
+				<img class="img-fluid" src="{{ product.picture3.url }}" style="height: auto;width: 60px;">
+			{% else %}
+			{% endif %}
+			{% if product.picture4 %}
+				<img class="img-fluid" src="{{ product.picture4.url }}" style="height: auto;width: 60px;">
+			{% else %}
+			{% endif %}
+
+			<!------- fin fotos producto --------->
+			<div class="row">
+				<div class="col-12">
+					<h5 style="color:#7f9bcd;">{% blocktrans %}CARACTERISTICAS{% endblocktrans %}</h5>
+					<div class="detail-favorites-divider mb-3"></div>
+					<p>{{product.description|safe|escape}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-1 col-lg-2"></div>
+	</div>
+
+	<div class="modal fade" id="messenge-rmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	  <div class="modal-dialog  modal-xl" role="document">
+	    <div class="modal-content" style="border-radius: 25px;">
+				<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+					<div class="d-flex align-items-center">
+					<i class="fas fa-search pr-3" style="color: white;"></i>
+					<h5 class="modal-title" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}Mensajeria{% endblocktrans %}</h5>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+	      <div class="modal-body">
+					{% for x in owner %}
+	        <object height="400" width="100%" data="{% url 'messenger_modal' x.id %}"></object>
+					{% endfor %}
+				</div>
+	    </div>
+	  </div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "dashboard_admin.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% blocktrans %}Eliminar Post{% endblocktrans %}</title>	
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+            dataLayer.push(arguments);}   
+        gtag('js', new Date());  
+        gtag('config', 'UA-148356704-1');
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+</head>
+<body>
+    <div class="col-12 col-lg-10 background">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<h5 style="color:#7BA8D1;">{% blocktrans %}GENERAR CONTRASEÑA{% endblocktrans %}</h5>
+				</div>
+			</div>
+		</div>
+        <div class="container-fluid">
+			<div class="row ventana-productos">
+				<div class="col-12">
+					<div class="row padding-row">
+						<div class="col-12">
+							<form method='post'>
+								{% csrf_token %}
+                                <h3 style="color:black;"><center>{% blocktrans %}¿Desea generar una nueva contraseña para {% endblocktrans %} {{ form }} {% blocktrans %}y enviar correo electrónico?{% endblocktrans %}</center><h3><br>
+								<center><button class="btn btn-primary btn-crm-produt" type="submit">{% blocktrans %}CONTINUAR{% endblocktrans %}</button>  <a class="btn btn-primary btn-crm-produt" href="{% url 'AdminUserCrm' %}">{% blocktrans %}CANCELAR{% endblocktrans %}</a></center>
+							</form>
+						</div>
+					</div>						
+				</div>						
+			</div>
+		</div>
+    </div>
+{% endblock %}
+</body>
+</html>

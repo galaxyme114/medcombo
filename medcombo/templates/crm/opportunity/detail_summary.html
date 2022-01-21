@@ -1,0 +1,168 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="row d-flex align-items-end">
+		<div class="col-12 col-md-6 padding-movil">
+			<h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}CLIENTES{% endblocktrans %}</h5>
+			<div class="input-group flex-nowrap">
+				<input id="search_detail_summary" type="search" class="form-control input-right-border" placeholder={% blocktrans %}"Buscar"{% endblocktrans %} id="buscar">
+				<div class="input-group-prepend">
+					<span class="input-group-text my_cursor" id="buscar-fa"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-md-2"></div>
+		<div class="col-md-4">
+			<div class="input-group flex-nowrap col-sm-12 justify-content-end">
+				<a href="#" class="btn btn-primary crm-button-anadir" data-toggle="modal" data-target="#modal-details">VER DETALLES</a>
+				<a href="{% url 'OpportunitySummary' %}" class="btn btn-primary crm-button-anadir mx-3">REGRESAR</a>
+			</div>
+		</div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12">
+			<div id="contact-table">
+				<table class="table table-hover table-responsive-md">
+			        <thead>
+			            <tr>
+                            <th scope="col">{% blocktrans %}Cliente{% endblocktrans %}</th>
+			                <th scope="col">{% blocktrans %}Email{% endblocktrans %}</th>
+                            <th scope="col">{% blocktrans %}Contacto{% endblocktrans %}</th>
+                            <th scope="col">{% blocktrans %}Probabilidad{% endblocktrans %}</th>
+					        <th scope="col">{% blocktrans %}Fase{% endblocktrans %}</th>
+					        <th scope="col">{% blocktrans %}Ingresos{% endblocktrans %}</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+                        {% if object_list %}
+                            {% for opportunity in object_list %}			  	
+			                    <tr>
+                                    <td>{{ opportunity.client.first_name }}&nbsp;{{ opportunity.client.last_name }}</td>
+			                        <td>{{ opportunity.client }}</td>
+			                        <td>{{ opportunity.contacted_by }}</td>
+			                        <td class="text-center">{{ opportunity.probability }}%</td>
+			                        <td>
+                                        {% if opportunity.state.name == "Aceptado" %}
+                                            <span class="text-opportunity-accepted">{{ opportunity.state.name }}</span>
+                                        {% elif opportunity.state.name == "Enviado Presupuesto" %}
+                                            <span class="text-opportunity-sent">{{ opportunity.state.name }}</span>
+                                        {% elif opportunity.state.name == "Contactado" %}
+                                            <span class="text-opportunity-contacted">{{ opportunity.state.name }}</span>
+                                        {% else %}
+                                            <span class="text-opportunity-new">{{ opportunity.state.name }}</span>
+                                        {% endif %}
+					                </td>
+					                <td class="text-center">{{ opportunity.expected_revenue }}&nbsp;&euro;</td>
+			                    </tr>
+		                    {% endfor %}
+	                    {% else %}
+	                        <tr>
+	                            <td scope="row">{% blocktrans %}No existen oportunidades{% endblocktrans %}</td>
+	                        </tr>
+		                {% endif %}
+			        </tbody>
+			    </table>
+			    <script>
+				    $("#search_detail_summary").keyup(function(){
+					    _this = this;
+					    // Show only matching TR, hide rest of them
+					    $.each($("table tbody tr"), function() {
+						    if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+							    $(this).hide();
+						    }
+						    else {
+							    $(this).show();
+						    }
+					    });
+				    });
+			    </script>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal - User-->
+<div class="modal fade" id="modal-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+		<div class="modal-content" style="border-radius: 25px;">
+			<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				<i class="far fa-user fa-flip-horizontal icons_size_title_second mt-2"></i>
+				<p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{{responsible.first_name}}&nbsp;{{responsible.last_name}}</p>
+			    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				    <span aria-hidden="true" style="color: white;">&times;</span>
+			    </button>
+			</div>
+			<div class="modal-body">
+				<!--Opportunities-->
+				<div class="container">
+					<div class="text-center col-12 col-sm-12 mb-3">
+						<h5>{% blocktrans %}Oportunidades{% endblocktrans %}</h5>
+					</div>
+					<div class="list-separator"></div>
+					<div class="row text-center mb-3">
+						<div class="col-12 col-sm-4"><b>{% blocktrans %}Oportunidades Ganadas{% endblocktrans %}</b></div>
+						<div class="col-12 col-sm-4"><b>{% blocktrans %}Oportunidades Perdidas{% endblocktrans %}</b></div>
+						<div class="col-12 col-sm-4"><b>{% blocktrans %}Total de Oportunidades{% endblocktrans %}</b></div>
+					</div>
+					<div class="row text-center mb-4">
+						<div class="col-12 col-sm-4">{{total_won}}</div>
+						<div class="col-12 col-sm-4">{{total_lost}}</div>
+						<div class="col-12 col-sm-4">{{total}}</div>
+					</div>
+				</div>
+				<div class="list-separator"></div>
+				<!--Revenues-->
+				<div class="container mt-2">
+					<div class="text-center col-12 col-sm-12 mb-3">
+						<h5>{% blocktrans %}Ingresos{% endblocktrans %}</h5>
+					</div>
+					<div class="list-separator"></div>
+					<div class="row text-center mb-3">
+						<div class="col-12 col-sm-4"><b>{% blocktrans %}Ingresos Ganados{% endblocktrans %}</b></div>
+						<div class="col-12 col-sm-4"><b>{% blocktrans %}Ingresos Perdidos{% endblocktrans %}</b></div>
+						<div class="col-12 col-sm-4"><b>{% blocktrans %}Ingresos en Oportunidades{% endblocktrans %}</b></div>
+					</div>
+					<div class="row text-center mb-4">
+						<div class="col-12 col-sm-4">{{revenue_won}}&nbsp;&euro;</div>
+						<div class="col-12 col-sm-4">{{revenue_lost}}&nbsp;&euro;</div>
+						<div class="col-12 col-sm-4">{{revenue}}&nbsp;&euro;</div>
+					</div>
+				</div>
+				<div class="list-separator"></div>
+				<!--List-->
+				<div class="container mt-2">
+					<div class="text-center col-12 col-sm-12 mb-3">
+						<h5>{% blocktrans %}Proceso{% endblocktrans %}</h5>
+					</div>
+					<div class="list-separator"></div>
+					<div class="row text-center mb-3">
+						<div class="col-12 col-sm-2"><b>{% blocktrans %}Nuevo{% endblocktrans %}</b></div>
+						<div class="col-12 col-sm-3"><b>{% blocktrans %}Contactado{% endblocktrans %}</b></div>
+						<div class="col-12 col-sm-3"><b>{% blocktrans %}Enviado Presupuesto{% endblocktrans %}</b></div>
+						<div class="col-12 col-sm-2"><b>{% blocktrans %}Aceptado{% endblocktrans %}</b></div>
+						<div class="col-12 col-sm-2"><b>{% blocktrans %}Rechazado{% endblocktrans %}</b></div>
+					</div>
+					<div class="row text-center mb-2">
+						<div class="col-12 col-sm-2">{{new}}</div>
+						<div class="col-12 col-sm-3">{{contact}}</div>
+						<div class="col-12 col-sm-3">{{send}}</div>
+						<div class="col-12 col-sm-2">{{won}}</div>
+						<div class="col-12 col-sm-2">{{lost}}</div>
+					</div>
+					<div class="row text-center mb-4">
+						<div class="col-12 col-sm-2">{{rev_new}}&nbsp;&euro;</div>
+						<div class="col-12 col-sm-3">{{rev_contact}}&nbsp;&euro;</div>
+						<div class="col-12 col-sm-3">{{rev_send}}&nbsp;&euro;</div>
+						<div class="col-12 col-sm-2">{{rev_won}}&nbsp;&euro;</div>
+						<div class="col-12 col-sm-2">{{rev_lost}}&nbsp;&euro;</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-center">
+			    <button class="btn btn-primary crm-button-anadir" data-dismiss="modal">{% blocktrans %}CERRAR{% endblocktrans %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

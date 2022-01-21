@@ -1,0 +1,65 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="row d-flex align-items-end">
+		<div class="container-fluid">
+		    <div class="row mb-2">
+				<div class="col-12">
+					<a class="btn btn-primary button-category" href="{% url 'CreatePrivacyPolicyCrm' %}"><i class="fas fa-plus pl-1"></i> {% blocktrans %} NUEVA POLÍTICA {% endblocktrans %}</a>
+				</div>
+		    </div>
+	    </div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12">
+			<div id="contact-table">
+				<table class="table table-hover table-responsive-md">
+			        <thead>
+			            <tr>
+			                <th scope="col" style="width:100%;">{% blocktrans %}Listado de Políticas{% endblocktrans%}</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+                        {% if object_list %}
+                            {% for privacy in object_list %}			  	
+			                    <tr>
+			                        <td scope="row">
+										<a href="{% url 'UpdatePrivacyPolicyCrm' privacy.id %}">
+											{% if privacy.language.pk == 4   %}<!-- español -->
+											<img src="{% static 'img/flag/es.png' %}" alt="" style="height:20px;width:30px;"> ({{privacy.language.value_language}})
+											{% elif privacy.language.pk == 3 %}<!-- ingles -->
+											<img src="{% static 'img/flag/en.png' %}" style="height:30px;width:30px;"> ({{privacy.language.value_language}})
+											{% elif privacy.language.pk == 2 %}<!-- aleman -->
+											<img src="{% static 'img/flag/de.png' %}" style="height:30px;width:30px;"> ({{privacy.language.value_language}})
+											{% elif privacy.language.pk == 5 %}<!-- frances -->
+												<img src="{% static 'img/flag/fr.png' %}" style="height:30px;width:30px;"> ({{privacy.language.value_language}})
+											{% elif privacy.language.pk == 7 %}<!-- portugues -->
+												<img src="{% static 'img/flag/pt.png' %}" style="height:30px;width:30px;"> ({{privacy.language.value_language}})
+											{% elif privacy.language.pk == 6 %}<!-- italiano -->
+												<img src="{% static 'img/flag/it.png' %}" style="height:30px;width:30px;"> ({{privacy.language.value_language}})
+											{% elif privacy.language.pk == 1 %}<!-- chino -->
+												<img src="{% static 'img/flag/zh-hant.png' %}" style="height:30px;width:30px;"> ({{privacy.language.value_language}})
+											{% elif privacy.language.pk == 8 %}<!-- chino -->
+											<img src="{% static 'img/flag/zh-hans.png' %}" style="height:30px;width:30px;"> ({{privacy.language.value_language}})
+											{% elif privacy.language.pk == 9 %}<!-- japon -->
+											<img src="{% static 'img/flag/ja.png' %}" style="height:27px;width:auto;"> ({{privacy.language.value_language}}) 
+											{% endif %}
+											{% blocktrans %}Política de privacidad{% endblocktrans %}
+										</a> 
+									</td>
+			                    </tr>
+		                    {% endfor %}
+	                    {% else %}
+	                        <tr>
+	                            <td scope="row">{% blocktrans %}No existen registros{% endblocktrans%}</td>
+	                        </tr>
+		                {% endif %}
+			        </tbody>
+			    </table>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

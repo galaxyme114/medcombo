@@ -1,0 +1,152 @@
+{% load staticfiles %}
+{% load i18n %}
+{% if keywords %}
+    {% for keys in keywords %}
+        {% if keys.category %}  
+            <div class="col-12 d-lg-flex pb-2 mb-2 pr-0 justify-content-between">
+                <div class="col-12 col-lg-3 mb-1">
+                    <li>- {{keys.name}}</li>
+                </div>
+                <div class="col-12 col-lg-2 pl-lg-0 pr-lg-0 mb-1">
+                    <input type="text" class="form-control justify-content-center" name="value_added" required id='keyname{{keys.pk}}'/>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <a class="btn btn-primary" style="font-size: 0.9rem;" id='agregar{{keys.pk}}'><i class="fas fa-plus"></i> {% blocktrans %} Agregar{% endblocktrans %}</a>
+                    <a class="btn btn-primary" style="font-size: 0.9rem;" id='guardar{{keys.pk}}'><i class="fas fa-save"></i> {% blocktrans %} Guardar{% endblocktrans %}</a>
+                    <input type="hidden" id="synonym_id_edit{{keys.pk}}" value="-1"/>
+                </div>
+                <div class="col-12 col-lg-4 mb-1">
+                    {% for synonym in keys.synonym.all %}
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <li> {{synonym.name}}</li>
+                            </div>
+                            <div class="col-lg-5">
+                                <i data-id="{{synonym.pk}}" data-sub-id="{{keys.category_id}}" data-key-id="{{keys.pk}}" data-synonym="{{synonym.name}}" class="fas fa-pen my_cursor my_hover pl-1 pr-1 synonym_edit"></i>
+                                <i data-id="{{synonym.pk}}" data-sub-id="{{keys.category_id}}" class="far fa-trash-alt my_cursor my_hover pl-1 pr-1 synonym_delete"></i>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <script>
+                $('#guardar{{keys.pk}}').hide();
+                $('#agregar{{keys.pk}}').click(function(evt){
+                    add_synonym{{keys.pk}}();
+                });
+                $('#guardar{{keys.pk}}').click(function(evt){
+                    add_synonym{{keys.pk}}();
+                });
+                function add_synonym{{keys.pk}}(){
+                    var my_url = "{% url 'ajax_add_synonym' %}";
+                    var synonym_name = $("#keyname{{keys.pk}}").val();
+                    if(synonym_name == ""){
+                        $("#keyname{{keys.pk}}").focus();
+                        return;
+                    }
+                    var synonym_id = $("#synonym_id_edit{{keys.pk}}").val();
+                    $.ajax({
+                        headers: { "X-CSRFToken": '{{csrf_token}}' },
+                        type: 'POST',
+                        url: my_url,
+                        data: {
+                            'synonym': synonym_name,
+                            'key': '{{keys.pk}}',  
+                            'synonym_id': synonym_id,
+                        },
+                        success: function(msg){
+
+                            if (msg=='guardado'){
+                                $("#keyname{{keys.pk}}").val("");
+                                $("#synonym_id_edit{{keys.pk}}").val("-1");
+                                $.notify("{% blocktrans %}Palabra guardada!{% endblocktrans %}", "success");
+                                
+                                $.ajax({
+                                    url: "{% url 'category_keywords_ajax' %}",
+                                    data: {
+                                        'idcategory': "{{keys.category_id}}"
+                                    },
+                                    success: function (data) {
+                                        $("#maslistados{{keys.category_id}}").html(data);
+                                    }
+                                });
+                            }else{
+                                $.notify("{% blocktrans %}Palabra ya existe!{% endblocktrans %}", "error");
+                            }     
+                            
+                        }
+                    });
+                }
+            </script>
+        {% endif %}                                                         
+    {% endfor %}<!-- for de keywords--> 
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-xs">
+            <div class="modal-content" style="border-radius: 25px;">
+                <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                    <div class="d-flex align-items-center">
+                        <b class="fas fa-trash-alt icons_size_title_second"></b>
+                        <p class="modal-title ml-3 text_size_title_second mt-1" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR PRODUCTO{% endblocktrans%}</p>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color: #fff;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-12 d-flex justify-content-start">
+                        <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+                    </div>
+                    <input type="hidden" id="synonym_id" />
+                    <input type="hidden" id="category_id" />
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-center">
+                        <span id="delete-button" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</span>
+                        <span data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <script>
+        $('.synonym_edit').on('click', function(){
+            var keyword_id = $(this).attr("data-key-id");
+            $("#synonym_id_edit" + keyword_id).val($(this).attr("data-id"));
+            $("#keyname" + keyword_id).val($(this).attr("data-synonym"));
+            $('#guardar' + keyword_id).show();
+            $('#agregar' + keyword_id).hide();
+        });
+        $('.synonym_delete').on('click', function(){
+            $("#synonym_id").val($(this).attr("data-id"));
+            $("#category_id").val($(this).attr("data-sub-id"));
+            $("#deleteModal").modal();
+        });
+        $('#delete-button').on('click', function(){
+            $("#deleteModal").modal("toggle");
+            var synonym_id_val = $("#synonym_id").val();
+            var category_id_val = $("#category_id").val();
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'ajax_delete_synonym' %}",
+                data: {
+                    'synonym_id': synonym_id_val,
+                },
+                success: function(msg){
+                    
+                    if (msg=='guardado'){
+                        $.ajax({
+                            url: "{% url 'category_keywords_ajax' %}",
+                            data: {
+                                'idcategory': category_id_val
+                            },
+                            success: function (data) {
+                                $("#maslistados" + category_id_val).html(data);
+                            }
+                        });
+                    }    
+                }
+            });
+        });
+    </script>                       
+{% endif %}

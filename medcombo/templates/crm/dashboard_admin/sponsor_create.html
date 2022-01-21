@@ -1,0 +1,417 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'datepicker-boostrap/bootstrap-datepicker.css' %}">
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<link rel="stylesheet" href="{% static 'css/icheck-bootstrap.min.css' %}">
+<script src="{% static 'datepicker-boostrap/bootstrap-datepicker.js' %}"></script>
+<div class="col-12 col-lg-10 background">
+	<div class="row">
+		<div class="col-12 col-lg-10 col-xl-8 mb-2">
+			<div class="row">
+				<div class="col-12 col-sm-6">
+					<h5 style="color: #7f9bcd; font-weight: 700; font-size: 18px;">{% blocktrans %}AÑADIR PATROCINADOS{% endblocktrans%}</h5>
+				</div>	
+				<div class="col-12 col-sm-6">	
+					<div class="col-12 d-flex justify-content-end mb-2">	
+						<a href="{% url 'Sponsor_List' %}" type="button" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+					</div>	
+				</div>
+			</div>
+			<div id="contact-table">
+				<form class="needs-validation" id="createSponsor" action="." method="POST" novalidate>
+					{% csrf_token %}
+					<div class="text-center-container">
+						{% if form.errors %}
+							{% for field in form %}
+								{% for error in field.errors %}
+									<div class="alert alert-danger alert-dismissible fade show" role="alert">
+										<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+								{% endfor %}
+							{% endfor %}
+							{% for error in form.non_field_errors %}
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+					<div class="form-group">
+						<div class="col-12 offset-sm-1 col-sm-9 mt-3">
+							<label for="id_company">{% blocktrans %}Empresa{% endblocktrans %}</label>
+							<div class="d-flex search_Product_sponsor search_Product_sponsor2">
+								{{form.company}}
+								<button id="button_company" class="btnSearch"><i id="sponsor_company_search" class="fas fa-search fa-flip-horizontal"></i></button>
+								<div class="invalid-feedback">
+									{% blocktrans %}Selecione la empresa{% endblocktrans %}
+								</div>
+							</div>
+							<!--p id="company_select" class="resultText"></p-->
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+					<div class="form-group">
+						<div class="col-12 offset-sm-1 col-sm-9">
+							<label for="searchProduct">{% blocktrans %}Producto{% endblocktrans %}</label>
+							<div class="d-flex">
+								<input type="text" class="form-control search_Product_sponsor" id="searchProduct" placeholder={% blocktrans %}"Buscar"{% endblocktrans %}>
+								<span id="button_products" class="btnSearch"><i class="fas fa-search fa-flip-horizontal"></i></span>
+							</div>
+							<div class="resultImg">
+								<table class="table table-borderless">
+									<tbody id="table_products">
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+					<div class="form-group">
+						<div class="col-12 offset-sm-1 col-sm-9">
+							<div class="icheck-primary">
+								{{ form.lateral }}
+								<label class="form-check-label ml-4" for="id_lateral">
+									{% blocktrans %}Agregar al panel lateral de búsqueda{% endblocktrans %}
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+					<div class="form-group">
+						<div class="col-12 offset-sm-1 col-sm-9">
+							<div class="row">
+								<div class="col-12 col-md-6">
+									<p class="text-center my-1">{% blocktrans %}Inicio {% endblocktrans %}</p>
+									<span class="input-group">
+										<span class="input-group-prepend">
+											<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+										</span>
+										{% if form.start.value %}
+										    {{ form.start }}
+										    <div class="invalid-feedback">
+											    {% blocktrans %}Seleccione la fecha de inicio{% endblocktrans %}
+											</div>
+											<script>
+												$(function(){
+													$('#id_start').ready(function(){
+														$('#id_start').attr('type','text');
+														{% if language_selected == 3 %}//en
+															$('#id_start').datepicker("setDate", '{{ form.start.value|date:"m/d/Y" }}');
+														{% elif language_selected == 1 %}//zh hant
+															$('#id_start').datepicker("setDate", '{{ form.start.value|date:"Y/m/d" }}');
+														{% elif language_selected == 8 %}//zh hans
+															$('#id_start').datepicker("setDate", '{{ form.start.value|date:"Y/m/d" }}');
+														{% elif language_selected == 9 %}//ja
+															$('#id_start').datepicker("setDate", '{{ form.start.value|date:"Y-m-d" }}');
+														{% elif language_selected == 2 %}//de
+															$('#id_start').datepicker("setDate", '{{ form.start.value|date:"d.m.Y" }}');
+														{% else %} //Other languages
+															$('#id_start').datepicker("setDate", '{{ form.start.value|date:"d/m/Y" }}');
+														{% endif %}
+													});
+												});
+											</script>
+										{% else %}
+										    {{ form.start }}
+										    <div class="invalid-feedback">
+											    {% blocktrans %}Seleccione la fecha de inicio{% endblocktrans %}
+										    </div>
+										{% endif %}
+									</span>
+								</div>
+								<div class="col-12 col-md-6">
+									<p class="text-center my-1">{% blocktrans %}Fin {% endblocktrans %}</p>
+									<span class="input-group">
+										<span class="input-group-prepend">
+											<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+										</span>
+										{% if form.start.value %}
+										    {{ form.end }}
+										    <div class="invalid-feedback">
+											    {% blocktrans %}Seleccione la fecha de fin{% endblocktrans %}
+											</div>
+											<script>
+												$(function(){
+													$('#id_end').ready(function(){
+														$('#id_end').attr('type','text');
+														{% if language_selected == 3 %}//en
+															$('#id_end').datepicker("setDate", '{{ form.end.value|date:"m/d/Y" }}');
+														{% elif language_selected == 1 %}//zh hant
+															$('#id_end').datepicker("setDate", '{{ form.end.value|date:"Y/m/d" }}');
+														{% elif language_selected == 8 %}//zh hans
+															$('#id_end').datepicker("setDate", '{{ form.end.value|date:"Y/m/d" }}');
+														{% elif language_selected == 9 %}//ja
+															$('#id_end').datepicker("setDate", '{{ form.end.value|date:"Y-m-d" }}');
+														{% elif language_selected == 2 %}//de
+															$('#id_end').datepicker("setDate", '{{ form.end.value|date:"d.m.Y" }}');
+														{% else %} //Other languages
+															$('#id_end').datepicker("setDate", '{{ form.end.value|date:"d/m/Y" }}');
+														{% endif %}
+													});
+												});
+											</script>
+										{% else %}
+										    {{ form.end }}
+										    <div class="invalid-feedback">
+											   {% blocktrans %}Seleccione la fecha de fin{% endblocktrans %}
+											</div>
+										{% endif %}
+									</span>
+								</div>
+								<!--<div class="col-12 col-md-12 d-flex align-items-center mb-3 my-4 my-md-2">
+									<button id="button-send" type="submit" class="btn btn-primary crm-button-anadir">{% blocktrans %}GUARDAR{% endblocktrans %}</button>
+								</div>-->
+							</div>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+					<div class="form-group">
+						<div class="col-12 offset-sm-1 col-sm-9">
+							<div class="row d-flex justify-content-center">
+								<div class="col-12 col-md-3 d-flex justify-items-center mb-3 my-4 my-md-2">
+									<button id="button-send" type="submit" class="btn btn-primary crm-button-anadir">{% blocktrans %}GUARDAR{% endblocktrans %}</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="col-lg-2 col-xl-4"></div>
+	</div>
+</div>
+{% if language_selected == 1 %}<!-- zh hant -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.zh-TW.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 2 %}<!-- de -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.de.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 3 %}<!-- en -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.en-GB.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 4 %}<!-- es -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 5 %}<!-- fr -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.fr.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 6 %}<!-- it -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.it.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 7 %}<!-- pt -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.pt.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 8 %}<!-- zh hans -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.zh-CN.js' %}" charset="UTF-8"></script>
+{% else %}<!-- ja -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.ja.js' %}" charset="UTF-8"></script>
+{% endif %}
+<script>
+	$('#id_start').datepicker({
+		{% if language_selected == 1 %}//zh hant
+	        language: 'zh-TW',
+	    {% elif language_selected == 2 %}//de
+			language: 'de',
+	    {% elif language_selected == 3 %}//en
+			language: 'en-GB',
+	    {% elif language_selected == 4 %}//es
+			language: 'es',
+	    {% elif language_selected == 5 %}//fr
+			language: 'fr',
+	    {% elif language_selected == 6 %}//it
+			language: 'it',
+	    {% elif language_selected == 7 %}//pt
+			language: 'pt',
+	    {% elif language_selected == 8 %}//zh hans
+			language: 'zh-CN',
+	    {% else %}//ja
+			language: 'ja',
+	    {% endif %}
+		autoclose: true,
+		clearBtn: true,
+		todayBtn: 'linked',
+		todayHighlight: true,
+		{% if language_selected == 3 %}//en
+			format: 'mm/dd/yyyy',
+		{% elif language_selected == 8 %}//zh hant
+			format: 'yyyy/mm/dd',
+		{% elif language_selected == 1 %}//zh hans
+			format: 'yyyy/mm/dd',
+		{% elif language_selected == 9 %}//ja
+			format: 'yyyy-mm-dd',
+		{% elif language_selected == 2 %}//de
+			format: 'dd.mm.yyyy',
+		{% else %} //Other languages
+			format: 'dd/mm/yyyy',
+		{% endif %}
+		templates: {
+			leftArrow: '<i class="fas fa-caret-left"></i>',
+            rightArrow: '<i class="fas fa-caret-right"></i>'
+		}
+	});
+</script>
+<script>
+	$('#id_end').datepicker({
+		{% if language_selected == 1 %}//zh hant
+			language: 'zh-TW',
+		{% elif language_selected == 2 %}//de
+			language: 'de',
+		{% elif language_selected == 3 %}//en
+			language: 'en-GB',
+		{% elif language_selected == 4 %}//es
+			language: 'es',
+		{% elif language_selected == 5 %}//fr
+			language: 'fr',
+		{% elif language_selected == 6 %}//it
+			language: 'it',
+		{% elif language_selected == 7 %}//pt
+			language: 'pt',
+		{% elif language_selected == 8 %}//zh hans
+			language: 'zh-CN',
+		{% else %}//ja
+			language: 'ja',
+		{% endif %}
+		autoclose: true,
+		clearBtn: true,
+		todayBtn: 'linked',
+		todayHighlight: true,
+		{% if language_selected == 3 %}//en
+			format: 'mm/dd/yyyy',
+		{% elif language_selected == 8 %}//zh hant
+			format: 'yyyy/mm/dd',
+		{% elif language_selected == 1 %}//zh hans
+			format: 'yyyy/mm/dd',
+		{% elif language_selected == 9 %}//ja
+			format: 'yyyy-mm-dd',
+		{% elif language_selected == 2 %}//de
+			format: 'dd.mm.yyyy',
+		{% else %} //Other languages
+			format: 'dd/mm/yyyy',
+		{% endif %}
+		templates: {
+			leftArrow: '<i class="fas fa-caret-left"></i>',
+			rightArrow: '<i class="fas fa-caret-right"></i>'
+		}
+	});
+</script>
+<script>
+	$(function(){
+		//Company Button
+		$('#button_company').click(function(e){
+			e.preventDefault();
+			var token = '{{csrf_token}}';
+			var my_url = '{% url "ajax_sponsor_company" %}';
+			var my_value = $('#id_company').val();
+			
+		    $.ajax({
+			    headers: { "X-CSRFToken": token },
+			    type: 'POST',
+			    url: my_url,
+			    data: {
+			        'company': my_value
+			    },
+			    success: function(data){
+					$('#company_select').text(data);
+			    }
+		    });
+			var my_token = '{{csrf_token}}';
+			var url = '{% url "sponsor_company_product" %}';
+			var value = $('#id_company').val();
+		    $.ajax({
+			    headers: { "X-CSRFToken": my_token },
+			    type: 'POST',
+			    url: url,
+			    data: {
+			        'company': value
+			    },
+			    success: function(data){
+					$('#table_products').html(data);
+			    }
+		    });
+		});
+		$('#id_company').ready(function(){
+			var value = $('#id_company').val();
+			if(value.trim() == ''){
+                value = 'empty';
+            }
+			if(value != 'empty') {
+				var my_token = '{{csrf_token}}';
+			    var url = '{% url "sponsor_company_product" %}';
+			    var value = $('#id_company').val();
+		        $.ajax({
+			        headers: { "X-CSRFToken": my_token },
+			        type: 'POST',
+			        url: url,
+			        data: {
+			            'company': value
+			        },
+			         success: function(data){
+					    $('#table_products').html(data);
+						var element_radio = $('input[name=product]');
+						var save_product = '{{form.product.value}}';
+						for(var i=0;i<element_radio.length;i++){
+							if(element_radio[i].value == save_product) {
+								$("input[name=product][value='"+element_radio[i].value+"']").prop('checked', true);
+							}
+						}
+			        }
+		        });
+			}
+		});
+	});
+</script>
+<script>
+	//Search Product
+	$('#searchProduct').keyup(function(e){
+		var my_token = '{{csrf_token}}';
+		var url = '{% url "sponsor_search_product" %}';
+		var value = $('#id_company').val();
+		var value_text = $('#searchProduct').val();
+		$.ajax({
+			headers: { "X-CSRFToken": my_token },
+			type: 'POST',
+			url: url,
+			data: {
+				'company': value,
+				'product': value_text
+			},
+			success: function(data){
+				$('#table_products').html(data);
+			}
+		});
+	});
+</script>
+<script>
+	//Inputs Validations
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+				}
+				if($("#id_product").val() == undefined && form.checkValidity() === true) {
+					event.preventDefault();
+					event.stopPropagation();
+					$.notify("{% blocktrans %}Debe realizar la búsqueda por empresa y seleccionar un producto!{% endblocktrans %}", "error");
+				}
+				if($("input[name='product']:checked").val() == undefined && $("#id_product").val() != undefined && form.checkValidity() === true) {
+					event.preventDefault();
+					event.stopPropagation();
+					$.notify("{% blocktrans %}Debe seleccionar un producto de la lista!{% endblocktrans %}", "error");
+				}
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
+<!--<script src="{% static 'js/app/validations.js' %}"></script>-->
+{% endblock %}

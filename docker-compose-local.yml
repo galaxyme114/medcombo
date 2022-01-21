@@ -1,0 +1,52 @@
+version: "2"
+
+services:
+  db:
+    image: postgres:11
+  web:
+    build:
+      context: .
+      args:
+        - DJANGO_ENV=docker_local
+    command: bash -c "python manage.py makemigrations cities_light --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations location --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations company --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations usercustom --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations product --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations contacts --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations catalogue --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations call --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations contact --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations dashboard_admin --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations opportunity --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations task --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations post --settings=medcombo.settings.docker_local
+                      && python manage.py makemigrations job --settings=medcombo.settings.docker_local   
+                      && python manage.py migrate --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/configuration/location/data/cities_light_country.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/configuration/location/data/cities_light_region.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/configuration/location/data/cities_light_city.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/configuration/usercustom/data/work.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/configuration/company/data/invoicingtitle.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/configuration/company/data/company_medcombo.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/configuration/usercustom/data/user_admin_test.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/crm/data/state.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/crm/opportunity/data/contactedby.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/crm/task/data/priority.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/language_campaign.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/crm/task/data/calltasks.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/myweb/job/data/contracts.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/myweb/job/data/workdays.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/myweb/company/data/languagemodel.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/campaigns.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/banners.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/banners_index.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/banners_user.json --settings=medcombo.settings.docker_local
+                      && python manage.py loaddata medcombo/product/data/policyprivacy.json  --settings=medcombo.settings.docker_local
+                      && python manage.py runserver 0.0.0.0:8000 --settings=medcombo.settings.docker_local"
+    volumes:
+      - .:/webapp
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

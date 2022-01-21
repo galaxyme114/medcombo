@@ -1,0 +1,141 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="row d-flex align-items-end">
+		<div class="col-12 padding-movil">
+			<button type="button" class="btn btn-primary category-btn-new">{% blocktrans %}Nueva Área{% endblocktrans%}</button>
+		</div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12 col-sm-8 col-md-6">
+			<div id="contact-table">
+				<table class="table table-hover table-responsive-md">
+			  <thead>
+			    <tr>
+			      <th scope="col">{% blocktrans %}Área{% endblocktrans%}</th>
+			      <th scope="col" class="text-right">{% blocktrans %}Modificar{% endblocktrans%}</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td scope="row">Movilidad</td>
+			      <td class="text-right pr-4">
+			      	<i class="pl-2 fas fa-pen"></i>
+			      	<i class="pl-3 fas fa-trash-alt"></i>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td scope="row">Optica</td>
+			      <td class="text-right pr-4">
+			      	<i class="pl-2 fas fa-pen"></i>
+			      	<i class="pl-3 fas fa-trash-alt"></i>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td scope="row">Salud</td>
+			      <td class="text-right pr-4">
+			      	<i class="pl-2 fas fa-pen"></i>
+			      	<i class="pl-3 fas fa-trash-alt"></i>
+			      </td>
+			    </tr>
+			  </tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+	<div class="row d-flex align-items-end">
+		<div class="col-12 padding-movil">
+			<button type="button" class="btn btn-primary category-btn-new mt-4">{% blocktrans %}Nueva Categoria{% endblocktrans%}</button>
+		</div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12 col-sm-8 col-md-6">
+			<div id="contact-table">
+				<table class="table table-hover table-responsive-md">
+			  <thead>
+			    <tr>
+			      <th scope="col">{% blocktrans %}Categorias{% endblocktrans%}</th>
+			      <th scope="col">{% blocktrans %}Area{% endblocktrans%}</th>
+			      <th scope="col" class="text-right">{% blocktrans %}Modificar{% endblocktrans%}</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td scope="row">Sillas</td>
+			      <td>Movilidad</td>
+			      <td class="text-right pr-4">
+			      	<i class="pl-2 fas fa-pen"></i>
+			      	<i class="pl-3 fas fa-trash-alt"></i>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td scope="row">Camas</td>
+			      <td>Ayudas</td>
+			      <td class="text-right pr-4">
+			      	<i class="pl-2 fas fa-pen"></i>
+			      	<i class="pl-3 fas fa-trash-alt"></i>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td scope="row">Andador</td>
+			      <td>Movilida</td>
+			      <td class="text-right pr-4">
+			      	<i class="pl-2 fas fa-pen"></i>
+			      	<i class="pl-3 fas fa-trash-alt"></i>
+			      </td>
+			    </tr>
+			  </tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+	<div class="row d-flex align-items-end">
+		<div class="col-12 padding-movil">
+			<button type="button" class="btn btn-primary category-btn-new mt-4">{% blocktrans %}Nueva Subcategoria{% endblocktrans%}</button>
+		</div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12 col-sm-8 col-md-6">
+			<div id="contact-table">
+				<table class="table table-hover table-responsive-md">
+			  <thead>
+			    <tr>
+			      <th scope="col">{% blocktrans %}Subcategoria{% endblocktrans%}</th>
+			      <th scope="col">{% blocktrans %}Categoria{% endblocktrans%}</th>
+			      <th scope="col" class="text-right">{% blocktrans %}Modificar{% endblocktrans%}</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td scope="row">Silla Electrica</td>
+			      <td>Silla</td>
+			      <td class="text-right pr-4">
+			      	<i class="pl-2 fas fa-pen"></i>
+			      	<i class="pl-3 fas fa-trash-alt"></i>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td scope="row">Camas Hidraulicas</td>
+			      <td>Camas</td>
+			      <td class="text-right pr-4">
+			      	<i class="pl-2 fas fa-pen"></i>
+			      	<i class="pl-3 fas fa-trash-alt"></i>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td scope="row">Andador Ruedas</td>
+			      <td>Andador</td>
+			      <td class="text-right pr-4">
+			      	<i class="pl-2 fas fa-pen"></i>
+			      	<i class="pl-3 fas fa-trash-alt"></i>
+			      </td>
+			    </tr>
+			  </tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

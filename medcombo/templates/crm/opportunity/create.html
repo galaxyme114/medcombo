@@ -1,0 +1,91 @@
+{% load staticfiles %}
+{% load i18n %}
+<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+<script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+<link rel="stylesheet" href="{% static 'css/dashboard_client.css' %}">
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+<link rel="stylesheet" href="{% static 'css/dashboard_admin.css' %}">
+<body id="contact-create">
+	<div class="container-fluid">
+		<div class="row contact-create-title">
+			<div class="col-12 d-flex justify-content-between">
+				<div class="d-flex align-items-center">
+					<i class="fas fa-search pr-3"></i>
+					<h4 class="mb-0">{% blocktrans %}Añadir Oportunidad{% endblocktrans%}</h4>
+				</div>
+				<div class="d-flex align-items-center">
+					<i class="fas fa-times"></i>
+				</div>
+			</div>
+		</div>
+		<div class="row pt-4">
+			<div class="col-12 create-contact-form">
+				<form>
+					<div class="form-group row">
+					  	<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="titulo" class="col-sm-3 col-form-label">{% blocktrans %}Titulo{% endblocktrans%}</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="titulo">
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="asignado" class="col-sm-3 col-form-label">{% blocktrans %}Asignado{% endblocktrans%}</label>
+								<div class="col-sm-9">
+									<select id="asignado" class="form-control">
+								    	<option>Patrick</option>
+								    	<option>...</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+		   			</div>
+		   			<div class="form-group row">
+					  	<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="cliente" class="col-sm-3 col-form-label">{% blocktrans %}Cliente{% endblocktrans%}</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="cliente">
+								</div>
+							</div>
+		   				</div>
+						<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="probabilidad" class="col-sm-3 col-form-label">{% blocktrans %}Probabilidad{% endblocktrans%}</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="probabilidad">
+								</div>
+							</div>
+		   				</div>
+		   			</div>
+		   			<div class="form-group row">
+					  	<div class="col-12 col-md-6">
+							<div class="form-group row">
+								<label for="contacto" class="col-sm-3 col-form-label">{% blocktrans %}Contacto{% endblocktrans%}</label>
+								<div class="col-sm-9">
+									<select id="contacto" class="form-control">
+								    	<option>Mail</option>
+								    	<option>...</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-6"></div>
+		   			</div>
+		   			<div class="row">
+		   				<div class="col-12 d-flex justify-content-center">
+		   					<button type="submit" class="btn btn-primary crm-button-anadir" id="create-contact-btn">{% blocktrans %}GUARDAR{% endblocktrans%}</button>
+		   				</div>
+		   			</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="{% static 'js/handlebars-v1.3.0.js' %}" type="text/javascript"></script>
+<script src="{% static 'bootstrap/js/popper.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>

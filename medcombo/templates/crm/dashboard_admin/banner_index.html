@@ -1,0 +1,624 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'datepicker-boostrap/bootstrap-datepicker.css' %}">
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<script src="{% static 'datepicker-boostrap/bootstrap-datepicker.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ckeditor/adapters/jquery.js' %}"></script>
+<script type="text/javascript">            
+	// jquery document ready function
+	$(function(){                    
+		// 1. change the textarea into an editor
+		CKEDITOR.replace( 'description_change',
+        {
+            toolbar :
+            [
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+            ]
+        });             
+	});    
+</script>
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-2 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}MedMagazine{% endblocktrans %}</h5>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<!--Create Banner-->
+    <form id="my_banner_form" class="needs-validation mb-3" action="." method="POST" enctype="multipart/form-data" novalidate>
+		{% csrf_token %}
+	    <div class="row m-0 list-fondo">
+			<div class="text-center-container">
+				{% if form.errors %}
+					{% for field in form %}
+						{% for error in field.errors %}
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
+					{% for error in form.non_field_errors %}
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endif %}
+		    </div>
+		    <div class="col-12">
+				<div class="row mt-4">
+					<div class="col-12 d-md-flex">
+						<div class="col-12 col-md-6">
+                            {% if bannerindex %}
+                                {% if bannerindex.picture %}
+                                    <img id="picture-banner" src="{{bannerindex.picture.url}}" alt=""  width="100%" height="100" >
+                                {% else %}
+                                    <img id="picture-banner" src="/static/img/banner.jpg" alt=""  width="100%" height="100" >
+                                {% endif %}
+                            {% else %}
+                                <img id="picture-banner" src="/static/img/banner.jpg" alt=""  width="100%" height="80" >
+                            {% endif %}
+						</div>
+						<div class="col-12 col-md-3">
+							<div class="col-12 col-md-12 update-banner p-0 mr-4 mt-3">
+								<span class="d-flex" style="border: solid 1px #b5b6b6; width: 100%;">
+									<i class="fas fa-file"></i>
+									<span class="custom-file">
+										<label id="label-file" class="mt-2" for="customFileBanner"></label>
+										{{form.picture}}
+										<div class="invalid-feedback">
+											{% blocktrans %}Seleccione una imagen{% endblocktrans %}
+										</div> 
+									</span>
+								</span>
+							</div>
+						</div> 
+						<div class="col-12 col-md-3 pt-3">
+							<script type="text/javascript">
+                                    	{% if messages %}
+                                    	{% for message in messages %}
+                                    	$.notify("{{ message }}", "error");
+                                    	{% endfor %}
+                                    	{% endif %}
+                                    </script>
+							<!--{{form.language}}-->
+							<select id="language" name="language" class="form-control" >
+								{% for lang in language %}
+							        <option value={{lang.pk}}>
+								        <!------------------ESPAÑOL-------------------->
+								        {% if lang.pk == 4 and language_selected == 4 %}
+									        Español
+								        {% endif %}
+								        {% if lang.pk == 4 and language_selected == 3 %}
+									        Spanish
+								        {% endif %}
+								        {% if lang.pk == 4 and language_selected == 2 %}
+									        Spanisch
+								        {% endif %}
+								        {% if lang.pk == 4 and language_selected == 5 %}
+									        Espagnol
+								        {% endif %}
+								        {% if lang.pk == 4 and language_selected == 6 %}
+									        Spagnolo
+								        {% endif %}
+								        {% if lang.pk == 4 and language_selected == 7 %}
+									        Espanhol
+								        {% endif %}
+								        {% if lang.pk == 4 and language_selected == 9 %}
+									        スペイン語
+								        {% endif %}
+								        {% if lang.pk == 4 and language_selected == 1 %}
+									        西班牙文
+								        {% endif %}
+								        {% if lang.pk == 4 and language_selected == 8 %}
+								     	    西班牙文
+								        {% endif %}
+								        <!------------------INGLES-------------------->
+								        {% if lang.pk == 3 and language_selected == 4 %}
+									        Inglés
+								        {% endif %}
+								        {% if lang.pk == 3 and language_selected == 3 %}
+									        English
+								        {% endif %}
+								        {% if lang.pk == 3 and language_selected == 2 %}
+									        Inglés
+								        {% endif %}
+								        {% if lang.pk == 3 and language_selected == 5 %}
+									        Inglés
+								        {% endif %}
+								        {% if lang.pk == 3 and language_selected == 6 %}
+									        Inglés
+								        {% endif %}
+								        {% if lang.pk == 3 and language_selected == 7 %}
+									        Inglés
+								        {% endif %}
+								        {% if lang.pk == 3 and language_selected == 9 %}
+									        英語
+								        {% endif %}
+								        {% if lang.pk == 3 and language_selected == 1 %}
+									        英文
+								        {% endif %}
+								        {% if lang.pk == 3 and language_selected == 8 %}<!--simplificado-->
+									        英文
+								        {% endif %}
+								        <!------------------ALEMAN-------------------->
+								        {% if lang.pk == 2 and language_selected == 4 %}
+									        Alemán
+								        {% endif %}
+								        {% if lang.pk == 2 and language_selected == 3 %}
+									        German
+								        {% endif %}
+								        {% if lang.pk == 2 and language_selected == 2 %}
+									        Deutsch
+								        {% endif %}
+								        {% if lang.pk == 2 and language_selected == 5 %}
+									        Allemand
+								        {% endif %}
+							            {% if lang.pk == 2 and language_selected == 6 %}
+									        Tedesco
+								        {% endif %}
+								        {% if lang.pk == 2 and language_selected == 7 %}
+									        Alemão
+								        {% endif %}
+								        {% if lang.pk == 2 and language_selected == 9 %}
+									        ドイツ語
+								        {% endif %}
+								        {% if lang.pk == 2 and language_selected == 1 %}
+								 	        德文
+								        {% endif %}
+								        {% if lang.pk == 2 and language_selected == 8 %}<!--simplificado-->
+									        德文
+								        {% endif %}
+								        <!------------------FRANCES-------------------->
+								        {% if lang.pk == 5 and language_selected == 4 %}
+									        Francés
+								        {% endif %}
+								        {% if lang.pk == 5 and language_selected == 3 %}
+									        French
+								        {% endif %}
+								        {% if lang.pk == 5 and language_selected == 2 %}
+									        Französisch
+								        {% endif %}
+								        {% if lang.pk == 5 and language_selected == 5 %}
+									        Le français
+								        {% endif %}
+								        {% if lang.pk == 5 and language_selected == 6 %}
+									        Francese
+								        {% endif %}
+								        {% if lang.pk == 5 and language_selected == 7 %}
+									        Francês
+								        {% endif %}
+								        {% if lang.pk == 5 and language_selected == 9 %}
+									        フランス語
+								        {% endif %}
+								        {% if lang.pk == 5 and language_selected == 1 %}
+								 	        法文
+								        {% endif %}
+								        {% if lang.pk == 5 and language_selected == 8 %}<!--simplificado-->
+									        法文
+								        {% endif %}
+								        <!------------------ITALIANO-------------------->
+								        {% if lang.pk == 6 and language_selected == 4 %}
+									        Italiano
+								        {% endif %}
+								        {% if lang.pk == 6 and language_selected == 3 %}
+									        Italian
+								        {% endif %}
+								        {% if lang.pk == 6 and language_selected == 2 %}
+									        Italienisch
+								        {% endif %}
+								        {% if lang.pk == 6 and language_selected == 5 %}
+									        Italien
+								        {% endif %}
+								        {% if lang.pk == 6 and language_selected == 6 %}
+									        Italiano
+								        {% endif %}
+								        {% if lang.pk == 6 and language_selected == 7 %}
+									        Italiano
+								        {% endif %}
+								        {% if lang.pk == 6 and language_selected == 9 %}
+									        イタリア語
+								        {% endif %}
+								        {% if lang.pk == 6 and language_selected == 1 %}
+								 	        義大利文
+								        {% endif %}
+								        {% if lang.pk == 6 and language_selected == 8 %}<!--simplificado-->
+								 	        意大利文
+								        {% endif %}
+								        <!------------------PORTUGUES-------------------->
+								        {% if lang.pk == 7 and language_selected == 4 %}
+									        Portugués
+								        {% endif %}
+								        {% if lang.pk == 7 and language_selected == 3 %}
+									        Portuguese
+								        {% endif %}
+								        {% if lang.pk == 7 and language_selected == 2 %}
+									        Portugiesisch
+								        {% endif %}
+								        {% if lang.pk == 7 and language_selected == 5 %}
+									        Portugais								
+								        {% endif %}
+								        {% if lang.pk == 7 and language_selected == 6 %}
+									        Portoghese
+								        {% endif %}
+								        {% if lang.pk == 7 and language_selected == 7 %}
+									        Português
+								        {% endif %}
+								        {% if lang.pk == 7 and language_selected == 9 %}
+									        ポルトガル語
+								        {% endif %}
+								        {% if lang.pk == 7 and language_selected == 1 %}
+									        葡萄牙文
+								        {% endif %}
+								        {% if lang.pk == 7 and language_selected == 8 %}<!--simplificado-->
+									        葡萄牙文
+								        {% endif %}
+								        <!------------------JAPONES-------------------->
+								        {% if lang.pk == 9 and language_selected == 4 %}
+									        Japonés
+								        {% endif %}
+								        {% if lang.pk == 9 and language_selected == 3 %}
+									        Japanese
+								        {% endif %}
+								        {% if lang.pk == 9 and language_selected == 2 %}
+									        Japanisch
+								        {% endif %}
+								        {% if lang.pk == 9 and language_selected == 5 %}
+									        Japonais
+								        {% endif %}
+								        {% if lang.pk == 9 and language_selected == 6 %}
+									        Giapponese
+								        {% endif %}
+								        {% if lang.pk == 9 and language_selected == 7 %}
+									        Japonês
+								        {% endif %}
+								        {% if lang.pk == 9 and language_selected == 9 %}
+									        日本語
+								        {% endif %}
+								        {% if lang.pk == 9 and language_selected == 1 %}
+									        日文
+								        {% endif %}
+								        {% if lang.pk == 9 and language_selected == 8 %}<!--simplificado-->
+									        日文
+								        {% endif %}
+								        <!------------------CHINO SIMPLIFICADO-------------------->
+								        {% if lang.pk == 8 and language_selected == 4 %}
+									        Chino Simplificado
+								        {% endif %}
+								        {% if lang.pk == 8 and language_selected == 3 %}
+									        Simplified Chinese
+								        {% endif %}
+								        {% if lang.pk == 8 and language_selected == 2 %}
+									        Vereinfachtes Chinesisch
+								        {% endif %}
+								        {% if lang.pk == 8 and language_selected == 5 %}
+									        Chinois simplifié
+								        {% endif %}
+								        {% if lang.pk == 8 and language_selected == 6 %}
+									        Cinese semplificato
+								        {% endif %}
+								        {% if lang.pk == 8 and language_selected == 7 %}
+									        Chinês simplificado
+								        {% endif %}
+								        {% if lang.pk == 8 and language_selected == 9 %}
+									        簡体字中国語
+								        {% endif %}
+								        {% if lang.pk == 8 and language_selected == 1 %}
+								 	        簡體中文
+								        {% endif %}
+								        {% if lang.pk == 8 and language_selected == 8 %}<!--simplificado-->
+									        简体中文
+								        {% endif %}
+										<!------------------CHINO TRADICIONAL-------------------->
+								        {% if lang.pk == 1 and language_selected == 4 %}
+									        Chino Tradicional
+								        {% endif %}
+								        {% if lang.pk == 1 and language_selected == 3 %}
+									        Traditional Chinese
+								        {% endif %}
+								        {% if lang.pk == 1 and language_selected == 2 %}
+									        Traditionelles Chinesisch
+								        {% endif %}
+								        {% if lang.pk == 1 and language_selected == 5 %}
+									        Chinois traditionnel
+								        {% endif %}
+								        {% if lang.pk == 1 and language_selected == 6 %}
+									        Cinese tradizionale
+								        {% endif %}
+								        {% if lang.pk == 1 and language_selected == 7 %}
+									        Chinês tradicional
+								        {% endif %}
+								        {% if lang.pk == 1 and language_selected == 9 %}
+									        繁体字中国語
+								        {% endif %}
+								        {% if lang.pk == 1 and language_selected == 1 %}
+									        繁體中文
+								        {% endif %}
+								        {% if lang.pk == 1 and language_selected == 8 %}<!--simplificado-->
+									        繁体中文
+								        {% endif %}
+							        </option>
+							    {% endfor %}
+						    </select>
+							<div class="invalid-feedback">
+								{% blocktrans %}Seleccione un idioma{% endblocktrans %}
+							</div> 
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-sm-4">
+						<p class="ml-3 mt-3">{% blocktrans %}Fecha{% endblocktrans%}</p>
+						<div id="date-med-right" class="borderDate ml-3 pr-5 pr-sm-0 mr-2 mr-sm-0">
+							<span class="input-group-prepend">
+							    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+							    {% if form.date.value %}
+								    {{ form.date }}
+								    <div class="invalid-feedback">
+										{% blocktrans %}Seleccione una fecha{% endblocktrans %}
+									</div> 
+								    <script>
+									    $(function(){
+										    $('#id_date').ready(function(){
+											    $('#id_date').attr('type','text');
+											    {% if language_selected == 3 %}//en
+												    $('#id_date').datepicker("setDate", '{{ form.date.value|date:"m/d/Y" }}');
+											    {% elif language_selected == 1 %}//zh hant
+												    $('#id_date').datepicker("setDate", '{{ form.date.value|date:"Y/m/d" }}');
+											    {% elif language_selected == 8 %}//zh hans
+												    $('#id_date').datepicker("setDate", '{{ form.date.value|date:"Y/m/d" }}');
+											    {% elif language_selected == 9 %}//ja
+												    $('#id_date').datepicker("setDate", '{{ form.date.value|date:"Y-m-d" }}');
+											    {% elif language_selected == 2 %}//de
+												    $('#id_date').datepicker("setDate", '{{ form.date.value|date:"d.m.Y" }}');
+			                                    {% else %} //Other languages
+												    $('#id_date').datepicker("setDate", '{{ form.date.value|date:"d/m/Y" }}');
+			                                    {% endif %}
+										    });
+									    });
+								    </script>
+							    {% else %}
+								    {{form.date}}
+								    <div class="invalid-feedback">
+									    {% blocktrans %}Seleccione una fecha{% endblocktrans %}	
+								    </div> 
+							    {% endif %}
+							</span>
+						</div>
+					</div>
+					<div class="col-12 col-sm-4">
+						<p class="ml-3 ml-sm-5 mt-3">{% blocktrans %}Publicista{% endblocktrans%}</p>
+						<div class="pl-3 pl-sm-5 pr-3 pr-sm-0 mt-2">
+							{{form.author}}
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca el nombre del publicista{% endblocktrans %}
+							</div> 
+						</div>
+					</div>
+					<div class="col-12 col-sm-4">
+						<p class="ml-3 ml-sm-0 mt-3">{% blocktrans %}Orden{% endblocktrans%}</p>
+						<div class="pl-3 pl-sm-0 pr-3 mt-2 ">
+							{{form.order_created}}
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca el número de orden{% endblocktrans %}
+							</div> 
+						</div>
+					</div>
+				</div>
+				<div>
+					<p class="ml-3 mt-3">{% blocktrans %}Título{% endblocktrans%}</p>
+					<div class="pl-3 pr-3 mt-2 ">
+						{{form.title}}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca el título{% endblocktrans %}
+						</div> 
+					</div>
+				</div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="ml-3 mt-3">{% blocktrans %}Descripción{% endblocktrans%}</p>
+						<input type="hidden" name="description" id="input_description" />
+                        <div id="description" class="pl-3 pr-3 mt-2">
+							<textarea id="description_change" {{form.description}}
+							</textarea>
+                        </div>
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca una descripción{% endblocktrans %}
+						</div> 
+                    </div>
+                </div>
+				<!------------- VIDEO------------>
+				<div class="container-fluid mt-4">
+					<div class="row">
+						<div class="col-12">
+							<p style="font-weight: 700;">{% blocktrans %}VIDEO DEL PRODUCTO{% endblocktrans %}</p>
+						</div>
+					</div>
+				</div>	
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<div class="row padding-row">
+								<div class="col-12 col-sm-6 col-md-3">
+									<label>{% blocktrans %}Video{% endblocktrans %}</label>
+									<div class="custom-file">
+										<input type="file" class="custom-file-input" id="video" name="video">
+										<label class="custom-file-label" for="product-video">{% blocktrans %}Añadir video{% endblocktrans %}</label>
+									</div>
+								</div>
+								<div class="col-12 col-sm-6 col-md-3">
+									<div class="polig foto-img">
+										<video width='100%' controls controlsList="nodownload">
+											{% if bannerindex %}
+												{% if bannerindex.video %}
+													<source id="product-video-reload" src='{{bannerindex.video.url}}' type='video/mp4' >
+												{% else %}
+													<source id="product-video-reload" src='' type='video/mp4' >
+												{% endif %}
+											{% else %}
+												<source id="product-video-reload" src='' type='video/mp4' >
+											{% endif %}
+											{% blocktrans %}Su navegador no soporta la etiqueta de vídeo.{% endblocktrans %}
+										</video>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			    <div class="list-separator mt-5"></div>
+			    <div class="row py-4">
+				    <div class="col-12 d-flex justify-content-center">
+                        <input id="submit_form" type="submit" class="btn btn-primary crm-button-anadir mx-3" value="{% blocktrans %}GUARDAR{% endblocktrans%}">&nbsp;
+					    <a href="{% url 'BannerIndexList' lang='es' %}" type="button" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+    </form>
+    <br />
+</div>
+{% if language_selected == 1 %}<!-- zh hant -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.zh-TW.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 2 %}<!-- de -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.de.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 3 %}<!-- en -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.en-GB.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 4 %}<!-- es -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 5 %}<!-- fr -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.fr.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 6 %}<!-- it -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.it.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 7 %}<!-- pt -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.pt.js' %}" charset="UTF-8"></script>
+{% elif language_selected == 8 %}<!-- zh hans -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.zh-CN.js' %}" charset="UTF-8"></script>
+{% else %}<!-- ja -->
+	<script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.ja.js' %}" charset="UTF-8"></script>
+{% endif %}
+<script>
+	$("#submit_form").on('click', function(){
+		$("#input_description").val($("#description_change").val());
+		//$("#my_banner_form").submit();
+	});
+	//Video
+	$('#video').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 30) {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,25));
+	    }
+	    else {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,25)+'...');
+	    }
+    });
+
+	$(document).on("change", "#video", function(evt) {
+        var $source = $('#product-video-reload');
+        $source[0].src = URL.createObjectURL(this.files[0]);
+        $source.parent()[0].load();
+    });
+	$('#id_date').datepicker({
+		{% if language_selected == 1 %}//zh hant
+	        language: 'zh-TW',
+	    {% elif language_selected == 2 %}//de
+			language: 'de',
+	    {% elif language_selected == 3 %}//en
+			language: 'en-GB',
+	    {% elif language_selected == 4 %}//es
+			language: 'es',
+	    {% elif language_selected == 5 %}//fr
+			language: 'fr',
+	    {% elif language_selected == 6 %}//it
+			language: 'it',
+	    {% elif language_selected == 7 %}//pt
+			language: 'pt',
+	    {% elif language_selected == 8 %}//zh hans
+			language: 'zh-CN',
+	    {% else %}//ja
+			language: 'ja',
+	    {% endif %}
+		autoclose: true,
+		clearBtn: true,
+		todayBtn: 'linked',
+		todayHighlight: true,
+		{% if language_selected == 3 %}//en
+			format: 'mm/dd/yyyy',
+		{% elif language_selected == 8 %}//zh hant
+			format: 'yyyy/mm/dd',
+		{% elif language_selected == 1 %}//zh hans
+			format: 'yyyy/mm/dd',
+		{% elif language_selected == 9 %}//ja
+			format: 'yyyy-mm-dd',
+		{% elif language_selected == 2 %}//de
+			format: 'dd.mm.yyyy',
+		{% else %} //Other languages
+			format: 'dd/mm/yyyy',
+		{% endif %}
+		templates: {
+			leftArrow: '<i class="fas fa-caret-left"></i>',
+            rightArrow: '<i class="fas fa-caret-right"></i>'
+		}
+	});
+</script>
+<script>
+
+	//$("p").addClass("mb-0");
+	$('.custom-file-input').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 20) {
+		    $(inputFile).parent()
+                .find('#label-file')
+                .html(inputFile.files[0].name.substring(0,20));
+	        }
+	        else {
+		        $(inputFile).parent()
+                    .find('#label-file')
+                    .html(inputFile.files[0].name.substring(0,20)+'...');
+	        }
+    }); 
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function (e) {
+			    $('#picture-banner')
+				    .attr('src', e.target.result);
+		    };
+		    reader.readAsDataURL(input.files[0]);
+	    }
+    }
+</script>
+<script>
+	function readURLUpdate(input,value_num) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('#img'+value_num).attr('src', e.target.result);
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	$(document).ready(function(){
+		$("#language").val( "{{language_selected_id}}" );
+	});
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% load staticfiles %}
+{% load i18n %}
+<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+<script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+<link rel="stylesheet" href="{% static 'css/dashboard_client.css' %}">
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+<link rel="stylesheet" href="{% static 'css/dashboard_admin.css' %}">
+<div class="container-fluid">
+    <form method="post" target="_parent">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <h5>¿{% blocktrans %}Desea enviar un correo a {% endblocktrans%} {{user.first_name}} {{user.last_name}}?</h5>
+                <input type="hidden" name="company_id" id="company_id" value="{{user.company.id}}">
+                <input type="hidden" name="user_email" id="user_email" value="{{user.email}}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <button  class="btn btn-primary crm-button-anadir" type="submit">{% blocktrans %}Si, enviar{% endblocktrans%}</button>
+            </div>
+        </div>
+    </form>
+</div>

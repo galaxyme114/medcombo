@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide_company.html' %}
+{% include '../../menu-myweb.html' %}
+<div class="container" style="padding-top: 30px; min-height: 250px;">
+  <div class="row">
+    <div class="col-12 offset-lg-2 col-lg-8">
+      {% if descriptions %}
+        {% for description in descriptions %}
+      <div class="row pb-3"> 
+        <div class="col-12 d-flex justify-content-between align-items-end">
+          <h4 class="mb-0">{% blocktrans %}Sobre Nosotros{% endblocktrans%}</h4>
+          <!--<img class="img-fluid" src="{% static 'img/mattteo.jpg' %}">-->
+        </div>
+      </div> 
+      <div class="row home-text-nosotros">
+        <div class="col-12">
+          <h5>{{ description.title1 }}</h5>
+          <p>{{ description.paragraph1|safe|escape }}</p>
+          <h5>{{ description.title2 }}</h5>
+          <p>{{ description.paragraph2|safe|escape }}</p>
+        </div>
+      </div>
+      <div class="row pt-5">
+        <div class="col-12">
+          <h4>{% blocktrans %}Presentación{% endblocktrans %}</h4>
+        </div>
+      </div>
+      <div class="row home-text-nosotros mb-5">
+        <div class="col-12">
+          <video width='100%' controls controlsList="nodownload">
+            {% if description.video %}
+              <source id="company-video-reload" src='{{ description.video.url }}' type='video/mp4' >
+            {% else %}
+              <source id="company-video-reload" src='' type='video/mp4' >
+            {% endif %}
+            {% blocktrans%}Su navegador no soporta la etiqueta de vídeo.{% endblocktrans %}
+          </video>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+    <div class="col-2"></div>
+  </div>
+</div>
+{% endblock %}

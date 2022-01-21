@@ -1,0 +1,498 @@
+[
+  {
+    "model": "job.contract",
+    "pk": 1,
+    "fields": {
+      "name": "Contrato en Practicas",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 2,
+    "fields": {
+      "name": "Contrato para Formacion y Aprendizaje",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 3,
+    "fields": {
+      "name": "Contrato a Tiempo Parcial",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 4,
+    "fields": {
+      "name": "Contrato Fijo-Discontinuo",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 5,
+    "fields": {
+      "name": "Contrato de Relevo",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 6,
+    "fields": {
+      "name": "Contrato de Trabajo a Domicilio",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 7,
+    "fields": {
+      "name": "Contrato de Tiempo Indefinido",
+      "language": 4
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 8,
+    "fields": {
+      "name": "Full Time",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 9,
+    "fields": {
+      "name": "Part time",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 10,
+    "fields": {
+      "name": "Fixed term",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 11,
+    "fields": {
+      "name": "Temporary",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 12,
+    "fields": {
+      "name": "Freelancers",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 13,
+    "fields": {
+      "name": "Project",
+      "language": 3
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 15, 
+    "fields": {
+      "name": "Unbefristeter Arbeitsvertrag",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 16,
+    "fields": {
+      "name": "Befristeter Arbeitsvertrag",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 17,
+    "fields": {
+      "name": "Projektbezogener Arbeitsvertrag",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 18,
+    "fields": {
+      "name": "Teilzeitarbeitsvertrag",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 19,
+    "fields": {
+      "name": "Aushilfsvertrag",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 20,
+    "fields": {
+      "name": "Arbeitsvertrag mit geringfügig Beschäftigten (450 Euro-Job)",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 21,
+    "fields": {
+      "name": "Vertrag mit freien Mitarbeitern",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 22,
+    "fields": {
+      "name": "Praktikantenvertrag",
+      "language": 2
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 23,
+    "fields": {
+      "name": "Contrat de formation\n",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 24,
+    "fields": {
+      "name": "Contrat de formation et d'apprentissage",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 25,
+    "fields": {
+      "name": "Contrat \u00e0 temps partiel",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 26,
+    "fields": {
+      "name": "Contrat \u00e0 dur\u00e9e d\u00e9termin\u00e9e",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 27,
+    "fields": {
+      "name": "Contrat de relais",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 28,
+    "fields": {
+      "name": "Contrat de devoirs",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 29,
+    "fields": {
+      "name": "Contrat \u00e0 dur\u00e9e d\u00e9termin\u00e9e illimit\u00e9",
+      "language": 5
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 30,
+    "fields": {
+      "name": "Contratto di formazione",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 31,
+    "fields": {
+      "name": "Contratto di formazione e apprendistato",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 32,
+    "fields": {
+      "name": "Contratto part-time",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 33,
+    "fields": {
+      "name": "Contratto a tempo determinato",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 34,
+    "fields": {
+      "name": "Contratto di ritrasmissione",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 35,
+    "fields": {
+      "name": "Contratto di lavoro da casa",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 36,
+    "fields": {
+      "name": "Contratto a tempo illimitato",
+      "language": 6
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 37,
+    "fields": {
+      "name": "Contrato de treinamento",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 38,
+    "fields": {
+      "name": "Contrato de forma\u00e7\u00e3o e aprendizagem\n",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 39,
+    "fields": {
+      "name": "Contrato de meio per\u00edodo",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 40,
+    "fields": {
+      "name": "Contrato a termo certo",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 41,
+    "fields": {
+      "name": "Contrato de retransmiss\u00e3o",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 42,
+    "fields": {
+      "name": "Contrato de li\u00e7\u00e3o de casa",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 43,
+    "fields": {
+      "name": "Contrato por tempo ilimitado",
+      "language": 7
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 44,
+    "fields": {
+      "name": "\u6b63\u898f\u793e\u54e1",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 45,
+    "fields": {
+      "name": "\u5951\u7d04\u793e\u54e1\u0028\u6e96\u793e\u54e1\u0029",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 46,
+    "fields": {
+      "name": "\u30d1\u30fc\u30c8\uff0f\u30a2\u30eb\u30d0\u30a4\u30c8",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 47,
+    "fields": {
+      "name": "\u5631\u8a17\u793e\u54e1",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 48,
+    "fields": {
+      "name": "\u6d3e\u9063\u793e\u54e1",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 49,
+    "fields": {
+      "name": "\u59d4\u8a17\u793e\u54e1",
+      "language": 9
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 50,
+    "fields": {
+      "name": "\u5b9e\u4e60\u5408\u540c",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 51,
+    "fields": {
+      "name": "\u57f9\u8bad\u5408\u540c",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 52,
+    "fields": {
+      "name": "\u517c\u804c\u5408\u540c",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 53,
+    "fields": {
+      "name": "\u56fa\u5b9a\u4e0d\u8fde\u7eed\u5408\u540c",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 54,
+    "fields": {
+      "name": "\u63a5\u529b\u5408\u540c",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 55,
+    "fields": {
+      "name": "\u5bb6\u5ead\u5de5\u4f5c\u5408\u540c",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 56,
+    "fields": {
+      "name": "\u65e0\u9650\u671f\u5408\u540c",
+      "language": 8
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 57,
+    "fields": {
+      "name": "\u5be6\u7fd2\u5408\u540c",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 58,
+    "fields": {
+      "name": "\u57f9\u8a13\u5408\u540c",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 59,
+    "fields": {
+      "name": "\u517c\u8077\u5408\u540c",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 60,
+    "fields": {
+      "name": "\u56fa\u5b9a\u4e0d\u9023\u7e8c\u5408\u540c\n",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 61,
+    "fields": {
+      "name": "\u63a5\u529b\u5408\u540c",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 62,
+    "fields": {
+      "name": "\u5bb6\u5ead\u5de5\u4f5c\u5408\u540c\n",
+      "language": 1
+    }
+  },
+  {
+    "model": "job.contract",
+    "pk": 63,
+    "fields": {
+      "name": "\u7121\u9650\u671f\u5408\u540c",
+      "language": 1
+    }
+  }
+]

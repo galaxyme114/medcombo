@@ -1,0 +1,306 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="col-lg-10 background">
+	<div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <p class="text-home-job">{% blocktrans %}Productos{% endblocktrans%}</p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <a href="{% url 'MywebProductCreate' %}">
+				<button type="button" class="datos-form-buttom">{% blocktrans %}NUEVO PRODUCTO{% endblocktrans%}</button>
+			</a>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+	<div class="col-lg-10">
+		<div class="container-fluid pb-5">
+			<div class="row">
+				<div class="col-12">
+					<div class="row mb-3">
+						<div class="col-12 col-md-7 mb-2">
+							<div>
+								<a href="{% url 'MywebProductAdmininistrar' %}">
+									<button type="button" class="datos-form-btn">{% blocktrans %}PRIORIZAR PRODUCTO{% endblocktrans%}</button>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="row mt-2 mb-4">
+						<div class="col-12 col-md-10 pr-0 mr-0" >
+							<div class="perfilText2 text-justify"><span>{% blocktrans %}Desde la opcion “PRIORIZAR PRODUCTO” podrá decidir los productos que considere mas importantes o quiera dar mayor visibilidad en las búsquedas{% endblocktrans %}</span></div>
+						</div>
+					</div>
+					<div id="container_list" class="row padding-row ventana-productos-two">
+					    {% for product in products %}
+						    {% if request.user.company == product.company %}
+						        <div id="lang" data-language="{{product.language.value_language}}" class="col-12 col-sm-6 col-md-4 col-xl-3 mb-3" style="background-color: #fff;margin-right: 36px; border-radius: 8px;">
+							        <div class="row pl-3">
+								        <div class="col-12 d-flex justify-content-between score pb-2 pt-2">
+									        <span class="jRating" id="jRating{{forloop.counter0}}">
+										        <span class="jRating-star" index="0"></span>
+										        <span class="jRating-star" index="1"></span>
+										        <span class="jRating-star" index="2"></span>
+										        <span class="jRating-star" index="3"></span>
+											    <span class="jRating-star" index="4"></span>
+											    <span class="jRating-number"></span>
+									        </span>
+									        {% if product.approved == False %}
+									        <p style="color:red;font-size:12px;">{% blocktrans %}Pendiente confirmar{% endblocktrans %}</p>
+									        {% endif %}	
+									        	
+								        </div>
+							        </div>
+							        
+							        <div class="myweb-list-img">
+								        {% if product.picture %}
+								        	{% if product.approved == False %}
+								        		<img src="{{ product.picture.url }}" style="filter: opacity(0.3);" height="130px" width="auto">
+									        
+									        {% else %}
+									        	<img src="{{ product.picture.url }}" height="130px" width="auto">
+									        {% endif %}
+									        	
+								        {% else %}
+								        	{% if product.approved == False %}
+									        <img src="{% static 'img/default.png' %}" class="graycolor" height="130px" width="auto">
+									        {% else %}
+									        	
+									        <img src="{% static 'img/default.png' %}" height="130px" width="auto">
+									        {% endif %}
+								        {% endif %}
+								        <style type="text/css">
+								        	.graycolor{
+								        		-webkit-filter: grayscale(100%);
+								        		filter: grayscale(100%);
+								        	}
+								        </style>
+							        </div>
+									<p class="pt-3">{{ product.name }}</p>
+                                    <div class="myweb-list-keywords mt-2">
+								        <div class="col-12 d-flex score pb-2 pt-2">
+											<ul class="list-group" style="list-style: none;">
+												{% for key in product.keyword.all %}
+													{% if key %}
+													    {% if forloop.counter0 < 3 %}
+													        <li class="pb-2">
+														        <span class="" style="padding-right: .15rem;">{{key.name}}</span>
+														        <button id="{{product.pk}}eliminar{{key.pk}}" type="button" class="btn btn-outline-info" style="font-size: 0.7rem;padding: .175rem .475rem!important;">x</button>
+															</li>
+														{% endif %}
+														{% if forloop.counter0 == 3 %}
+														    <li class="pb-2">
+															    <button data-number="0" id="button-display-key{{product.pk}}" type="button" class="btn btn-outline-info" style="font-size: 0.7rem;padding: .175rem .475rem!important;">{% blocktrans %}Ver mas{% endblocktrans %}</button>
+															</li>
+															<li class="pb-2 display-key-list{{product.pk}}" style="display: none;">-----------------------------</li>
+															<script>
+																var word_more = "{% blocktrans %}Ver mas{% endblocktrans %}";
+																var word_minus = "{% blocktrans %}Ver menos{% endblocktrans %}";
+																$('#button-display-key{{product.pk}}').click(function(){
+																	if($('#button-display-key{{product.pk}}').attr('data-number') == 0){
+																		$('.display-key-list{{product.pk}}').css('display','inline');
+																		$('#button-display-key{{product.pk}}').attr('data-number',1);
+																		$('#button-display-key{{product.pk}}').text(word_minus);
+																	}
+																	else {
+																		$('.display-key-list{{product.pk}}').css('display','none');
+																		$('#button-display-key{{product.pk}}').attr('data-number',0);
+																		$('#button-display-key{{product.pk}}').text(word_more);
+																	}
+																});
+															</script>
+														{% endif %}
+														{% if forloop.counter0 > 2 %}
+														    <li class="pb-2 display-key-list{{product.pk}}" style="display: none;">
+															    <span class="" style="padding-right: .15rem;">{{key.name}}</span>
+															    <button id="{{product.pk}}eliminar{{key.pk}}" type="button" class="btn btn-outline-info" style="font-size: 0.7rem;padding: .175rem .475rem!important;">x</button>
+														    </li>
+														{% endif %}
+													{% else %}
+										        	    <span>{% blocktrans %}No posee palabra clave...{% endblocktrans %}</span>
+													{% endif %}
+													<script>
+										        		$("#{{product.pk}}eliminar{{key.pk}}").click(function () {
+										        			var url = "{% url 'ajax_eliminar_keyword_product' %}";  
+										        			var id_producto = '{{product.pk}}';
+										        			var id_keyword = '{{key.pk}}';
+										        			$.ajax({
+										        				url: url,
+										        				data: {
+										        					'id_producto': id_producto,
+										        					'id_keyword': id_keyword,
+										        				},
+										        				success: function (data) {
+																	$.notify("{% blocktrans %}palabra eliminada{% endblocktrans %}", "error");
+																	setTimeout(function(){
+																		location.href = "{% url 'MyWebProductAdminList' %}";
+																	},250);
+										        				}
+										        			});
+										        		});
+										        	</script>
+												{% endfor %}
+											</ul>
+                                        </div>
+
+							        </div>
+							        <div class="myweb-list-editImg pt-2 pb-4">
+										<div class="pull-left pl-3">
+											<span class="mt-2 d-none d-lg-inline" style="font-size: 14px;">
+												{{product.language.value_language|upper}}&nbsp;&nbsp;<img src="{% static ''%}img/flag/{{product.language.value_language|lower}}.png" style="width: 28px;height: auto;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{product.language.name_language}}"  />
+											</span>
+										</div>
+										<div class="pull-right pr-3">
+											{% if product.language.pk == 4 %}
+												<a href="{% url 'MywebProductUpdate' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+											{% endif %}
+											{% if product.language.pk == 1 %}
+												<a href="{% url 'MywebProductUpdateChinoTradicional' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+											{% endif %}
+											{% if product.language.pk == 2 %}
+												<a href="{% url 'MywebProductUpdateAleman' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+											{% endif %}
+											{% if product.language.pk == 3 %}
+												<a href="{% url 'MywebProductUpdateIngles' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+											{% endif %}
+											{% if product.language.pk == 5 %}
+												<a href="{% url 'MywebProductUpdateFrances' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+											{% endif %}
+											{% if product.language.pk == 6 %}
+												<a href="{% url 'MywebProductUpdateItaliano' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+											{% endif %}
+											{% if product.language.pk == 7 %}
+												<a href="{% url 'MywebProductUpdatePortugues' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+											{% endif %}
+											{% if product.language.pk == 8 %}
+												<a href="{% url 'MywebProductUpdateChinoSimplificado' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+											{% endif %}
+											{% if product.language.pk == 9 %}
+												<a href="{% url 'MywebProductUpdateJapones' product.id %}"><i class="fas fa-pen pr-2"></i></a>
+											{% endif %}
+											<span id="my_hover" class="my_cursor" data-toggle="modal" onclick="delete_item({{ product.id }})"><i class="fas fa-trash-alt"></i></span>
+										</div>
+									</div>
+									
+							        <div class="bottom-divider"></div>
+						        </div>
+							    <script>
+								    $(document).ready(function(){
+									    var number_counter = '{{forloop.counter0}}';
+									    var product_rating = '{{product.rating_average}}';
+									    if(Number.isInteger(product_rating) == true){
+										    product_rating = parseInt('{{product.rating_average}}');
+									    }
+									    else {
+										    if(parseInt('{{product.rating_average}}') == 0) {
+											    product_rating = parseInt('{{product.rating_average}}');
+										    }
+										    else {
+											    product_rating = parseInt('{{product.rating_average}}') + 0.5;
+										    }
+									    }
+									    new JRating(document.getElementById('jRating'+number_counter), product_rating, false);
+								    });
+							    </script>
+						    {% endif %}
+					    {% endfor %}
+					</div>
+					{% comment %} {% if page_obj.has_next %}
+						<a class="infinite-more-link" href="?page={{ products.next_page_number }}"></a>
+					{% endif %}
+					<div class="d-flex justify-content-center" style="display:none;">
+						<div class="spinner-border" role="status">
+							<span class="sr-only">{% blocktrans %}Loading...{% endblocktrans %}</span>
+						</div>
+					</div> {% endcomment %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% comment %} <script type="text/javascript" src="{% static 'js/infinite/jquery.waypoints.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/infinite/infinite.min.js' %}"></script> {% endcomment %}
+<div class="modal fade" id="delete-product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog modal-xs">
+		<div class="modal-content" style="border-radius: 25px;">
+			<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				<div class="d-flex align-items-center">
+					<i class="fas fa-trash-alt icons_size_title"></i>
+					<p class="modal-title ml-3 text_size_title mt-1" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR PRODUCTO{% endblocktrans%}</p>
+				</div>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="color: #fff;">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 d-flex justify-content-start">
+					<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+				</div>
+			</div>
+			<input type="hidden" value="-1" id="product-select" />
+			<div class="modal-footer">
+				<div class="col-12 d-flex justify-content-center">
+					<button id="delete-button" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+					<button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function delete_item(id){
+		$("#product-select").val(id);
+		$("#delete-product").modal();
+	}
+	$('#delete-button').click(function(e){
+		var value = $("#product-select").val();
+		var url = '{% url "ProductDelete" %}';
+		var token = '{{csrf_token}}';
+		$.ajax({
+			headers: { "X-CSRFToken": token },
+			method: 'POST',
+			url: url,
+			data: {
+				'value': value
+			},
+			success: function(data) {
+				if(data == 'Ok') {
+					location.href = '{% url "MyWebProductAdminList" %}';
+				}
+			}
+		});
+	});
+</script>
+<script type="text/javascript">
+	//Video
+	$('#csv').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 30) {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,25));
+	    }
+	    else {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,25)+'...');
+	    }
+    });
+	{% comment %} var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+        
+			},
+		//offset: 'bottom-in-view',
+		onBeforePageLoad: function () {
+		$('.spinner-border').show();
+		},
+		onAfterPageLoad: function () {
+		$('.spinner-border').hide();
+		}
+        
+    }); {% endcomment %}
+</script>
+{% endblock %}

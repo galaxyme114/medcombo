@@ -1,0 +1,219 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-3 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}LEADS{% endblocktrans %}</h5>
+		</div>
+		<div class="col-12 col-sm-6 col-md-2">
+			<button type="button" class="btn btn-primary crm-button-anadir mb-1" data-toggle="modal" data-target="#create">{% blocktrans %}AÑADIR{% endblocktrans %}</button>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<div class="row d-flex align-items-end">
+		<div class="col-12 col-md-6 padding-movil">
+			<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content" style="border-radius: 25px;">
+						<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+							<div class="d-flex align-items-center">
+							    <i class="far fa-user fa-flip-horizontal icons_size_title_second"></i>
+							    <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}AÑADIR LEAD{% endblocktrans %}</p>
+							</div>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span style="color: white;" aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<object height="820" width="101%" data="{% url 'CreateContacCrm' %}"></object>
+						</div>
+					</div>
+				</div>
+			</div>	
+			<div class="input-group flex-nowrap">
+				<input id="search_contact" type="search" class="form-control input-right-border" placeholder={% blocktrans %}"Buscar"{% endblocktrans %}>
+				<div class="input-group-prepend">
+					<span class="input-group-text my_cursor" id="buscar-fa"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-md-4">
+			{{my_country.country}}
+			<script>
+				$(function(){
+					$('#id_country').removeAttr('required');
+				});
+			</script>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+	<div class="row py-4">
+		<div class="col-12">
+			<div id="contact-table">
+				<table class="table" style="min-width: 1500px;">
+			        <thead>
+			            <tr>
+			                <th scope="col">{% blocktrans %}Nombre{% endblocktrans %}</th>
+							<th scope="col">{% blocktrans %}Teléfono{% endblocktrans %}</th>
+							<th scope="col">{% blocktrans %}Móvil{% endblocktrans %}</th>
+							<th scope="col">{% blocktrans %}Email{% endblocktrans %}</th>
+							<th scope="col">{% blocktrans %}Wechat{% endblocktrans %}</th>
+			                <th scope="col">{% blocktrans %}Empresa{% endblocktrans %}</th>
+			                <th scope="col">{% blocktrans %}País{% endblocktrans %}</th>
+			                <th scope="col">{% blocktrans %}Seguimiento{% endblocktrans %}</th>
+				            <th scope="col">{% blocktrans %}Creado{% endblocktrans %}</th>
+			                <th scope="col">{% blocktrans %}Modificar{% endblocktrans %}</th>
+			            </tr>
+			        </thead>
+			        {% if object_list %}
+			            <tbody>
+		                    {% for solicitud in object_list %}
+		                        <tr>
+			                        <td><a href="{% url 'DetailContacCrm' solicitud.id %}">{{solicitud.first_name}} {{solicitud.last_name}}</a></td>
+									<td>{{solicitud.telephone}}</td>
+									<td>{{solicitud.movil}}</td>
+									<td>{{solicitud.email}}</td>
+									<td>{{solicitud.wechat}}</td>
+			                        <td>{{solicitud.company.name}}</td>
+			                        <td>{{solicitud.country}}</td>
+			                        <td>
+										{% for t in solicitud.tracing.all %}
+											{{t}}<br>
+										{% endfor %}
+										</td>
+									</td>
+			                        <!--<td>
+			                        	<button type="button" class="btn btn-primary btnTable">{% blocktrans %}Crear usuario{% endblocktrans %}</button>
+									</td>-->
+									<td>{{solicitud.date_joined|date:"Y-m-d"}}</td>
+		 	                        <td class="text-left">
+												<a href="#" class="my_color" id="add_user{{solicitud.pk}}"><i class= "fas fa-user-plus"></i></a>
+				                        <span class="my_cursor my_hover" data-toggle="modal" data-target="#update{{ solicitud.pk }}"><i class="pl-1 fas fa-pen"></i></span>
+				                        <span class="my_cursor my_hover" data-toggle="modal" data-target="#delete{{ solicitud.pk }}"><i class="pl-1 fas fa-trash-alt"></i></span>
+				                     </td>
+			                    	</tr>
+			                    	<div class="modal fade" id="update{{ solicitud.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+				                    <div class="modal-dialog modal-xl">
+					                    <div class="modal-content" style="border-radius: 25px;">
+						                    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+								                <div class="d-flex align-items-center">
+								                    <i class="fas fa-pen icons_size_title_second"></i>
+							                        <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}MODIFICAR CONTACTO{% endblocktrans %}</p>
+							                    </div>
+							                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								                    <span aria-hidden="true" style="color: #fff;">&times;</span>
+							                    </button>
+						                    </div>
+						                    <div class="modal-body">
+							                    <object height="820" width="101%" data="{% url 'UpdateContacCrm' solicitud.pk %}"></object>
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </div>
+			                    <div class="modal fade" id="delete{{ solicitud.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+				                    <div class="modal-dialog modal-xs">
+					                    <div class="modal-content" style="border-radius: 25px;">
+						                    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+								                <div class="d-flex align-items-center">
+								                    <i class="fas fa-trash-alt icons_size_title_second"></i>
+							                        <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR CONTACTO{% endblocktrans %}</p>
+							                    </div>
+							                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								                    <span aria-hidden="true" style="color: #fff;">&times;</span>
+							                    </button>
+						                    </div>
+						                    <div class="modal-body">
+								                <div class="col-12 d-flex justify-content-start">
+									                <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+							                    </div>
+						                    </div>
+						                    <div class="modal-footer">
+						                        <div class="col-12 d-flex justify-content-center">
+							                        <button id="delete-contact{{solicitud.pk}}" data-del="{{solicitud.pk}}" class="btn btn-primary crm-button-anadir mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+							                        <button data-dismiss="modal" class="btn btn-primary crm-button-anadir" >{% blocktrans %}NO{% endblocktrans %}</button>
+							                    </div>
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </div>
+			                    <script>
+                                    $('#delete-contact{{solicitud.pk}}').click(function(e){
+                                        var value = '{{solicitud.pk}}';
+                                        var url = '{% url "ContactDeleteCrm" %}';
+                                        var token = '{{csrf_token}}';
+                                        $.ajax({
+                                            headers: { "X-CSRFToken": token },
+                                            method: 'POST',
+                                            url: url,
+                                            data: {
+                                                'value': value
+                                            },
+                                            success: function(data) {
+                                                if(data == 'Ok') {
+                                                    location.reload();
+                                                }
+                                            }
+                                        });
+                                    });
+								</script>
+								
+								<script>
+									$('#add_user{{solicitud.pk}}').click(function(){
+										var value_user = '{{solicitud.pk}}';
+										var url = '{% url "add_user_lead" %}';
+										var token = '{{csrf_token}}';
+										$.ajax({
+											headers: { "X-CSRFToken": token },
+											method: 'POST',
+											url: url,
+											data: {
+												'value': value_user
+											},
+											success: function(data) {
+												if(data == 'Ok') {
+													location.reload();
+												}
+											}
+										});
+									});
+								</script>
+		                    {% endfor %}
+	                    </tbody>
+		            {% else %}
+		                <tbody><tr><td><h5>{% blocktrans %}No hay registro de contactos{% endblocktrans %}</h5></td></tr></tbody>
+		            {% endif %}
+			    </table>
+			    <script>
+				    $("#search_contact").keyup(function(){
+					    _this = this;
+					    // Show only matching TR, hide rest of them
+					    $.each($("table tbody tr"), function() {
+						    if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+							    $(this).hide();
+						    }
+						    else {
+							    $(this).show();
+						    }
+					    });
+				    });
+				    $('#id_country').change(function(){
+					    _this = $('#id_country option:selected').text();
+					    // Show only matching TR, hide rest of them
+				  	    $.each($("table tbody tr"), function() {
+						    if($(this).text().toLowerCase().indexOf(_this.toLowerCase()) === -1){
+							    $(this).hide();
+					 	    }
+						    else {
+							    $(this).show();
+						    }
+					    });
+				    });
+			    </script>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

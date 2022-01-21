@@ -1,0 +1,149 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-2 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}Logos footer{% endblocktrans %}</h5>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<br />
+	<!--Create Banner-->
+    <form id="my_form" class="needs-validation mb-3" action="." method="POST" enctype="multipart/form-data" novalidate>
+		{% csrf_token %}
+	    <div class="row m-0 list-fondo">
+			<div class="text-center-container">
+				{% if form.errors %}
+					{% for field in form %}
+						{% for error in field.errors %}
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
+					{% for error in form.non_field_errors %}
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endif %}
+		    </div>
+		    <div class="col-12">
+				<div class="row">
+					
+				</div>
+				<div class="row mt-4">
+					<div class="col-12 d-md-flex">
+						<div class="col-12 col-md-6">
+							<div class="col-12" style="text-align: center;">
+	                            {% if companylogo %}
+	                                {% if companylogo.picture %}
+	                                    <img id="picture-banner" src="{{companylogo.picture.url}}" class="img-thumbnail" alt="" width="220" >
+	                                {% else %}
+	                                    <img id="picture-banner" src="/static/img/default.png" class="img-thumbnail" alt="" width="220" >
+	                                {% endif %}
+	                            {% else %}
+	                                <img id="picture-banner" src="/static/img/default.png" class="img-thumbnail" alt="" width="220" >
+	                            {% endif %}
+							</div>
+							<div class="col-12">
+								<div class="col-12 col-md-8 offset-md-2 update-banner p-0 mt-5">
+									<span class="d-flex" style="border: solid 1px #b5b6b6; width: 100%;">
+										<i class="fas fa-file"></i>
+										<span class="custom-file">
+											<label id="label-file" class="mt-2" for="customFileBanner"></label>
+											{{form.picture}}
+											<div class="invalid-feedback">
+												{% blocktrans %}Seleccione una imagen{% endblocktrans %}
+											</div> 
+										</span>
+									</span>
+								</div>
+							</div> 
+						</div>
+						<div class="col-12 col-md-6">
+							<div>
+								<p class="ml-3 mt-3">{% blocktrans %}Título{% endblocktrans%}</p>
+								<div class="pl-3 pr-3 mt-2 ">
+									{{form.title}}
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca el título{% endblocktrans %}
+									</div> 
+								</div>
+							</div>
+							<div>
+								<p class="ml-3 mt-3">{% blocktrans %}Enlace{% endblocktrans%}</p>
+								<div class="pl-3 pr-3 mt-2 update-anadir-banner">
+									{{form.url}}
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca una url{% endblocktrans %}
+									</div> 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="list-separator mt-5"></div>
+			    <div class="row py-4">
+				    <div class="col-12 d-flex justify-content-center">
+                        <input id="submit_form" type="submit" class="btn btn-primary crm-button-anadir mx-3" value="{% blocktrans %}GUARDAR{% endblocktrans%}">&nbsp;
+					    <a href="{% url 'CompanyLogoList' %}" type="button" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+    </form>
+    <br />
+</div>
+
+<script>
+
+	$('.custom-file-input').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 40) {
+		    $(inputFile).parent()
+                .find('#label-file')
+                .html(inputFile.files[0].name.substring(0,40));
+	        }
+	        else {
+		        $(inputFile).parent()
+                    .find('#label-file')
+                    .html(inputFile.files[0].name.substring(0,40)+'...');
+	        }
+    }); 
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function (e) {
+			    $('#picture-banner')
+				    .attr('src', e.target.result);
+		    };
+		    reader.readAsDataURL(input.files[0]);
+	    }
+    }
+</script>
+<script>
+	function readURLUpdate(input,value_num) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('#img'+value_num).attr('src', e.target.result);
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	$(document).ready(function(){
+		$
+	});
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

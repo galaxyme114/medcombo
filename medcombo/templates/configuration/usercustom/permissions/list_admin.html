@@ -1,0 +1,178 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}{% blocktrans %}Usuarios of Medcombo{% endblocktrans%}{% endblock %}
+{% block css %}{% endblock %}
+{% block content %}
+<style>
+    .contact-data-table {
+		background-color: #fff;
+		border: solid 1px #b5b6b6;
+		border-radius: 10px;
+		overflow-y: auto;
+		padding: 20px;
+	}
+	.dataTables_filter input[type="search"] {
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		-ms-border-radius: 0;
+		border-radius: 0;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		-ms-box-shadow: none;
+		box-shadow: none;
+		border: none;
+		font-size: 12px;
+		transition: 0.25s ease-in;
+    	border-bottom: 2px solid #1f91f3;
+	}
+    .dataTables_filter {
+        display: none;
+    }
+    #buscar-fa {
+        border-left: none;
+        background-color: #fff;
+    }
+</style>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'datatables/css/jquery.dataTables.css' %}">
+<script src="{% static 'datatables/js/jquery.dataTables.js' %}"></script>
+<div class="col-12 col-lg-10 background">
+    <div class="row mb-1">
+		<div class="col-12 col-sm-6 col-md-6">
+			<h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}LISTA DE USUARIOS{% endblocktrans%}</h5>
+		</div>
+	</div>
+	<div class="title-seperator row mb-2"></div>
+    <div class="row py-4">
+        <div class="col-12">
+            <div class="contact-data-table">
+                <table id="datatables" class="table table-striped table-hover dataTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">{% blocktrans %}Usuarios{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Nombres{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Apellidos{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Ocupación{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}País{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Creado{% endblocktrans%}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in object_list %}
+                            {% if not user.is_superuser %}
+                                <tr>
+                                    <td>{{user.username}}</td>
+                                    <td>{{user.first_name}}</td>
+                                    <td>{{user.last_name}}</td>
+                                    <td>{{user.work.name}}</td>
+                                    <td>{{user.country.name}}</td>
+                                    <td>{{user.date_joined|date:"d-m-Y"}}</td>
+                                    <td>
+                                        <a href="{% url 'UserPassUpdateAdmin' user.pk %}" class="my_color"><i class="fas fa-key mr-2"></i></a>
+                                        <a href="#" class="my_color" data-toggle="modal" onclick="delete_user({{ user.pk }})"><i class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                            
+                            {% endif %}
+                        {% empty %}
+                            <td></td>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Delete-->
+<div class="modal fade" id="delete-select-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xs">
+        <div class="modal-content" style="border-radius: 25px;">
+            <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                <div class="d-flex align-items-center">
+                    <i class="pl-3 fas fa-trash-alt icons_size_title_second"></i>
+                    <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR USUARIO{% endblocktrans %}</p>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color: #fff;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 d-flex justify-content-center">
+                    <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+                </div>
+            </div>
+            <input type="hidden" id="delete_user_sel" value="-1" />
+            <div class="modal-footer justify-content-center">
+                <button id="delete-button" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+                <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% block javascript %}
+    <script>
+        $('#datatables').DataTable({
+            "pageLength": 25,
+            {% if LANGUAGE_CODE == 'es' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+            },
+            {% elif LANGUAGE_CODE == 'de' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/German.json"
+            },
+            {% elif LANGUAGE_CODE == 'en' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
+            },
+
+            {% elif LANGUAGE_CODE == 'fr' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/French.json"
+            },
+            {% elif LANGUAGE_CODE == 'ja' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Japanese.json"
+            },
+            {% elif LANGUAGE_CODE == 'pt' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese.json"
+            },
+
+            {% elif LANGUAGE_CODE == 'it' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Italian.json"
+            },
+            
+            {% elif LANGUAGE_CODE == 'zh-hans' or LANGUAGE_CODE == 'zh-hant' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Chinese.json"
+            },
+            {% endif %} 
+        });
+        $("p").addClass("mb-0");
+        function delete_user(id){
+            $("#delete_user_sel").val(id);
+            $("#delete-select-user").modal();
+        }
+        $('#delete-button').click(function(e){
+            var user = $("#delete_user_sel").val();
+            var url = '{% url "admin_user_delete" %}';
+            var token = '{{csrf_token}}';
+                $.ajax({
+                    headers: { "X-CSRFToken": token },
+                    method: 'POST',
+                    url: url,
+                    data: {
+                        'user': user
+                    },
+                    success: function(data) {
+                        location.reload();
+                    }
+                });
+            });
+    </script>
+{% endblock %}
+{% endblock %}

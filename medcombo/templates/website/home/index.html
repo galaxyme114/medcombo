@@ -1,0 +1,383 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load filter %}
+{% block content %}
+{% include '../../slide.html' %}
+<!-- ################## ACORDEON CATEGORIA #################### -->
+<!-- ACORDEON FILA -->
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="p-3">
+    <h1 class="text-center text-primary hero">{% blocktrans %}B2B Marketplace for Medical Industry{% endblocktrans%}</h1>
+</div>
+<!--area-->
+<div class="container-fluid pl-4 pr-4 mt-2" style="padding-bottom: 5px;">
+    <div class="row m-0">
+        <div class="col-4 col-sm-4 col-md-2 col-xl-1 pl-0 pr-0 pt-2">
+            <h5><strong style="color:#7f9bcd">{% blocktrans %}CATEGORÍA{% endblocktrans%}</strong></h5>
+        </div>
+        <div class="col-8 col-sm-8 col-md-10 col-xl-11">
+            <hr style="border-top: 1px solid #7f9bcd;">
+        </div>
+    </div>
+</div>
+
+<div class="container banner-container">
+    <div class="row d-flex justify-content-center mx-0 px-0" >
+        <!-- ACORDEON COLUMNA #1 -->
+        <div class="col-12 col-lg-4" style="padding-left: 27px; padding-right: 28px;">
+            <!--Accordion wrapper-->
+            <div class="accordion md-accordion accordion-2" id="accordionEx1" role="tablist" aria-multiselectable="true">
+                <!-- Accordion card #1 -->
+                {% for areaone in area1 %}
+                    {% if areaone.language.pk == language_selected %}
+                        <div class="card card-bord" style="padding-top: 20px;">
+                            <!-- Card header -->
+                            <div class="card-header" role="tab" id="heading1">
+                                <a class="subra" data-toggle="collapse" data-parent="#accordionEx1" href="#areaone{{areaone.pk}}" aria-expanded="true" aria-controls="collapse1">
+                                    <div class="mb-0 white-text text-left font-thin">
+                                        {% if areaone.image %}
+                                            <!---------- areas sin categorias con key -------------->
+                                            {% if areaone.category.all or areaone.has_keyword == False %}
+                                                <img src="{{ areaone.image.url }}" class="imgCateHome" alt="{{areaone.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areaone.name|filter}}" target="_blank">{{areaone.name}}</a></span><a class="subra" data-toggle="collapse" data-parent="#accordionEx1" href="#areaone{{areaone.pk}}" aria-expanded="true" aria-controls="collapse1"> <i class="fas fa-plus float-right plus-cat"></i></a>
+                                            {% else %}
+                                                {% if areaone.has_keyword == True %}
+                                                    <img src="{{ areaone.image.url }}" class="imgCateHome" alt="{{areaone.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areaone.name|filter}}" target="_blank">{{areaone.name}}</a></span> <i class="fas fa-minus float-right plus-cat"></i>
+                                                {% endif %}
+                                            {% endif %}
+                                            <!------- fin areas sin categorias con key  -------------->
+                                        {% else %}
+                                            <!---------- areas sin categorias con key -------------->
+                                            {% if areaone.category.all or areaone.has_keyword == False %}
+                                                <img src="{% static 'img/ic_phy.jpg' %}" class="imgCateHome" alt="{{areaone.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areaone.name|filter}}" target="_blank">{{areaone.name}}</a></span> <a class="subra" data-toggle="collapse" data-parent="#accordionEx1" href="#areaone{{areaone.pk}}" aria-expanded="true" aria-controls="collapse1"><i class="fas fa-plus float-right plus-cat"></i></a>
+                                            {% else %}
+                                                {% if areaone.has_keyword == True %}
+                                                    <img src="{% static 'img/ic_phy.jpg' %}" class="imgCateHome" alt="{{areaone.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areaone.name|filter}}" target="_blank">{{areaone.name}}</a></span> <i class="fas fa-minus float-right plus-cat"></i>
+                                                {% endif %}
+                                            {% endif %}
+                                            <!------- fin areas sin categorias con key  -------------->
+                                        {% endif %}
+                                    </div>
+                                </a> 
+                            </div>
+  
+                            <!-- Card body -->
+                            <div id="areaone{{areaone.pk}}" class="collapse" role="tabpanel" aria-labelledby="heading1" data-parent="#accordionEx1">
+                                <div class="card-body mb-1 rgba-grey-light white-text"><!--CARDBODY #1 -->
+                                    <!--Accordion wrapper-->
+                                    <div class="accordion md-accordion accordion-2 pad-cat" id="accordionEx11" role="tablist" aria-multiselectable="true">
+                                        <!-- Accordion card #1 -->
+                                        {% for categoryone in areaone.category.all %}
+                                            {% if categoryone.language.pk == language_selected and categoryone.active == True %}
+                                                <div class="card card-bord">
+                                                    <!-- Card header -->
+                                                    <div class="card-header" role="tab" id="heading11">
+                                                        <a class="subra" data-toggle="collapse" data-parent="#accordionEx11" href="#categoryone{{categoryone.pk}}" aria-expanded="true" aria-controls="collapse11">
+                                                            <div class="mb-0 white-text text-left font-thin">
+                                                                <!---------- categorias sin subcategorias con key -------------->
+                                                                {% if categoryone.subcategory.all or areaone.has_keyword == False %}
+                                                                    <i class="fas fa-angle-right"></i> <span class="txt-cat"><a class="adj-font" href="/subcategories/{{areaone.name|filter}}/{{categoryone.name|filter}}" target="_blank">{{categoryone.name}}</a></span> <a class="subra" data-toggle="collapse" data-parent="#accordionEx11" href="#categoryone{{categoryone.pk}}" aria-expanded="true" aria-controls="collapse11"><i class="fas fa-plus float-right plus-cat"></i></a>
+                                                                {% else %}
+                                                                    {% if areaone.has_keyword == True %}
+                                                                    <i class="fas fa-angle-right"></i> <span class="txt-cat"><a class="adj-font" href="/subcategories/{{areaone.name|filter}}/{{categoryone.name|filter}}" target="_blank">{{categoryone.name}}</a></span> <i class="fas fa-minus float-right plus-cat"></i>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                <!------- fin areas sin categorias con key  -------------->
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <!-- Card body -->
+                                                    <div id="categoryone{{categoryone.pk}}" class="collapse" role="tabpanel" aria-labelledby="heading11" data-parent="#accordionEx11">
+                                                        {% for subcategoryone in categoryone.subcategory.all %}
+                                                            {% if subcategoryone.language.pk == language_selected and subcategoryone.active == True %}
+                                                                <div class="pl-4 mb-1 rgba-grey-light white-text">
+                                                                    <p><i class="fas fa-angle-right"></i> <a class="adj-font" href="/keywords/{{areaone.name|filter}}/{{categoryone.name|filter}}/{{subcategoryone.name|filter}}" target="_blank">{{subcategoryone.name}}</a></p>
+                                                                </div>
+                                                            {% endif %}<!----------------- if del subcategory.language---------------->
+                                                        {% endfor %}<!----------------for subcategoryone -------------->
+                                                    </div>
+                                                </div>
+                                            {% endif %}<!--------------- if del category.language--------->
+                                        {% endfor %}<!------------- for del categoryone ---------------------->
+                                        <!-- Fin Accordion card #1 -->
+                                    </div>
+                                    <!--/.Accordion wrapper-->
+                                </div><!--FIN CARDBODY #1 -->
+                            </div>
+                        </div>
+                    {% endif %}<!--------------------- if del area.language ------------------>
+                {% endfor %}<!-------------------- for de areaone ------------------------->
+                <!-- Fin Accordion card #1 -->
+            </div>
+            <!--/.Accordion wrapper-->
+        </div>
+        <!-- Grid column -->
+        <!-- ACORDEON COLUMNA #2 -->
+        <div class="col-12 col-lg-4" style="padding-left: 27px; padding-right: 28px;">
+            <!--Accordion wrapper-->
+            <div class="accordion md-accordion accordion-2" id="accordionEx2" role="tablist" aria-multiselectable="true">
+                <!-- Accordion card #4 -->
+                {% for areatwo in area2 %}
+                    {% if areatwo.language.pk == language_selected and areatwo.active == True %}
+                        <div class="card card-bord" style="padding-top: 20px;">
+                            <!-- Card header -->
+                            <div class="card-header" role="tab" id="heading4">
+                                <a class="subra" data-toggle="collapse" data-parent="#accordionEx2" href="#areatwo{{areatwo.pk}}" aria-expanded="true" aria-controls="collapse4">   
+                                    <div class="mb-0 white-text text-left font-thin">
+                                        {% if areatwo.image %}
+                                            <!---------- areas sin categorias con key -------------->
+                                            {% if areatwo.category.all or areatwo.has_keyword == False %}
+                                                <img src="{{ areatwo.image.url }}" class="imgCateHome" alt="{{areatwo.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areatwo.name|filter}}" target="_blank">{{areatwo.name}}</a></span> <a class="subra" data-toggle="collapse" data-parent="#accordionEx2" href="#areatwo{{areatwo.pk}}" aria-expanded="true" aria-controls="collapse4"> <i class="fas fa-plus float-right plus-cat"></i></a>
+                                            {% else %}
+                                                {% if areatwo.has_keyword == True %}
+                                                    <img src="{{ areatwo.image.url }}" class="imgCateHome" alt="{{areatwo.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areatwo.name|filter}}" target="_blank">{{areatwo.name}}</a></span> <i class="fas fa-minus float-right plus-cat"></i>
+                                                {% endif %}
+                                            {% endif %}
+                                            <!------- fin areas sin categorias con key  -------------->
+                                        {% else %}
+                                            <!---------- areas sin categorias con key -------------->
+                                            {% if areatwo.category.all or areatwo.has_keyword == False %}
+                                                <img src="{% static 'img/ic_phy.jpg' %}" class="imgCateHome" alt="{{areatwo.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areatwo.name|filter}}" target="_blank">{{areatwo.name}}</a></span> <a class="subra" data-toggle="collapse" data-parent="#accordionEx2" href="#areatwo{{areatwo.pk}}" aria-expanded="true" aria-controls="collapse4"> <i class="fas fa-plus float-right plus-cat"></i></a>
+                                            {% else %}
+                                                {% if areatwo.has_keyword == True %}
+                                                    <img src="{% static 'img/ic_phy.jpg' %}" class="imgCateHome" alt="{{areatwo.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areatwo.name|filter}}" target="_blank">{{areatwo.name}}</a></span> <i class="fas fa-minus float-right plus-cat"></i>
+                                                {% endif %}
+                                            {% endif %}
+                                            <!------- fin areas sin categorias con key  -------------->
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Card body -->
+                            <div id="areatwo{{areatwo.pk}}" class="collapse" role="tabpanel" aria-labelledby="heading4" data-parent="#accordionEx2">
+                                <div class="card-body mb-1 rgba-grey-light white-text"><!--CARDBODY #1 -->
+                                    <!--Accordion wrapper-->
+                                    <div class="accordion md-accordion accordion-2 pad-cat" id="accordionEx12" role="tablist" aria-multiselectable="true">
+                                        <!-- Accordion card #1 -->
+                                        {% for categorytwo in areatwo.category.all %}
+                                            {% if categorytwo.language.pk == language_selected and categorytwo.active == True %}
+                                                <div class="card card-bord">
+                                                    <!-- Card header -->
+                                                    <div class="card-header" role="tab" id="heading12">
+                                                        <a class="subra" data-toggle="collapse" data-parent="#accordionEx12" href="#categorytwo{{categorytwo.pk}}" aria-expanded="true" aria-controls="collapse11">
+                                                            <div class="mb-0 white-text text-left font-thin">
+                                                                <!---------- categorias sin subcategorias con key -------------->
+                                                                {% if categorytwo.subcategory.all or areatwo.has_keyword == False %}
+                                                                    <i class="fas fa-angle-right"></i> <span class="txt-cat"><a class="adj-font" href="/subcategories/{{areatwo.name|filter}}/{{categorytwo.name|filter}}" target="_blank">{{categorytwo.name}}</a></span> <a class="subra" data-toggle="collapse" data-parent="#accordionEx12" href="#categorytwo{{categorytwo.pk}}" aria-expanded="true" aria-controls="collapse11"><i class="fas fa-plus float-right plus-cat"></i></a>
+                                                                {% else %}
+                                                                    {% if areatwo.has_keyword == True %}
+                                                                        <i class="fas fa-angle-right"></i> <span class="txt-cat"><a class="adj-font" href="/subcategories/{{areatwo.name|filter}}/{{categorytwo.name|filter}}" target="_blank">{{categorytwo.name}}</a></span> <i class="fas fa-minus float-right plus-cat"></i>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                <!------- fin areas sin categorias con key  -------------->
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <!-- Card body -->
+                                                    <div id="categorytwo{{categorytwo.pk}}" class="collapse" role="tabpanel" aria-labelledby="heading12" data-parent="#accordionEx12">
+                                                        {% for subcategorytwo in categorytwo.subcategory.all %}
+                                                            {% if subcategorytwo.language.pk == language_selected and subcategorytwo.active == True %}
+                                                                <div class="pl-4 mb-1 rgba-grey-light white-text">
+                                                                    <p><i class="fas fa-angle-right"></i> <a class="adj-font" href="/keywords/{{areatwo.name|filter}}/{{categorytwo.name|filter}}/{{subcategorytwo.name|filter}}" target="_blank">{{subcategorytwo.name}}</a></p>
+                                                                </div>
+                                                            {% endif %}
+                                                        {% endfor %}<!----------------for subcategoryone -------------->
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}<!------------- for del categoryone ---------------------->
+                                        <!-- Fin Accordion card #1 -->
+                                    </div>
+                                    <!--/.Accordion wrapper-->
+                                </div><!--FIN CARDBODY #1 -->
+                            </div>
+                        </div>
+                    {% endif %}<!----------------------- if del are2.language ---------------------->
+               {% endfor %}<!---------------------- for del area2 ----------------------->
+               <!-- Fin Accordion card #1 -->
+            </div>
+            <!--/.Accordion wrapper-->
+        </div>
+        <!-- Fin ACORDEON COLUMNA #2 -->
+        <!-- ACORDEON COLUMNA #3 -->
+        <div class="col-12 col-lg-4" style="padding-left: 27px; padding-right: 28px;">
+            <!--Accordion wrapper-->
+            <div class="accordion md-accordion accordion-2" id="accordionEx3" role="tablist" aria-multiselectable="true">
+                <!-- Accordion card #1 -->
+                {% for areathree in area3 %}
+                    {% if areathree.language.pk == language_selected and areathree.active == True %}
+                        <div class="card card-bord" style="padding-top: 20px;">
+                            <!-- Card header -->
+                            <div class="card-header" role="tab" id="heading5">
+                                <a class="subra" data-toggle="collapse" data-parent="#accordionEx3" href="#areathree{{areathree.pk}}" aria-expanded="true" aria-controls="collapse1">
+                                    <div class="mb-0 white-text text-left font-thin">
+                                        {% if areathree.image %}
+                                            <!---------- areas sin categorias con key -------------->
+                                            {% if areathree.category.all or areathree.has_keyword == False %}
+                                                <img src="{{ areathree.image.url }}" class="imgCateHome" alt="{{areathree.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areathree.name|filter}}" target="_blank">{{areathree.name}}</a></span> <a class="subra" data-toggle="collapse" data-parent="#accordionEx3" href="#areathree{{areathree.pk}}" aria-expanded="true" aria-controls="collapse1"><i class="fas fa-plus float-right plus-cat"></i></a>
+                                            {% else %}
+                                                {% if areathree.has_keyword == True %}
+                                                    <img src="{{ areathree.image.url }}" class="imgCateHome" alt="{{areathree.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areathree.name|filter}}" target="_blank">{{areathree.name}}</a></span> <i class="fas fa-minus float-right plus-cat"></i>
+                                                {% endif %}
+                                            {% endif %}
+                                            <!------- fin areas sin categorias con key  -------------->
+                                        {% else %}
+                                            <!---------- areas sin categorias con key -------------->
+                                            {% if areathree.category.all or areathree.has_keyword == False %}
+                                                <img src="{% static 'img/ic_phy.jpg' %}" class="imgCateHome" alt="{{areathree.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="categories/{{areathree.name|filter}}" target="_blank">{{areathree.name}}</span> <a class="subra" data-toggle="collapse" data-parent="#accordionEx3" href="#areathree{{areathree.pk}}" aria-expanded="true" aria-controls="collapse1"><i class="fas fa-plus float-right plus-cat"></i></a>
+                                            {% else %}
+                                                {% if areathree.has_keyword == True %}
+                                                    <img src="{% static 'img/ic_phy.jpg' %}" class="imgCateHome" alt="{{areathree.name}}"><span class="sepa-line">|</span><span class="txt-area"><a class="adj-font" href="/categories/{{areathree.name|filter}}" target="_blank">{{areathree.name}}</a></span> <i class="fas fa-minus float-right plus-cat"></i>
+                                                {% endif %}
+                                            {% endif %}
+                                            <!------- fin areas sin categorias con key  -------------->
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Card body -->
+                            <div id="areathree{{areathree.pk}}" class="collapse" role="tabpanel" aria-labelledby="heading5" data-parent="#accordionEx3">
+                                <div class="card-body mb-1 rgba-grey-light white-text"><!--CARDBODY #1 -->
+                                    <!--Accordion wrapper-->
+                                    <div class="accordion md-accordion accordion-2 pad-cat" id="accordionEx13" role="tablist" aria-multiselectable="true">
+                                        <!-- Accordion card #1 -->
+                                        {% for categorythree in areathree.category.all %}
+                                            {% if categorythree.language.pk == language_selected and categorythree.active == True %}
+                                                <div class="card card-bord">
+                                                    <!-- Card header -->
+                                                    <div class="card-header" role="tab" id="heading13">
+                                                        <a class="subra" data-toggle="collapse" data-parent="#accordionEx13" href="#categorythree{{categorythree.pk}}" aria-expanded="true" aria-controls="collapse11">
+                                                            <div class="mb-0 white-text text-left font-thin">
+                                                                <!---------- categorias sin subcategorias con key -------------->
+                                                                {% if categorythree.subcategory.all or areathree.has_keyword == False %}
+                                                                    <i class="fas fa-angle-right"></i> <span class="txt-cat"><a class="adj-font" href="/subcategories/{{areathree.name|filter}}/{{categorythree.name|filter}}" target="_blank">{{categorythree.name}}</a></span> <a class="subra" data-toggle="collapse" data-parent="#accordionEx13" href="#categorythree{{categorythree.pk}}" aria-expanded="true" aria-controls="collapse11"><i class="fas fa-plus float-right plus-cat"></i></a>
+                                                                {% else %}
+                                                                    {% if areathree.has_keyword == True %}
+                                                                        <i class="fas fa-angle-right"></i> <span class="txt-cat"><a class="adj-font" href="/subcategories/{{areathree.name|filter}}/{{categorythree.name|filter}}" target="_blank">{{categorythree.name}}</a></span> <i class="fas fa-minus float-right plus-cat"></i>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                <!------- fin areas sin categorias con key  -------------->
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <!-- Card body -->
+                                                    <div id="categorythree{{categorythree.pk}}" class="collapse" role="tabpanel" aria-labelledby="heading13" data-parent="#accordionEx13">
+                                                        {% for subcategorythree in categorythree.subcategory.all %}
+                                                            {% if subcategorythree.language.pk == language_selected and subcategorythree.active == True %}
+                                                                <div class="pl-4 mb-1 rgba-grey-light white-text">
+                                                                    <p><i class="fas fa-angle-right"></i> <a class="adj-font" href="/keywords/{{areathree.name|filter}}/{{categorythree.name|filter}}/{{subcategorythree.name|filter}}" target="_blank">{{subcategorythree.name}}</a></p>
+                                                                </div>
+                                                            {% endif %}
+                                                        {% endfor %}<!----------------for subcategoryone -------------->
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}<!------------- for del categoryone ---------------------->
+                                        <!-- Fin Accordion card #1 -->
+                                    </div>
+                                    <!--/.Accordion wrapper-->
+                                </div><!--FIN CARDBODY #1 -->
+                            </div>
+                        </div>
+                    {% endif %}<!------------ fin del if area3.language-------------------->
+                {% endfor %}<!---------- for areathree --------------------------->
+                <!-- Fin Accordion card #1 -->
+            </div>
+            <!--/.Accordion wrapper-->
+        </div>
+        <!-- Fin ACORDEON COLUMNA #3 -->
+    </div>
+</div>
+<!-- events -->
+{% if events %}
+    <div class="container-fluid pl-4 pr-4" style="padding-top: 40px;">
+        <div class="row m-0" style="background-color: white;">
+            <div class="col-3 col-sm-3 col-md-1 col-xl-1 pl-0 pr-0 pt-2">
+                <h5><strong style="color:#7f9bcd">{% blocktrans %}EVENTOS{% endblocktrans%}</strong></h5>
+            </div>
+            <div class="col-9 col-sm-9 col-md-11 col-xl-11">
+                <hr style="border-top: 1px solid #7f9bcd;">
+            </div>
+            {% if events.count > 3 %}
+            <div class="pb-2" style="margin-left: -96px;z-index: 2;"><!--social-more">-->
+                <a class="btn btn-primary btn_hover" style="width:96px;" href="{% url 'list_events' %}" role="button">+ {% blocktrans %}Más{% endblocktrans%}</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container text-center" style="padding-top: 0px;">
+        <div class="row" >
+            {% for event in events %}
+                {% if forloop.counter0 < 3 %}
+                    <div class="col-12 col-sm-6 col-lg-4 detail-event pr-2 pl-2">
+                        <div class="card text-center pl-0 pr-0" style="width: 350px; border:none;margin: 0 auto;">
+                            {% if event.picture %}
+                                <a href="{% url 'detail_event' event.pk %}"><img class="img-fluid" style="height: auto;width: 350px;" src="{{ event.picture.url }}" alt="{{event.title}}" ></a>
+                            {% else %}
+                                <a href="{% url 'detail_event' event.pk %}"><img class="img-fluid" style="height: auto;width: 350px;" src="{% static 'img/banner.jpg' %}" alt="{{event.title}}" ></a>
+                            {% endif %}
+                            <div class="card-body" style="padding-left: 0px;padding-top: 15px;padding-bottom: 15px;">
+                                <!-- <div class="card-text" style="font-size: 20px;color: #b5b6b6;">
+                                    <a href="{% url 'detail_event' event.pk %}">{{event.title|truncatechars:25}}</a>
+                                </div> -->
+                                <div class="card-text text-center">
+                                    <i class="far fa-calendar-alt" style="font-size: 16px;color: #b5b6b6;"></i>
+                                    <span style="font-size: 12px;" class="ml-1 mr-1">{{event.start_event}}</span>~<span style="font-size: 12px;" class="ml-1 mr-1">{{event.end_event}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+<!--Noticias-->
+<div class="container-fluid  pl-4 pr-4">
+    <div class="row m-0">
+        <div class="col-3 col-sm-3 col-md-1 col-xl-1 pl-0 pr-0 pt-2">
+            <h5><strong style="color:#7f9bcd">{% blocktrans %}NOTICIAS{% endblocktrans%}</strong></h5>
+        </div>
+        <div class="col-9 col-sm-9 col-md-11 col-xl-11">
+            <hr style="border-top: 1px solid #7f9bcd;">
+        </div>
+        {% if my_foot_banner_count > 4 %}
+            <div class="pb-2" style="margin-left: -96px;z-index: 2;"><!--social-more">-->
+                <a class="btn btn-primary btn_hover" style="width:96px;" href="{% url 'list_news' %}" role="button">+ {% blocktrans %}Más{% endblocktrans%}</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="container-fluid detail-news" id="news-cuadros" style="background-color:#eaeff6;">
+    <div class="container-fluid" style="max-width: 1480px;">
+        <div id="new-index-padding" class="row d-flex">
+            {% for banner in foot_banner %}
+                {% if forloop.counter0 < 4 %} <!--Limita solo a 4 registros-->
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 cuadro" id="detail-news">    
+                        <div class="card mb-3">
+                            {% if banner.picture %}
+                                {% if forloop.counter0 == 0 %}
+                                    <div class="ribbon-wrapper">
+                                        <div class="ribbon ribbon-bookmark ribbon-default">{% blocktrans %}Lastest News{% endblocktrans%}</div>
+                                    </div>
+                                {% else %}
+                                {% endif %}
+                                <a href="{% url 'detail_news' banner.pk %}"><img class="img-fluid lazy" data-src="{{ banner.picture.url }}" alt="Medical Equipments News | Medcombo News"></a>
+                            {% else %}
+                                <a href="{% url 'detail_news' banner.pk %}"><img class="img-fluid lazy" data-src="{% static 'img/banner.jpg' %}" alt="Medical Equipments News | Medcombo News"></a>
+                            {% endif %}
+                            <div class="card-body pt-3" style="padding-left: 0px;border:0px!important;">
+                                <p class="card-text" style="font-size: 12px;color: #0c0c0c;text-align: center!important;"><i class="far fa-calendar-alt" aria-hidden="true"></i> {% blocktrans %}Posted:{% endblocktrans%} {{banner.date}}</a></p>
+                            </div>
+                            <div class="card-body p-3" style="padding-left: 0px;border:0px!important;">
+                                <p class="card-text" style="font-size: 16px;color: #b5b6b6;text-align: center!important;word-break: break-word;"><a href="{% url 'detail_news' banner.pk %}">{{banner.title}}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% empty %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

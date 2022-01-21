@@ -1,0 +1,440 @@
+
+{% load staticfiles %}
+{% load i18n %}
+<link rel="stylesheet" type="text/css" href="{% static 'emojionearea/emojionearea.min.css' %}" media="screen">
+<link rel="stylesheet" href="{% static 'css/app/social/chat.css' %}">
+<script type="text/javascript" src="{% static 'emojionearea/emojionearea.js' %}"></script>
+<!-- Timezone -->
+<script type="text/javascript" src="{% static 'js/jstz.js' %}"></script>
+{% comment %} <style>
+    .dropdown-menu {
+        box-shadow: 0 2px 20px 0 rgba(0,0,0,0.25);
+        border: 0;
+        min-width: 12rem;
+        font-size: 14px;
+    }
+    .disabledbutton {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+    .active{
+        color:red !important;
+    }
+    .div_hide{
+        display:none;
+    }
+</style> {% endcomment %}
+<div class="chat-content">
+    <div>
+        <div class="chat-button" id="chat_button">
+            <div class="col-9 p-1">
+                <span ><i class="far fa-comment-alt pr-2"></i>{% blocktrans %}Chat{% endblocktrans %}</span>
+                
+            </div>
+            <div class="col-3 text-right p-1">
+                <span><i id="chat_close" class="fas fa-times"></i></span>
+            </div>
+        </div>
+        
+        <div class="chat_list_body div_hide" >
+        </div>
+    </div>
+    </div>
+</div>
+<div class="chat_history div_hide">
+    <div class="chat_history_header">
+        <div class="col-10 p-1">
+            <span id="current_chat_name"></span>
+            <span class="pl-3" style="color:black;" id="current_company_name"></span>
+        </div>
+        <div class="col-1 text-right p-1">
+            <div class="dropdown d-flex">
+                <span data-toggle="dropdown"><i class="fas fa-caret-down" style="font-size:20px;vertical-align:middle;"></i></span>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                    <a class="dropdown-item" id="top"> {% blocktrans %}Pin to top{% endblocktrans %}</a>
+                    <a class="dropdown-item" id="block"> {% blocktrans %}Block{% endblocktrans %}</a>
+                    <a class="dropdown-item" id="delete_chat_user"> {% blocktrans %}Delete{% endblocktrans %}</a>
+                    <a class="dropdown-item" id="mute"> {% blocktrans %}Mute{% endblocktrans %}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-1 text-right p-1">
+            <span onclick="chat_history_close();"><i class="fas fa-times"></i></span>
+        </div>
+    </div>
+    <div class="chat_history_body">
+    </div>
+    
+    <div class="chat_history_footer">
+        <div id="file_attach" class="col-12">
+            <div class="file-attach row">
+                <div class="col-1 pl-2">
+                    <span ><i class="fas fa-file"></i></span>
+                </div>
+                <div class="col-10 pl-0">
+                    <span id="file_name"></span>
+                </div>
+                <div class="col-1 pr-2 text-right">
+                    <span onclick="attach_close();"><i class="fas fa-times"></i></span>
+                </div>
+                <input type="file" name="upload-file" id="upload-file" oninput="upload_file_name();" style="opacity: 0; position: absolute; z-index: -1;">
+                <div class="progress col-md-12 p-0" style="height:3px;">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                    <span class="sr-only">70% Complete</span>
+                </div>
+              </div>  
+            </div>
+            
+          </div>
+        <div class="input-group">
+            <div class="input-group-append">
+                <label class="input-group-text attach_btn" for="upload-file" style="cursor:pointer" title="Upload File..."><i class="fas fa-paperclip"></i></label>
+            </div>
+            <textarea style="resize: none;" class="form-control" name="message" id="message_chats" rows="1" placeholder="{% blocktrans %}Escribe un mensaje{% endblocktrans%}" wrap="hard"></textarea>
+        </div>
+    </div>
+</div>
+<audio id="bell" src="{% static 'bell/bell.mp3' %}" ></audio>
+<script >
+    selected_user_id = 0;
+    refreshHistoryTimer = null;
+    
+    var opened = false;
+    var tz = jstz.determine(); 
+    var timezone = tz.name();
+    var refreshListTimer = null;
+    var bFirst = true;
+
+    var b_file_attach = false;
+    if(sessionStorage.getItem("selected_user_id") != null){
+        selected_user_id = sessionStorage.getItem("selected_user_id");
+    }
+    if(sessionStorage.getItem("chat_history") == "opened"){
+        $(".chat_history").removeClass('div_hide');
+    }
+
+    if(sessionStorage.getItem("chat_list") != "opened"){
+        $(".chat_list_body").hide();
+        $("#chat_close").removeClass("fas fa-times");
+        $("#chat_close").addClass("fas fa-plus");
+    }else{
+        $("#chat_close").removeClass("fas fa-plus");
+        $("#chat_close").addClass("fas fa-times");
+        $(".chat_list_body").removeClass('div_hide');
+        get_chats_list();
+        refreshListTimer = setInterval(get_chats_list, 5575);
+    }
+    $("#file_attach").hide();
+    function attach_close(){
+        $("#file_attach").hide();
+        var org = $(".chat_history_body").height();
+        $(".chat_history_body").height(org+30);
+    }
+    function chat_history_close(){
+        $(".chat_history").hide();
+        sessionStorage.removeItem('chat_history');
+        
+    }
+
+    function upload_file_name(){
+        var filename = $("#upload-file").val().split('\\').pop();
+        if (filename != ""){
+          $("#file_name").html(filename);
+          $("#file_attach").show();
+          var org = $(".chat_history_body").height();
+          $(".chat_history_body").height(org-30);
+        }
+    }
+    function upload_file(){
+        var attach_id = "";
+        var file_data = $('#upload-file').prop('files')[0]; 
+        var form_data = new FormData();
+        form_data.append('file', file_data);
+        $.ajax({
+            headers: { "X-CSRFToken": '{{csrf_token}}' },
+            url: '{% url "upload_chat_attach" %}',
+            data: form_data,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            async: false,
+            success: function (data) {
+                attach_id = data;
+                b_file_attach = true;
+            }
+        });
+        return attach_id;
+    }
+    
+    function get_chats_list(){
+        var token = '{{csrf_token}}';
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: 'POST',
+            url: '{% url "get_chat_list" %}',
+            data: {
+                'owner_id': '{{ request.user.id }}',
+                'zone': timezone
+            },
+            success: function(data) {
+                $('.chat_list_body').html(data);
+                $('.chat_list_body').animate({scrollTop:$('.chat_list_body')[0].scrollHeight - 20},'normal');
+                if(selected_user_id != 0){
+                    if(sessionStorage.getItem("chat_history") == "opened"){
+                        var current_li = $(".chat_list_body li[data-id=" + selected_user_id + "]");
+                        current_li.addClass('active');
+                        if(current_li.data("name").length > 20){
+                            $("#current_chat_name").html(current_li.data("name").substring(0, 20) + "...");
+                        }else{
+                            $("#current_chat_name").html(current_li.data("name"));
+                        }
+                        if(current_li.data("company").length > 10){
+                            $("#current_company_name").html(current_li.data("company").substring(0, 10) + "...");
+                        }else{
+                            $("#current_company_name").html(current_li.data("company"));
+                        }
+                        if(bFirst){
+                            get_chat_history();    
+                        }
+                    }
+                }
+                bFirst = false;
+                $(".chat_list_body li").on('click', function(){
+                    $(".chat_list_body li").removeClass('active');
+                    $(".chat_history").removeClass('div_hide');
+                    $(this).addClass('active');
+                    if($(this).data("name").length > 20){
+                        $("#current_chat_name").html($(this).data("name").substring(0, 20) + "...");
+                    }else{
+                        $("#current_chat_name").html($(this).data("name"));
+                    }
+                    if($(this).data("company").length > 10){
+                        $("#current_company_name").html($(this).data("company").substring(0, 10) + "...");
+                    }else{
+                        $("#current_company_name").html($(this).data("company"));
+                    }
+                    $(".chat_history").show();
+                    selected_user_id = $(this).data("id");
+                    sessionStorage.setItem('chat_history', 'opened');
+                    sessionStorage.setItem('selected_user_id', selected_user_id);
+                    
+                    if(refreshHistoryTimer != null){
+                        clearInterval(refreshHistoryTimer);   
+                        refreshHistoryTimer = null;
+                    }
+                    get_chat_history();
+                });
+            }
+        });
+    }
+    function get_chat_history(){
+        $.ajax({
+            headers: { "X-CSRFToken": '{{csrf_token}}'},
+            method: 'POST',
+            url: '{% url "get_chat_users" %}',
+            data: {
+                'id': selected_user_id,
+                'zone': timezone
+            },
+            success: function(data) {
+                $('.chat_history_body').html(data);
+                $('.chat_history_body').animate({scrollTop:$('.chat_history_body')[0].scrollHeight - 20},'normal');
+                var ols_scroll = $('.chat_history_body')[0].scrollHeight - 20;
+                refreshHistoryTimer = setInterval(function(){
+                    $.ajax({
+                        headers: { "X-CSRFToken": '{{csrf_token}}' },
+                        method: 'POST',
+                        url: '{% url "get_chat_change" %}',
+                        data: {
+                            'id': selected_user_id,
+                            'zone': timezone
+                        },
+                        success: function(data) {
+                            if(data != 'No') {
+                                if($("#bell_mute").data('bool') == "False"){
+                                    const playedPromise = $('#bell').get(0).play();
+                                    if (playedPromise) {
+                                        playedPromise.catch((e) => {
+                                            if (e.name === 'NotAllowedError' ||
+                                                e.name === 'NotSupportedError') {
+                                                console.log(e.name);
+                                            }
+                                        });
+                                    }
+                                } 
+                                else{
+                                    console.log("Mute!");
+                                }
+                                
+                                var new_scroll = $('.chat_history_body')[0].scrollHeight - 20;
+                                $('#content-msg').append(data);
+                                if(new_scroll > ols_scroll) {
+                                    $('.chat_history_body').animate({scrollTop:new_scroll},'normal');
+                                }
+                            }
+                        }
+                    });
+                },5575);
+            }
+        });
+    }
+    
+    $("#chat_button").on('click', function(){
+        if(opened){
+            $(".chat_list_body").hide();
+            opened = false;
+            $("#chat_close").removeClass("fas fa-times");
+            $("#chat_close").addClass("fas fa-plus");
+            sessionStorage.removeItem('chat_list');
+            if(refreshListTimer != null){
+                clearInterval(refreshListTimer);   
+                refreshListTimer = null;
+            }
+        }
+        else{
+            $(".chat_list_body").show();
+            opened = true;
+            $("#chat_close").removeClass("fas fa-plus");
+            $("#chat_close").addClass("fas fa-times");
+            sessionStorage.setItem('chat_list', 'opened');
+            get_chats_list();
+            refreshListTimer = setInterval(get_chats_list, 5575);
+        }
+    });
+    
+    $("#top").on("click", function(){
+        var token = '{{csrf_token}}';
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: 'POST',
+            url: '{% url "get_chat_pin_list" %}',
+            data: {
+                'owner_id': '{{ request.user.id }}',
+                'select_id': selected_user_id,
+                'zone': timezone
+            },
+            success: function(data) {
+                if(data == "OK"){
+                    console.log("ok");
+                    get_chats_list();
+                }
+            }
+        });
+    });
+
+    $("#delete_chat_user").on("click", function(){
+        chat_history_close();
+
+        var token = '{{csrf_token}}';
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: 'POST',
+            url: '{% url "get_chat_list_del" %}',
+            data: {
+                'owner_id': '{{ request.user.id }}',
+                'select_id': selected_user_id,
+                'zone': timezone
+            },
+            success: function(data) {
+                if(data == "OK"){
+                    console.log("ok");
+                    get_chats_list();
+                }
+            }
+        });
+    });
+    $("#mute").on("click", function(){
+
+        var token = '{{csrf_token}}';
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: 'POST',
+            url: '{% url "get_chat_mute" %}',
+            data: {
+                'owner_id': '{{ request.user.id }}',
+                'zone': timezone
+            },
+            success: function(data) {
+                if(data == "OK"){
+                    console.log("OK");
+                    get_chat_history();
+                }
+            }
+        });
+    });
+
+    $("#block").on("click", function(){
+        var token = '{{csrf_token}}';
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: 'POST',
+            url: '{% url "get_chat_block" %}',
+            data: {
+                'owner': '{{ request.user.id }}',
+                'select': selected_user_id,
+                'zone': timezone
+            },
+            success: function(data) {
+                if(data == "OK"){
+                    console.log("ok");
+                    $("#b_msg").html('<div class="attension bottom_link">'+
+                                            '<div class="msg_block" style="display:block;">'+
+                                                "<span style='color:white;'>You can't chat this user.</span>"+
+                                            '</div>'+  
+                                        '</div>')
+                get_chat_history();
+                }
+            }
+        });
+    });
+    $("#message_chats").emojioneArea({
+        pickerPosition: "top",
+        events: {
+            keypress: function (editor, event) {
+                if (event.which == 13) {
+                    var attach_id = "";
+                    if ($("#file_name").html() != ""){
+                        attach_id = upload_file();
+                    }
+                    var ols_scroll = $('.chat_history_body')[0].scrollHeight - 20;
+                    if($("#flag_block").data('bool') != "False"){
+                        $("#b_msg").html('<div class="attension bottom_link">'+
+                                            '<div class="msg_block" style="display:block;">'+
+                                                "<span style='color:white;'>You can't chat this user.</span>"+
+                                            '</div>'+  
+                                        '</div>')
+                    }
+                    else{
+                        $.ajax({
+                        headers: { "X-CSRFToken": '{{csrf_token}}' },
+                        method: 'POST',
+                        url: '{% url "send_chat_user" %}',
+                        data: {
+                            'id': selected_user_id,
+                            'text': editor.html().replace(/&nbsp;/g, '').trim(),
+                            'zone': timezone,
+                            'attach_id': attach_id
+                        },
+                        success: function(msg) {
+                            editor.html('');
+                            attach_id = "";
+                            $('#content-msg').append(msg);
+                            var new_scroll = $('.chat_history_body')[0].scrollHeight - 20;
+                            if(new_scroll > ols_scroll) {
+                                $('.chat_history_body').animate({scrollTop:new_scroll},'normal');
+                            }
+                            $("#file_attach").hide();
+                            $("#file_name").html("");
+                            if(b_file_attach){
+                                var org = $(".chat_history_body").height();
+                                $(".chat_history_body").height(org+30);
+                            }
+                        }
+                    });
+                    }
+                    
+                }
+            },
+        }
+    });
+</script>

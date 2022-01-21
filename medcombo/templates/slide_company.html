@@ -1,0 +1,18 @@
+{% load staticfiles %}
+<div class="container-fluid" id="banner">
+    <div class="row">
+        <div class="col-12">
+        {% if banner %} 
+            {% for b in banner %}
+                {% if b.picture_campaign %}
+                    <img src="{{ b.picture_campaign.url }}" class="d-block w-100" alt="B2B Portal For Medical Industry in UK">
+                {% else %}
+                    <img src="{% static 'img/banner.jpg' %}" class="d-block w-100" alt="B2B Portal For Medical Industry in UK">
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <img src="{% static 'img/banner.jpg' %}" class="d-block w-100" alt="B2B Portal For Medical Industry in UK">
+        {% endif %}
+        </div>
+    </div>
+</div>

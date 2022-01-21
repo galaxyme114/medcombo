@@ -1,0 +1,66 @@
+/*------------------------------
+----- Proposal.css ----
+------------------------------*/
+.panel-post {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	border-radius: 0;
+}
+.panel-default {
+	border-color: #ddd;
+}
+.panel {
+	margin-bottom: 20px;
+	background-color: #fff;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+.panel-post .panel-heading {
+	background-color: #fff;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	border-radius: 0;
+}
+.panel-default > .panel-heading {
+	color: #333;
+	background-color: #f5f5f5;
+	border-color: #ddd;
+}
+.panel-post .panel-heading .media {
+	margin-bottom: 0;
+}
+.media-left, .media > .pull-left {
+	padding-right: 10px;
+}
+.panel-heading {
+	padding: 10px 15px;
+	border-bottom: 2px solid;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.form-group {
+	width: 100%;
+	margin-bottom: 0px !important;
+}
+.control-label {
+	padding-top: 7px;
+	margin-bottom: 0;
+	text-align: left;
+}
+.form-group .form-line {
+	width: 100%;
+	position: relative;
+}
+.form-group .form-control {
+	width: 100%;
+	border: none;
+	box-shadow: none;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	border-radius: 0;
+	padding-left: 0;
+}

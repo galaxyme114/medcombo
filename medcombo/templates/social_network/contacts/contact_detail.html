@@ -1,0 +1,64 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load tz %}
+<link rel="stylesheet" href="{% static 'css/app/social/contact.css' %}">
+{% if contacts %}
+    <div id="contact_infor" class="col-lg-12 p-3">
+        <div class="media">
+            <div class="media-left">
+                {% if contacts.relationship.picture %}
+                    <img  class="rounded-circle img-thumbnail" src="{{ contacts.relationship.picture.url }}" height="auto" width="60">
+                {% else %}
+                    <img class="rounded-circle" src="{% static 'img/userdefault.jpeg' %}" height="auto" width="60">
+                {% endif %}
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    {{contacts.relationship.first_name|capfirst}}&nbsp;{{contacts.relationship.last_name|capfirst}}
+                </h4>
+                {% blocktrans %}Shared publicly{% endblocktrans %} - {{contacts.relationship.last_login|date:"d M Y"}}
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="Name" class="col-lg-3 col-md-6 col-sm-6 control-label">{% blocktrans %}Name:{% endblocktrans %}</label>
+            <div class="col-lg-9 col-md-6 col-sm-6">
+                <div class="form-line">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="{% blocktrans %}Name{% endblocktrans %}" value="{{contacts.relationship.first_name}}&nbsp;{{contacts.relationship.last_name}}" required disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="Company" class="col-lg-3 col-md-6 col-sm-6 control-label">{% blocktrans %}Company:{% endblocktrans %}</label>
+            <div class="col-lg-9 col-md-6 col-sm-6">
+                <div class="form-line">
+                    <input type="text" class="form-control" id="company" name="company" placeholder="{% blocktrans %}Name{% endblocktrans %}" value="{{contacts.relationship.company.name}}" required disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="Country" class="col-lg-3 col-md-6 col-sm-6 control-label">{% blocktrans %}Country: {% endblocktrans %}</label>
+            <div class="col-lg-9 col-md-6 col-sm-6">
+                <div class="form-line">
+                    <input type="text" class="form-control" id="country" name="country" placeholder="{% blocktrans %}Name{% endblocktrans %}" value="{{contacts.relationship.country.name}}" required disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="Mainproduct" class="col-lg-3 col-md-6 col-sm-12 control-label control-label">{% blocktrans %}Main Product:{% endblocktrans %}</label>
+            <div class="col-lg-9 col-md-6 col-sm-12">
+                <div class="row">
+                    {% if string_main %}
+                        {% for str in string_main %}
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <img class="img-thumbnail" src="{{str.picture.url}}">
+                            <p class="text-center contact-font">{{str.name}}</p>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+{% endif %}

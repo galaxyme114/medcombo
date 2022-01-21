@@ -1,0 +1,157 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+    <div class="col-12 col-lg-10 background">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12" id="contenido">
+                  {% if object %}
+	                  <!-- Jobs -->
+	                  <div class="row m-0 list-fondo mt-0 mb-5 p-4">
+		                  <div class="col-12 p-0">
+                              <div class="col-12 text-bold-list text-size-list mt-3">
+                                  {{object.participant.first_name}}&nbsp;{{object.participant.last_name}}
+                              </div>
+                              <div class="col-12 d-md-flex mt-2 mb-2">
+                                  <div class="col-lg-2 col-md-2 col-sm-12 text-bold-list">{{object.age}}&nbsp;{% blocktrans %}años{% endblocktrans %}</div>
+                                  <div class="col-lg-2 col-md-2 col-sm-12 text-bold-list">{{object.city}}</div>
+                                  <div class="col-lg-2 col-md-2 col-sm-12"><span>{{object.participant.email}}</span></div>
+                                  <div class="col-lg-3 col-md-3 col-sm-12"><span>{{object.phone}}</span></div>
+                                  <div class="col-lg-1 col-md-1 col-sm-12"><span>
+                                    {% if object.pdf %}
+                                    <div class="number-job-items">
+                                        <a {% if object.pdf %} href="{{object.pdf.url}}" {% else %} href="#" {% endif %} download target="_blank"><div class="number-job-items"><i class="fas fa-download"></i></div></a> 
+                                    </div>
+                                    {% else %}
+                                          <div class="number-job-items"><i class="far fa-file"></i></div>
+                                    {% endif %}</i></span></div>
+                                  <div class="col-lg-2 col-md-2 col-sm-12">
+                                    <span id="condition-id">
+                                      {% if object.condition == 'Pending' %}
+                                      {% blocktrans %}Pendiente{% endblocktrans %}
+                                      {% elif object.condition == 'Processing' %}
+                                      {% blocktrans %}En Proceso{% endblocktrans %}
+                                      {% elif object.condition == 'Discarding' %}
+                                      {% blocktrans %}Descartado{% endblocktrans %}
+                                      {% endif %}
+                                    </span>
+                                  </div>
+                              </div>
+                              <div class="list-separator ml-3 mr-3"></div>
+                              <div class="col-12 mt-4 text-justify-list">
+                                  <b>{% blocktrans %}Experiencia{% endblocktrans %}</b><br />{{object.experience}}
+                              </div>
+                              <div class="col-12 mt-4 text-justify-list">
+                                   <b>{% blocktrans %}Formación{% endblocktrans %}</b><br />{{object.education}}
+                               </div>
+                               <div class="col-12 mt-4 mb-5 text-justify-list">
+                                    <b>{% blocktrans %}Idiomas{% endblocktrans %}</b><br />{{object.languages}}
+                                </div>
+                                <div class="col-12 mt-4 mb-5 text-justify-list">
+                                  <b>{% blocktrans %}Conocimientos informáticos{% endblocktrans %}</b><br />{{object.computer}}
+                              </div>
+                              <div class="col-12 mt-4 mb-5 text-justify-list">
+                                <b>{% blocktrans %}Otros datos de interés{% endblocktrans %}</b><br />{{object.another}}
+                              </div>
+                                <div class="col-12 text-center">
+                                    <div class="d-sm-flex justify-content-center mt-4 pl-1 pr-1">
+                                        <button id="id-process" class="btn btn-primary datos-form-buttom mr-0 mr-sm-3 mt-2">{% blocktrans %}EN PROCESO{% endblocktrans %}</button>
+                                        <button id="id-discard" class="btn btn-primary datos-form-buttom mr-0 mr-sm-3 mt-2">{% blocktrans %}DESCARTAR{% endblocktrans %}</button>
+                                        <button data-toggle="modal" data-target="#id-delete" class="btn btn-primary datos-form-buttom mr-0 mr-sm-3 mt-2">{% blocktrans %}ELIMINAR{% endblocktrans %}</button>
+                                        <a href="{% url 'list_participants' object.offer.id %}" class="btn btn-primary datos-form-buttom mt-2">{% blocktrans %}REGRESAR{% endblocktrans %}</a>
+                                    </div>
+                                </div>
+                    {% else %}
+		                  <h4 class="text-primary">{% blocktrans %}Registro no encontrado{% endblocktrans %}</h4>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="id-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog modal-xs">
+            <div class="modal-content" style="border-radius: 25px;">
+              <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                  <div class="d-flex align-items-center">
+                  <i class="fas fa-trash-alt icons_size_title_second"></i>
+                  <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR PARTICIPANTE{% endblocktrans %}</p>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: #fff;">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="col-12 d-flex justify-content-center">
+                    <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-center">
+                <button id="delete-button" class="btn btn-primary datos-form-buttom" >{% blocktrans %}SI{% endblocktrans %}</button>
+                <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <script>
+          $('#delete-button').click(function(e){
+            var value = '{{object.id}}';
+            var url = '{% url "delete_participant" %}';
+            var token = '{{csrf_token}}';
+            $.ajax({
+              headers: { "X-CSRFToken": token },
+              method: 'POST',
+              url: url,
+              data: {
+                'value': value
+              },
+              success: function(data) {
+                if(data == 'Ok') {
+                  location.href = '{% url "list_participants" object.offer.id %}';
+                }
+              }
+            });
+          });
+          $('#id-process').click(function(e){
+            var value = '{{object.id}}';
+            var url = '{% url "process_participant" %}';
+            var token = '{{csrf_token}}';
+            $.ajax({
+              headers: { "X-CSRFToken": token },
+              method: 'POST',
+              url: url,
+              data: {
+                'value': value
+              },
+              success: function(data) {
+                if(data == 'Ok') {
+                  location.href = '{% url "list_participants" object.offer.id %}';
+                }
+              }
+            });
+          });
+          $('#id-discard').click(function(e){
+            var value = '{{object.id}}';
+            var url = '{% url "discard_participant" %}';
+            var token = '{{csrf_token}}';
+            $.ajax({
+              headers: { "X-CSRFToken": token },
+              method: 'POST',
+              url: url,
+              data: {
+                'value': value
+              },
+              success: function(data) {
+                if(data == 'Ok') {
+                  location.href = '{% url "list_participants" object.offer.id %}';
+                }
+              }
+            });
+          });
+        </script>
+{% endblock %}

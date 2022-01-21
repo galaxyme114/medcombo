@@ -1,0 +1,85 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<style>
+	.btn-orange {
+		color: #fff;
+		background-color: #df8771;
+		border-color: #df8771;
+	}
+	.btn-orange:hover {
+		background-color: #b6b5b5;
+		border-color: #b6b5b5;
+		color: #fff
+		}
+</style>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row">
+		<div class="col-lg-4 col-sm-6 col-md-6 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}SOLICITUDES DE PRODUCTOS{% endblocktrans %}</h5>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<div class="container-fluid">
+		<div class="row pb-4">
+			<div class="col-12 col-md-8 px-0 px-sm-3">
+				<div id="contact-table">
+					{% if usuarios %} 
+					    <table class="table table-myweb-crm">
+					        <thead>
+					            <tr>
+					                <th scope="col">{% blocktrans %}Nombre{% endblocktrans %}</th> 
+					                <th scope="col" class="text-center">{% blocktrans %}Empresa{% endblocktrans %}</th>
+					                <th scope="col">{% blocktrans %}Fecha{% endblocktrans %}</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+						        {% for userx in usuarios %}
+					                <tr>
+					                    <td scope="row">{{ userx.first_name }} {{ userx.last_name}}</td>
+					                    <td class="text-center">{{ userx.company }}</td>
+										<td>{{ userx.company.createdate }}</td>
+					                    <td class="text-right" id="url_id" data-contact-url="{% url 'ajax_load_products_admin' %}" >
+                           			        <input value="{{userx.company_id}}" name="q" type="hidden" id="search{{userx.company_id}}">
+											{% if userx.ac_count != 0 %}
+												<button class="btn btn-primary btn-crm-produt" id="{{userx.company_id}}">{% blocktrans %}REVISAR{% endblocktrans %}</button>
+											{% else %}
+												<button class="btn btn-orange btn-crm-produt" id="{{userx.company_id}}">{% blocktrans %}APROBADO{% endblocktrans %}</button>
+											{% endif %}
+										</td>
+					                </tr>
+                                    <script type="text/javascript">
+                                        $("#{{userx.company_id}}").click(function () {
+                                            var url = $("#url_id").attr("data-contact-url");  
+                                            var post = $("#search{{userx.company_id}}").val();
+                                            console.log(post)
+                                            $.ajax({
+                                                url: url,
+                                                data: {
+                                                    'id': post
+                                                },
+                                                success: function (data) {
+				                                    $("#listado").html(data);
+					                            }
+                                            });
+                                        });
+                                    </script>
+                                {% endfor %}
+					        </tbody>
+					    </table>
+					{% else %}
+					    <br><br><center><p style="color:black;"> {% blocktrans %}No hay solicitudes{% endblocktrans %} </p></center><br><br>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-md-4"></div>
+		</div>
+		<div id="listado"></div>
+	</div>
+</div>
+<script>
+	$("td").addClass("align-middle");
+</script>
+{% endblock %}

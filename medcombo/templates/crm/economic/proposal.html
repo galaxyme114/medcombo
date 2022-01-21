@@ -1,0 +1,112 @@
+{% extends "dashboard_client.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<style>
+	.proposal th{
+		color: #7e9acd;
+	}
+	.proposal {
+		border: solid 2px #ffffff;
+		padding: 1em;
+		border-radius: 10px;
+		/*box-shadow: 5px 5px 20px #e8e8e8;*/
+		background-color: #fff;
+	}
+	#buscar-fa {
+		border-left: none;
+		background-color: #fff;
+	}
+</style>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-6 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}Propuestas economicas{% endblocktrans%}</h5>
+        </div>
+		<div class="col-12 col-sm-6 col-md-4">
+			<div class="input-group flex-nowrap">
+				<input id="search_proposal" type="search" class="form-control input-right-border" placeholder={% blocktrans %}"Buscar"{% endblocktrans%} id="buscar">
+				<div class="input-group-prepend">
+					<span class="input-group-text my_cursor" id="buscar-fa"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="title-seperator"></div>
+	
+	<div class="row pt-3 pb-3 pt-4">
+		<div class="col-12 col-md-6">
+			<div class="proposal">
+				<table class="table table-responsive-md table-striped">
+					<thead>
+					    <tr>
+						    <th scope="col">{% blocktrans %}Titulo{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Fecha{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Validado{% endblocktrans%}</th>
+					    </tr>
+					</thead>
+					<tbody>
+					    {% if proposals %}
+					        {% for proposal in proposals %}			
+					            <tr class="align-middle" id="detail_propo{{proposal.id}}">
+						            <td class="align-middle">{{proposal.title}}</td>
+                                    <td class="align-middle">{{proposal.edit_date}}</td>
+                                    {% if proposal.validata == 'True' %}
+                                    	<td class="align-middle"><span class="badge badge-primary" style="background-color: #7e9acd !important;">{% blocktrans %}ACEPTADO{% endblocktrans%}</span></td>
+									{% else %}
+										<td class="align-middle"><span class="badge badge-danger" style="background-color: #7e9acd !important;">{% blocktrans %} NO {% endblocktrans%}</span></td>
+									{% endif %}
+						        </tr>
+								<script type="text/javascript">
+									$("#detail_propo{{proposal.id}}").click(function () {
+										var id = '{{proposal.id}}';
+										var url = "{% url 'unapprove_propo_ajax' %}";
+										console.log(id);
+										var token = '{{csrf_token}}';
+										$.ajax({
+											headers: { "X-CSRFToken": token },
+                                            method: 'POST',
+											url: url,
+											data: {
+												'id': id
+											},
+											success: function (data) {
+												$("#unapproved").html(data);
+											}
+										});
+									});
+								</script>
+					        {% endfor %}
+					    {% else %}
+							<tr>
+						    	<td>{% blocktrans %}No existen proposals{% endblocktrans %}</td>
+								<td></td>
+								<td></td>
+							</tr>
+					    {% endif %}
+					</tbody>
+				</table>
+				<script>
+				    $("#search_proposal").keyup(function(){
+					    _this = this;
+					    // Show only matching TR, hide rest of them
+					    $.each($("table tbody tr"), function() {
+						    if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+							    $(this).hide();
+						    }
+						    else {
+						        $(this).show();
+						    }
+				 	    });
+				    });
+			    </script>
+			</div>
+		</div>
+
+	</div>
+    <div class="mb-5 col-lg-8 col-sm-12 pl-5" id="unapproved">
+	</div>
+</div>
+{% endblock %}

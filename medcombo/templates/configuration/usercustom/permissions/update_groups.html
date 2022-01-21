@@ -1,0 +1,39 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}{% blocktrans %}Permisos{% endblocktrans%}{% endblock %}
+{% block css %}{% endblock %}
+{% block javascript %}{% endblock %}
+{% block list %}
+{% endblock %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+  <div class="row mb-2">
+    <div class="col-12">
+      <p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}MODIFICAR PERMISOS{% endblocktrans%}</p>
+    </div>
+  </div>
+  <div class="row m-0 list-fondo mb-5">
+    <div class="col-12 p-4">
+      <div class="row">
+        <div class="col-12 pt-3 pt-md-0 px-0">
+          <form action="." method="POST">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-12 py-3">
+                {{ form.as_p }}          
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary crm-button-anadir mr-3">{% blocktrans %}GUARDAR{% endblocktrans%}</button>
+                <a href="{% url 'admin_employ_list' %}" type="button" class="btn btn-primary crm-button-anadir">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

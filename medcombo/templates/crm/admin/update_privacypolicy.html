@@ -1,0 +1,97 @@
+{% extends "dashboard_admin.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+<!-- <link rel="stylesheet" href="{% static 'minified/themes/default.min.css' %}" />
+<script src="{% static 'minified/sceditor.min.js' %}"></script>
+<script src="{% static 'minified/formats/xhtml.min.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+<style>
+	.sceditor-container {
+		width: 800px !important;
+	}
+	@media (max-width: 576px){
+		.sceditor-container {
+		    width: 100% !important;
+	    }
+	}
+	@media (min-width: 576px) and (max-width: 992px) {
+		.sceditor-container {
+		    width: 500px !important;
+	    }
+	}
+</style>
+<div class="col-12 col-lg-10 background mb-5">
+    <form method="post" target="_parent" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}MODIFICAR POLÍTICA DE PRIVACIDAD{% endblocktrans%}</p>
+	    <div class="container-fluid">
+		    <div class="row detail-cuadro-back">
+			    <div class="col-12">
+				    <div class="row detail-title-name p-2">
+					    <div class="col-12 col-md-6">
+						    <div class="row">
+							    <div class="col-12 col-md-8">
+								    <div class="row">
+									    <input type="hidden" value="" id="send_description" name="description" >
+									    <div class="col-12 d-sm-flex py-10 py-md-0">
+										    <h6 class="col-12 col-sm-12" >{% blocktrans %}Política de Privacidad Actual{% endblocktrans%}</h6>
+									    </div>
+								    </div>
+							    </div>
+							    <div class="col-md-4"></div>
+						    </div>
+					    </div>
+				    </div>
+					<div class="col-12 row p-3">
+					    <div class="col-12 col-md-12 pr-0">
+						    <div class="row">
+							    <div>
+								    <div class="row">
+									    <div class="col-12 d-sm-flex py-2 py-md-0 pr-0">
+										    <h6>
+           									    <textarea style="border-radius: 10px;height:300px;width:750px;" name="description" id="description" rows="5" class="w-100" value={{form.description}}</textarea>
+										    </h6>
+									    </div>
+								    </div>	
+							    </div>
+						    </div>
+					    </div>	
+				    </div>
+			    </div>
+		    </div>
+		    <br><br>
+		    <center><input class="btn btn-primary datos-form-buttom mr-2" type="submit" value={% blocktrans %}"ACTUALIZAR"{% endblocktrans %} />    <a class="btn btn-primary datos-form-buttom" href="{% url 'PrivacyPolicyCrm' %}">{% blocktrans %}CANCELAR{% endblocktrans %}</a></center>
+	    </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+	// var textarea = document.getElementById('description');
+ //    sceditor.create(textarea, {
+ //        format: 'xhtml',
+ //        style: 'minified/themes/content/default.min.css',
+ //        toolbar: 'bold,italic,underline|source,left,center,right,justify,font,size,color,orderedlist,bulletlist,cut,copy,paste,'
+ //    });
+ 	CKEDITOR.replace( 'description',
+    {
+        toolbar :
+        [
+            { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+            { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+            { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+            { name: 'colors', items : [ 'TextColor','BGColor' ] },
+            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+            { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+        ]
+    });
+</script> 
+<script type="text/javascript">
+	{% if messages %}
+	{% for message in messages %}
+	$.notify("{{ message }}", "error");
+	{% endfor %}
+	{% endif %}
+</script>
+
+{% endblock %}

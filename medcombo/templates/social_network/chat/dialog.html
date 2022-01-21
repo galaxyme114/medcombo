@@ -1,0 +1,3 @@
+{% for x in my_user %}
+    <object id="encoder_iframe" type="text/html" data="{% url 'dialogs_detail' x.username %}" style="width: 100%;"></object>
+{% endfor %}

@@ -1,0 +1,97 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background" id="appointment_book">
+  	<div class="tab-content pt-2 mb-5" id="nav-tabContent">
+  		  <div class="tab-pane fade" id="list-month" role="tabpanel" aria-labelledby="list-month-list"></div>
+  	    <div class="tab-pane fade show active" id="list-week" role="tabpanel" aria-labelledby="list-week-list">
+  	   	    <div class="row px-3">
+  				      <div class="col-12 divTask divOverflow">
+                    <p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}TAREA{% endblocktrans %}</p>
+                    <div class="row py-4">
+                        <div class="col-12">
+                            <div>
+                                <form action="." method="POST">
+                                    {% csrf_token %}
+			                              <div class="form-group row">
+					                              <div class="col-12 col-md-6">
+						                                <div class="form-group row">
+							                                  <label for="opportunity" class="col-sm-3 col-form-label">{% blocktrans %}Tipo{% endblocktrans %}</label>
+							                                  <div class="col-sm-9">
+                                                    <input class="form-control" value="{{ object.call }}" id="opportunity" disabled>   
+							                                  </div>
+						                                </div>
+					                              </div>
+					                              <div class="col-12 col-md-6"></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group row">
+                                                <label for="opportunity" class="col-sm-3 col-form-label">{% blocktrans %}Oportunidad{% endblocktrans %}</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" value="{{ object.opportunity }}" id="opportunity" disabled>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group row">
+                                                <label for="asignado" class="col-sm-2 col-form-label">{% blocktrans %}Asignado{% endblocktrans %}</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" value="{{ object.responsible }}" id="opportunity" disabled> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group row">
+                                                <label for="fecha" class="col-sm-3 col-form-label">{% blocktrans %}Fecha de Realización{% endblocktrans %}</label>
+                                                <div class="col-sm-9 d-flex align-items-center">
+                                                    <input class="form-control" value="{{ object.deadline }}" id="opportunity" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group row">
+                                                <label for="telefono" class="col-sm-2 col-form-label">{% blocktrans %}Prioridad{% endblocktrans %}</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" value="{{ object.priority }}" id="opportunity" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-12 col-md-12">
+                                            <div class="form-group row">
+                                                <label for="descripcion" class="col-sm-3 col-form-label">{% blocktrans %}Descripción{% endblocktrans %}</label>
+                                                <div class="col-sm-9 d-flex align-items-center">
+                                                    <textarea class="w-100" rows="5" id="notas" style="border-radius: 10px" disabled></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $("#notas").ready(function(){
+                                                var text_html = "{{ object.notes|safe|escape}}";
+                                                $("#notas").text(text_html.replace(/<[^>]*>?/g, ''));
+                                            });
+                                        </script>
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center mb-3" style="padding-top: 0em;">
+                                        <a href="{% url 'AppointmentBookCrm' task.responsible.pk %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}REGRESAR{% endblocktrans %}</button></a>
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>     
+                    </div>
+  				      </div>
+  			    </div>
+  	    </div>
+  	</div>
+</div>
+<script>
+	  $("p").addClass("mb-0");
+</script>
+{% endblock %}

@@ -1,0 +1,65 @@
+version: "2"
+
+services:
+  db:
+    image: postgres:11
+  web:
+    build:
+      context: .
+      args:
+        - DJANGO_ENV=test
+    command: bash -c "python manage.py makemigrations location --settings=medcombo.settings.test
+                      && python manage.py makemigrations company --settings=medcombo.settings.test
+                      && python manage.py makemigrations usercustom --settings=medcombo.settings.test
+                      && python manage.py makemigrations product --settings=medcombo.settings.test
+                      && python manage.py makemigrations contacts --settings=medcombo.settings.test
+                      && python manage.py makemigrations catalogue --settings=medcombo.settings.test
+                      && python manage.py makemigrations call --settings=medcombo.settings.test
+                      && python manage.py makemigrations contact --settings=medcombo.settings.test
+                      && python manage.py makemigrations dashboard_admin --settings=medcombo.settings.test
+                      && python manage.py makemigrations opportunity --settings=medcombo.settings.test
+                      && python manage.py makemigrations task --settings=medcombo.settings.test
+                      && python manage.py makemigrations post --settings=medcombo.settings.test
+                      && python manage.py makemigrations job --settings=medcombo.settings.test
+                      && python manage.py makemigrations economic --settings=medcombo.settings.test
+                      && python manage.py migrate --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/configuration/company/data/invoicingtitle.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/configuration/company/data/company_medcombo.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/configuration/usercustom/data/user_admin_test.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/language_campaign.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/myweb/company/data/languagemodel.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/crm/data/state.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/crm/opportunity/data/contactedby.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/crm/task/data/priority.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/crm/task/data/calltasks.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/myweb/job/data/contracts.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/myweb/job/data/workdays.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/configuration/usercustom/data/work.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/campaigns.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/banners.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/banners_index.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/crm/dashboard_admin/data/banners_user.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/product/data/policyprivacy.json  --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/product/data/area.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/product/data/category.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/product/data/subcategory.json --settings=medcombo.settings.test
+                      && python manage.py loaddata medcombo/product/data/keyword.json --settings=medcombo.settings.test
+                      && gunicorn medcombo.wsgi_test:application --bind 0.0.0.0:8000"
+
+    volumes:
+      - ./medcombo:/medcombo
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  nginx:
+    restart: always
+    build: ./nginx   
+    ports:
+      - "80:80"
+    volumes:
+      - ./medcombo/static:/var/www/static
+    links:
+      - web:web
+

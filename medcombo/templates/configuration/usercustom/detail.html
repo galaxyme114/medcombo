@@ -1,0 +1,113 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="col-12 col-lg-10 background">
+    <div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}DATOS PERSONALES{% endblocktrans %}</h5>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <a href="{% url 'view_profileupdate' user.id %}">
+                <button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans %}</button>
+            </a>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+    <div class="col-lg-10 p-0">
+        <form class="datos-form">
+            <div class="row">
+                <div class="col-12 col-md-7">
+                    <div class="form-row d-flex align-items-end">
+                        <div class="col-12 col-sm-6">
+                            <label>{% blocktrans %}Nombre{% endblocktrans %}</label>
+                            <input type="text" class="form-control" placeholder="{{user.first_name}}" disabled="True">
+                        </div>
+                        <div class="col-12 col-sm-6 movil-margin">
+                            <label>{% blocktrans %}Apellido{% endblocktrans %}</label>
+                            <input type="text" class="form-control" placeholder="{{user.last_name}}" disabled="True">
+                        </div>
+                    </div>
+                    <div class="form-row d-flex align-items-end">
+                        <div class="col-12 col-sm-6">
+                            <label>{% blocktrans %}Email{% endblocktrans %}</label>
+                            <input type="text" class="form-control" placeholder="{{user.email}}" disabled="True">
+                        </div>
+                        <div class="col-12 col-sm-6 movil-margin">
+                            <label>{% blocktrans %}Usuario{% endblocktrans %}</label>
+                            <input type="text" class="form-control" placeholder="{{user.username}}" disabled="True">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12 col-sm-6 w-100">
+                            <label for="inputState">{% blocktrans %}País{% endblocktrans %}</label>
+                            <input id="inputState" class="form-control" placeholder="{{ user.country }}" disabled="True">
+                        </div>
+                        <div class="col-12 col-sm-6 w-100">
+                            <label for="number">{% blocktrans %}Teléfono{% endblocktrans %}</label>
+                            <input name="number" type="text" class="form-control" placeholder="{{ user.telephone }}" disabled="True">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputState">{% blocktrans %}Ocupación{% endblocktrans %}</label>
+                            <input id="inputState" class="form-control" placeholder="{{ user.work }}" disabled="True">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5">
+                    <label for="photo">{% blocktrans %}Fotografía{% endblocktrans %}</label>
+                    <div class="col-12 col-sm-6 foto-img">
+                        {% if user.picture %}
+                            <img src="{{ user.picture.url }}" alt="user-{{user.username}} of Medcombo">
+                        {% else %}
+                            <img src="{% static 'img/userdefault.jpeg' %}" alt="user of Medcombo">
+                        {% endif %}
+                    </div>
+                    <label for="company">{% blocktrans %}Empresa{% endblocktrans %}</label>
+                    <div class="col-12 col-sm-6 w-100 p-0">
+                        {% if user.company %}
+                            <a  href="{% url 'detail_company' user.company.id %}"  class="btn btn-primary datos-form-buttom datos-form-buttom-two w-100">
+                                {{ user.company.name}}
+                            </a>
+                        {% else %}
+                            <a  href="{% url 'create_company' %}"  class="btn btn-primary datos-form-buttom datos-form-buttom-two w-100">
+                                {% blocktrans %}Crear Empresa{% endblocktrans %}
+                            </a>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+            </div>
+        </form>
+        <div class="datos-form-two mt-5">
+            <figure class="m-0 p-0 d-none d-sm-inline">
+                {% if banner_user %}
+                    {% for banner in banner_user %}
+                        {% if banner.picture %}
+                            <img class="img-fluid border-radius-home" src="{{banner.picture.url}}" alt="" >
+                            <!--<img class="img-fluid border-radius-home" src="{{banner.picture.url}}" alt="" >-->
+                        {% else %}
+                            <img class="img-fluid border-radius-home" src="{% static 'img/user_default.jpg' %}" alt="" >
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <img class="img-fluid border-radius-home" src="{% static 'img/user_default.jpg' %}" alt="" >
+                {% endif %}
+            </figure>
+            <figure class="m-0 p-0 d-inline d-sm-none">
+                <img class="img-fluid border-radius-home" src="{% static 'img/user_default.jpg' %}" alt="" >
+            </figure>
+            <div class="row position-detail-home d-none d-sm-inline">
+                <div class="col-12 d-flex justify-content-center padding-home-top">
+                    <a {% if user.company %} href="{% url 'detail_company' user.company.id %}" {% else %} href="{% url 'create_company' %}" {% endif %} class="btn btn-primary datos-form-buttom datos-form-buttom-two">{% blocktrans %}EXPONER{% endblocktrans %}</a>
+                </div>
+            </div>
+            <div class="row d-inline d-sm-none">
+                <div class="col-12 d-flex justify-content-center">
+                    <a {% if user.company %} href="{% url 'detail_company' user.company.id %}" {% else %} href="{% url 'create_company' %}" {% endif %} class="btn btn-primary datos-form-buttom">{% blocktrans %}EXPONER PRODUCTOS{% endblocktrans %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}  

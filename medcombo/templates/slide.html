@@ -1,0 +1,85 @@
+{% load staticfiles %}
+<style>
+    .carousel-indicators li{
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 1px solid #c1c1c1;
+    }
+</style>
+<div class="container-fluid" id="banner">
+    <div class="row">
+        <div class="col-12">
+            <!--Carousel-->
+            {% if banner_slide %}
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for the_banner in banner_slide %}
+                            {% if forloop.first %}
+                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                            {% else %}
+                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}"></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                        {% for the_banner in banner_slide %} 
+                            {% if forloop.first %}
+                                {% if the_banner %}
+                                    <div class="carousel-item active">
+                                        <img src="{{ the_banner.url }}" class=" d-block w-100" alt="Buy Online Medical Products at Wholesale Rate" >
+                                    </div>
+                                {% else %}
+                                    <div class="carousel-item active">
+                                        <img src="{% static 'img/banner.jpg' %}" class=" d-block w-100" alt="Buy Online Medical Products at Wholesale Rate" >
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                {% if the_banner %}
+                                    <div class="carousel-item">
+                                        <img src="{{ the_banner.url }}" class=" d-block w-100" alt="Buy Online Medical Products at Wholesale Rate" >
+                                    </div>
+                                {% else %}
+                                    <div class="carousel-item">
+                                        <img src="{% static 'img/banner.jpg' %}" class=" d-block w-100" alt="Buy Online Medical Products at Wholesale Rate" >
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="{% static 'img/banner.jpg' %}" class=" d-block w-100" alt="Buy Online Medical Products at Wholesale Rate" >
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'img/banner.jpg' %}" class=" d-block w-100" alt="Buy Online Medical Products at Wholesale Rate" >
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'img/banner.jpg' %}" class=" d-block w-100" alt="Buy online medical products at wholesale rate" > 
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <!--./End Carousel-->
+        </div>
+    </div>
+</div>
+{% comment %} <script>
+    function init() {
+        var imgDefer = document.getElementsByTagName('img');
+        for (var i=0; i<imgDefer.length; i++) {
+            if(imgDefer[i].getAttribute('data-src')) {
+                imgDefer[i].setAttribute('src',imgDefer[i].getAttribute('data-src'));
+            } 
+        } 
+    }
+    window.onload = init;
+</script> {% endcomment %}

@@ -1,0 +1,29 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load tz %}
+<div class="col-12 pl-0 pr-0">
+    {% for extend in msg%}
+        <div class="d-flex justify-content-start mb-4">
+            <div class="img_cont_msg">
+                {% if extend.mailer.picture %}
+                    <img class="user_img_msg" src="{{ extend.mailer.picture.url }}">
+                {% else %}
+                    <img class="user_img_msg" src="{% static 'img/userdefault.jpeg' %}">
+                {% endif %}
+            </div>
+            {% if extend.mailer != request.user %}
+                <div class="messenger_cotainer col-11">
+                    {{extend.message|safe|escape}}
+                    <span class="msg_time">{{extend.created|timezone:zone}}</span>
+                </div>
+            {% else %}
+                <div class="messenger_cotainer_send col-11">
+                    {{extend.message|safe|escape}}
+                    <span class="msg_time_send">
+                        {{extend.created|timezone:zone}}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

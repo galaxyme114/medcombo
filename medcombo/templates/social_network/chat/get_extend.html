@@ -1,0 +1,87 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load tz %}
+<link rel="stylesheet" href="{% static 'css/app/social/social.css' %}">
+{% if extended %}
+    <div>
+        {% for extend in extended %}
+            {% if forloop.last %}
+                {% if extend.mailer != request.user %}
+                    <div class="d-flex justify-content-start mb-1">
+                        <div class="img_blank_msg">
+                        </div>
+                        <div >
+                            {% if extend.attach.extension == "png" or extend.attach.extension == "jpg" or extend.attach.extension == "PNG" or extend.attach.extension == "JPG" or extend.attach.extension == "gif" %}
+                                <a href="{{ extend.attach.file.url }}" download><img class="img_preview_msg img-thumbnail" src="{{ extend.attach.file.url }}"></a>
+                            {% else %}
+                                <a href="{{ extend.attach.file.url }}" download>{{ extend.attach.name|truncatechars:15 }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-start mb-4">
+                        <div class="img_cont_msg">
+                            {% if extend.mailer.picture %}
+                                <img class="user_img_msg" src="{{ extend.mailer.picture.url }}">
+                            {% else %}
+                                <img class="user_img_msg" src="{% static 'img/userdefault.jpeg' %}">
+                            {% endif %}
+                        </div>
+                        <div class="msg_cotainer">
+                            {{extend.message|safe|escape}}
+                            <span class="msg_time">{{extend.created|timezone:zone}}</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="d-flex justify-content-end mb-1">
+                        <div >
+                            {% if extend.attach.extension == "png" or extend.attach.extension == "jpg" or extend.attach.extension == "PNG" or extend.attach.extension == "JPG" or extend.attach.extension == "gif" %}
+                                <a href="{{ extend.attach.file.url }}" download><img class="img_preview_msg img-thumbnail" src="{{ extend.attach.file.url }}"></a>
+                            {% else %}
+                                <a href="{{ extend.attach.file.url }}" download>{{ extend.attach.name|truncatechars:15 }}</a>
+                            {% endif %}
+                        </div>
+                        <div class="img_blank_msg">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mb-4">
+                    {% if extend.message != "" %}
+                        <div class="msg_cotainer_send">
+                            {{extend.message|safe|escape}}
+                            <span class="msg_time_send">
+                                {{extend.created|timezone:zone}}
+                                {{extend.read}}
+                                {% if extend.read == True %}
+                                    &nbsp;&nbsp;&nbsp;<i class="fas fa-check-double" style="color: green;"></i>
+                                {% else %}
+                                    &nbsp;&nbsp;&nbsp;<i class="fas fa-check-double" style="color: rgb(206, 205, 205);"></i>
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% else %}
+                    <div class="msg_cotainer_empty">
+                        <span class="msg_time_send">
+                            {{extend.created|timezone:zone}}
+                            {{extend.read}}
+                            {% if extend.read == True %}
+                                &nbsp;&nbsp;&nbsp;<i class="fas fa-check-double" style="color: green;"></i>
+                            {% else %}
+                                &nbsp;&nbsp;&nbsp;<i class="fas fa-check-double" style="color: rgb(206, 205, 205);"></i>
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+                        <div class="img_cont_msg">
+                            {% if extend.mailer.picture %}
+                                <img class="user_img_msg" src="{{ extend.mailer.picture.url }}">
+                            {% else %}
+                                <img class="user_img_msg" src="{% static 'img/userdefault.jpeg' %}">
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div >
+{% else %}
+    <div></div>
+{% endif %}

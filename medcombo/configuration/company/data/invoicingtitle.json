@@ -1,0 +1,1 @@
+[{"model": "location.invoicingtitle", "pk": 1, "fields": {"name": "Mr."}}, {"model": "location.invoicingtitle", "pk": 2, "fields": {"name": "Mrs."}}, {"model": "location.invoicingtitle", "pk": 3, "fields": {"name": "Ms."}}]

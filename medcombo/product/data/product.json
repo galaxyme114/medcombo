@@ -1,0 +1,209 @@
+[
+    {
+      "model": "product.product",
+      "pk": 2,
+      "fields": {
+        "product_ID": null,
+        "ref": "",
+        "price": "0.00",
+        "name": "Carro Curas NOVIMED",
+        "picture": "product/carro2.jpg",
+        "description": "F-DNOVTREAT-1-3-1-AZ \r\nCarro pensado para facilitar al m\u00e1ximo la labor del personal de atenci\u00f3n sanitaria. F\u00e1cil de manejar",
+        "notes": "",
+        "company": 2,
+        "area": 1,
+        "category": 1,
+        "subcategory": 2,
+        "video": "",
+        "algorithmic_value": 1000,
+        "rating_average": "0.0",
+        "approved": true,
+  
+        "language": 4
+      }
+    },
+    {
+      "model": "product.product",
+      "pk": 3,
+      "fields": {
+        "product_ID": null,
+        "ref": "",
+        "price": "0.00",
+        "name": "Carro Emergencia NOVIMED",
+        "picture": "product/carro3.jpg",
+        "description": "F-DNOVPAR-1-3-1 \r\nCarro Emergencia\u00a0Novimed\r\nCarro hospitalario resistente, ligero y manejable. Incluye los siguientes accesorios imprescindibles",
+        "notes": "",
+        "company": 2,
+        "area": 1,
+        "category": 1,
+        "subcategory": 2,
+        "video": "",
+        "algorithmic_value": 1000,
+        "rating_average": "0.0",
+        "approved": true,
+  
+        "language": 4
+      }
+    },
+    {
+      "model": "product.product",
+      "pk": 4,
+      "fields": {
+        "product_ID": null,
+        "ref": "",
+        "price": "0.00",
+        "name": "Carro Novimed de cajones para transporte, 90 cajas de Robot",
+        "picture": "product/carro4.jpg",
+        "description": "Nuevo Dise\u00f1o\u00a0con ventajas innovadoras y mejoras en todas sus caracter\u00edsticas para facilitar la labor del personal sanitario",
+        "notes": "",
+        "company": 2,
+        "area": 1,
+        "category": 1,
+        "subcategory": 2,
+        "video": "",
+        "algorithmic_value": 1000,
+        "rating_average": "0.0",
+        "approved": true,
+  
+        "language": 4
+      }
+    },
+    {
+      "model": "product.product",
+      "pk": 5,
+      "fields": {
+        "product_ID": null,
+        "ref": "",
+        "price": "0.00",
+        "name": "Bandeja de medicaci\u00f3n semanal 5100",
+        "picture": "product/BLP1.jpg",
+        "description": "F-BLP-5100-ES \r\nCaracter\u00edsticas:\r\n- Color: azul.\r\n- 7 pastilleros extra\u00edbles.\r\n- Separadores regulables y extra\u00edbles.\r\n- Gran capacidad, incluso los sobres. (Imprescindible guardar las pastillas muy peque\u00f1as en su blister)\r\n- Las tapas se abren en los dos sentidos.\r\n- Etiqueta de cartulina en frontal del pastillero",
+        "notes": "",
+        "company": 2,
+        "area": 4,
+        "category": 1,
+        "subcategory": 1,
+        "video": "",
+        "algorithmic_value": 1000,
+        "rating_average": "0.0",
+        "approved": true,
+  
+        "language": 4
+      }
+    },
+    {
+      "model": "product.product",
+      "pk": 6,
+      "fields": {
+        "product_ID": null,
+        "ref": "",
+        "price": "0.00",
+        "name": "Bandeja de medicaci\u00f3n semanal 3100",
+        "picture": "product/BLP2.jpg",
+        "description": "F-BLP-3100-ES \r\nBandeja de distribuci\u00f3n semanal de medicaci\u00f3n con 7 pastilleros ajustavel.\u00a0\r\nColor: verde y gris.\r\nSeparadores regulables y extra\u00edbles.\r\nGran capacidad, incluso para sobres.",
+        "notes": "",
+        "company": 2,
+        "area": 4,
+        "category": 1,
+        "subcategory": 1,
+        "video": "",
+        "algorithmic_value": 1000,
+        "rating_average": "0.0",
+        "approved": true,
+  
+        "language": 4
+      }
+    },
+    {
+      "model": "product.product",
+      "pk": 7,
+      "fields": {
+        "product_ID": null,
+        "ref": "",
+        "price": "0.00",
+        "name": "Publicidad",
+        "picture": "",
+        "description": "",
+        "notes": "",
+        "company": 1,
+        "area": null,
+        "category": null,
+        "subcategory": null,
+        "video": "",
+        "algorithmic_value": 1000,
+        "rating_average": "0.0",
+        "approved": true,
+  
+        "language": 4
+      }
+    },
+    {
+      "model": "product.product",
+      "pk": 12,
+      "fields": {
+        "product_ID": 7959,
+        "ref": "F-D889",
+        "price": "61.00",
+        "name": "Banner5",
+        "picture": "",
+        "description": "",
+        "notes": "notas nuevas jha",
+        "company": 1,
+        "area": null,
+        "category": null,
+        "subcategory": null,
+        "video": "",
+        "algorithmic_value": 1000,
+        "rating_average": "0.0",
+        "approved": true,
+  
+        "language": 4
+      }
+    },
+    {
+      "model": "product.product",
+      "pk": 13,
+      "fields": {
+        "product_ID": null,
+        "ref": "",
+        "price": "0.00",
+        "name": "Carro Curas NOVIMED",
+        "picture": "product/carro2.jpg",
+        "description": "F-DNOVTREAT-1-3-1-AZ \r\nCarro pensado para facilitar al m\u00e1ximo la labor del personal de atenci\u00f3n sanitaria. F\u00e1cil de manejar",
+        "notes": "",
+        "company": 19,
+        "area": 1,
+        "category": 1,
+        "subcategory": 2,
+        "video": "",
+        "algorithmic_value": 1000,
+        "rating_average": "0.0",
+        "approved": true,
+  
+        "language": 4
+      }
+    },
+    {
+      "model": "product.product",
+      "pk": 14,
+      "fields": {
+        "product_ID": null,
+        "ref": "",
+        "price": "0.00",
+        "name": "Carro Emergencia NOVIMED",
+        "picture": "product/carro3.jpg",
+        "description": "F-DNOVPAR-1-3-1 \r\nCarro Emergencia\u00a0Novimed\r\nCarro hospitalario resistente, ligero y manejable. Incluye los siguientes accesorios imprescindibles",
+        "notes": "",
+        "company": 19,
+        "area": 1,
+        "category": 1,
+        "subcategory": 2,
+        "video": "",
+        "algorithmic_value": 1000,
+        "rating_average": "0.0",
+        "approved": true,
+  
+        "language": 4
+      }
+    }
+  ]

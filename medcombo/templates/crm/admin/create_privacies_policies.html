@@ -1,0 +1,142 @@
+{% extends "dashboard_admin.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% blocktrans %}Añadir Categorias{% endblocktrans %}</title>
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+            dataLayer.push(arguments);}   
+            gtag('js', new Date());
+            gtag('config', 'UA-148356704-1');
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+	<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+</head>
+<body>
+    <div class="col-12 col-lg-10 background">
+	    <div class="container-fluid">
+		    <div class="row">
+			    <div class="col-12">
+				    <h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}NUEVA POLÍTICA{% endblocktrans%}</h5>
+			    </div>
+		    </div>
+	    </div>
+		<div class="title-seperator row mb-4"></div>
+	    <div class="container-fluid mb-5">
+		    <div class="row ventana-productos">
+			    <div class="col-12">
+				    <div class="row padding-row">
+					    <div class="col-12">
+						    <form action="." id="formulario" method="POST" target="_parent" enctype='multipart/form-data'>
+							    {% csrf_token %}
+							    <div class="row">
+								    <div class="col-12 col-md-8">
+									    <div class="languageCheckRadio">
+										    <div class="form-check-inline">
+											    <p style="font-weight: 700;">{% blocktrans %}INDIQUE EL IDIOMA{% endblocktrans %}</p>
+										    </div>
+										    <div class="form-check form-check-inline">
+										        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="es" value="4" checked>
+										        <label class="form-check-label" for="es">{% blocktrans %}ES{% endblocktrans %}</label>
+									        </div>
+									        <div class="form-check form-check-inline">
+										        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="de" value="2">
+										        <label class="form-check-label" for="de">{% blocktrans %}DE{% endblocktrans %}</label>
+									        </div>
+									        <div class="form-check form-check-inline">
+									      	    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="en" value="3">
+										        <label class="form-check-label" for="en">{% blocktrans %}EN{% endblocktrans %}</label>
+									        </div>
+									        <div class="form-check form-check-inline">
+										        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="fr" value="5">
+										        <label class="form-check-label" for="fr">{% blocktrans %}FR{% endblocktrans %}</label>
+									        </div>
+									        <div class="form-check form-check-inline">
+										        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="pt" value="7">
+										        <label class="form-check-label" for="pt">{% blocktrans %}PT{% endblocktrans %}</label>
+									        </div>
+									        <div class="form-check form-check-inline">
+										        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="it" value="6">
+										        <label class="form-check-label" for="it">{% blocktrans %}IT{% endblocktrans %}</label>
+									        </div>
+									        <div class="form-check form-check-inline">
+										        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="zh" value="1">
+										        <label class="form-check-label" for="zh">{% blocktrans %}ZH-HANT{% endblocktrans %}</label>
+									        </div>
+									        <div class="form-check form-check-inline">
+										        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="zhh" value="8">
+										        <label class="form-check-label" for="zhh">{% blocktrans %}ZH-HANS{% endblocktrans %}</label>
+									        </div>
+									        <div class="form-check form-check-inline">
+										        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="ja" value="9">
+										        <label class="form-check-label" for="ja">{% blocktrans %}JA{% endblocktrans %}</label>
+									        </div>
+									    </div>
+									</div>
+								</div>
+								<div class="col-md-4"></div>
+							    <!------------------------- descripcion --------------------------->
+							    <div class="row py-4">
+								    <div class="col-12 col-md-9">
+									    <h4>{% blocktrans %}Descripcion de la política{% endblocktrans%}</h4>
+									    <input value="4" name="language" type="hidden" id="language">
+									    <textarea  style="border-radius: 10px;height:300px;width:750px;"name="description" id="description" rows="5" class="w-100"></textarea>	
+									</div>
+								</div>
+								<div class="col-md-3"></div>
+							    <!---------------------- description --------------------->
+                                <div class="row py-4"></div>
+							    <div>
+								    <div class="d-flex justify-content-center mt-4">
+									    <button type="submit" class="btn btn-primary crm-button-anadir mr-3">{% blocktrans %}GUARDAR{% endblocktrans %}</button> 
+									    <a href="{% url 'PrivacyPolicyCrm' %}" class="btn btn-primary crm-button-anadir">{% blocktrans %}CANCELAR{% endblocktrans %}</a>
+								    </div>
+							    </div>
+							    <!-- fin de codigo nuevo -->
+						    </form>
+					    </div>
+				    </div>							
+			    </div>					
+		    </div>
+	    </div>
+    </div>
+    <script>
+        $('#formulario input').on('change', function() {
+            $("#nivel").val($('input[name=miradio]:checked', '#formulario').val());
+            $("#relationship").val($('input[name=miradio]:checked', '#formulario').attr("id"));
+            $("#language").val($('input[name=inlineRadioOptions]:checked', '#formulario').val());
+        });
+       	CKEDITOR.replace( 'description',
+        {
+            toolbar :
+            [
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+            ]
+        });
+
+    </script>
+    <script type="text/javascript">
+    	{% if messages %}
+    	{% for message in messages %}
+    	$.notify("{{ message }}", "error");
+    	{% endfor %}
+    	{% endif %}
+    </script>
+</body>
+</html>
+
+{% endblock %}

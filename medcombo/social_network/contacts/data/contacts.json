@@ -1,0 +1,18 @@
+[
+    {
+        "model": "contacts.contacts",
+        "pk": 1,
+        "fields": {
+            "relationship": 4,
+            "owner": 2
+        } 
+    },
+    {
+        "model": "contacts.contacts",
+        "pk": 2,
+        "fields": {
+            "relationship": 3,
+            "owner": 2
+        }
+    }
+]

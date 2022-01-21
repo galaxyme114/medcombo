@@ -1,0 +1,80 @@
+{% load staticfiles %}
+{% load i18n %}
+<div class="datos-form-post w-100">
+    {% if postes != None %}
+        {% if postes %} 
+            <div id="container_list">
+                  {% for x in postes %}
+                      {% if x.user.username == request.user.username %}
+                          <div id="lang" data-language="{{x.language.value_language}}" >
+                            <li style="list-style:none;" class="mt-1">                                
+                                 <div class="row item-post text-justify" style="font-size:1.1rem;">
+                                    <div class="col-7 col-sm-8">
+                                        <a href="#">- {{ x.title }}</a>
+                                    </div>
+                                    <div class="col-3 col-sm-3 pl-0">
+                                        <span class="text-nowrap mb-0 pl-0">{{ x.date|date:'d/m/y' }}</span>
+                                    </div>
+                                    <div class="col-2 col-sm-1 text-right pl-0">
+                                        <span data-toggle="modal" data-target="#EditDelete{{x.id}}">
+                                            <a href="#"><i style="color:#7f9bcd !important;" class="fas fa-search-plus"></i></a>
+                                        </span>
+                                    </div>
+                                 </div>
+                            </li>
+                            <!-- modal para eliminar Post -->
+                            <div class="modal fade" id="EditDelete{{x.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-xs">
+                                    <div class="modal-content" style="border-radius: 25px;">
+                                        <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-search fa-flip-horizontal icons_size_title_second"></i>
+                                                <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}SELECCIONE{% endblocktrans%}</p>
+                                            </div>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="{% blocktrans %}Close{% endblocktrans %}">
+                                                <span aria-hidden="true" style="color: #fff;">&times;</span>
+                                              </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-12 d-flex justify-content-start">
+                                                <h5>{% blocktrans %}¿Qué desea hacer con el Post?{% endblocktrans %}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="col-12 d-flex justify-content-center">
+                                                <button id="delete-button{{x.id}}" data-del="{{x.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}ELIMINAR{% endblocktrans %}</button>
+                                                <a href="{% url 'post_update' x.id %}" class="btn btn-primary datos-form-buttom" >{% blocktrans %}EDITAR{% endblocktrans %}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            <script>
+                                $('#delete-button{{x.id}}').click(function(e){
+                                    e.preventDefault();
+                                    var value = '{{x.id}}';
+                                    var url = '{% url "PostDeleteAjax" %}';
+                                    var token = '{{csrf_token}}';
+                                    $.ajax({
+                                        headers: { "X-CSRFToken": token },
+                                        method: 'POST',
+                                        url: url,
+                                        data: {
+                                            'value': value
+                                        },
+                                        success: function(data) {
+                                            if(data == 'Ok') {
+                                                location.href = '{% url "post_createList" %}';
+                                            }
+                                        }
+                                    });
+                                });
+                             </script>
+                            <!---------------------- fin del modal ------------- --> 
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+</div>

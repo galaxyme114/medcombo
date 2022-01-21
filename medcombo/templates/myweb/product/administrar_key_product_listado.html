@@ -1,0 +1,122 @@
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-sm-8" id="myurl3" data-contact-url="{% url 'ajax_productoadministrar' %}">
+	<div class="row text-center pt-3" style="border: 1px solid #7f9bcd;border-radius: 0.5rem;">
+		{% for aprobar in aprobados %}
+		    <div class="col-md-4 col-6" id='aprobarp{{aprobar.product.pk}}'>
+			    {% for product in productos %}
+			        {% if product.pk == aprobar.product.pk %}
+			            {% if product.picture %}
+			                <a href="#" class="d-block mb-4 h-100" id='desactivar{{aprobar.product.pk}}'>
+				                <img class="img-thumbnail" style="max-width: 50%;" src="{{ product.picture.url}}" alt="">
+				                <i class="fas fa-times" style="position:absolute;" ></i>
+			                </a>
+			                <script type="text/javascript">
+				                $('#desactivar{{aprobar.product.pk}}').click(function(e){
+					                var url = $("#myurl3").attr("data-contact-url");
+					                var productid = '{{product.pk}}'; 
+									var userid= '{{request.user.pk}}';
+					                var keyid= '{{keyword.pk}}';
+					                $.ajax({
+						                url: url,
+						                data: {
+							                'productid': productid,
+							                'userid': userid,
+							                'keyid': keyid,     
+						                },
+						                success: function (data) { 
+							                if (data == 'Eliminado'){
+								                $('#aprobarp{{aprobar.product.pk}}').hide();
+								                $("#accion{{aprobar.product.pk}}").prop("checked", false);
+								                $.notify("{% blocktrans %}Producto desactivado{% endblocktrans %}", "error");
+							                }
+						                }
+					                });
+				                });
+			                </script>
+			            {% endif %}
+			        {% endif %}
+			        <!--- Desactivar en la x-------->
+			    {% endfor %}
+		    </div>
+		{% endfor %}
+	</div>
+</div>
+<div class="col-10">
+	<div class="row text-center pt-5">
+		{% for product in productos %}
+		    {% for pkeyword in product.keyword.all %}<!--- for keyword.all -->
+		        {% if pkeyword.pk == keyword.pk %}		
+		            <div class="col-md-2 col-6">
+			            <a href="#" class="d-block mb-4 h-100">
+				            {% if product.picture %}
+				                <img class="img-thumbnail" style="max-width: 50%;" src="{{ product.picture.url}}" alt=""><input type="checkbox" id="accion{{product.pk}}" style="position: absolute;">
+				            {% else %}
+				                <img class="img-thumbnail" style="max-width: 50%;" src="{% static 'img/default.png' %}" alt=""><input id="accion{{product.pk}}" type="checkbox">
+				            {% endif %}
+			            </a>
+		            </div>
+		            <script type="text/javascript">
+			            $('#accion{{product.pk}}').click(function(e){
+				            var url = $("#myurl3").attr("data-contact-url");
+				            var productid = '{{product.pk}}';
+				            var userid= '{{request.user.pk}}';
+				            var keyid= '{{keyword.pk}}';
+				            $.ajax({                      
+					            url: url,
+					            data: {
+						            'productid': productid,
+						            'userid': userid,
+						            'keyid': keyid,     
+					            },
+					            success: function (data) { 
+						            if (data == 'Elimine'){
+							            $("#accion{{product.pk}}").prop("checked", false); 
+							            $.notify("{% blocktrans %}Sólo puede seleccionar 3 productos{% endblocktrans %}", "error");
+						            }
+						            if (data == 'Agregado'){
+							            $.notify("{% blocktrans %}Producto activado{% endblocktrans %}", "success");
+							            $("#accion{{product.pk}}").prop("checked", true); 
+		                                var token = '{{csrf_token}}';
+		                                var my_url = "{% url 'ajax_productoadministrar_listado' %}";
+		                                var userid= '{{request.user.pk}}';
+		                                var keyid= '{{keyword.pk}}';
+		                                $.ajax({   
+			                                headers: { "X-CSRFToken": token }, 
+			                                type: 'POST',
+			                                url: my_url,
+			                                data: {
+				                                'userid': userid,
+				                                'keyid': keyid,
+			                                },
+			                                success: function (data) {  
+				                                $("#listado").html(data);
+			                                }
+		                                });
+	                                }
+	                                if (data == 'Eliminado'){
+		                                $.notify("{% blocktrans %}Producto desactivado{% endblocktrans %}", "error");
+		                                $('#aprobarp{{product.pk}}').hide();
+	                                }
+                                }
+                            });
+			            });
+		            </script>
+			    {% endif %}
+			{% endfor %}<!-- for de keywords.all---->
+		{% endfor %}
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		{% for aprobar in aprobados %}
+		    {% for product in productos %}
+		        {% if product.pk == aprobar.product.pk %}
+		            $("#accion{{product.pk}}").prop("checked", true); 
+		        {% endif %}
+		    {% endfor %}
+		{% endfor %}
+	});
+</script>
+{% endblock %}

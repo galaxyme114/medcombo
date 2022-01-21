@@ -1,0 +1,101 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load auth_extras %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 col-md-8">
+				<div class="row point-border py-4">
+					<div class="col-12 col-md-6 d-flex p-0">
+						<a class="nav-link" href="{% url 'AdminKeywordCrm' %}">
+							<div class="col d-flex flex-column align-items-center">
+							    <h5>{% blocktrans %}Mensajes{% endblocktrans %}</h5>
+							    <i class="far fa-envelope-open"></i>
+							    <span>99</span>
+							    <p>{% blocktrans %}Tienes mensajes sin leer{% endblocktrans %}</p>
+							</div>
+						</a>
+						<div class="point-perfil-bl"></div>
+						 <a class="nav-link" href="{% url 'AdminMywebCrm' %}">
+						 	<div class="col d-flex flex-column align-items-center">
+								<h5>{% blocktrans %}Webs{% endblocktrans %}</h5>
+								<i class="fas fa-globe"></i>
+								<span>{{webs}}</span>
+								<p>{% blocktrans %}Solicitud de My Web{% endblocktrans %}</p>
+							</div>
+						</a>
+						<div class="point-perfil-bl"></div>
+					</div>
+					<div class="col-12 col-md-6 d-flex p-0">
+						<a class="nav-link" href="{% url 'AdminProductCrm' %}">
+							<div class="col d-flex flex-column align-items-center">
+								<h5>{% blocktrans %}Productos{% endblocktrans %}</h5>
+								<i class="far fa-window-restore"></i>
+								<span>{{products}}</span>
+								<p>{% blocktrans %}Productos por revisar{% endblocktrans %}</p>
+							</div>
+						</a>
+						<div class="point-perfil-bl"></div>
+						<a class="nav-link" href="{% url 'AdminKeywordCrm' %}">
+							<div class="col d-flex flex-column align-items-center">
+								<h5>{% blocktrans %}Palabras{% endblocktrans %}</h5>
+								<i class="far fa-user"></i>
+								<span>{{key}}</span>
+								<p>{% blocktrans %}Palabras por aprobar{% endblocktrans %}</p>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4"></div>
+		</div>
+		<div class="row d-flex align-items-end pt-0">
+	    </div>
+	    <div class="row py-3">
+		    <div class="col-12 px-0">
+			    <div id="contact-table">
+				    <table class="table table-hover table-responsive-md">
+				        <thead>
+				            <tr>
+				                <th scope="col">{% blocktrans %}Nombre{% endblocktrans %}</th>
+				                <th scope="col">{% blocktrans %}Email{% endblocktrans %}</th>
+				                <th scope="col">{% blocktrans %}Estado{% endblocktrans %}</th>
+				                <th scope="col" class="text-center">{% blocktrans %}Contraseña{% endblocktrans %}</th>
+				                <th scope="col" class="text-center">{% blocktrans %}Restablecer Contraseña{% endblocktrans %}</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+                            {% if object_list %} 
+								{% for user in object_list %}
+								    <form method="post">
+										{% csrf_token %}
+				                        <tr>
+				                            <td scope="row">{{ user.first_name }} {{ user.last_name }}</td>
+				                            <td>{{ user.email }}</td>
+				                            {% if user|has_group:"vendedor" %}
+				    	                        <td>{% blocktrans %}Activo{% endblocktrans %}</td>
+				                            {% else %}
+						                        <td>{% blocktrans %}Inactivo{% endblocktrans %}</td>
+				                            {% endif %}
+				                            <td class="text-center">
+                                                <a class="btn btn-primary" href="{% url 'AdminUserConfirm' user.id %}">{% blocktrans %}GENERAR{% endblocktrans %}</a>	 
+				                            </td>
+				                            <td class="text-center">
+				      	                        <a class="btn btn-primary" href="{% url 'password_reset' %}">{% blocktrans %}RESTABLECER{% endblocktrans %}</a>
+				                            </td>
+				                        </tr>
+                                    </form>
+                                {% endfor %}
+                            {% else %}
+                                <h1>{% blocktrans %} No hay registros {% endblocktrans %}</h1>
+                            {% endif %}
+				        </tbody>
+				    </table>
+			    </div>
+		    </div>
+	    </div>
+    </div>
+</div>
+{% endblock %}

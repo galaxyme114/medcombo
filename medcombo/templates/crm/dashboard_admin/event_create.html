@@ -1,0 +1,247 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+    <div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-2 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}Evento{% endblocktrans %}</h5>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+    <br />
+    <!--Create Banner-->
+    <form id="my_form" class="needs-validation mb-3" action="." method="POST" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <div class="row m-0 list-fondo">
+            <div class="text-center-container">
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col-12">
+                
+                <div class="row mt-4">
+                    <div class="col-12 d-md-flex">
+                        <div class="col-12 col-md-6">
+                            <div class="col-12" style="text-align: center;">
+                                {% if event %}
+                                    {% if event.picture %}
+                                        <img id="picture-banner" src="{{event.picture.url}}" alt="" class="img-thumbnail" alt="" width="350" >
+                                    {% else %}
+                                        <img id="picture-banner" src="/static/img/default.png" alt="" class="img-thumbnail" alt="" width="350">
+                                    {% endif %}
+                                {% else %}
+                                    <img id="picture-banner" src="/static/img/default.png" alt="" class="img-thumbnail" alt="" width="350">
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <div class="col-12 col-md-8 offset-md-2 update-banner p-0 mt-5">
+                                    <span class="d-flex" style="border: solid 1px #b5b6b6; width: 100%;">
+                                        <i class="fas fa-file"></i>
+                                        <span class="custom-file">
+                                            <label id="label-file" class="mt-2" for="customFileBanner"></label>
+                                            {{form.picture}}
+                                            <div class="invalid-feedback">
+                                                {% blocktrans %}Seleccione una imagen{% endblocktrans %}
+                                            </div> 
+                                        </span>
+                                    </span>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div>
+                                <p class="ml-3 mt-3">{% blocktrans %}Título{% endblocktrans%}</p>
+                                <div class="pl-3 pr-3 mt-2 ">
+                                    {{form.title}}
+                                    <div class="invalid-feedback">
+                                        {% blocktrans %}Introduzca el título{% endblocktrans %}
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 mt-3 ml-3">
+                                    <span class="mr-3" style="color: #000000">{% blocktrans %}Inicio {% endblocktrans %}</span>
+                                    <span class="borderDate">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                            {{ form.start_event }}
+                                        </span> 
+                                    </span>
+                                    <div class="invalid-feedback">
+                                        {% blocktrans %}Seleccione una fecha de inicio{% endblocktrans %}
+                                    </div>
+                                </div>
+                                <div class="col-md-5 mt-3 ml-3">
+                                    <div>
+                                        <span class="mr-3" style="color: #000000;">{% blocktrans %}Fin {% endblocktrans%}</span>
+                                        <span class="borderDate">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                {{ form.end_event }}
+                                            </span>
+                                        </span>
+                                        <div class="invalid-feedback">
+                                            {% blocktrans %}Seleccione una fecha de fin{% endblocktrans %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <nav id="tabs-bannerList" class="mt-4  pl-3">
+                                <span class="mr-3" style="color: #000000;">{% blocktrans %}Descripción{% endblocktrans%}</span>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link active ml-0" id="nav-es-tab" data-toggle="tab" href="#nav-es" role="tab" aria-controls="nav-es" aria-selected="true">es</a>
+                                    <a class="nav-item nav-link" id="nav-en-tab" data-toggle="tab" href="#nav-en" role="tab" aria-controls="nav-en" aria-selected="false">en</a>
+                                    <a class="nav-item nav-link" id="nav-pt-tab" data-toggle="tab" href="#nav-pt" role="tab" aria-controls="nav-pt" aria-selected="false">pt</a>
+                                    <a class="nav-item nav-link" id="nav-fr-tab" data-toggle="tab" href="#nav-fr" role="tab" aria-controls="nav-fr" aria-selected="false">fr</a>
+                                    <a class="nav-item nav-link" id="nav-it-tab" data-toggle="tab" href="#nav-it" role="tab" aria-controls="nav-it" aria-selected="false">it</a>
+                                    <a class="nav-item nav-link" id="nav-de-tab" data-toggle="tab" href="#nav-de" role="tab" aria-controls="nav-de" aria-selected="false">de</a>
+                                    <a class="nav-item nav-link" id="nav-zh_hant-tab" data-toggle="tab" href="#nav-zh_hant" role="tab" aria-controls="nav-zh_hant" aria-selected="false">zh-hant</a>
+                                    <a class="nav-item nav-link" id="nav-zh_hans-tab" data-toggle="tab" href="#nav-zh_hans" role="tab" aria-controls="nav-zh_hans" aria-selected="false">zh-hans</a>
+                                    <a class="nav-item nav-link" id="nav-jp-tab" data-toggle="tab" href="#nav-jp" role="tab" aria-controls="nav-jp" aria-selected="false">jp</a>
+                                </div>
+                            </nav>
+                            <div class="tab-content mb-3 pl-3" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-es" role="tabpanel" aria-labelledby="nav-home-tab">
+                                    <div class="row m-0 list-fondo">
+                                        <div class="col-12 d-flex justify-content-center mt-2 mb-2">
+                                            {{form.description_es}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-en" role="tabpanel" aria-labelledby="nav-en-tab">
+                                    <div class="row m-0 list-fondo">
+                                        <div class="col-12 d-flex justify-content-end mt-2 mb-2">
+                                             {{form.description_en}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-pt" role="tabpanel" aria-labelledby="nav-pt-tab">
+                                    <div class="row m-0 list-fondo">
+                                        <div class="col-12 d-flex justify-content-end mt-2 mb-2">
+                                            {{form.description_pt}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-fr" role="tabpanel" aria-labelledby="nav-fr-tab">
+                                    <div class="row m-0 list-fondo">
+                                        <div class="col-12 d-flex justify-content-end mt-2 mb-2">
+                                            {{form.description_fr}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-it" role="tabpanel" aria-labelledby="nav-it-tab">
+                                    <div class="row m-0 list-fondo">
+                                        <div class="col-12 d-flex justify-content-end mt-2 mb-2">
+                                            {{form.description_it}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-de" role="tabpanel" aria-labelledby="nav-de-tab">
+                                    <div class="row m-0 list-fondo">
+                                        <div class="col-12 d-flex justify-content-end mt-2 mb-2">
+                                            {{form.description_de}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-zh_hant" role="tabpanel" aria-labelledby="nav-zh_hant-tab">
+                                    <div class="row m-0 list-fondo">
+                                        <div class="col-12 d-flex justify-content-end mt-2 mb-2">
+                                            {{form.description_zh_hant}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-zh_hans" role="tabpanel" aria-labelledby="nav-zh_hans-tab">
+                                    <div class="row m-0 list-fondo">
+                                        <div class="col-12 d-flex justify-content-end mt-2 mb-2">
+                                            {{form.description_zh_hans}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-jp" role="tabpanel" aria-labelledby="nav-jp-tab">
+                                    <div class="row m-0 list-fondo">
+                                        <div class="col-12 d-flex justify-content-end mt-2 mb-2">
+                                            {{form.description_jp}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+
+                <div class="list-separator mt-5"></div>
+                <div class="row py-4">
+                    <div class="col-12 d-flex justify-content-center">
+                        <input id="submit_form" type="submit" class="btn btn-primary crm-button-anadir mx-3" value="{% blocktrans %}GUARDAR{% endblocktrans%}">&nbsp;
+                        <a href="{% url 'EventList' %}" type="button" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br />
+</div>
+
+<script>
+
+    $('.custom-file-input').on('change', function(event) {
+        var inputFile = event.currentTarget;
+        if(inputFile.files[0].name.length <= 40) {
+            $(inputFile).parent()
+                .find('#label-file')
+                .html(inputFile.files[0].name.substring(0,40));
+            }
+        else {
+            $(inputFile).parent()
+                .find('#label-file')
+                .html(inputFile.files[0].name.substring(0,40)+'...');
+        }
+    }); 
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#picture-banner')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<script>
+    function readURLUpdate(input,value_num) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#img'+value_num).attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $(document).ready(function(){
+        $
+    });
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

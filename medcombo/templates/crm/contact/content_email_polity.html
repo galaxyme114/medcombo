@@ -1,0 +1,3 @@
+{% load i18n %}
+<p>{% blocktrans %}Hola{% endblocktrans%}, {{user.first_name}} {% blocktrans %}en el presente correo se le envia un enlace para aceptar la politica de privacidad de la empresa Medcombo.{% endblocktrans%}</p>
+<a href="{{dominio}}">{% blocktrans %}Politica de Privacidad{% endblocktrans%}</a>

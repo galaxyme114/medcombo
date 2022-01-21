@@ -1,0 +1,49 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<script type="text/javascript" src="{% static 'js/jstz.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/mail_custom.css' %}">
+<link rel="stylesheet" href="{% static 'css/icheck-bootstrap.min.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="col-12 col-lg-10 background">
+    <div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <p class="text-home-job">{% blocktrans %}LISTADO DE MENSAJES{% endblocktrans%}</p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <a class="btn btn-primary datos-form-buttom" href="{% url 'messenger' %}">{% blocktrans %}Back to Inbox{% endblocktrans%}</a>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+    <section class="content">
+        <div class="row">
+            {% include "social_network/chat/message_sidebar.html" %}
+            
+            <div class="col-md-6">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title" style="color:#7f9bcd;"><b>{% blocktrans %}Read Mail{% endblocktrans%}</b></h3>
+                    </div>
+                    {% if message_read %}
+                    <div class="card-body p-0">
+                        <div class="mailbox-read-info">
+                            <h5>{{message_read.subject}}</h5>
+                            <h6>From: {{message_read.mailer.email}}
+                            <span class="mailbox-read-time float-right">{{message_read.created|date:"D d M Y"}}</span></h6>
+                        </div>
+                        <div class="mailbox-controls with-border text-center"></div>
+                        <div class="mailbox-read-message">
+                            <p style="line-height: 2;">{{message_read.message}}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

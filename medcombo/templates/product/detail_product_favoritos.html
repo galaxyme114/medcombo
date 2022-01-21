@@ -1,0 +1,466 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../slide_search.html' %}
+<style type="text/css">
+  .none {
+    border: none; 
+    background-color: white;
+    outline:none;
+  }
+
+button:focus {
+    outline: none;
+
+}  
+</style> 
+
+<!--Menu Lateral-->
+<div class="social" id="axis">
+		{% if user.is_authenticated %}
+		<ul>
+			<li><a href="{% url 'chat_list' %}" class="icon-facebook"><i class="far fa-comment-alt"></i> {% blocktrans %}Chat{% endblocktrans %}</a></li>
+			<li><a href="{% url 'messenger' %}" class="icon-twitter"><i class="far fa-envelope"></i> {% blocktrans %}Mensajes{% endblocktrans %}</a></li>
+			<li><a href="{% url 'view_profiledetail' user.pk %}" class="icon-googleplus"><i class="far fa-user"></i> {% blocktrans %}Perfil{% endblocktrans %}</a></li>
+			{% if user.company %}
+			<li><a href="{% url 'my_web_home' user.company.pk %}" class="icon-pinterest"><i class="fas fa-globe"></i> {% blocktrans %}My web{% endblocktrans %}</a></li>
+			{% else %}
+			<li><a href="{% url 'create_company' %}" class="icon-pinterest"><i class="fas fa-globe"></i> {% blocktrans %}My web{% endblocktrans %}</a></li>
+			{% endif %}
+		</ul>
+		{% else %}
+		<ul>
+			<li><a href="#" onclick="send_login2(1)" class="icon-facebook"><i class="far fa-comment-alt"></i> {% blocktrans %}Chat{% endblocktrans %}</a></li>
+			<li><a href="#" onclick="send_login2(2)" class="icon-twitter"><i class="far fa-envelope"></i> {% blocktrans %}Mensajes{% endblocktrans %}</a></li>
+			<li><a href="#" onclick="send_login2(3)" class="icon-googleplus"><i class="far fa-user"></i> {% blocktrans %}Perfil{% endblocktrans %}</a></li>
+			<li><a href="#" onclick="send_login2(4)" class="icon-pinterest"><i class="fas fa-globe"></i> {% blocktrans %}My web{% endblocktrans %}</a></li>
+		</ul>
+		<script>
+			/*Login chat and Message*/
+			function send_login2(n){
+				if(n == 1){
+					url = "{% url 'view_login' %}?next={% url 'chat_list' %}";
+		        }
+				else{
+					if(n == 2){
+						url = "{% url 'view_login' %}?next={% url 'messenger' %}";
+					}
+				}
+				if(n == 3){
+					url = "{% url 'view_login' %}?next={{request.path}}";
+				}
+				else{
+					if(n == 4){
+						url = "{% url 'view_login' %}?next={{request.path}}";
+                    }
+				}
+		        $(location).attr('href',url);
+	        }
+		</script>
+		{% endif %}
+	</div>
+<!--<section id="breadcrumb">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-12 py-2">
+           
+               <p class="m-0">&nbsp;&nbsp;<a href="{% url 'home' %}" >Home</a> > <a href="javascript: history.go(-1)">{% blocktrans %}Favoritos{% endblocktrans %}</a> > <a href="#">{{product.name}}</a></p>
+                     
+         </div>
+      </div>
+   </div>
+</section>-->
+
+
+<div class="container-fluid">
+	<div class="row py-5">
+		<div class="col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 p-4" id="detail-favorite-border">
+
+			<div class="row">
+				{% if isfavorite %}
+					{% else %}
+						<div><button class="iconHeart" id="favorito"><i class="far fa-heart"></i></button></div>
+					{% endif %}
+				<div class="col-12 col-sm-6" style="position: inherit;" id="container-favorito" data-contact-url="{% url 'ajax_add_favorite' %}">
+					<div class="container py-2">
+    					<div class="row">
+        					<div class="col-lg-8 offset-lg-2" id="slider">
+            					<div id="myCarousel" class="carousel slide">
+				                	<!-- main slider carousel items -->
+				                	<div class="carousel-inner">
+				                    	<div class="active carousel-item" data-slide-number="0">
+					                    	{% if product.picture %}
+						  					<img src="{{ product.picture.url }}" style="border-radius:10px;">
+											{% else %}
+						  					<img src="{% static 'img/default.png' %}">
+											{% endif %}
+				                    	</div>
+					                    <div class="carousel-item" data-slide-number="1">
+					                    	{% if product.picture2 %}
+											<img class="img-fluid" src="{{ product.picture2.url }}">
+											{% else %}
+											{% endif %}
+					                    </div>
+					                    <div class="carousel-item" data-slide-number="2">
+					                    	{% if product.picture3 %}
+											<img class="img-fluid" src="{{ product.picture3.url }}">
+											{% else %}
+											{% endif %}
+					                    </div>
+					                    <div class="carousel-item" data-slide-number="3">
+					                    	{% if product.picture4 %}
+											<img class="img-fluid" src="{{ product.picture4.url }}">
+											{% else %}
+											{% endif %}
+					                    </div>
+					                    <div class="carousel-item" data-slide-number="4">
+					                    	<div class="embed-responsive embed-responsive-16by9">
+    											<!--<iframe class="embed-responsive-item" width="640" height="480" src="https://www.youtube-nocookie.com/embed/Lw_e0vF1IB4" frameborder="0" allowfullscreen>-->
+    												<video width='66%'  controls controlsList="nodownload" id='myvideo'>
+    													{% if product.video %}
+    													<source id="product-video-reload" src='{{ product.video.url }}' type='video/mp4' style="height: 30px; width: 60px;">
+    														{% else %}
+    														{% endif %}
+    														{% blocktrans %}Su navegador no soporta la etiqueta de vídeo.{% endblocktrans%}
+    												</video>
+    											<!--</iframe>-->
+											</div>
+					                    </div>
+				                	</div>
+
+				                	<!-- main slider carousel nav controls -->
+					                <ul class="carousel-indicators list-inline mx-auto px-2">
+					                    <li class="list-inline-item active">
+					                        <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#myCarousel">
+					                        	{% if product.picture %}
+												<img class="img-fluid" src="{{ product.picture.url }}" style="height: auto; width: 60px;">
+												{% else %}
+												{% endif %}
+					                           <!-- <img src="http://placehold.it/80x60&amp;text=one" class="img-fluid">-->
+					                        </a>
+					                    </li>
+					                    <li class="list-inline-item" >
+					                        <a id="carousel-selector-1" data-slide-to="1" data-target="#myCarousel">
+					                        	{% if product.picture2 %}
+												<img class="img-fluid" src="{{ product.picture2.url }}" style="height: auto;width: 60px;">
+												{% else %}
+												{% endif %}
+					                            <!--<img src="http://placehold.it/80x60&amp;text=three" class="img-fluid">-->
+					                        </a>
+					                    </li>
+					                    <li class="list-inline-item">
+					                        <a id="carousel-selector-2" data-slide-to="2" data-target="#myCarousel">
+					                        	{% if product.picture3 %}
+												<img class="img-fluid" src="{{ product.picture3.url }}" style="height: auto;width: 60px;">
+												{% else %}
+												{% endif %}
+					                            <!--<img src="http://placehold.it/80x60&amp;text=four" class="img-fluid">-->
+					                        </a>
+					                    </li>
+					                    <li class="list-inline-item">
+					                        <a id="carousel-selector-3" data-slide-to="3" data-target="#myCarousel">
+					                        	{% if product.picture4 %}
+												<img class="img-fluid" src="{{ product.picture4.url }}" style="height: auto;width: 60px;">
+												{% else %}
+												{% endif %}
+					                            <!--<img src="http://placehold.it/80x60&amp;text=five" class="img-fluid">-->
+					                        </a>
+					                    </li>
+					                     <li class="list-inline-item">
+					                        <a id="carousel-selector-4" data-slide-to="4" data-target="#myCarousel">
+					                        	<!--<div class="embed-responsive embed-responsive-16by9">
+    											<iframe class="embed-responsive-item" width="640" height="480" src="https://www.youtube-nocookie.com/embed/Lw_e0vF1IB4" frameborder="0" allowfullscreen>-->
+    												{% if product.video %}
+    												<img class="img-fluid" src="{% static 'img/play.png' %}" style="height: auto;width: 60px;">
+    												{% else %}
+    												{% endif %}
+    											<!--</iframe>
+											</div>-->
+					                        </a>
+					                    </li>
+					                </ul>
+				            	</div>
+				        	</div>
+    					</div>
+					</div><!--/main slider carousel-->
+				</div>
+				<div class="col-12 col-sm-6" id="container-user-plus" data-contact-url="{% url 'ajax_add_contact' %}" novalidate>
+					<h5 style="text-align: center;color: #595959">{{product.name}}</h5>
+					<!--<span class="d-flex justify-content-center p-3">
+						<span class="jRating" id="jRating1">
+							<span class="jRating-star" index="0"></span>
+							<span class="jRating-star" index="1"></span>
+							<span class="jRating-star" index="2"></span>
+							<span class="jRating-star" index="3"></span>
+							<span class="jRating-star" index="4"></span>
+							<span class="jRating-number"></span> Don't delete. This element is necessary to jRating.js
+						</span>-->
+					</span>
+					<span class="d-flex justify-content-center p-3">
+						<span class="jRating" id="jRating1">
+							<span class="jRating-star" index="0"> </span>
+							<span index="1" style="padding-left: 10px;font-size: 13px;font-weight: bold;">{{rating_avr}}</span>
+							<span index="1" style="padding-left: 5px;font-size: 12px;">({{rating_users}} valoraciones)</span>
+							<span class="jRating-number"></span> <!-- Don't delete. This element is necessary to jRating.js -->
+						</span>
+					</span>
+					<div class="div-fav-prod"></div>
+					<div class="detail-favorites-divider"></div>
+
+					<div class="row d-flex pt-2" style="text-align: center;">
+						<div class="col-md-6 detail-contact-center">
+							<p>{% blocktrans %}Contacto: {% endblocktrans %}</p>
+						</div>
+						{% for x in owner %} 
+						<div class="col-md-6 d-flex padding-user-detail">
+							<p><strong>{{ x.first_name }} {{ x.last_name }}</strong><p>
+							{% if x.id in contactscontext %}
+							{% else %}
+							{% if x.id != user.id %}
+						    {% if user.is_authenticated %}
+						    <p><button class="btn btn-primary mb-2" id="user-plus" value="{{ x.id }}" style="background-color: transparent;border: 0px solid transparent;padding-top: 0px;"><i class="fas fa-user-plus" style="color:grey;"></i></button></p>       
+									{% else %}
+									   <p><button onclick="send_login()" class="btn btn-primary mb-2" value="" style="background-color: transparent;border: 0px solid transparent;padding-top: 0px;"><i class="fas fa-user-plus"></i></button></p>
+
+									{% endif %}      						
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+						</div>
+					</div>
+					{% for x in owner %}
+					{% if x.id != user.id %}
+					<!--Chat-->
+					<div class="d-flex flex-row justify-content-center detail-favorites-short-button">
+						{% if user.is_authenticated %}
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#chat-rmodal"><i class="far fa-comment-alt"></i></button>
+						{% else %}
+						<button onclick="send_login()" class="btn btn-primary"><i class="far fa-comment-alt"></i></button>
+						{% endif %}
+						<span>&nbsp;&nbsp;</span>
+						<span class="mt-2">{% blocktrans %}Chat{% endblocktrans %}</span>
+					</div>
+					<!--./Chat-->
+					<!--Message-->
+					<div class="d-flex flex-column align-items-center detail-favorites-button">
+						{% if user.is_authenticated %}
+
+						<button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#messenge-rmodal" style="border-radius: 113px 109px 110px 110px;
+						-moz-border-radius: 113px 109px 110px 110px;
+						-webkit-border-radius: 113px 109px 110px 110px;
+						border: 0px solid #000000;"><i class="far fa-envelope pr-3"></i>{% blocktrans %}MANDAR MENSAJE{% endblocktrans%}</button>
+						{% else %}
+						<button onclick="send_login()" class="btn btn-primary mb-3"><i class="far fa-envelope pr-3"></i><a href="{% url 'view_login' %}?next={{request.path}}" style="color:white; text-decoration:none;border-radius: 113px 109px 110px 110px;
+						-moz-border-radius: 113px 109px 110px 110px;
+						-webkit-border-radius: 113px 109px 110px 110px;
+						border: 0px solid #000000;">{% blocktrans %}MANDAR MENSAJE{% endblocktrans%}</a></button>
+
+						{% endif %}
+					</div>
+					<!--./Message-->
+					{% endif %}
+					{% endfor %}
+					<div class="detail-favorites-divider"></div>
+
+					<div class="d-flex justify-content-between align-items-center py-2">
+					    {% if product.company.logo %}
+						<a href="{% url 'my_web_home' product.company.id %}"><img src="{{product.company.logo.url}}" alt="" style="height:40px;width:auto;"></a>
+						{% else %}
+						<a href="{% url 'my_web_home' product.company.id %}"><img src="{% static 'img/default.png' %}" alt="" style="height:40px;width:auto;"></a>
+						{% endif %}
+
+						<span><a href="{% url 'my_web_home' product.company.id %}"> {{ product.company.name }}</a>
+						</span>
+						<div><span style="font-size: 13px;">{{product.company.country_company.code2}}</span>&nbsp;<img src="{% static ''%}img/Banderas/{{product.company.country_company.code2|lower}}.png" style="height: 17px;width: 25px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{product.company.country_company.name}}" /></div>
+						</span>
+
+					</div>
+					<div class="detail-favorites-divider"></div>
+					<h6 class="py-3"><center>{% if user.is_authenticated %}{% blocktrans %}Valora este producto{% endblocktrans%}{% else %}<a href="#" onclick="send_login()" >{% blocktrans %}Valora este producto{% endblocktrans%}</a>{% endif %}</center></h6>
+					{% if user.is_authenticated %}
+					    <center><div class="my-rating"></div></center>   
+					{% else %}
+					    <center><p>{% blocktrans %}Regístrate para valorar el producto{% endblocktrans%}</p></center>
+					{% endif %}
+					<br />
+				</div>
+			</div>
+			<div class="row pt-3">
+				<div class="col-12">
+					<h5 style="color:#7f9bcd;">{% blocktrans %}CARACTERISTICAS{% endblocktrans%}</h5>
+					<div class="detail-favorites-divider mb-3"></div>
+					<p>{{product.description|safe|escape}}</p>
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-1 col-lg-2"></div>
+	</div>
+    <!--Modal Message-->
+	<div class="modal fade" id="messenge-rmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	    <div class="modal-content" style="border-radius: 10px;">
+				<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+					<div class="d-flex align-items-center">
+					<i class="far fa-envelope pr-3 pl-3" style="color: white;"></i>
+					<h5 class="modal-title" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}Mensaje{% endblocktrans%}</h5>
+					</div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+	                <div class="modal-body">
+					   {% for x in owner %}
+	                    <object class="object-msg" width="100%" data="{% url 'message_modal' x.id product.id %}"></object>
+					   {% endfor %}
+				    </div>
+	           </div>
+	       </div>
+</div>
+	<!--./Modal Message-->
+	<!--Modal Chat-->
+	<div class="modal fade" id="chat-rmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+		  <div class="modal-content" style="border-radius: 10px;">
+			    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+					<h4 class="modal-title" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}Chat{% endblocktrans %}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			<div class="modal-body">
+					  {% for x in owner %}
+			  <object class="object-chat" width="100%" data="{% url 'messenger_modal' x.id %}"></object>
+					  {% endfor %}
+				  </div>
+		  </div>
+		</div>
+	  </div>
+	  <!--./Modal Chat-->
+</div>
+<script type="text/javascript">
+
+	
+	$("#carousel-selector-3").click(function () {
+		//document.getElementById('myvideo').play();
+		$("#myvideo").trigger('pause');
+	
+	});
+	$("#carousel-selector-2").click(function () {
+		//document.getElementById('myvideo').play();
+		$("#myvideo").trigger('pause');
+		
+	});
+	$("#carousel-selector-1").click(function () {
+		//document.getElementById('myvideo').play();
+		$("#myvideo").trigger('pause');
+		
+	});
+	$("#carousel-selector-0").click(function () {
+		//document.getElementById('myvideo').play();
+		$("#myvideo").trigger('pause');
+		
+	});
+
+	$("#user-plus").click(function () {
+			$("#user-plus").hide()
+			var url = $("#container-user-plus").attr("data-contact-url");  
+			var user_id = $(this).val();
+			console.log(user_id);
+			$.ajax({                      
+							url: url,                    
+							data: {
+								'user_id': user_id      
+							},
+							success: function (data) {   
+								$.notify("{% blocktrans %}Contacto agregado{% endblocktrans %}", "success");
+
+							}
+						});                                        
+					});
+
+
+    $("#favorito").click(function () {
+			$("#favorito").hide()
+			var url = $("#container-favorito").attr("data-contact-url");  
+			var user_id = '{{request.user.id}}';
+			var product_id = '{{product.id}}';
+			console.log(user_id);
+			$.ajax({                      
+							url: url,                    
+							data: {
+								'product_id': product_id,
+								'user_id': user_id      
+							},
+							success: function (data) {   
+								$.notify("{% blocktrans %}Agregado a Favoritos{% endblocktrans %}", "success");
+
+							}
+						});                                        
+					});
+</script>  
+<script>
+	/*Login chat and Message*/
+	function send_login(){
+		url = "{% url 'view_login' %}?next={{request.path}}";
+		$(location).attr('href',url);
+	}
+	$(document).ready(function(){
+		//Rating to info
+		var valueRating = parseFloat("{{rating_product}}".replace(",", "."));
+		if(valueRating-0.5 == 0.0) {
+			new JRating(document.getElementById('jRating1'), 0, false);
+		}
+		else {
+			if(valueRating-0.5 == 5.0) {
+			    new JRating(document.getElementById('jRating1'), 1, false);
+		    }
+		    else {
+				new JRating(document.getElementById('jRating1'), 0.5, false);
+		    }
+		} 
+		//Rating to send
+		if ('{{user.is_authenticated}}' == 'True'){
+		    var token = '{{csrf_token}}';
+		    var rating_user = '{{rating_user}}';
+		    $(".my-rating").starRating({
+			    starSize: 25,
+			    initialRating: rating_user,
+			    disableAfterRate: false,
+			    useFullStars: true,
+		    	totalStars: 5,
+			    strokeWidth: 0,
+			    emptyColor: '#D8D8D8',
+				ratedColor: '#DF8771',
+				hoverColor: '#DF8771',
+                callback: function(currentRating, $el){
+				    $.ajax({
+					    headers: { "X-CSRFToken": token },
+                        type: 'POST',
+                        url: '',
+                        data: 'ratingPoints='+currentRating+'&postID={{product.id}}',
+                        success: function(msg) {
+							if(msg = 'ok'){
+								console.log('You have rated');
+								$.notify("{% blocktrans %}Has puntuado:{% endblocktrans %} "+currentRating, "success");
+								setTimeout(function(){
+									location.reload();
+								}, 2000);
+							}
+							else {
+								console.log('Some problem occured, please try again.');
+							}
+                        }
+                    });
+                }
+            });
+		}
+    });
+</script>
+<script>
+	$(function() {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,563 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load filter %}
+{% block meta %}
+    {% for sc in subcategory %}
+      {% for a in area %}
+        {% for c in category %}
+          {{a.name}} | {{c.name}} | {{sc.name}}
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+{% block title %}
+    {% for sc in subcategory %}
+      {% for a in area %}
+        {% for c in category %}
+          {{sc.name}}
+          {% comment %} {% blocktrans %}Get{% endblocktrans %} {{sc.name}} {% blocktrans %}for{% endblocktrans %} {{a.name}}. {% blocktrans %}Medcombo is a B2B Portal for Medical Industry to provide complete range of Medical equipment to hospitals and sanatoriums.{% endblocktrans %} {% endcomment %}
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+{% endblock %}
+{% block content %}
+{% include '../../slide.html' %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<!-- Seccion Breadcrumb -->
+<section id="breadcrumb" class="pb-4">
+  
+  <div class="container-fluid">
+    <div class="row productos-row">
+      <div class="col-9 adj-cat">
+
+        <!--Seccion Busqueda 1-->
+        <div class="row productos-breadcumbs">
+          <div id="div_thumb" class="col-8 py-2 pl-5">
+            {% for sc in subcategory %}
+            {% for a in area %}
+              {% for c in category %}
+                <h6><p class="m-0"><a href="{% url 'home' %}">{% blocktrans %}Home{% endblocktrans %}</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/categories/{{a.name|filter}}">{{a.name}}</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/subcategories/{{a.name|filter}}/{{c.name|filter}} %}">{{c.name}}</a>&nbsp;&nbsp;/&nbsp;&nbsp;{{sc.name}}</p></h6>
+                {% endfor %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+        {% comment %} <div class="row pt-2">
+          <div class="col-12 py-3">
+            {% for sc in subcategory %}
+              <h5 class="text-primary" align="center">{{sc.name}}</h5>
+            {% endfor %}
+          </div>
+        </div> {% endcomment %}
+        <div class="col-12">
+          <section id="walkers">
+            <div class="container mb-2">
+              <div class="row d-flex center-block mx-0 my-4 px-0">
+                <!-- ACORDEON COLUMNA #1 -->
+                <!--<div class="col-lg-4 style-cat4">-->
+                  <div class="col-12 col-lg-4 pr-0 pl-0">
+                  <!--Accordion wrapper-->
+                  <div class="accordion md-accordion accordion-2" id="accordionEx1" role="tablist" aria-multiselectable="true">
+                    <!-- Accordion card #1 -->   
+                    <div class="card card-bord">
+                      <!-- Card header -->
+                      <div class="card-header" role="tab" id="heading1">
+                        <a class="subra" data-toggle="collapse" data-parent="#accordionEx1" href="#areaone{{areaone.pk}}" aria-expanded="true" aria-controls="collapse1">
+                          <div class="mb-0 white-text text-left font-thin">
+                            <ul class="list-group"> 
+                            {% if keyword1 %}
+                              {% for key in keyword1 %}
+                              <li class="list-group-item style-li"> 
+                                {% if key.image %}
+                                  <img src="{{ key.image.url }}" class="imgCateHome" alt="{{key.name}}" style="width:auto;">
+                                {% else %}
+                                  <img src="{% static 'img/default.png' %}" class="imgCateHome" alt="{{key.name}}" style="width:auto;">
+                                {% endif %}
+                                <span class="sepa-line">|</span><span><a class="txt-kwords" href="#" id="search-product-id{{key.pk}}">{{key.name}}</a></span> 
+                                <script type="text/javascript">
+                                  $('#search-product-id{{key.pk}}').click(function(evt){  
+                                    evt.preventDefault();
+                                    var my_url = "{% url 'list_categories' %}";
+                                    var my_value = "{{key.name}}";
+                                    var token = '{{csrf_token}}';
+                                    var my_area;
+                                    var my_category;
+                                    var my_subcategory;
+                                    var my_language = $('#lenguaje-seleccionado').val();
+                                    var country;
+                                    var location;
+                                      $.getJSON('http://api.wipmania.com/jsonp?callback=?', function (data) {
+                                        country = data.address.country;
+                                      });
+                                      setTimeout(function(){
+                                        $.ajax({
+                                          headers: { "X-CSRFToken": '{{csrf_token}}' },
+                                          type: 'POST',
+                                          url: "{% url 'product_country' %}",
+                                          data: {
+                                            'country': country
+                                          },
+                                          success: function(msg){
+                                            location = msg;
+                                          }
+                                        });
+                                        $.ajax({
+                                          headers: { "X-CSRFToken": token },
+                                          type: 'POST',
+                                          url: my_url,
+                                          data: {
+                                            'key': my_value
+                                          },
+                                          success: function(msg){
+                                            my_area = msg[0].toLowerCase().replace(/\//g,"");
+                                            my_category = msg[1].toLowerCase().replace(/\//g,"");
+                                            my_subcategory = msg[2].toLowerCase().replace(/\//g,"");
+                                          }
+                                        });
+                                        setTimeout(function(){
+                                          my_form = $('#form-search-product');
+                                          name= '{{key.name}}';
+                                          $('#id_name').val(name);
+                                          url_replace = name.toLowerCase();
+                                          if(url_replace.trim() == ''){
+                                            url_replace = 'empty';
+                                          }
+                                          if(location == undefined) {
+                                            location = 'ESP'
+                                          }
+                                          if(my_area == undefined) {
+                                            my_area = 'area'
+                                          }
+                                          if(my_category == undefined) {
+                                            my_category = 'category'
+                                          }
+                                          if(my_subcategory == undefined) {
+                                            my_subcategory = 'subcategory'
+                                          }
+                                          my_form.attr("action","/"+my_language+"/"+location.toLowerCase()+"/product/"+my_area.replace(/\s/g,"-")+"/"+my_category.replace(/\s/g,"-")+"/"+my_subcategory.replace(/\s/g,"-")+"/"+url_replace.replace(/\s/g,"-")+"/");
+                                            my_form.submit();
+                                            }, 200);
+                                            },150);
+                                            });
+                                </script>  
+                                </li>     
+                              {% endfor %}
+                            {% else %}
+                              <p>{% blocktrans %}No hay palabras clave...{% endblocktrans %}</p>
+                            {% endif %}
+                            </ul>
+                          </div>
+                        </a> 
+                      </div>
+                    </div><!-- Fin Accordion card #1 -->
+                  </div><!--/.Accordion wrapper-->
+                </div>
+                <!-- Grid column -->
+
+                <!-- ACORDEON COLUMNA #2 -->
+                <!--<div class="col-lg-4 style-cat5">-->
+                  <div class="col-12 col-lg-4 pr-0 pl-0">
+                  <!--Accordion wrapper-->
+                  <div class="accordion md-accordion accordion-2" id="accordionEx2" role="tablist" aria-multiselectable="true">
+                    <!-- Accordion card #4 --> 
+                    <div class="card card-bord">
+                      <!-- Card header -->
+                      <div class="card-header" role="tab" id="heading4">
+                        <a class="subra" data-toggle="collapse" data-parent="#accordionEx2" href="#areatwo{{areatwo.pk}}" aria-expanded="true" aria-controls="collapse4">   
+                          <div class="mb-0 white-text text-left font-thin">
+                            <ul class="list-group">   
+                            {% if keyword2 %}
+                              {% for key in keyword2 %}
+                              <li class="list-group-item style-li">   
+                                {% if key.image %}
+                                  <img src="{{ key.image.url }}" class="imgCateHome" alt="{{key.name}}" style="width:auto">
+                                {% else %}
+                                  <img src="{% static 'img/default.png' %}" class="imgCateHome" alt="{{key.name}}" style="width:auto">
+                                {% endif %}
+                                <span class="sepa-line">|</span><span><a class="txt-kwords" href="#" id="search-product-id{{key.pk}}">{{key.name}}</a></span>
+                                <script type="text/javascript">
+                                  $('#search-product-id{{key.pk}}').click(function(evt){  
+                                    evt.preventDefault();
+                                    var my_url = "{% url 'list_categories' %}";
+                                    var my_value = "{{key.name}}";
+                                    var token = '{{csrf_token}}';
+                                    var my_area;
+                                    var my_category;
+                                    var my_subcategory;
+                                    var my_language = $('#lenguaje-seleccionado').val();
+                                    var country;
+                                    var location;
+                                      $.getJSON('http://api.wipmania.com/jsonp?callback=?', function (data) {
+                                        country = data.address.country;
+                                      });
+                                      setTimeout(function(){
+                                        $.ajax({
+                                          headers: { "X-CSRFToken": '{{csrf_token}}' },
+                                          type: 'POST',
+                                          url: "{% url 'product_country' %}",
+                                          data: {
+                                            'country': country
+                                          },
+                                          success: function(msg){
+                                            location = msg;
+                                          }
+                                        });
+                                        $.ajax({
+                                          headers: { "X-CSRFToken": token },
+                                          type: 'POST',
+                                          url: my_url,
+                                          data: {
+                                            'key': my_value
+                                          },
+                                          success: function(msg){
+                                            my_area = msg[0].toLowerCase().replace(/\//g,"");
+                                            my_category = msg[1].toLowerCase().replace(/\//g,"");
+                                            my_subcategory = msg[2].toLowerCase().replace(/\//g,"");
+                                          }
+                                        });
+                                        setTimeout(function(){
+                                          my_form = $('#form-search-product');
+                                          name= '{{key.name}}';
+                                          $('#id_name').val(name);
+                                          url_replace = name.toLowerCase();
+                                            if(url_replace.trim() == ''){
+                                              url_replace = 'empty';
+                                            }
+                                            if(location == undefined) {
+                                              location = 'ESP'
+                                            }
+                                            if(my_area == undefined) {
+                                              my_area = 'area'
+                                            }
+                                            if(my_category == undefined) {
+                                              my_category = 'category'
+                                            }
+                                            if(my_subcategory == undefined) {
+                                              my_subcategory = 'subcategory'
+                                            }
+                                            my_form.attr("action","/"+my_language+"/"+location.toLowerCase()+"/product/"+my_area.replace(/\s/g,"-")+"/"+my_category.replace(/\s/g,"-")+"/"+my_subcategory.replace(/\s/g,"-")+"/"+url_replace.replace(/\s/g,"-")+"/");
+                                              my_form.submit();
+                                              }, 200);
+                                              },150);
+                                          });
+                                </script>  
+                                </li>      
+                              {% endfor %}
+                            {% endif %}
+                          </ul>
+                          </div>
+                        </a>
+                      </div>
+                    </div><!-- Fin Accordion card #1 -->
+                  </div><!--/.Accordion wrapper-->
+                </div>
+                <!-- Fin ACORDEON COLUMNA #2 -->
+              
+                <!-- ACORDEON COLUMNA #3 -->
+                <!--<div class="col-lg-4 style-cat6">-->
+                  <div class="col-12 col-lg-4 pr-0 pl-0">
+                  <!--Accordion wrapper-->
+                  <div class="accordion md-accordion accordion-2" id="accordionEx3" role="tablist" aria-multiselectable="true">
+                    <!-- Accordion card #1 -->      
+                    <div class="card card-bord">
+                      <!-- Card header -->
+                      <div class="card-header" role="tab" id="heading5">
+                        <a class="subra" data-toggle="collapse" data-parent="#accordionEx3" href="#areathree{{areathree.pk}}" aria-expanded="true" aria-controls="collapse1">
+                          <div class="mb-0 white-text text-left font-thin">
+                            <ul class="list-group">  
+                            {% if keyword3 %}
+                              {% for key in keyword3 %}
+                              <li class="list-group-item style-li">
+                                {% if key.image %}
+                                  <img src="{{ key.image.url }}" class="imgCateHome" alt="{{key.name}}" style="width:auto">
+                                {% else %}
+                                  <img src="{% static 'img/default.png' %}" class="imgCateHome" alt="{{key.name}}" style="width:auto">
+                                {% endif %}
+                                <span class="sepa-line">|</span><span><a class="txt-kwords" href="#" id="search-product-id{{key.pk}}">{{key.name}}</a></span>
+                                <script type="text/javascript">
+                                  $('#search-product-id{{key.pk}}').click(function(evt){  
+                                    evt.preventDefault();
+                                    var my_url = "{% url 'list_categories' %}";
+                                    var my_value = "{{key.name}}";
+                                    var token = '{{csrf_token}}';
+                                    var my_area;
+                                    var my_category;
+                                    var my_subcategory;
+                                    var my_language = $('#lenguaje-seleccionado').val();
+                                    var country;
+                                    var location;
+                                      $.getJSON('http://api.wipmania.com/jsonp?callback=?', function (data) {
+                                        country = data.address.country;
+                                      });
+                                      setTimeout(function(){
+                                        $.ajax({
+                                          headers: { "X-CSRFToken": '{{csrf_token}}' },
+                                          type: 'POST',
+                                          url: "{% url 'product_country' %}",
+                                          data: {
+                                            'country': country
+                                          },
+                                          success: function(msg){
+                                            location = msg;
+                                          }
+                                        });
+                                        $.ajax({
+                                          headers: { "X-CSRFToken": token },
+                                          type: 'POST',
+                                          url: my_url,
+                                          data: {
+                                            'key': my_value
+                                          },
+                                          success: function(msg){
+                                            my_area = msg[0].toLowerCase().replace(/\//g,"");
+                                            my_category = msg[1].toLowerCase().replace(/\//g,"");
+                                            my_subcategory = msg[2].toLowerCase().replace(/\//g,"");
+                                          }
+                                        });
+                                        setTimeout(function(){
+                                          my_form = $('#form-search-product');
+                                          name= '{{key.name}}';
+                                          $('#id_name').val(name);
+                                          url_replace = name.toLowerCase();
+                                          if(url_replace.trim() == ''){
+                                            url_replace = 'empty';
+                                          }
+                                          if(location == undefined) {
+                                            location = 'ESP'
+                                          }
+                                          if(my_area == undefined) {
+                                            my_area = 'area'
+                                          }
+                                          if(my_category == undefined) {
+                                            my_category = 'category'
+                                          }
+                                          if(my_subcategory == undefined) {
+                                            my_subcategory = 'subcategory'
+                                          }
+                                          my_form.attr("action","/"+my_language+"/"+location.toLowerCase()+"/product/"+my_area.replace(/\s/g,"-")+"/"+my_category.replace(/\s/g,"-")+"/"+my_subcategory.replace(/\s/g,"-")+"/"+url_replace.replace(/\s/g,"-")+"/");
+                                          my_form.submit();
+                                      }, 200);
+                                    },150);
+                                  });
+                                </script>  
+                                </li>       
+                              {% endfor %}
+                            {% endif %}
+                          </ul>
+                          </div>
+                        </a>
+                      </div>
+                    </div><!-- Fin Accordion card #1 -->
+                  </div><!--/.Accordion wrapper-->
+                </div>
+                <!-- Fin ACORDEON COLUMNA #3 -->
+              </div>
+
+              <!--<div class="row style-pt2">-->
+              <div class="row">
+                <div class="col-12 joinWeb">
+                  <div >
+                    {% if subcategory %}
+                      {% for sc in subcategory %}
+                        <div class="p-3 mobile-category">
+                          {% if sc.h_tag %}
+                            <h1 class="text-center text-primary hero">{{sc.h_tag}}<h1>
+                          {% endif %}
+                        </div>
+                        <div style="float:left;" class="pr-3 mobile-category">
+                          {% if sc.image %}
+                            <img src="{{ sc.image.url }}" alt="Responsive image" style="max-width:150px;max-height:150px;">
+                          {% else %}
+                            <img src="{% static 'img/default.png' %}" alt="Responsive image" style="max-width:150px;max-height:150px;">
+                          {% endif %}
+                        </div>
+                        <table style="height:84px;"><tr><td>{{sc.description|safe}}</td></tr></table>
+                      {% endfor %}
+                    {% elif category %}
+                      {% for c in category %}
+                        <div class="p-3 mobile-category">
+                          {% if c.h_tag %}
+                            <h1 class="text-center text-primary hero">{{c.h_tag}}<h1>
+                          {% endif %}
+                        </div>
+                        <div style="float:left;" class="pr-3 mobile-category">
+                          {% if c.image %}
+                            <img src="{{ c.image.url }}" alt="{{c.name}}" style="max-width:150px;max-height:150px;">
+                          {% else %}
+                            <img src="{% static 'img/default.png' %}" alt="{{c.name}}" style="max-width:150px;max-height:150px;">
+                          {% endif %}
+                        </div>
+                        <table style="height:84px;"><tr><td>{{c.description|safe}}</td></tr></table>
+                      {% endfor %}
+                    {% else %}
+                      {% for a in area %}
+                        <div class="p-3 mobile-category">
+                          {% if a.h_tag %}
+                            <h1 class="text-center text-primary hero">{{a.h_tag}}<h1>
+                          {% endif %}
+                        </div>
+                        <div style="float:left;" class="pr-3 mobile-category">
+                          {% if a.image %}
+                            <img src="{{ a.image.url }}" alt="{{a.name}}" style="max-height:150px;:150px;max-height:150px;">
+                          {% else %}
+                            <img src="{% static 'img/default.png' %}" alt="{{a.name}}" style="width:150px;max-height:150px;">
+                          {% endif %}
+                        </div>
+                        <table style="height:84px;"><tr><td>{{a.description|safe}}</td></tr></table>
+                      {% endfor %}
+                    {% endif %} 
+                  </div>
+                </div>
+              </div>
+            </div>  
+          </section>
+        </div>        
+      </div>    
+
+      <!--Seccion Patrocinados-->
+      <div class="col-2 pat-border adj-patr">
+        <div class="row productos-breadcumbs2">
+          <div class="col-12 pt-2 pb-2">
+            <h5 class="color-font m-0"><strong>{% blocktrans %}Productos Premium{% endblocktrans %}</strong></h5>
+          </div>
+        </div>
+        <div class="row center-block adj-patr-prod" style="padding-top: 1.6em;">
+          <div class="offset-2 col-10">
+            <div class="col-12 ventana-productos" id="detail-favorites-border3" data-contact-url="{% url 'ajax_add_favorite' %}">
+              {% if patrocinados %}
+                {% for products in patrocinados %}
+                  <div class="col-12">
+                    <div class="col-12" id="detail-favorites-border">
+                      <div class="col-12 d-flex flex-column align-items-center">
+                        <button class="iconHeart" id="favoritosx{{products.product.id}}">
+                          <i class="far fa-heart" id="miestadosx{{products.product.id}}"></i>
+                        </button>
+                        {% if products.product.picture %}
+                          <a href="{% url 'detail_product' products.product.id %}">
+                            <img class="img-fluid" src="{{ products.product.picture.url }}">  
+                          </a>
+                        {% else %}
+                          <a href="{% url 'detail_product' products.product.id %}">
+                            <img class="img-fluid" src="{% static 'img/default.png' %}">  
+                          </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="row" style="padding: 1.5em 0em 2em 0em;">
+                      <div class="col-12">
+                        <p>{{ products.product.name }}</p>
+                        <div class="dropdown-divider"></div>
+                      </div>
+                      <div class="col-12 d-flex justify-content-between score">
+                        {% if products.company.logo %}
+                          <a href="{% url 'my_web_home' products.company.id %}"><img src="{{ products.company.logo.url }}" alt="{{products.company.name}}" style="height: 25px;" /></a>
+                        {% else %}
+                          <a href="{% url 'my_web_home' products.company.id %}"><img src="{% static 'img/default.png' %}" style="height: 25px;" alt="{{products.company.name}}"/></a>
+                        {% endif %}
+                        <span class="d-flex justify-content-center p-3">
+                          <span class="jRating" id="jmRatings{{forloop.counter0}}">
+                            <span class="jRating-star" index="0"></span>
+                            <span class="jRating-star" index="1"></span>
+                            <span class="jRating-star" index="2"></span>
+                            <span class="jRating-star" index="3"></span>
+                            <span class="jRating-star" index="4"></span>
+                            <span class="jRating-number"></span>
+                          </span>
+                        </span>
+                        <span>
+                          {{products.company.country_company.code2}}&nbsp;&nbsp;<img src="{% static ''%}img/Banderas/{{products.company.country_company.code2|lower}}.png" style="height: 20px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{products.company.country_company.name}}" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <script>
+                    //marcar favoritos sponsor/////////////////////////////
+                    $(document).ready(function(){
+                      {% if favoritos %}
+                        {% for favorito in favoritos %}
+                          {% if favorito.product.id == products.product.id  %}
+                            document.getElementById("miestadosx{{products.product.id}}").className = "fa fa-heart";
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    });
+                  </script>
+                  <script>
+                    $(document).ready(function(){
+                      //almacena el nombre de la keyword para usarlo luego en las migas de pan
+                      var number_counter = '{{forloop.counter0}}';
+                      var product_rating = '{{products.product.rating_average}}';
+                      if(Number.isInteger(product_rating) == true){
+                        product_rating = parseInt('{{products.product.rating_average}}');
+                      }
+                      else {
+                        if(parseInt('{{products.product.rating_average}}') == 0) {
+                          product_rating = parseInt('{{products.product.rating_average}}');
+                        }
+                        else {
+                          product_rating = parseInt('{{products.product.rating_average}}') + 0.5;
+                        }
+                      }
+                      new JRating(document.getElementById('jmRatings'+number_counter), product_rating, false);
+                    });
+                  </script>
+                  <script>
+                    $("#favoritosx{{products.product.id}}").click(function () {
+                      var div1 = document.getElementById("miestadosx{{products.product.id}}");
+                      var status = div1.getAttribute("class");
+                        if( status == "fa fa-heart"){
+                          document.getElementById("miestadosx{{products.product.id}}").className = "far fa-heart";
+                            // document.getElementById("miestados{{products.product.id}}").className = "far fa-heart";
+                            // document.getElementById("miestado{{products.product.id}}").className = "far fa-heart";
+                          var url = $("#detail-favorites-border3").attr("data-contact-url");  
+                          var user_id = '{{request.user.id}}';
+                          var product_id = '{{products.product.id}}';      
+                            $.ajax({
+                              url: url,
+                              data: {
+                                'product_id': product_id,
+                                'user_id': user_id      
+                              },
+                              success: function (data) {   
+                                $.notify("{% blocktrans %}Eliminado de Favoritos{% endblocktrans %}", "success");
+                              }
+                            });
+                        }
+                        else if(status == "far fa-heart"){
+                          document.getElementById("miestadosx{{products.product.id}}").className = "fa fa-heart";
+                          var url = $("#detail-favorites-border3").attr("data-contact-url");  
+                          var user_id = '{{request.user.id}}';
+                          var product_id = '{{products.product.id}}';      
+                            $.ajax({
+                              url: url,
+                              data: {
+                                'product_id': product_id,
+                                'user_id': user_id      
+                              },
+                              success: function (data) {   
+                                $.notify("{% blocktrans %}Agregado a Favoritos{% endblocktrans %}", "success");
+                              }
+                            }); 
+                        }
+                      });
+                  </script>
+                {% endfor %}
+              {% else %}
+                <span style="font-size: 1.3em;">{% blocktrans %}No existen patrocinados productos{% endblocktrans%}</span>
+                <br />
+              {% endif %}
+            </div>
+          <br><br>
+          <!--<section id="breadcrumb"></section>-->
+          <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Seccion Walkers -->
+{% endblock %}

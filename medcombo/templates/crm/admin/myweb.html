@@ -1,0 +1,144 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<style>
+	.contact-data-table {
+		background-color: #fff;
+		border: solid 1px #b5b6b6;
+		border-radius: 10px;
+		overflow-y: auto;
+		padding: 20px;
+	}
+	.dataTables_filter input[type="search"] {
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		-ms-border-radius: 0;
+		border-radius: 0;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		-ms-box-shadow: none;
+		box-shadow: none;
+		border: none;
+		font-size: 12px;
+		transition: 0.25s ease-in;
+    	border-bottom: 2px solid #1f91f3;
+	}
+</style>
+
+<link rel="stylesheet" type="text/css" href="{% static 'datatables/css/jquery.dataTables.css' %}">
+<script src="{% static 'datatables/js/jquery.dataTables.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-2 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}SOLICITUDES DE MYWEB{% endblocktrans %}</h5>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 col-md-8">
+				<div class="contact-data-table">
+					{% if company %}
+					    <table id="datatables" class="table table-striped table-hover dataTable">
+					        <thead>
+					            <tr>
+					                <th>{% blocktrans %}Nombre{% endblocktrans %}</th> 
+					                <th>{% blocktrans %}Fecha{% endblocktrans %}</th>
+					                <th>{% blocktrans %}Estado{% endblocktrans %}</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+							    {% for companies in company %}
+					                <tr>
+					                    <td scope="row">{{companies.first_name}} {{companies.last_name}}</td>
+										{% if companies.company.createdate %}
+					                    	<td class="text-left">{{companies.company.createdate}}</td>
+										{% else %}
+											<td></td>
+										{% endif %}
+										{% if companies.company.approved == True %}
+											<td class="text-left"><span class="badge badge-primary p-2" style="background-color: #df8771 !important;">{% blocktrans %}Aprobada{% endblocktrans%}</span></td>
+										{% else %}
+					                    	<td class="text-left" id="url_id" data-contact-url="{% url 'ajax_load_myweb_admin' %}" ><button data-toggle="modal" data-target="#revisar{{ companies.pk }}" class="btn btn-primary btn-crm-produt" id="{{companies.pk}}">{% blocktrans %}REVISAR{% endblocktrans %}</button></td>
+										{% endif %}
+					                    <!--td class="text-right" id="url_id" data-contact-url="{% url 'ajax_load_products_admin' %}" >
+							                <input value="{{companies.company.pk}}" name="q" type="hidden" id="search{{companies.pk}}">
+					                    </td-->
+					                </tr>
+                                    <div class="modal fade" id="revisar{{ companies.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								        <div class="modal-dialog modal-xl">
+									        <div class="modal-content" style="border-radius: 25px;">
+										        <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+												    <div class="d-flex align-items-center">
+												        <i class="fas fa-search fa-flip-horizontal" style="color: white;"></i>
+											            <h5 class="modal-title ml-3" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}REVISAR SOLICITUD{% endblocktrans %}</h5>
+											        </div>
+											        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												        <span aria-hidden="true" style="color: #fff;">&times;</span>
+											        </button>
+										        </div>
+										        <div class="modal-body">
+											        <object height="400" width="101%" data="{% url 'ApproveMyWebCrm' companies.company.pk %}"></object>
+										        </div>
+									        </div>
+								        </div>
+							        </div>
+					            {% endfor %}
+					        </tbody>
+					    </table>
+					{% else %}
+					    <br><br><center><p style="color:black;">{% blocktrans %} No hay solicitudes {% endblocktrans %}</p></center><br><br>
+				    {% endif %}
+				</div>
+			</div>
+			<div class="col-md-4"></div>
+		</div>
+		<div id="listado"></div>
+	</div>
+</div>
+<script>
+	$("label").addClass("mb-0 mt-3");
+	$('#datatables').DataTable({
+		"pageLength": 25,
+		{% if LANGUAGE_CODE == 'es' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+		},
+		{% elif LANGUAGE_CODE == 'de' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/German.json"
+		},
+		{% elif LANGUAGE_CODE == 'en' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
+		},
+
+		{% elif LANGUAGE_CODE == 'fr' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/French.json"
+		},
+		{% elif LANGUAGE_CODE == 'ja' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Japanese.json"
+		},
+		{% elif LANGUAGE_CODE == 'pt' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese.json"
+		},
+
+		{% elif LANGUAGE_CODE == 'it' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Italian.json"
+		},
+		
+		{% elif LANGUAGE_CODE == 'zh-hans' or LANGUAGE_CODE == 'zh-hant' %}
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Chinese.json"
+		},
+		{% endif %} 
+    });
+	
+</script>
+{% endblock %}

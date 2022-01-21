@@ -1,0 +1,116 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<div class="col-12 col-lg-10 background">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h4>{% blocktrans %}Perfil{% endblocktrans%}</h4>
+			</div>
+		</div>
+		<div class="row point-border py-4">
+			<div class="col-12 col-md-4 d-flex p-0">
+				<div class="col d-flex flex-column align-items-center">
+					<h5>{% blocktrans %}Mensajes{% endblocktrans%}</h5>
+					<i class="far fa-envelope-open"></i>
+					<span>10</span>
+					<p>{% blocktrans %}Tienes mensajes sin leer{% endblocktrans%}</p>
+				</div>
+				<div class="point-perfil-bl"></div>
+				<div class="col d-flex flex-column align-items-center">
+					<h5>{% blocktrans %}Puntos{% endblocktrans%}</h5>
+					<i class="far fa-bookmark"></i>
+					<span>520</span>
+					<p>{% blocktrans %}Consigue beneficios canjeando tus puntos{% endblocktrans%}</p>
+				</div>
+				<div class="point-perfil-bl"></div>
+			</div>
+			<div class="col-12 col-md-4 d-flex p-0">
+				<div class="col d-flex flex-column align-items-center">
+					<h5>{% blocktrans %}Contacto{% endblocktrans%}</h5>
+					<i class="far fa-user"></i>
+					<span>2</span>
+					<p>{% blocktrans %}Alguien te ha agregado a sus contactos{% endblocktrans%}</p>
+				</div>
+				<div class="point-perfil-bl"></div>
+				<div class="col d-flex flex-column align-items-center">
+					<h5>{% blocktrans %}Chat{% endblocktrans%}</h5>
+					<i class="far fa-comment-alt"></i>
+					<span>1</span>
+					<p>{% blocktrans %}Alguien tiene una consulta{% endblocktrans%}</p>
+				</div>
+				<div class="point-perfil-bl"></div>
+			</div>
+			<div class="col-12 col-md-4 d-flex p-0">
+				<div class="col d-flex flex-column align-items-center">
+					<h5>{% blocktrans %}Post{% endblocktrans%}</h5>
+					<i class="far fa-file-alt"></i>
+					<span>0</span>
+					<p>{% blocktrans %}Consigue puntos con tus post{% endblocktrans%}</p>
+				</div>
+				<div class="point-perfil-bl"></div>
+				<div class="col d-flex flex-column align-items-center">
+					<h5>{% blocktrans %}Empleo{% endblocktrans%}</h5>
+					<i class="fas fa-search"></i>
+					<span>1</span>
+					<p>{% blocktrans %}Tienes avisos sin leer{% endblocktrans%}</p>
+				</div>
+			</div>
+		</div>
+		<div class="row pt-5">
+			<div class="col-12">
+				<h4>{% blocktrans %}Valora producto y obtén puntos{% endblocktrans%}</h4>
+			</div>
+		</div>
+		<div class="row point-border2 py-4">
+			<div class="col-12 col-md-4 d-flex p-0">
+				<div class="col d-flex flex-column align-items-center">
+					<img class="img-fluid" src="{% static 'img/bandeja.png' %}" alt="">
+					<span class="d-flex justify-content-center p-3">
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="far fa-star" aria-hidden="true"></i>
+					</span>
+				</div>
+				<div class="point-perfil-bl"></div>
+				<div class="col d-flex flex-column align-items-center">
+					<img class="img-fluid" src="{% static 'img/bandeja.png' %}" alt="">
+					<span class="d-flex justify-content-center p-3">
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="far fa-star" aria-hidden="true"></i>
+					</span>
+				</div>
+				<div class="point-perfil-bl"></div>
+			</div>
+			<div class="col-12 col-md-4 d-flex p-0">
+				<div class="col d-flex flex-column align-items-center">
+					<img class="img-fluid" src="{% static 'img/bandeja.png' %}" alt="">
+					<span class="d-flex justify-content-center p-3">
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="far fa-star" aria-hidden="true"></i>
+					</span>
+				</div>
+				<div class="point-perfil-bl"></div>
+				<div class="col d-flex flex-column align-items-center">
+					<img class="img-fluid" src="{% static 'img/bandeja.png' %}" alt="">
+					<span class="d-flex justify-content-center p-3">
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="far fa-star" aria-hidden="true"></i>
+					</span>
+				</div>
+				<div class="point-perfil-bl"></div>
+			</div>
+		</div>
+		</div>
+
+	</div>
+</div>		
+{% endblock %}

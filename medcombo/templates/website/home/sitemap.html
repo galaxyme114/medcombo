@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<style>
+	.text-area{
+		color: #7f9bcd;
+    	font-weight: 700;
+	}
+	.text-category{
+		color: #7f9bcd;
+    	font-weight: 500;
+	}
+	.text-subcategory{
+		color: #7f9bcd;
+    	font-weight: 300;
+	}
+	.company-div{
+		border: 1px solid #d5d5d5;
+		border-radius: 10px;
+	}
+	.card{
+        padding: 1.5rem;
+    }
+	@media(max-width: 576px){
+	    .card{
+	        padding: 5px 5px;
+	    }
+	    .detail-event{
+	    	padding: 3px 3px;
+	    }
+	}
+</style>
+<div class="container-fluid" style="background-color: #595959;">
+    <div class="row">
+        <div class="container privacy-home-container">
+            <div class="row menu-logo mt-3 mb-2">
+            	<h1 style="color: white;text-transform: uppercase;">{% blocktrans %}Sitemap{% endblocktrans%}</h1>
+            </div>
+        </div>
+        <div class="container card mb-4">
+        	<div class="row ml-0 mr-0 mb-2">
+        		<h2>{% blocktrans %}CATEGORIAS{% endblocktrans%}</h2>
+        	</div>
+            {% for area in areas %}
+            	<div class="row m-0">
+            		<a href="/categories/{{area.name}}">
+	        			<h5 class="text-area">{{area.name}}</h5>
+	        		</a>
+	        	</div>
+	        	{% if area.child_categories %}
+		        		{% for category in area.child_categories %}
+		        			<div class="row ml-2 mr-0 mt-2">
+		        				<a href="/subcategories/{{area.name}}/{{category.name}}">
+				        			<span class="text-category">{{category.name}}</span>
+				        		</a>
+				        	</div>
+			        		{% if category.child_subcategories %}
+			        				{% for subcate in category.child_subcategories %}
+	        	        				<div class="row ml-4 mr-0 pl-2">
+					        				<a href="/keywords/{{area.name}}/{{category.name}}/{{subcate.name}}">
+							        			<span class="text-subcategory">{{subcate.name}}</span>
+							        		</a>
+							        	</div>
+				        					
+						        		{% if subcate.child_keywords %}
+							        		<div class="row ml-4 mr-0 pl-4">
+	        	        		
+					        					{% for key in subcate.child_keywords %}
+							        				<div class="col-12 col-sm-12 col-md-4 col-lg-4">
+				        								<a href="javascript:void(0);" id="search-product-id{{key.pk}}">
+				        									<span class="text-category">{{key.name}}</span>
+				        								</a>
+				        								<script type="text/javascript">
+						                                  	$('#search-product-id{{key.pk}}').click(function(evt){  
+							                                    evt.preventDefault();
+							                                    var my_url = "{% url 'list_categories' %}";
+							                                    var my_value = "{{key.name}}";
+							                                    var token = '{{csrf_token}}';
+							                                    var my_area;
+							                                    var my_category;
+							                                    var my_subcategory;
+							                                    var my_language = $('#lenguaje-seleccionado').val();
+							                                    var country;
+							                                    var location;
+																$.getJSON('http://api.wipmania.com/jsonp?callback=?', function (data) {
+																	country = data.address.country;
+																});
+						                                      	setTimeout(function(){
+							                                        $.ajax({
+							                                          headers: { "X-CSRFToken": '{{csrf_token}}' },
+							                                          type: 'POST',
+							                                          url: "{% url 'product_country' %}",
+							                                          data: {
+							                                            'country': country
+							                                          },
+							                                          success: function(msg){
+							                                            location = msg;
+							                                          }
+							                                        });
+							                                        $.ajax({
+							                                          headers: { "X-CSRFToken": token },
+							                                          type: 'POST',
+							                                          url: my_url,
+							                                          data: {
+							                                            'key': my_value
+							                                          },
+							                                          success: function(msg){
+							                                            my_area = msg[0].toLowerCase().replace(/\//g,"");
+							                                            my_category = msg[1].toLowerCase().replace(/\//g,"");
+							                                            my_subcategory = msg[2].toLowerCase().replace(/\//g,"");
+							                                          }
+							                                        });
+							                                        setTimeout(function(){
+						                                          		my_form = $('#form-search-product');
+						                                          		name= '{{key.name}}';
+						                                          		$('#id_name').val(name);
+						                                          		url_replace = name.toLowerCase();
+						                                          		if(url_replace.trim() == ''){
+						                                            		url_replace = 'empty';
+							                                          	}
+							                                          	if(location == undefined) {
+							                                            	location = 'ESP'
+							                                          	}
+							                                          	if(my_area == undefined) {
+							                                            	my_area = 'area'
+							                                          	}
+							                                          	if(my_category == undefined) {
+							                                            	my_category = 'category'
+							                                          	}
+							                                          	if(my_subcategory == undefined) {
+							                                            	my_subcategory = 'subcategory'
+							                                          	}
+							                                          	my_form.attr("action","/"+my_language+"/"+location.toLowerCase()+"/product/"+my_area.replace(/\s/g,"-")+"/"+my_category.replace(/\s/g,"-")+"/"+my_subcategory.replace(/\s/g,"-")+"/"+url_replace.replace(/\s/g,"-")+"/");
+						                                            	my_form.submit();
+							                                            },
+						                                        	200);
+							                                        },
+							                                    150);
+							                                });
+						                                </script>  
+								        			</div>
+									        	{% endfor %}
+										    </div>    
+						        		{% endif %}
+				        				
+				        			{% endfor %}
+			        			
+			        		{% endif %}
+		            		
+		            	{% endfor %}
+		        	
+		        {% endif %}
+            {% endfor %}
+            <div class="row ml-0 mr-0 mb-2 mt-3">
+        		<h2>{% blocktrans %}EMPRESAS{% endblocktrans%}</h2>
+        	</div>
+        	<div class="row m-0">
+	        	{% for company in companies %}
+	        		<div class="col-12 col-sm-12 col-md-4 col-lg-4 mb-2">
+        				<div class="company-div col-12 d-flex justify-content-between score p-2">
+			        		{% if company.logo %}
+					            <a href="{% url 'my_web_home' company.id %}"><img class="img-fluid fit-img" src="{{ company.logo.url }}" alt=""/></a>
+				            {% else %}
+					            <a href="{% url 'my_web_home' company.id %}"><img class="img-fluid fit-img" src="{% static 'img/default.png' %}"/></a>	
+				            {% endif %}
+				            <span class="d-flex justify-content-center p-1">
+				            	<span><a href="{% url 'my_web_home' company.id %}">{{company.name}}</a></span>
+				            </span>
+			                <span style="font-size: 9px;">
+			                    {{company.country_company.code2}}&nbsp;&nbsp;<img src="{% static ''%}img/Banderas/{{company.country_company.code2|lower}}.png" style="width: 18px;height: 12px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{company.country_company.name}}"  />
+				            </span>
+				        </div>
+				        
+			        </div>
+	        	{% endfor %}
+        	</div>
+        	<div class="row ml-0 mr-0 mb-2 mt-3">
+        		<div class="mr-auto">
+        			<h2>{% blocktrans %}EVENTOS{% endblocktrans%}</h2>
+        		</div>
+        		<div class="d-flex">
+        			{% if events.count > 3 %}
+			            <div class="pb-2" style="margin-left: -96px;z-index: 2;"><!--social-more">-->
+			                <a class="btn btn-primary btn_hover" style="width:96px;" href="{% url 'list_events' %}" role="button">+ {% blocktrans %}Más{% endblocktrans%}</a>
+			            </div>
+		            {% endif %}
+		        </div>
+        	</div>
+    		<div class="row m-0" >
+	            {% for event in events %}
+	                {% if forloop.counter0 < 3 %}
+	                    <div class="col-12 col-sm-6 col-lg-4 detail-event">
+	                        <div class="card text-center pl-0 pr-0" style="width: 300px; border:none;margin: 0 auto;">
+	                            {% if event.picture %}
+	                                <a href="{% url 'detail_event' event.pk %}"><img class="img-fluid" style="height: 70px;width: 300px;" src="{{ event.picture.url }}" alt="{{event.title}}" ></a>
+	                            {% else %}
+	                                <a href="{% url 'detail_event' event.pk %}"><img class="img-fluid" style="height: 70px;width: 300px;" src="{% static 'img/banner.jpg' %}" alt="{{event.title}}" ></a>
+	                            {% endif %}
+	                            <div class="card-body" style="padding-left: 0px;padding-top: 15px;padding-bottom: 15px;">
+	                                <div class="card-text text-center">
+	                                    <i class="far fa-calendar-alt" style="font-size: 16px;color: #b5b6b6;"></i>
+	                                    <span style="font-size: 12px;" class="ml-1 mr-1">{{event.start_event}}</span>~<span style="font-size: 12px;" class="ml-1 mr-1">{{event.end_event}}</span>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                {% endif %}
+	            {% endfor %}
+	        </div>
+	        <div class="row ml-0 mr-0 mb-2 mt-3">
+        		<div class="mr-auto">
+        			<h2>{% blocktrans %}NOTICIAS{% endblocktrans%}</h2>
+        		</div>
+        		<div class="d-flex">
+        			{% if events.count > 3 %}
+			            <div class="pb-2" style="margin-left: -96px;z-index: 2;"><!--social-more">-->
+			                <a class="btn btn-primary btn_hover" style="width:96px;" href="{% url 'list_events' %}" role="button">+ {% blocktrans %}Más{% endblocktrans%}</a>
+			            </div>
+		            {% endif %}
+		        </div>
+        	</div>
+        	<div class="row d-flex m-0">
+			    {% if foot_banner %}
+			        {% for banner in foot_banner %}
+			            {% if forloop.counter0 < 3 %} <!--Limita solo a 4 registros-->
+			                <div class="col-12 col-sm-6 col-lg-4" id="detail-news">    
+			                    <div class="card" style="border:0px; width: 350px;">
+			                        {% if banner.picture %}
+			                            <a href="{% url 'detail_news' banner.pk %}"><img class="img-fluid" style="width: 350px;" src="{{ banner.picture.url }}" alt="{{banner.title}}" ></a>
+			                        {% else %}
+			                            <a href="{% url 'detail_news' banner.pk %}"><img class="img-fluid" style="width: 350px;" src="{% static 'img/banner.jpg' %}" alt="{{banner.title}}" ></a>
+			                        {% endif %}
+			                        <div class="card-body pt-3" style="padding-left: 0px;border:0px!important;">
+			                            <p class="card-text" style="font-size: 10px;color: #b5b6b6;text-align: center!important;"><a href="{% url 'detail_news' banner.pk %}">{{banner.title}}</a></p>
+			                        </div>
+			                    </div>
+			                </div>
+			            {% endif %}
+			        {% endfor %}
+			        
+			    {% endif %}
+			    </div>
+		    <div class="row ml-0 mr-0 mb-2 mt-3">
+        		<h2>{% blocktrans %}INFORMACIÓN{% endblocktrans%}</h2>
+        	</div>
+        	<div class="row m-0">
+				<div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-2">
+        			<a href="{% url 'view_singup' %}">{% blocktrans %}Hazte{% endblocktrans %} {% blocktrans %}Expositor{% endblocktrans %}</a>
+        		</div>
+        		<div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-2">
+        			<a href="{% url 'aboutme' %}">{% blocktrans %}Sobre nosotros{% endblocktrans %}</a>
+        		</div>
+        		<div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-2">
+        			<a href="{% url 'prices' %}">{% blocktrans %}Precios{% endblocktrans %}</a>
+        		</div>
+        		<div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-2">
+        			<a href="{% url 'privacy_policy' %}">{% blocktrans %}Política de Privacidad{% endblocktrans %}</a>
+        		</div>
+        		<div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-2">
+        			<a href="{% url 'FAQ' %}">{% blocktrans %}FAQ{% endblocktrans %}</a><br/>
+        		</div>
+        		<div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-2">
+        			<a href="{% url 'Contacto' %}">{% blocktrans %}Contacto{% endblocktrans %}</a>
+        		</div>
+        		<div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-2">
+        			{% if language_selected != 8 %}
+                        <a href="{% url 'list-front-offers' %}">{% blocktrans %}Ofertas de{% endblocktrans %} {% blocktrans %}empleo{% endblocktrans %}</a>
+                    {% else %}
+                        <a href="{% url 'list-front-offers' %}">{% blocktrans %}Ofertas de{% endblocktrans %}</a>
+                    {% endif %}
+        		</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

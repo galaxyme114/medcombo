@@ -1,0 +1,51 @@
+{% load i18n %}
+<html>
+<head>
+    <title>500 error</title>
+    <style>
+        @font-face{
+            font-family: "Muli-SemiBold";
+            src: url("https://fonts.googleapis.com/css?family=Poppins&display=swap") format("truetype");
+        }
+    </style>
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+    </script>
+    <style>
+        .five-zero-zero {
+            width: 100%;
+            text-align: center;
+            margin: 5% auto;
+        }
+        body {
+            background-color: #e9e9e9;
+            -moz-transition: all 0.5s;
+            -o-transition: all 0.5s;
+            -webkit-transition: all 0.5s;
+            transition: all 0.5s;
+            font-family: 'Roboto', Arial, Tahoma, sans-serif;
+        }
+        .five-zero-zero .five-zero-zero-container .error-code {
+            font-size: 150px;
+        }
+        .five-zero-zero .five-zero-zero-container .error-message {
+            font-size: 27px;
+            color: #333;
+            font-weight: bold;
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body class="five-zero-zero">
+    <div class="five-zero-zero-container">
+        <div class="error-code">500</div>
+        <div class="error-message">{% blocktrans%}Error de servidor interno{% endblocktrans%}</div>
+    </div>
+</body>
+</html>

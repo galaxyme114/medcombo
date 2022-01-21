@@ -1,0 +1,265 @@
+{% load staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>	
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());  
+        gtag('config', 'UA-148356704-1'); 
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+	<script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+	<link rel="stylesheet" href="{% static 'css/dashboard_admin.css' %}">
+	<link rel="stylesheet" href="{% static 'datepicker-boostrap/bootstrap-datepicker.css' %}">
+	<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+	<script src="{% static 'datepicker-boostrap/bootstrap-datepicker.js' %}"></script>
+	<!--script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script-->
+	<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/ckeditor/adapters/jquery.js' %}"></script>
+	<script type="text/javascript">            
+		// jquery document ready function
+		$(function(){                    
+			// 1. change the textarea into an editor
+			CKEDITOR.replace( 'notas',
+		        {
+		            toolbar :
+		            [
+		                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+		                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+		                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+		                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+		                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+		                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+		            ]
+		        });               
+		});    
+	</script>
+</head>
+<body>
+	<div class="container-fluid">
+        <div class="text-center-container">
+			{% if form.errors %}
+				{% for field in form %}
+					{% for error in field.errors %}
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{% for error in form.non_field_errors %}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+        <div class="row pt-4">
+            <div class="col-12 create-contact-form">
+                <form class="needs-validation" method="POST" target="_parent" novalidate>
+			        {% csrf_token %}
+			        <div class="form-group row">
+					    <div class="col-12 col-md-6">
+						    <div class="form-group row">
+							    <label for="opportunity" class="col-sm-3 col-form-label">{% blocktrans %}Tipo{% endblocktrans %}</label>
+							    <div class="col-sm-9"> 
+								    <select id="puesto2" name='call' class="form-control" required>
+                                        {% for formu in formulario %}
+                                            <option value={{formu.id}}>{{ formu }}</option>
+                                        {% endfor %}
+									</select>
+									<div class="invalid-feedback">
+										{% blocktrans %}Seleccione un tipo de comunicación{% endblocktrans %}
+									</div>
+							    </div>
+						    </div>
+					    </div>
+					    <div class="col-12 col-md-6"></div>
+				    </div>
+				    <div class="form-group row">
+					    <div class="col-12 col-md-6">
+						    <div class="form-group row">
+							    <label for="opportunity" class="col-sm-3 col-form-label">{% blocktrans %}Oportunidad{% endblocktrans %}</label>
+							    <div class="col-sm-9">
+								    <select id="opportunity" name="opportunity" class="form-control" required {{ form.opportunity }}
+									</select>
+									<div class="invalid-feedback">
+										{% blocktrans %}Seleccione una oportunidad{% endblocktrans %}
+									</div>
+							    </div>
+						    </div>
+					    </div>
+					    <div class="col-12 col-md-6">
+						    <div class="form-group row">
+							    <label for="asignado" class="col-sm-2 col-form-label">{% blocktrans %}Asignado{% endblocktrans %}</label>
+							    <div class="col-sm-10">
+								    <select id="asignado" name="responsible" class="form-control" required {{ form.responsible }}
+									</select>
+									<div class="invalid-feedback">
+										{% blocktrans %}Seleccione una persona asignada{% endblocktrans %}
+									</div>
+									{% if form.responsible.value %}
+									    <!-- Nothing Here -->
+									{% else %}
+									    <script>
+											$('#asignado option[value={{user.pk}}]').attr("selected",true);
+										</script>
+									{% endif %}
+							    </div>
+						    </div>
+					    </div>
+				    </div>
+				    <div class="form-group row">
+					    <div class="col-12 col-md-6">
+						    <div class="form-group row">
+							   <label for="fecha" class="col-sm-3 col-form-label">{% blocktrans %}Fecha de Realización{% endblocktrans %}</label>
+							   <div class="col-sm-9 d-flex align-items-center">
+									{% if form.deadline.value %}
+										{{ form.deadline }}
+										<script>
+											$(function(){
+												$('#id_deadline').ready(function(){
+													$('#id_deadline').attr('type','text');
+													{% if language_selected == 3 %}//en
+													    $('#id_deadline').datepicker("setDate", '{{ form.deadline.value|date:"m/d/Y" }}');
+													{% elif language_selected == 1 %}//zh hant
+													    $('#id_deadline').datepicker("setDate", '{{ form.deadline.value|date:"Y/m/d" }}');
+													{% elif language_selected == 8 %}//zh hans
+													    $('#id_deadline').datepicker("setDate", '{{ form.deadline.value|date:"Y/m/d" }}');
+													{% elif language_selected == 9 %}//ja
+														$('#id_deadline').datepicker("setDate", '{{ form.deadline.value|date:"Y-m-d" }}');
+													{% elif language_selected == 2 %}//de
+													    $('#id_deadline').datepicker("setDate", '{{ form.deadline.value|date:"d.m.Y" }}');
+			                                        {% else %} //Other languages
+													    $('#id_deadline').datepicker("setDate", '{{ form.deadline.value|date:"d/m/Y" }}');
+			                                        {% endif %}
+												});
+											});
+										</script>
+									{% else %}
+										<input name="deadline" class="form-control" required {{form.deadline}}
+									{% endif %}
+									<div class="invalid-feedback">
+										{% blocktrans %}Seleccione una fecha{% endblocktrans %}
+									</div>
+								</div>
+						    </div>
+					    </div>
+					    <div class="col-12 col-md-6">
+						    <div class="form-group row">
+							    <label for="telefono" class="col-sm-2 col-form-label">{% blocktrans %}Prioridad{% endblocktrans %}</label>
+							    <div class="col-sm-10">
+								    <select id="inputState" name="priority" class="form-control" required {{ form.priority }}
+									</select>
+									<div class="invalid-feedback">
+										{% blocktrans %}Seleccione una prioridad{% endblocktrans %}
+									</div>
+							    </div>
+						    </div>
+					    </div>
+				    </div>
+		   		    <div class="form-group row">
+				  	    <div class="col-12">
+						    <div class="form-group row">
+							    <label for="notas" class="col-sm-2 col-form-label">{% blocktrans %}Descripción{% endblocktrans %}</label>
+							    <div class="col-sm-10">
+								    <textarea class="form-control w-100" name="notes" id="notas" rows="5" style="border-radius: 10px" {{ form.notes }}
+								    </textarea>
+							    </div>
+						    </div>
+					    </div>
+            	    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+					        <button class="btn btn-primary crm-button-anadir">{% blocktrans %}GUARDAR{% endblocktrans %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+	</div>
+	{% if language_selected == 1 %}<!-- zh hant -->
+	    <script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.zh-TW.js' %}" charset="UTF-8"></script>
+	{% elif language_selected == 2 %}<!-- de -->
+	    <script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.de.js' %}" charset="UTF-8"></script>
+	{% elif language_selected == 3 %}<!-- en -->
+	    <script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.en-GB.js' %}" charset="UTF-8"></script>
+	{% elif language_selected == 4 %}<!-- es -->
+	    <script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
+	{% elif language_selected == 5 %}<!-- fr -->
+	    <script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.fr.js' %}" charset="UTF-8"></script>
+	{% elif language_selected == 6 %}<!-- it -->
+	    <script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.it.js' %}" charset="UTF-8"></script>
+	{% elif language_selected == 7 %}<!-- pt -->
+	    <script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.pt.js' %}" charset="UTF-8"></script>
+	{% elif language_selected == 8 %}<!-- zh hans -->
+	    <script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.zh-CN.js' %}" charset="UTF-8"></script>
+	{% else %}<!-- ja -->
+	    <script src="{% static 'datepicker-boostrap/locales/bootstrap-datepicker.ja.js' %}" charset="UTF-8"></script>
+	{% endif %}
+    <script>
+	    $('#id_deadline').datepicker({
+			{% if language_selected == 1 %}//zh hant
+	            language: 'zh-TW',
+	        {% elif language_selected == 2 %}//de
+			    language: 'de',
+	        {% elif language_selected == 3 %}//en
+			    language: 'en-GB',
+	        {% elif language_selected == 4 %}//es
+			    language: 'es',
+	        {% elif language_selected == 5 %}//fr
+			    language: 'fr',
+	        {% elif language_selected == 6 %}//it
+			    language: 'it',
+	        {% elif language_selected == 7 %}//pt
+			    language: 'pt',
+	        {% elif language_selected == 8 %}//zh hans
+			    language: 'zh-CN',
+	        {% else %}//ja
+			    language: 'ja',
+	        {% endif %}
+			autoclose: true,
+			clearBtn: true,
+			todayBtn: 'linked',
+			todayHighlight: true,
+			{% if language_selected == 3 %}//en
+			    format: 'mm/dd/yyyy',
+			{% elif language_selected == 8 %}//zh hant
+			    format: 'yyyy/mm/dd',
+			{% elif language_selected == 1 %}//zh hans
+			    format: 'yyyy/mm/dd',
+			{% elif language_selected == 9 %}//ja
+				format: 'yyyy-mm-dd',
+			{% elif language_selected == 2 %}//de
+			    format: 'dd.mm.yyyy',
+			{% else %} //Other languages
+			    format: 'dd/mm/yyyy',
+			{% endif %}
+			templates: {
+				leftArrow: '<i class="fas fa-caret-left"></i>',
+                rightArrow: '<i class="fas fa-caret-right"></i>'
+			}
+		});
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#puesto2").val( "{{call}}" );
+        });
+    </script>
+    <script src="{% static 'js/app/validations.js' %}"></script>
+</body>
+</html>

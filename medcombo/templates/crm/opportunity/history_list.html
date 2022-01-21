@@ -1,0 +1,14 @@
+{% load staticfiles %}
+{% load i18n %}
+{% if histories %}
+	{% for history in histories %}
+		<div class="col-12 d-sm-flex py-2 py-md-0">
+			<h6 class="col-12 col-sm-4 col-md-3"> {{ history.date|date:'d-m-Y h:m a' }} </h6>
+			<p class="col-12 col-sm-8 col-md-9"> {{ history.notes }} </p>
+		</div>
+	{% endfor %}
+{% else %}
+	<div class="col-12 d-sm-flex py-2 py-md-0">
+		<h6 class="col-12 col-sm-12 col-md-12">{% blocktrans %}No existen registros{% endblocktrans %}</h6>
+	</div>
+{% endif %}

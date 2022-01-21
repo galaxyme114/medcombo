@@ -1,0 +1,249 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	
+	<div class="row pb-1">
+		<div class="col-lg-3 col-sm-6 col-md-4 col-xs-6 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}MedMagazine{% endblocktrans %}</h5>
+		</div>
+		<div class="col-lg-5 col-sm-6 col-md-4 col-xs-6">
+			<a href="{% url 'BannerIndexCreate' %}" class="btn btn-primary crm-button-anadir" data-toggle="tooltip" data-placement="bottom">{% blocktrans %}AÑADIR{% endblocktrans%}</a>
+		</div>
+		<div class="col-lg-3 col-sm-12 col-md-4 col-xs-12">
+			<div class="d-flex justify-content-end">
+				<div class="d-flex">
+					<span class="pt-1" id='select_flag'></span>
+					<select class="form-control form-control-sm ml-2" id="languages_select">
+						{% for language in language_medmagazine %}
+							<option style="min-width: 1em;" value="{{ language.value_language}}" {% if language.value_language == selected %} selected {% endif %}>
+								{% if language.value_language == "es" %}<!-- es -->
+									Español ({{ language.value_language }}) 
+								{% elif language.value_language == "fr" %}<!-- fr -->
+									Français ({{ language.value_language }})
+								{% elif language.value_language == "it" %} <!-- it -->
+									Italiano ({{ language.value_language }})
+								{% elif language.value_language == "ja" %} <!-- ja -->
+									日本語 (jp)
+								{% elif language.value_language == "pt" %} <!-- pt -->
+									Português ({{ language.value_language }})
+								{% elif language.value_language == "zh-hans" %} <!-- zh-hans -->
+									简体中文 ({{ language.value_language }})
+								{% elif language.value_language == "zh-hant" %} <!-- zh-hant -->
+									繁體中文 ({{ language.value_language }})
+								{% elif language.value_language == "en" %} <!-- en -->
+									English ({{ language.value_language }})
+								{% else %} <!-- de -->
+									{% if language.value_language == "de" %}
+										Deutsch ({{ language.value_language }})
+									{% endif %}
+								{% endif %}
+							</option>
+						{% endfor %}
+					</select> 
+				</div>
+				<script>
+					$('#languages_select').change(function(){
+						var language = $('#languages_select').val();
+						var lang_url = "{% url 'BannerIndexList' lang='es' %}".replace('es',language);
+						location.href = lang_url;
+					});
+					$(function(){
+						$('#languages_select').ready(function(){
+							var language = $('#languages_select').val();
+							if(language == 'en') {
+								$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+							}
+							else if(language == 'ja') {
+								$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+							}
+							else if(language == 'zh-hans' || language == 'zh-hant') {
+								$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+							}
+							else {
+								$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+							}
+						});
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	{% if banner %}
+	    {% if page_obj.paginator.num_pages > 1 %}
+		    <span class="col-12 mb-3 paginator-permission text-center">
+			    {% if page_obj.has_previous %}
+				    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info">
+					    <i class="fas fa-angle-double-left"></i>
+				    </a>
+			    {% endif %}
+		 	    {% if page_obj.has_next %}
+				     <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info">
+					    <i class="fas fa-angle-double-right"></i>
+				    </a>
+			    {% endif %}
+			    <span style="float: right">
+				    {% blocktrans %}Página{% endblocktrans%} {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+			    </span>
+		    </span>
+		{% endif %}
+		<!--Banner List-->
+		<div class="row m-0 list-fondo mb-4">
+			<div class="col-12" id="medmagazine">
+				<table id="medmagazinefor" class="table table-responsive-md" data-language="{{object.language.value_language}}">
+					<thead>
+						<tr>
+							<th scope="col"></th>
+							<th scope="col"></th>
+							<th scope="col">{% blocktrans %}Idioma{% endblocktrans %}</th>
+							<th scope="col">{% blocktrans %}Activar{% endblocktrans %}</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+				{% for object in banner %}
+				    <tr>
+						<td class="align-middle">
+							{% if object.picture %}
+								<img src="{{ object.picture.url }}" alt="" width="150" height="auto" data-toggle="tooltip" data-placement="bottom" />
+							{% else %}
+								<img src="{% static 'img/banner.jpg' %}" alt="" width="150" height="auto" data-toggle="tooltip" data-placement="bottom"/>	
+							{% endif %}
+						</td>
+						<td class="align-middle">
+							{% if object.video %}
+								<video controls width="250">
+									<source src="{{object.video.url}}" type="video/mp4">
+									Sorry, your browser doesn't support embedded videos.
+								</video>
+							{% else %}
+								
+							{% endif %}
+						</td>
+						<td class="align-middle">
+							<p>{{ object.language.name_language }}</p>
+						</td>
+						<td class="align-middle" id="activate-id{{object.id}}" onclick="activate_id({{object.id}})" data-val="{{object.id}}">
+							{% if object.activate is True %}
+								<i class="fas fa-check"></i>
+							{% else %}
+								<i class="fas fa-times"></i>
+							{% endif %}
+						</td>
+						<td class="align-middle">
+							<a href="{% url 'BannerIndexUpdate' object.id %}" class="btn btn-primary list-button ml-0 ml-md-3">
+								<i style="color: white;" class="fas fa-edit"></i>
+							</a>
+							<a href="#" data-toggle="modal" onclick="delete_MedMagazine({{object.id}})" class="btn btn-primary list-button ml-0 ml-md-1 mt-1 mt-md-0">
+								<i style="color: white;" class="fas fa-trash-alt"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+			</div>
+		</div>
+	{% else %}
+	    <h4 class="text-primary">{% blocktrans %}Sin Registros{% endblocktrans %}</h4>
+	{% endif %}
+	{% if page_obj.paginator.num_pages > 1 %}
+	    <span class="col-12 mb-3 mt-3 paginator-permission text-center">
+		    {% if page_obj.has_previous %}
+			    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info">
+				    <i class="fas fa-angle-double-left"></i>
+			    </a>
+		    {% endif %}
+		    {% if page_obj.has_next %}
+		        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info">
+				    <i class="fas fa-angle-double-right"></i>
+			    </a>
+		    {% endif %}
+		    <span style="float: right">
+			    {% blocktrans %}Página{% endblocktrans%} {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+		    </span>
+	    </span>
+	{% endif %}
+</div>
+<div class="modal fade" id="delete-MedMagazine-select" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog modal-xs">
+		<div class="modal-content" style="border-radius: 25px;">
+			<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				<div class="d-flex align-items-center">
+					<i class="fas fa-trash-alt icons_size_title_second"></i>
+					<p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR MedMagazine{% endblocktrans %}</p>
+				</div>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="color: #fff;">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 d-flex justify-content-center">
+					<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+				</div>
+			</div>
+			<input type="hidden" value="-1" id="medmagazine-select" />
+			<div class="modal-footer justify-content-center">
+				<button id="delete-button{{object.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+				<button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function delete_MedMagazine(id){
+		$("#medmagazine-select").val(id);
+		$("#delete-MedMagazine-select").modal();
+	}
+	$('#delete-button').click(function(e){
+		var value = $("#medmagazine-select").val();
+		var url = '{% url "delete_MedMagazine" %}';
+		var token = '{{csrf_token}}';
+		$.ajax({
+			headers: { "X-CSRFToken": token },
+			method: 'POST',
+			url: url,
+			data: {
+				'value': value
+			},
+			success: function(data) {
+				if(data == 'Ok') {
+					location.reload();
+				}
+			}
+		});
+	});
+</script>
+<script>
+	function activate_id(pk){
+		var active = pk;
+		var url = '{% url "ActiveBannerIndex" %}';
+		var token = '{{csrf_token}}';
+		$.ajax({
+			headers: { "X-CSRFToken": token },
+			method: 'POST',
+			url: url,
+			data: {
+				'active': active
+			},
+			success: function(data) {
+				if(data == 'True') {
+					$('#activate-id'+pk).html('<i class="fas fa-check"></i>');
+				}
+				else {
+					$('#activate-id'+pk).html('<i class="fas fa-times"></i>');
+				}
+			}
+		});
+	}
+</script>
+<script>
+	$("p").addClass("mb-0");
+	$(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+{% endblock %}

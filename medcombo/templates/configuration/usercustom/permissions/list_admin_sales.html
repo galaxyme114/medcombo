@@ -1,0 +1,344 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}{% blocktrans %}Usuarios{% endblocktrans%}{% endblock %}
+{% block css %}{% endblock %}
+{% block javascript %}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<link rel="stylesheet" href="{% static 'css/icheck-bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'datatables/css/jquery.dataTables.css' %}">
+<script src="{% static 'datatables/js/jquery.dataTables.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+    <form class="needs-validation" method="POST" id="csvForm" action="{% url 'admin_user_import' %}" enctype='multipart/form-data' novalidate>
+        {% csrf_token %}
+        <div class="row pt-3">
+            
+            <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12 py-0 mb-1">
+                <a href="{% url 'admin_user_create' %}" type="button" class="btn btn-primary list-button">
+                    <span class="glyphicon glyphicon-plus"></span>{% blocktrans %}CREAR USUARIO{% endblocktrans%}
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 py-0 mb-2 form-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="csv" name="csv" aria-describedby="inputGroupFileAddon01" required>
+                    <div class="invalid-feedback">
+                        {% blocktrans %}Seleccione un archivo{% endblocktrans %}
+                    </div>
+                    <label id="label-file" class="custom-file-label" for="csv">{% blocktrans %}Añadir{% endblocktrans %}</label>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 py-0 mb-1">
+                <input type="button" id="submit" class="btn btn-primary" value="{% blocktrans %}IMPORTAR{% endblocktrans %}">&nbsp;
+                <a href="{% url 'admin_user_export' %}" type="button" class="btn btn-primary list-button">
+                    <span class="glyphicon glyphicon-plus"></span>{% blocktrans %}EXPORTAR{% endblocktrans%}
+                </a>
+            </div>
+            <div class="col-lg-1 col-md-6 col-sm-12 col-xs-12 py-0 mb-1">
+                <a data-toggle="modal" id="delete-user" class="btn btn-primary list-button ml-1 mb-2">
+                    <i class="fas fa-trash-alt" style="color: white;"></i>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 py-0 mb-1">
+                <div class="input-group flex-nowrap">
+                    <input id="admin_sales" type="search" class="form-control input-right-border" placeholder={% blocktrans %}"Buscar"{% endblocktrans %}>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text my_cursor" id="buscar-fa"><i class="fa fa-search fa-flip-horizontal" style="color: #7f9bcd;"></i></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div class="title-seperator row mb-4"></div>
+    <div class="row py-2">
+        <div class="col-12">
+            <div class="contact-data-table">
+                <table id="datatables" class="table table-striped table-hover dataTable">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="padding: 10px 10px;">
+                                <div class="icheck-primary">
+                                    <input type="checkbox" id="check-all">
+                                    <label for="check-all"></label>
+                                </div>
+                            </th>
+                            <th scope="col">{% blocktrans %}ID{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Usuarios{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Nombres{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Apellidos{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Ocupación{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}My Web{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}País{% endblocktrans%}</th>
+                            <th scope="col">{% blocktrans %}Creado{% endblocktrans%}</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in object_list %}
+                            {% if not user.is_superuser %}
+                                <tr>
+                                    <td style="vertical-align: middle;">
+                                        <div class="icheck-primary">
+                                            <input type="checkbox" class="chk_select" data-id="{{user.id}}" id="check{{user.id}}">
+                                            <label for="check{{user.id}}"></label>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">{{user.id}}</td>
+                                    <td class="align-middle">{{user.username}}</td>
+                                    <td class="align-middle">{{user.first_name}}</td>
+                                    <td class="align-middle">
+                                        <div class="row">
+                                            <div class="col-5 pt-2">
+                                                {{user.last_name}}
+                                            </div>
+                                            <div>
+                                                <input id="text_extra{{user.pk}}" type="text" class="form-control" value="{{user.extra_surename|default_if_none:''}}"/>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">{{user.work.name}}</td>
+                                    {% if user.company_id %}
+                                        <td class="align-middle"><span class="badge badge-primary">{% blocktrans %}YES{% endblocktrans%}</span></td>
+                                    {% else %}
+                                        <td class="align-middle"><span class="badge badge-danger ">{% blocktrans %}NO{% endblocktrans%}</span></td>
+                                    {% endif %}
+                                    <td class="align-middle">{{user.country.name}}</td>
+                                    <td class="align-middle">{{user.date_joined|date:"d-m-Y"}}</td>
+                                    <td class="text-center">
+                                    {% if user.indicated == True %}
+                                        <button id="button_new{{user.pk}}" class="btn btn-primary formulario-buttom mr-4">{% blocktrans %}Nuevo{% endblocktrans %}</button>
+                                    {% else %}
+                                    {% endif %}
+                                    </td>
+                                    <td class="align-middle"><a href="{% url 'UserUpdateAdmin' user.pk %}" class="my_color"><i class="fas fa-pen mr-2"></i></a></td>
+                                </tr>
+                            {% endif %}
+                            <script>
+                                $("#button_new{{user.pk}}").click(function(){
+                                    var user = "{{user.pk}}";
+                                    var myurl = "{% url 'user_accept' %}";
+                                    var token = "{{csrf_token}}";
+                                    $.ajax({
+                                        headers:{
+                                        'X-CSRFToken': token
+                                        },
+                                        url: myurl,
+                                        type: 'POST',
+                                        data: {
+                                        'user': user
+                                        },
+                                        success: function(msg){
+                                        if(msg=='Ok') {
+                                            $("#button_new{{user.pk}}").remove();
+                                        }
+                                        else{
+                                            console.log(msg);
+                                        }
+                                        }
+                                    });
+                                    });
+                                $("#text_extra{{user.pk}}").on('change', function(){
+                                var user = "{{user.pk}}";
+                                var myurl = "{% url 'user_extra_update' %}";
+                                var token = "{{csrf_token}}";
+                                $.ajax({
+                                    headers:{
+                                    'X-CSRFToken': token
+                                    },
+                                    url: myurl,
+                                    type: 'POST',
+                                    data: {
+                                    'user': user,
+                                    'extra':$(this).val()
+                                    },
+                                    success: function(msg){
+                                    console.log(msg);
+                                    }
+                                });
+                                });
+                            </script>
+                        {% empty %}
+                            <h3></h3>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        $('#datatables').DataTable({
+            "pageLength": 25,
+            {% if LANGUAGE_CODE == 'es' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+            },
+            {% elif LANGUAGE_CODE == 'de' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/German.json"
+            },
+            {% elif LANGUAGE_CODE == 'en' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
+            },
+
+            {% elif LANGUAGE_CODE == 'fr' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/French.json"
+            },
+            {% elif LANGUAGE_CODE == 'ja' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Japanese.json"
+            },
+            {% elif LANGUAGE_CODE == 'pt' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese.json"
+            },
+
+            {% elif LANGUAGE_CODE == 'it' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Italian.json"
+            },
+            
+            {% elif LANGUAGE_CODE == 'zh-hans' or LANGUAGE_CODE == 'zh-hant' %}
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Chinese.json"
+            },
+            {% endif %} 
+        });
+        $("#admin_sales").keyup(function(){
+            _this = this;
+            // Show only matching TR, hide rest of them
+            $.each($("table tbody tr"), function() {
+                if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1){
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            });
+        });
+        $("p").addClass("mb-0");
+        $('.custom-file-input').on('change', function(event) {
+            var inputFile = event.currentTarget;
+            if(inputFile.files[0].name.length <= 30) {
+                $(inputFile).parent()
+                    .find('#label-file')
+                    .html(inputFile.files[0].name.substring(0,30));
+            }
+            else {
+                $(inputFile).parent()
+                    .find('#label-file')
+                    .html(inputFile.files[0].name.substring(0,30)+'...');
+            }
+        });
+        $("#submit").on('click', function(){
+            var form = $("#csvForm")
+            if (form[0].checkValidity() === false) {
+              event.preventDefault()
+              event.stopPropagation()
+              form.addClass('was-validated');
+              return;
+            }
+            var file_data = $('#csv').prop('files')[0];   
+            var form_data = new FormData();                  
+            form_data.append('file', file_data);
+            $.ajax({
+                headers:{
+                    'X-CSRFToken': "{{csrf_token}}"
+                },
+                url: "{% url 'admin_user_import' %}",
+                type: 'POST',
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.status == "true"){
+                        if (data.success > 0){
+                            if(data.success == data.total){
+                                $.notify("Success: " + data.success + " of " + data.total, "success");
+                            }else{
+                                if(data.exist == 0){
+                                    $.notify("Success: " + data.success + ", Failed: " + data.failed + " of " + data.total, "info");
+                                }else{
+                                    $.notify("Success: " + data.success + ", Failed: " + data.failed + ", Exist: " + data.exist + " of " + data.total, "info");
+                                }
+                            }
+                            setTimeout(function(){ location.reload(); }, 1500);
+                            
+                        }else{
+                            $.notify("{% blocktrans %}Failed: {% endblocktrans %}" + data.failed + ", {% blocktrans %}Exist: {% endblocktrans %}" + data.exist + " of " + data.total, "info");
+                        }
+                        
+                    }else{
+                        if (data.error_code == 1){
+                            $.notify("{% blocktrans %}Please fill correct column names. Should be Language, First Name, Last Name, Email, Country, Telephone, Work, Company{% endblocktrans %}", "error");
+                        }else{
+                            $.notify("{% blocktrans %}Please select correct file. Should be csv or xls file{% endblocktrans %}", "error");
+                        }
+                        
+                    }
+                    
+                    
+                }
+            });
+        });
+        
+    </script>
+    <script>
+        $("#delete-user").on('click', function(){
+            var remove = Array();
+            $(".chk_select").each(function(index) {
+                if($(this).prop('checked')){
+                    remove.push($(this).data('id'));
+                }
+            });
+            var url = "{% url 'admin_user_sales_delete' %}";  
+            var token = '{{csrf_token}}';
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                method: 'POST',
+                url: url,                    
+                data: {
+                    'remove': remove      
+                },
+                success: function (data) {
+                    if(data == "OK"){
+                        $.notify("{% blocktrans %}Éxito{% endblocktrans %}", "success");
+                    }
+                    else{
+                        $.notify("{% blocktrans %}Por favor seleccione un artículo.{% endblocktrans %}", "error");
+                    }
+                    location.reload();
+                    
+                }
+            });
+
+        });
+        $('#check-all').on('click',function(){
+            if(this.checked){
+                $('.chk_select').each(function(){
+                    this.checked = true;
+                });
+            }else{
+                $('.chk_select').each(function(){
+                    this.checked = false;
+                });
+            }
+        });
+        $('.chk_select').on('click',function(){
+            if($('.chk_select:checked').length == $('.chk_select').length){
+                $('#check-all').prop('checked',true);
+            }
+            else{
+                $('#check-all').prop('checked',false);
+            }
+        });
+    </script>
+
+</div>
+{% endblock %}

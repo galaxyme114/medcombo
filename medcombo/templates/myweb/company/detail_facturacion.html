@@ -1,0 +1,118 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load contact_tags %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}INFORMACIÓN DE FACTURACIÓN{% endblocktrans %}</h5>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <a href="{% url 'update_company_facturacion' company.id %}">
+            	<button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans %}</button>
+            </a>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+	<form class="datos-form">
+		<div class="row mt-3">
+			<div class="col-12 col-md-6">
+				<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}INFORMACIÓN DE CONTACTO{% endblocktrans %}</p>
+				<div class="form-row d-flex align-items-end">
+					<div class="col-12">
+						<label for="company-name">{% blocktrans %}Nombre de la Empresa{% endblocktrans %}</label>
+						<input name="company-name" type="text" class="form-control" placeholder="{{ company.invoicing_company_name }}" disabled="true">
+					</div>
+				</div>
+				<div class="form-row d-flex align-items-end">
+					<div class="col-12">
+						<label for="inputEmail4">{% blocktrans %}Dirección{% endblocktrans %}</label>
+						<input type="text" class="form-control" placeholder="{{ company.invoicing_address }}" disabled="true">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="telephone">{% blocktrans %}Teléfono{% endblocktrans %}</label>
+						<input name="telephone" type="text" class="form-control" placeholder="{{ company.invoicing_telephone}}" disabled="true">
+					</div>
+					<div class="col-12 col-sm-6 w-100">
+						<label for="fax2">{% blocktrans %}Fax{% endblocktrans %}</label>
+						<input type="text" class="form-control" id="fax2" placeholder="{{ company.invoicing_fax }}" disabled="true">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="inputState">{% blocktrans %}País{% endblocktrans %}</label>
+						<input class="form-control" placeholder="{{ company.invoicing_country }}" disabled="true">
+					</div>
+					<div class="col-12 col-sm-6 w-100">
+						<label for="ciudad">{% blocktrans %}Ciudad{% endblocktrans %}</label>
+						<input type="text" placeholder="{{ company.invoicing_city }}" disabled="true">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="codigo-postal">{% blocktrans %}Código Postal{% endblocktrans %}</label>
+						<input name="codigo postal" type="text" class="form-control" placeholder="{{ company.invoicing_postal_code }}" disabled="true">
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-6">
+				<div class="form-row d-flex align-items-end">
+					<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}INFORMACIÓN CORREO ELECTRÓNICO{% endblocktrans %}</p>
+					<div class="col-12">
+						<label for="titleSr">{% blocktrans %}Title{% endblocktrans %}</label>
+						<input type="text" class="form-control" id="titleSr" placeholder="{{ company.invoicing_title }}" disabled="true">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="firstName">{% blocktrans %}First Name{% endblocktrans %}</label>
+						<input type="text" class="form-control" id="titleSr" placeholder="{{ company.invoicing_first_name }}" disabled="true">
+					</div>
+					<div class="col-12 col-sm-6 w-100">
+						<label for="lastName">{% blocktrans %}Last Name{% endblocktrans %}</label>
+						<input type="text" class="form-control" id="lastName" placeholder="{{ company.invoicing_last_name }}" disabled="true">
+					</div>
+				</div>
+				<div class="form-row d-flex align-items-end">
+					<div class="col-12">
+						<label for="e-mail2">{% blocktrans %}E-mail{% endblocktrans %}</label>
+						<input type="email" class="form-control" id="e-mail2" placeholder="{{ company.invoicing_email}}" disabled="true">
+					</div>
+				</div>
+				<div class="form-row d-flex align-items-end">
+					<div class="col-12">
+						<label for="vatNumber">{% blocktrans %}VAT Number{% endblocktrans %}</label>
+						<input type="text" class="form-control" id="vatNumber" placeholder="{{ company.invoicing_vat_number }}" disabled="true">
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<div class="col-12 d-flex justify-content-center" style="padding-top: 2em;">
+        	<button type="button" class="btn btn-primary datos-form-buttom" id="copiar_id">{% blocktrans %}COPIAR INFORMACIÓN DE LA EMPRESA{% endblocktrans %}</button>   &nbsp;&nbsp;&nbsp;
+        </div>
+    </div>	
+    <br><br><br>	
+</div>
+</script>
+<script type="text/javascript">
+$('#copiar_id').click(function(e){
+	var token = '{{csrf_token}}';
+	var url = "{% url 'update_copy_company_facturacion' company.id %}";
+	$.ajax({                      
+		url: url,
+		data: {    
+		},
+		success: function (data) { 
+			location.reload();
+		}
+	});
+});
+</script>
+<!--./Type Company-->
+{% endblock %}

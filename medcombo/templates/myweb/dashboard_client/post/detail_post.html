@@ -1,0 +1,252 @@
+{% extends "dashboard_client.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<link rel="stylesheet" href="{% static 'css/app/check_validations.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="text-center-container">
+		{% if form.errors %}
+			{% for field in form %}
+				{% for error in field.errors %}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{% endfor %}
+			{% endfor %}
+			{% for error in form.non_field_errors %}
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}DETALLE POST{% endblocktrans%}</h5>
+			</div>
+		</div>
+	</div>
+    <div class="container-fluid mb-4">
+		<div class="row ventana-productos">
+			<div class="col-12">
+				<div class="row padding-row">
+					<div class="col-12">
+	                    <form class="needs-validation" method="post" enctype='multipart/form-data' id="formulario" novalidate>
+		                    {% csrf_token %}
+		                    <div class="row">
+								<span class="ml-3" style="vertical-align:">{% blocktrans %}idioma{% endblocktrans %}</span>
+								<div class="col-12 col-md-3 d-flex">
+									<span id='select_flag'></span>
+									<select class="form-control form-control-sm" id="languages_select" disabled="True">
+										{% for language in language_filters %}
+											<option style="min-width: 1em;" value="{{ language.value_language}}" {% if language.id == post.language.pk %} selected {% else %}{% endif %} >
+												{% if language.value_language == "es" %}<!-- es -->
+													Español ({{ language.value_language }}) 
+												{% elif language.value_language == "fr" %}<!-- fr -->
+													Français ({{ language.value_language }})
+												{% elif language.value_language == "it" %} <!-- it -->
+													Italiano ({{ language.value_language }})
+												{% elif language.value_language == "ja" %} <!-- ja -->
+													日本語 (jp)
+												{% elif language.value_language == "pt" %} <!-- pt -->
+													Português ({{ language.value_language }})
+												{% elif language.value_language == "zh-hans" %} <!-- zh-hans -->
+													简体中文 ({{ language.value_language }})
+												{% elif language.value_language == "zh-hant" %} <!-- zh-hant -->
+													繁體中文 ({{ language.value_language }})
+												{% elif language.value_language == "en" %} <!-- en -->
+													English ({{ language.value_language }})
+												{% else %} <!-- de -->
+													{% if language.value_language == "de" %}
+														Deutsch ({{ language.value_language }})
+													{% endif %}
+												{% endif %}
+											</option>
+										{% endfor %}
+									</select>			
+									<script>
+										$('#languages_select').change(function(){
+											var language = $('#languages_select').val();
+											
+											if(language == 'en') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+											}
+											else if(language == 'ja') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+											}
+											else if(language == 'zh-hans' || language == 'zh-hant') {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+											}
+											else {
+												if($('#languages_select').hasClass('ml-2') == false) {
+													$('#languages_select').addClass('ml-2');
+												}
+												$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+											}
+											
+										});
+										$(function(){
+											$('#languages_select').ready(function(){
+												var language = $('#languages_select').val();
+												
+												if(language == 'en') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+												}
+												else if(language == 'ja') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+												}
+												else if(language == 'zh-hans' || language == 'zh-hant') {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+												}
+												else {
+													if($('#languages_select').hasClass('ml-2') == false) {
+														$('#languages_select').addClass('ml-2');
+													}
+													$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+												}
+											});
+										});
+									</script>
+								</div>
+							</div>
+                            <br />
+							<input value="{{post.language.pk}}" name="language" type="hidden" id="language">
+							<div>
+		                        <label for="affai">{% blocktrans %}Título{% endblocktrans %}</label>
+							    <input name="title" type="text" class="form-control" placeholder="{{ post.title }}" disabled="true">
+							    <div class="invalid-feedback">
+								    {% blocktrans %}Introduzca un título{% endblocktrans %}
+							    </div>
+							</div><br />
+							<div>
+		                        <label for="description">{% blocktrans %}Descripción{% endblocktrans %}</label>
+						 	    <input name="description" type="text" class="form-control" placeholder="{{ post.description }}" disabled="true">
+							    <div class="invalid-feedback">
+								    {% blocktrans %}Introduzca una descripción{% endblocktrans %}
+							    </div>
+						    </div><br />
+                            {% if post.image %}
+                                <div class="col-12 col-sm-6 col-md-3 img-new-product">
+	                                <div class="polig foto-img">
+		                                <img id="product-img-reload" src="{{ post.image.url }}" alt="" height="100">
+		                                <br /><br /><br />
+									</div>
+								</div>
+                            {% else %}
+                                <div class="col-12 col-sm-6 col-md-3 img-new-product">
+	                                <div class="polig foto-img">
+		                                <img id="product-img-reload" src="{% static 'img/default.png' %}" alt="" height="100">
+										<br /><br /><br />
+									</div>
+                                </div>
+                            {% endif %}
+                            <!-------------------- add image post -------------->
+                            <div class="col-12 col-sm-4 img-new-product">
+	                            <div class="custom-file">
+		                            <input type="file" class="custom-file-input" id="product-img" name=image disabled="true">
+		                            <!-- <label class="custom-file-label" for="product-img">{% blocktrans %}Añadir imagen{% endblocktrans%}</label> -->
+	                            </div>
+                            </div>
+                            <br />
+                            <!------------------- fin add image post ------------- -->
+                            <input type="hidden" value="{{request.user.id}}" name="user"/>
+                            <input type="hidden" value="{{request.user.company.id}}" name="company"/>
+							<center>
+								<a href="{% url 'post_update' post.id %}" class="btn btn-primary datos-form-buttom" >{% blocktrans %}EDITAR{% endblocktrans %}</a>
+
+							    <a class="btn btn-primary datos-form-buttom mt-3 mt-sm-0" href="{% url "post_createList" %}">{% blocktrans %}CANCELAR{% endblocktrans %}</a></center>
+	                    </form>
+					</div>
+				</div>							
+			</div>						
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$('#formulario input').on('change', function() {
+        $("#language").val($('input[name=inlineRadioOptions]:checked', '#formulario').val());
+    });
+    $('#product-img').on('change', function(event) {
+        var inputFile = event.currentTarget;
+	    if(inputFile.files[0].name.length <= 30) {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,25));
+	    }
+	    else {
+		    $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name.substring(0,25)+'...');
+	    }
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#product-img-reload')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+	$('#languages_select').on('change', function() {
+		var language_mult = $("#languages_select").val();
+		if(language_mult=="es"){
+			var lang = 4;
+		}
+		else if (language_mult=="de"){
+			var lang = 2;
+		}
+		else if (language_mult=="en"){
+			var lang = 3;
+		}
+		else if (language_mult=="fr"){
+			var lang = 5;
+		}
+		else if (language_mult=="it"){
+			var lang = 6;
+		}
+		else if (language_mult=="pt"){
+			var lang = 7;
+		}
+		else if (language_mult=="zh-hans"){
+			var lang = 8;
+		}
+		else if (language_mult=="ja"){
+			var lang = 9
+		}
+		else{
+			var lang = 1;
+		}
+	    $("#language").val(lang);
+		console.log($("#language").val());
+    });
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

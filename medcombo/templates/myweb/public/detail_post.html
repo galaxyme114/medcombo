@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide_company.html' %}
+{% include '../../menu-myweb.html' %}
+<style type="text/css">
+  .none {
+    border: none;
+    background-color: white;
+    outline:none;
+  }
+
+button:focus {
+    outline: none;
+
+}  
+</style>
+<div class="container" style="padding-top: 30px;">
+	<div class="row pb-5">
+		<div class="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8 p-4" id="detail-favorite-border">
+			<div class="row">
+				<div class="col-12 col-sm-6">
+					{% if post.image %}
+					  <img class="img-fluid" src="{{ post.image.url }}" style="width: 100%;">
+					{% else %}
+					  <img src="{% static 'img/default.png' %}" style="width: 100%;">
+					{% endif %}
+				</div>
+				<div class="col-12 col-sm-6" id="container-user-plus" data-contact-url="{% url 'ajax_add_contact' %}" novalidate>
+					<h5 style="color: #595959">{{post.title}}</h5>
+					
+					<div class="detail-favorites-divider"></div>
+					
+						<h6 class="py-3">{{ post.date }}</h6>
+					
+					{% for x in owner %}
+					{% if x.id != user.id %}
+					
+					{% endif %}
+					{% endfor %}
+					<div class="detail-favorites-divider"></div>
+					<div class="d-flex justify-content-around align-items-center py-2">
+					    {% if post.company.logo %}
+						<a href="{% url 'my_web_home' post.company.id %}"><img src="{{post.company.logo.url}}" alt="" style="height: 80px;"></a>
+						{% else %}
+						<a href="{% url 'my_web_home' post.company.id %}"><img src="{% static 'img/default.png' %}" alt="" style="height: 80px;"></a>
+						{% endif %}
+						<span>{{ post.company.country_company }}</span>
+					</div>
+					<div class="detail-favorites-divider"></div>
+				</div>
+			</div>
+			
+			<!----- DESCRIPCION-------------------->
+			<div class="row mt-3">
+				<div class="col-12">
+					<h5 style="color:#7f9bcd;">{% blocktrans %}Descripción{% endblocktrans%}</h5>
+					<div class="detail-favorites-divider mb-3"></div>
+					<p>{{post.description}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-1 col-lg-2"></div>
+	</div>
+  </div>
+	
+{% endblock %}

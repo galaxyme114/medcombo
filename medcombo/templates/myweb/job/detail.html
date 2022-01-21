@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include 'slide.html' %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="container">
+    <div class="row padding-home-detail-job">
+        <div class="col-12 col-lg-10 offset-lg-1 ventana-empleo">
+            <div class="col-12 text-bold-list text-size-list">
+                {{object.name}}
+            </div>
+            <div class="col-12 d-md-flex mt-2 mb-2">
+                <div class="col-lg-2 col-md-2 col-sm-12 text-bold-list">{{object.user.company}}</div>
+                <div class="col-lg-2 col-md-2 col-sm-12 text-bold-list">{{object.city}}</div>
+                <div class="col-lg-2 col-md-2 col-sm-12"><span>{{object.type_contract.name}}</span></div>
+                <div class="col-lg-2 col-md-2 col-sm-12"><span>{{object.work_day.name}}</span></div>
+                {% if object.show == False %}
+                    <div class="col-lg-2 col-md-2 col-sm-12"><span>{{object.salary_minimum}}&euro;-{{object.salary_maximum}}&euro;</span></div>
+                    <div class="col-lg-2 col-md-2 col-sm-12"><span>{% blocktrans %}Vacantes:{% endblocktrans %} {{object.places}}</span></div>
+                {% else %}
+                    <div class="col-lg-2 col-md-2 col-sm-12"><span>{% blocktrans %}Vacantes:{% endblocktrans %} {{object.places}}</span></div>
+                {% endif %}
+            </div>
+            <div class="list-separator ml-3 mr-3"></div>
+            <div class="col-12 mt-4 text-justify-list">
+                <b>{% blocktrans %}Funciones del Puesto de Trabajo{% endblocktrans %}</b><br />
+                <span class="long-text">{{object.assignment}}</span>
+            </div>
+            <div class="col-12 mt-4 text-justify-list text-wrap">
+                <b>{% blocktrans %}Requisitos{% endblocktrans %}</b><br />
+                <span class="long-text">{{object.requirements}}</span>
+            </div>
+            <div class="col-12 mt-4 mb-5 text-justify-list">
+                <b>{% blocktrans %}Se ofrece{% endblocktrans %}</b><br />
+                <span class="long-text">{{object.advantages}}</span>
+            </div>
+            <div class="d-flex justify-content-center">
+                <p class="color-home-job">{% blocktrans %}Inscribirme{% endblocktrans %}</p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'registration_offers' object.id  %}" class="btn btn-primary datos-form-buttom mr-3 color-home-white">{% blocktrans %}Añadir curriculum{% endblocktrans %} <i class="fa fa-paperclip"></i></a>
+                <a href="{% url 'list-front-offers' %}" class="btn btn-primary datos-form-buttom color-home-white">{% blocktrans %}Regresar{% endblocktrans %}</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+{% endblock %}

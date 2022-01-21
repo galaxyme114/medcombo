@@ -1,0 +1,137 @@
+{% load staticfiles %}
+{% load i18n %}
+<div class="container-fluid mt-4">
+	<div class="row">
+		<div class="col-12">
+			<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}MODIFICAR PALABRAS CLAVE{% endblocktrans%}</p>
+		</div>
+	</div>
+</div>
+<div class="container-fluid margin-final">
+	<div class="row ventana-productos" style="font-size: 1rem;">
+		<div class="col-12">
+			<div class="row">
+				<div class="col-12 pb-4">
+					<div class="col-12 px-0 px-sm-3">
+						<div id="contact-table table-responsive-sm">
+							<table class="table table-hover table-myweb-crm text-center">
+								<thead>
+									<tr>
+										<th scope="col">{% blocktrans %}Palabra Clave{% endblocktrans %}</th> 
+										<th scope="col"> {% blocktrans %}Status {% endblocktrans %}</th>
+										<th scope="col">{% blocktrans %}Acción {% endblocktrans %}</th>
+									</tr>
+								</thead>
+								<input type="hidden" id='id_producto' name="id_producto" value="{{id_producto}}">
+								<tbody>
+									{% for asignado in asignados %}
+									    <!-- listado de palabras claves del producto--->
+									    <tr>
+										    <td scope="row">{{asignado.name}}{{asignado.product}}</td>
+										    <!-- si la palabra pertenece al producto, checked-->
+										    <td><i class="fas fa-check pr-4" id='check_asignado{{asignado.pk}}'></i></td>
+										    <td id="eliminar_key" data-contact-url="{% url 'ajax_eliminar_keyword_product' %}">
+											    <button class="btn btn-primary btn-crm-produt" id="eliminar{{asignado.pk}}"> {% blocktrans %}ELIMINAR{% endblocktrans %}</button>
+											    <button class="btn btn-primary btn-crm-produt" id="agregar{{asignado.pk}}" style="display: none;"> {% blocktrans %}AGREGAR{% endblocktrans %}</button>
+										    </td>
+										    <!-- si la palabra no pertenece al producto, la asigno--->
+									    </tr>
+									    <script type="text/javascript">
+										    $("#eliminar{{asignado.pk}}").click(function () {
+											    var url = $("#eliminar_key").attr("data-contact-url");  
+											    var id_producto = $("#id_producto").val();
+											    var id_keyword = "{{asignado.pk}}";
+											    $(this).hide();
+											    $("#check_asignado{{asignado.pk}}").hide();
+											    $("#agregar{{asignado.pk}}").show();
+											    $.ajax({
+												    url: url,
+												    data: {
+													    'id_producto': id_producto,
+													    'id_keyword': id_keyword,
+												    },
+												    success: function (data) {
+												        $.notify("{% blocktrans %}palabra eliminada{% endblocktrans %}", "error");
+												    }
+											    });
+									        });
+										    $("#agregar{{asignado.pk}}").click(function () {
+					      	      		        var url = $("#agregar_key").attr("data-contact-url");  
+					      	      		        var id_producto = $("#id_producto").val();
+					      	      		        var id_keyword = "{{asignado.pk}}";
+					      	      		        $(this).hide();
+					      	      		        $("#check_asignado{{asignado.pk}}").show();
+					      	      		        $("#eliminar{{asignado.pk}}").show();
+					      	      		        $.ajax({
+					      	      			        url: url,
+					      	      			        data: {
+					      	      				        'id_producto': id_producto,
+					      	      				        'id_keyword': id_keyword,
+					      	      			        },
+					      	      			        success: function (data) {
+					      	      			            $.notify("{% blocktrans %}palabra agregada{% endblocktrans %}", "success");
+					      	      			        }
+					      	      		        });
+					      	      	        });
+									    </script>	
+									{% endfor %}
+									{% for noasignado in no_asignados %}
+									    <!-- listado de palabras claves del producto--->
+									    <tr>
+										    <td scope="row">{{noasignado.name}}</td>
+										    <td>
+											    <div id="checkedn{{noasignado.pk}}" style="display: none"><i class="fas fa-check pr-4" ></i><div>
+										    </td> 
+										    <td id="agregarn_key" data-contact-url="{% url 'ajax_asignar_keyword_product' %}" >
+											    <button class="btn btn-primary btn-crm-produt" id="agregarn{{noasignado.pk}}"> {% blocktrans %}AGREGAR{% endblocktrans %}</button>
+											    <button class="btn btn-primary btn-crm-produt" id="eliminarn{{noasignado.pk}}" style="display: none;"> {% blocktrans %}ELIMINAR{% endblocktrans %}</button>
+										    </td>
+					      	            </tr>	
+					      	            <script type="text/javascript">
+					      	      	        $("#agregarn{{noasignado.pk}}").click(function () {
+					      	      		        var url = $("#agregarn_key").attr("data-contact-url");  
+					      	      		        var id_producto = $("#id_producto").val();
+					      	      		        var id_keyword = "{{noasignado.pk}}";
+					      	      		        $(this).hide();
+					      	      		        $("#checkedn{{noasignado.pk}}").show();
+					      	      		        $("#eliminarn{{noasignado.pk}}").show();
+					      	      		        $.ajax({
+					      	      			        url: url,
+					      	      			        data: {
+					      	      				        'id_producto': id_producto,
+					      	      				        'id_keyword': id_keyword,
+					      	      			        },
+					      	      			        success: function (data) {
+					      	      			            $.notify("{% blocktrans %}palabra agregada{% endblocktrans %}", "success");
+					      	      			        }
+					      	      		        });
+					      	      	        });
+					      	      	        $("#eliminarn{{noasignado.pk}}").click(function () {
+											    var url = $("#eliminar_key").attr("data-contact-url");  
+											    var id_producto = $("#id_producto").val();
+											    var id_keyword = "{{noasignado.pk}}";
+											    $(this).hide();
+											    $("#checkedn{{noasignado.pk}}").hide();
+											    $("#agregarn{{noasignado.pk}}").show();
+											    $.ajax({
+												    url: url,
+												    data: {
+													    'id_producto': id_producto,
+													    'id_keyword': id_keyword,
+												    },
+												    success: function (data) {
+												        $.notify("{% blocktrans %}palabra eliminada{% endblocktrans %}", "error");
+												    }
+											    });
+										    });
+					      	            </script>	
+					      	       {% endfor %}
+					      	    </tbody>
+					      	</table>
+					    </div>
+					</div>
+				</div>
+			</div>
+		</div>						
+	</div>
+</div>

@@ -1,0 +1,163 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+		<div class="col-12 col-sm-6 col-md-4 pt-2">
+			<h5 class="text-home-job">{% blocktrans %}PATROCINADOS BUSCADOR{% endblocktrans %}</h5>
+		</div>
+		<div class="col-12 col-sm-6 col-md-2">
+			<a href="{% url 'Sponsor_Create' %}" class="btn btn-primary mb-1 bgblue">{% blocktrans %}NUEVO PATROCINADO{% endblocktrans %}</a>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<div class="row mb-5">
+		<div class="col-12">
+			<div id="contact-table">
+				<table class="table table-responsive-md" id="sponsorTable">
+					<thead>
+						<tr>
+							<th scope="col">{% blocktrans %}Empresa{% endblocktrans %}</th>
+							<th scope="col">{% blocktrans %}Producto{% endblocktrans %}</th>
+							<th scope="col">{% blocktrans %}Duración de campaña{% endblocktrans %}</th>
+							<th scope="col">{% blocktrans %}Posición{% endblocktrans %}</th>
+							<th scope="col">{% blocktrans %}Activar{% endblocktrans %}</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for campaign in object_list %}
+						    <tr>
+							    <td class="align-middle">{{campaign.company.name}}</td>
+							    <td>
+								    <div>
+									    {% if campaign.product.picture %}
+										    <img class="img-thumbnail" src="{{campaign.product.picture.url}}"  width="150" alt="" />
+									    {% else %}
+										    <img class="img-thumbnail" src="{% static 'img/default.png' %}" width="150" alt="" />
+									    {% endif %}
+								    </div>
+							    </td>
+							    <td>
+								    <div class="row">
+									    <div class="col-12 col-xl-6 px-1">
+										    <p class="text-center my-1">{% blocktrans %}Inicio {% endblocktrans %}</p>
+										    <div class="calendar-fa">
+											    <i class="far fa-calendar-alt pr-1"></i>
+											    <p class="mb-0">{{campaign.start|date:'d-m-Y'}}</p>
+										    </div>
+									    </div>
+									    <div class="col-12 col-xl-6 px-1 align-middle">
+										    <p class="text-center my-1">{% blocktrans %}Fin {% endblocktrans %}</p>
+										    <div class="calendar-fa">
+											    <i class="far fa-calendar-alt pr-1"></i>
+											    <p class="mb-0">{{campaign.end|date:'d-m-Y'}}</p>
+										    </div>
+									    </div>
+								    </div>
+							    </td>
+							    <td class="pt-5">1</td>
+							    <td id="icon-check{{campaign.id}}" class="pt-5 my_cursor" style="color: #7f9bcd;">
+								    {% if campaign.active  == True %}
+								        <i class="fas fa-check" style="color:#7e9acd!important;"></i>
+							        {% else %}
+								        <i class="fas fa-times" style="color:#df8771 !important;"></i>
+								    {% endif %}
+							    </td>
+							    <td class="align-middle">
+								    <a href="{% url 'Sponsor_Update' campaign.pk %}" class="btn btn-primary bgblue w-100">{% blocktrans %}MODIFICAR{% endblocktrans %}</a>
+							    </td>
+								<td class="align-middle">
+								    <a href="#" class="btn btn-primary bgblue" onclick="delete_compaign({{campaign.id}})">{% blocktrans %}ELIMINAR{% endblocktrans %}</a>
+							    </td>
+						    </tr>
+						    <script>
+							    $('#icon-check{{campaign.id}}').click(function(){
+								    var my_value = '{{campaign.id}}';
+								    var my_url = '{% url "sponsor_ajax_icon" %}';
+								    var my_token = '{{csrf_token}}';
+								    $.ajax({
+			                            headers: { "X-CSRFToken": my_token },
+									    type: 'POST',
+									    url: my_url,
+									    data: {
+										    'sponsor': my_value
+								    	},
+									    success: function(data){
+										    if(data == 'True') {
+											    $('#icon-check{{campaign.id}}').html('<i class="fas fa-check" style="color:#7e9acd!important;"></i>');
+										    }
+										    else {
+											    if(data == 'False') {
+											        $('#icon-check{{campaign.id}}').html('<i class="fas fa-times" style="color:#df8771 !important;"></i>');
+										        }
+										        else {
+											        console.log(data);
+										        }
+									        }
+									    }
+								    });
+							    });
+						    </script>
+						{% empty %}
+							<td style="color:black;"> {% blocktrans %}No EXISTEN PATROCINADOS BUSCADOR{% endblocktrans %} </td>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!--Delete Sponsor-->
+<div class="modal fade" id="delete-compaign-select" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog modal-xs">
+		<div class="modal-content" style="border-radius: 25px;">
+			<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+				<div class="d-flex align-items-center">
+					<i class="fas fa-trash-alt icons_size_title_second"></i>
+					<p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR PATROCINADOR{% endblocktrans %}</p>
+				</div>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="color: #fff;">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 d-flex justify-content-center">
+					<h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+				</div>
+			</div>
+			<input type="hidden" value="-1" id="campaign-select" />
+			<div class="modal-footer justify-content-center">
+				<button id="delete-button" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+				<button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function delete_compaign(id){
+		$("#campaign-select").val(id);
+		$("#delete-compaign-select").modal();
+	}
+	$('#delete-button').click(function(e){
+		var value = $("#campaign-select").val();
+		var url = '{% url "delete_sponsor" %}';
+		var token = '{{csrf_token}}';
+		$.ajax({
+			headers: { "X-CSRFToken": token },
+			method: 'POST',
+			url: url,
+			data: {
+				'value': value
+			},
+			success: function(data) {
+				if(data == 'Ok') {
+					location.reload();
+				}
+			}
+		});
+	});
+</script>
+{% endblock %}

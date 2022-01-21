@@ -1,0 +1,1 @@
+[{"model": "django_private_chat.dialog", "pk": 1, "fields": {"created": "2019-04-11T05:34:16.583Z", "modified": "2019-04-11T05:34:16.584Z", "owner": 3, "opponent": 2}}, {"model": "django_private_chat.dialog", "pk": 2, "fields": {"created": "2019-04-11T05:42:03.518Z", "modified": "2019-04-11T05:42:03.518Z", "owner": 4, "opponent": 2}}]

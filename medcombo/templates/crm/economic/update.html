@@ -1,0 +1,271 @@
+{% extends "dashboard_admin.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% blocktrans %}Propuestas economicas{% endblocktrans %}</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+</head>
+<body>
+    <div class="col-12 col-lg-10 background">
+	    <div class="container-fluid">
+		    <div class="row">
+				{% if form.errors %}
+					{% for field in form %}
+						{% for error in field.errors %}
+							<div class="alert alert-danger">
+								<strong>{{ error|escape }}</strong>
+							</div>
+						{% endfor %}
+					{% endfor %}
+					{% for error in form.non_field_errors %}
+						<div class="alert alert-danger">
+							<strong>{{ error|escape }}</strong>
+						</div>
+					{% endfor %}
+				{% endif %}
+
+			    <div class="col-12">
+				    <h4 style="color: #7f9bcd; font-weight: 700;text-transform: uppercase;">{% blocktrans %}Propuestas economicas{% endblocktrans%}</h4>
+			    </div>
+		    </div>
+	    </div>
+	    <div class="container-fluid mb-5 col-sm-12">
+		    <div class="row ventana-productos">
+			    <div class="col-12">
+				    <div class="row padding-row">
+					    <div class="col-12">
+						    <form action="." id="proposals" method="POST" target="_parent" enctype='multipart/form-data'>
+							    {% csrf_token %}
+							    <div class="row">
+									
+									<div class="col-12 col-sm-6">
+										<div class="form-group">
+										<label>{% blocktrans %}Titulo{% endblocktrans %}</label>
+										<input type="text" id="name" name="title" class="form-control" placeholder="{% blocktrans %} Title {% endblocktrans %}" {{form.title}}
+										</div>
+									</div>
+									<div class="col-12 col-sm-6">
+										<label>{% blocktrans %}Comercial{% endblocktrans %}</label>
+										<input type="text" id="commercial" name="commercial" class="form-control" placeholder="{% blocktrans %} commercial {% endblocktrans %}" />
+									</div>  
+							    </div>
+								<div class="row py-4">
+									<div class="col-12 col-sm-6">
+										<label>{% blocktrans %}Usuario{% endblocktrans %}</label>
+										<!--select id="user" name='user' class="form-control" required>
+											<option value="0">-------</option>
+											{% for user in users %}
+												<option value={{user.id}}>{{ user }}</option>
+											{% endfor %}
+										</select-->
+										<select id ="user" class="form-control" {{form.user}}
+										<div class="invalid-feedback">
+											{% blocktrans %}Seleccione una Usuario{% endblocktrans %}
+										</div>
+									</div> 
+									<div class="col-12 col-sm-6"></div>
+							    </div>
+								
+								<div class="row py-4" id="productdetail_0">
+									<div class="col-12 col-sm-6">
+										<label>{% blocktrans %}Productos{% endblocktrans %}</label>
+										<select id="product_0" name='product_0' class="form-control" required>
+											<option value="0">-------</option>
+											{% for product in products %}
+												<option value={{product.id}} {% if product.id == selected_id %}selected{% endif %}>{{ product }}</option>
+											{% endfor %}
+										</select>
+										<div class="invalid-feedback">
+											{% blocktrans %}Seleccione una Productos{% endblocktrans %}
+										</div>
+									</div>
+									<div class="col-12 col-sm-2"></div>
+									<div class="col-12 col-sm-2">
+										<label>{% blocktrans %}Valor(€){% endblocktrans %}</label>
+										<input id="values_0" name="values_0" type="text" class="form-control" placeholder="" onchange="valor()" />
+									</div> 
+									<div class="col-12 col-sm-2">
+										<label>{% blocktrans %}Descuento{% endblocktrans %}</label>
+										<input id="discount_0" name="discount_0" type="text" class="form-control" placeholder="" onchange="valor()" />
+									</div>  
+							    </div>
+								<input type="hidden" name="total_len" id="total_len" value="1"/>
+								
+								<script>
+									function valor() {	
+										var total_len = $("#total_len").val();
+										var total = 0;
+										var temp = "";
+										var temp_per = "";
+										for (var i=0; i<total_len; i++){
+											temp = "#values_" + i;
+											temp_per = "#discount_" + i;
+
+											if($(temp).val() != "" || $(temp_per).val() != ""){
+												total += parseFloat($(temp).val()*$(temp_per).val()/100);
+											}	
+										}
+										$("#total").val(total);
+									}
+								</script>
+								<div class="col-12 col-md-3">
+									<button type="button" id="btn_add_product"><i class="fa fa-plus" style="font-size:16px;"></i>   {% blocktrans %}Add product{% endblocktrans %}</button>
+								</div>
+							   <script>
+									var k =0;
+									$("#btn_add_product").on('click', function (){
+										k++;
+										var div_temp = "#productdetail_" + (k-1);
+										$("#total_len").val(k+1);
+										 return $(
+											'<div class="row py-1" id="productdetail_'+k+ '">'+
+												'<div class="col-12 col-sm-6">'+
+													'<select id="product_'+k+ '" name="product_'+k+ '" class="form-control" required>'+
+														'<option value="0">-------</option>'+
+														'{% for product in products %}'+
+															'<option value="{{product.id}}">{{product}}</option>'+
+														'{% endfor%}'+
+													'</select>'+
+														'<div class="invalid-feedback">'+
+															'{% blocktrans %}Seleccione un país{% endblocktrans %}'+
+														'</div>'+
+													
+												'</div>'+
+												'<div class="col-12 col-sm-2"></div>'+
+												'<div class="col-12 col-sm-2">'+
+													'<input id="values_'+k+ '" name="values_'+k+ '" type="text" class="form-control" placeholder="" onchange="valor()" />'+
+												'</div>'+
+												'<div class="col-12 col-sm-2">'+
+													'<input id="discount_'+k+ '" name="discount_'+k+ '" type="text" class="form-control" placeholder="" onchange="valor()" />'+
+												'</div>'+
+											'</div>'
+										 ).insertAfter(div_temp);
+									});
+										
+								</script>
+
+								<div class="row py-4">
+									<div class="col-12 col-md-9"></div>
+									<div class="col-12 col-md-3">
+										<label>{% blocktrans %}Total{% endblocktrans %}</label>
+										<input id="total" name ="total" type="text" class="form-control" placeholder="" />
+									</div>
+							    </div>
+								<div class="row py-4">
+									<div class="col-12 col-sm-4">
+										<label>{% blocktrans %}Fecha{% endblocktrans %}</label>
+										<div class="borderDate">
+											<span class="input-group-prepend">
+												<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+											{{ form.edit_date }}
+											</span>	
+										</div>
+									</div> 
+							    </div>
+								<div class="row py-4" id="opportunityadd_0">
+									<div class="col-12 col-sm-4" >
+										<label>{% blocktrans %}Oportunidad{% endblocktrans %}</label>
+										<select id="opportunity_0" name="opportunity_0" class="form-control" required>
+											<option value="0">-------</option>
+											{% for opport in opportunity %}
+												<option value={{opport.id}}>{{ opport }}</option>
+											{% endfor %}
+										</select>
+										<div class="invalid-feedback">
+											{% blocktrans %}Seleccione una Oportunidad{% endblocktrans %}
+										</div>
+									</div> 
+									<div class="col-12 col-sm-8"></div>
+							    </div>
+								<div class="col-12 col-md-3">
+									<button type="button" id="btn_add_opp"><i class="fa fa-plus" style="font-size:16px;"></i>   {% blocktrans %}Crear nueva Oportunidad{% endblocktrans %}</button>
+								</div>
+								<input type="hidden" name="total_len_opp" id="total_len_opp" value="1"/>
+								<script>
+									var i = 0;
+									$("#btn_add_opp").on('click', function (){
+										i++;
+										var div_temp = "#opportunityadd_" + (i-1);
+										$("#total_len_opp").val(i+1);
+										return $(
+												'<div class="row py-1" id="opportunityadd_'+i+'">'+
+													'<div class="col-12 col-sm-4">'+
+														'<select id="opportunity_'+i+'" name="opportunity_'+i+'" class="form-control" required>'+
+															'<option value="0">-------</option>'+
+															'{% for opport in opportunity %}'+
+																'<option value="{{opport.id}}">{{opport}}</option>'+
+															'{% endfor%}'+
+														'</select>'+
+															'<div class="invalid-feedback">'+
+																'{% blocktrans %}Seleccione un país{% endblocktrans %}'+
+															'</div>'+
+														
+													'</div>'+
+												'</div>'
+											).insertAfter(div_temp)
+									});
+									
+								</script>
+								<div class="row py-4" id="payment_terms">
+									<div class="col-12 col-sm-4">
+										<label>{% blocktrans %}Plazos de pago{% endblocktrans %}</label>
+										<input id="payment_terms" name="payment_terms" type="text" class="form-control" placeholder="" />
+									</div> 
+							    </div>
+
+								<div class="col-12 col-md-3">
+									<button type="button" onclick="addpayment()"><i class="fa fa-plus" style="font-size:16px;"></i>   {% blocktrans %} Añadir Plazos de pago{% endblocktrans %}</button>
+								</div>
+								<script>
+									function addpayment() { 
+										$('<div class="row py-1" id="payment_terms">'+
+											'<div class="col-12 col-sm-4">'+
+												'<input id="payment_terms" name="payment_terms" type="text" class="form-control" placeholder=""/>'+
+											'</div>'+
+											'</div>'
+										).insertAfter("#payment_terms")
+									}
+								</script>
+							    <div class="row py-4">
+								    <div class="col-12">
+									    <label>{% blocktrans %}Comentarios{% endblocktrans%}</label>
+									    <textarea id="comments" type="text" name="comments" class="form-control" placeholder="" rows="4" cols="50"></textarea>
+								    </div>
+								    
+							    </div>
+								
+								<div class="col-12 col-sm-4">
+									<label>{% blocktrans %}Validata{% endblocktrans %}</label>
+									<input id="validata" type="text" name="validata" class="form-control" placeholder=""   />
+								</div> 
+							
+								<div class="col-12 d-flex justify-content-center" style="padding-top:2%;">
+									<button type="submit" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}GUARDAR{% endblocktrans %}</button>
+									<a href="{% url 'economic-proposal' %}" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}CANCELAR{% endblocktrans %}</a>
+								</div>
+						    </form>
+					    </div>
+				    </div>						
+			    </div>					
+		    </div>
+	    </div>
+    </div>
+
+</body>
+</html>
+{% endblock %}

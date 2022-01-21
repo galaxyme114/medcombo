@@ -1,0 +1,32 @@
+{% load staticfiles %}
+{% load i18n %}
+{% if subcategories %}
+    {% for subcat in subcategories %}
+	      <li class="panel" id="url_id" data-contact-url="{% url 'keywords_ajax' %}">
+	          <input value="{{subcat.pk}}" name="q" type="hidden" id="search{{subcat.pk}}"/>
+			      <div class="d-flex justify-content-between" id="ajax{{subcat.pk}}">
+				        <a class="collapsed" data-toggle="collapse" data-parent="#" href="#scategory{{subcat.pk}}">{{subcat.name}}</a>
+					      <button><i class="fas fa-pen"></i></button>
+			      </div>	
+            <ul id="scategory{{subcat.pk}}" class="collapse">
+                <li id="listado{{subcat.pk}}"></li>
+            </ul>
+        </li><!-- lista de subcategorias-->
+        <script type="text/javascript">
+            $("#ajax{{subcat.pk}}").click(function () {
+                var url = $("#url_id").attr("data-contact-url");  
+                var post = $("#search{{subcat.pk}}").val();
+                console.log(post)
+                $.ajax({                      
+                    url: url,                    
+                    data: {
+                        'id': post       
+                    },
+                    success: function (data) {   
+				                $("#listado{{subcat.pk}}").html(data);
+					          }
+                });
+            });
+        </script>            		
+    {% endfor %}<!-- for de keywords-->				        
+{% endif %}

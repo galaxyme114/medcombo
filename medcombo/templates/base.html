@@ -1,0 +1,1058 @@
+﻿{% load staticfiles %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+<!DOCTYPE html>
+<html lang={{LANGUAGE_CODE}}>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+    <meta name="keywords" content="B2B Marketplace, B2B Portal For Medical Industry, Medical equipment, Hospital equipment, Medical Assistance, Medical Equipments Online Shop, Pharmaceuticals, Health Care Product, Medical devices">
+    <meta name="description" content="{% block meta %}MedCombo is a leading B2B marketplace for medical equipment, pharmaceuticals, health care product etc. Visit now!{% endblock %}">
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#317EFB"/>
+    <link rel="apple-touch-icon" href="{% static 'img/favicon.ico' %}">
+    <meta name="p:domain_verify" content="76a0f9c81232eb053b4cd2ebfcfa8d96"/>
+    <link rel="shorcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">  
+    <meta name="robots" content="index, follow">
+    <meta name="robots" content="noodp">
+    <meta property="og:site_name" content="Medcombo">
+    <link rel="canonical" href="https://medcombo.com/">
+    <!-- Close Css Autocomplete -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/google-font.css' %}">
+    <!-- select2 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'select2/css/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/easyAutocomplete.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_my_web.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/landing.css' %}">   
+    {% comment %} <link rel="stylesheet" href="{% static 'easy-autocomplete/easy-autocomplete.min.css' %}"> {% endcomment %}
+    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'easy-autocomplete/easy-autocomplete.themes.min.css' %}"> {% endcomment %}
+    <!--Star-Rating-SVG-->
+    {% comment %} <link rel="preload" href="{% static 'css/star-rating-svg.css' %}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{% static 'css/star-rating-svg.css' %}">
+    </noscript> {% endcomment %}
+    <!--JRating-->
+    <link rel="preload" href="{% static 'css/jrating.css' %}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{% static 'css/jrating.css' %}">
+    </noscript>
+
+    <!--Scripts-->
+    <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+    <!--script src="{% static 'js/notify.js' %}" type="text/javascript"></script-->
+    <script defer="defer" src="{% static 'js/notify.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'select2/js/select2.full.min.js' %}" type="text/javascript"></script>
+
+    <title>
+        {% block title %}B2B Marketplace, B2B Portal for Medical Industry | Buy Online Medical Products at Wholesale Rate | B2B Pharmacy Website In UK – MedCombo{% endblock %}
+    </title>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="{% static 'js/googletagmanager.js' %}"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+    </script>
+</head>
+<body>
+    <header id="header">
+        <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+        <div class="container-fluid">
+            <div id="div_head" class="row d-flex align-items-center" style="height: 90px;">
+                <div id="logo_header" class="col-6 col-lg-2 menu-logo">
+                    <a href="/"><img class="img-logo" src="{% static 'img/logo.png' %}" alt="B2B Portal For Medical Industry in UK"></a>
+                </div>
+                
+                <div class="col-10 col-lg-6 col-xl-6 offset-xl-1" id="buscar">
+                    <div class="input-group flex-nowrap">
+                        <form id="form-search-product" class="d-flex w-100" action="/es/product/" method="POST">
+                            {% csrf_token %}
+                            <div class="dropdown show">
+                              <a id="sel_company_product" data-val="{% if company_search %}1{% else %}0{% endif %}" class=" pt-2 btn {% if company_search %}sel-company{% else %}sel-product{% endif %} dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               {% if company_search %} {% blocktrans %}Empresa{% endblocktrans %} {% else %} {% blocktrans %}Productos{% endblocktrans %} {% endif %}<i class="fas fa-sort-down pl-2" style="vertical-align: top"></i>
+                              </a>
+
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li class="dropdown-item" data-val="0">{% blocktrans %}Productos{% endblocktrans %}</li>
+                                <li class="dropdown-item" data-val="1">{% blocktrans %}Empresa{% endblocktrans %}</li>
+                              </div>
+                            </div>
+                            <div class="hoverWrapper1 w-100">
+                                {% if searchkey %}
+                                    <input type="text" class="form-control search_box" style="height: 42px;" id="id_name" name="id_name" value="{{searchkey}}" aria-label="The Medical Directory" aria-describedby="addon-wrapping">
+                                {% else %}
+                                    <input type="text" class="form-control search_box" style="height: 42px;" id="id_name" name="id_name" placeholder="{% blocktrans %}El Directorio Médico{% endblocktrans %}" aria-label="The Medical Directory" aria-describedby="addon-wrapping">
+                                {% endif %}
+                                 <div class="hoverRecent" style="text-align: left;">
+                                    <div class="row m-0 search_box">
+                                        <div class="col-12 col-md-6 search_box">
+                                            <span>{% blocktrans %}Recent Searches{% endblocktrans %}</span>
+                                        </div>
+                                        <div class="col-12 col-md-6 search_box" style="text-align: right">
+                                            <span class="span_hover">{% blocktrans %}Clear History{% endblocktrans %}</span>
+                                        </div>
+                                    </div>
+                                    <div  class="row m-0 search_box">
+                                        <div id="recent_search" class="col-12 mt-2 search_box">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="search-product-id" type="submit"><span id="btn-search" class="input-group-text {% if company_search %}btn-company{% else %}btn-product{% endif %}"><i class="fa fa-search fa-flip-horizontal" style="color: #fff;"></i></span></button>
+                        </form>
+                    </div>
+                </div>
+                <!--Menu Responsive-->
+                <div class="col-2 d-lg-none d-flex justify-content-end">
+                    <nav class="navbar navbar-light" style="z-index: 2; padding-right: 0px;">
+                        <button class="navbar-toggler" style="border: none;outline: 0;" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                           <i class="fa fa-bars nav_bar" style="font-size: 35px;" aria-hidden="true"></i>
+                        </button>
+                    </nav>
+                    <div class="collapse position-absolute" id="navbarToggleExternalContent">
+                        <div>
+                            {% if user.is_authenticated %}
+                                <ul class="nav nav-pills d-flex flex-column nav-new" id="movil-menu">
+                                    <li class="nav-item padding-menu-movil">
+                                        <span>
+                                            <a href="/"><img style="width:150px;" src="{% static 'img/logo.png' %}" alt="B2B Responsive Portal For Medical Industry in UK"></a>
+                                        </span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <hr />
+                                    </li>
+                                    <li class="nav-item padding-menu-movil">
+                                        <form id="form-lenguaje2" action="{% url 'set_language' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                            <select class="form-control form-control-sm lenguaje-seleccionado2" name="language">
+                                                {% for language in languages %}
+                                                    <option style="min-width: 8em;" value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %} >
+                                                        {% if language.code == "es" %}
+                                                            Español ({{ language.code }})
+                                                        {% elif language.code == "fr" %}
+                                                            Français ({{ language.code }})
+                                                        {% elif language.code == "it" %}
+                                                            Italiano ({{ language.code }})
+                                                        {% elif language.code == "ja" %}
+                                                            日本語 (jp) 
+                                                        {% else %}
+                                                            {{language.name_local}} ({{ language.code }})
+                                                        {% endif %}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="d-flex align-items-center imgFlag">
+                                                {% if language_selected == 4   %}<!-- español -->
+                                                    <img src="{% static 'img/Banderas/es.png' %}">
+                                                {% elif language_selected == 3 %}<!-- ingles -->
+                                                    <img src="{% static 'img/Banderas/gb.png' %}">
+                                                {% elif language_selected == 2 %}<!-- aleman -->
+                                                    <img src="{% static 'img/Banderas/de.png' %}">
+                                                {% elif language_selected == 5 %}<!-- frances -->
+                                                    <img src="{% static 'img/Banderas/fr.png' %}">
+                                                {% elif language_selected == 7 %}<!-- portugues -->
+                                                    <img src="{% static 'img/Banderas/pt.png' %}">
+                                                {% elif language_selected == 6 %}<!-- italiano -->
+                                                    <img src="{% static 'img/Banderas/it.png' %}">
+                                                {% elif language_selected == 1 %}<!-- chino -->
+                                                    <img src="{% static 'img/Banderas/cn.png' %}">
+                                                {% elif language_selected == 8 %}<!-- chino -->
+                                                    <img src="{% static 'img/Banderas/cn.png' %}">
+                                                {% elif language_selected == 9 %}<!-- japon -->
+                                                    <img src="{% static 'img/Banderas/jp.png' %}">
+                                                {% endif %}
+                                            </div>
+                                            
+                                        </form>
+                                    </li>
+                                    <li class="nav-item">
+                                        <hr />
+                                    </li>
+                                    {% for user_context in context %}
+                                        {% if user_context.first_name %}
+                                            <li class="nav-item padding-menu-movil">
+                                                <span>
+                                                    <a href="{% url 'view_profiledetail' user.id %}">
+                                                        {% if user_context.picture %}
+                                                            <img src="{{ user.picture.url }}" height="50" width="50" style="border-radius: 50%;" alt="Medcombo's user">
+                                                        {% else %}
+                                                            <img src="/static/img/userdefault.jpeg" height="50"width="50" style="border-radius: 50%;" alt="Medcombo's user">
+                                                        {% endif %}
+                                                    </a>
+                                                </span>
+                                            </li>
+                                            <li class="nav-item padding-menu-movil">
+                                                <span><a href="{% url 'view_profiledetail' user.id %}">{{ user_context.first_name }} {{ user_context.last_name }}</a></span>
+                                            </li>
+                                            
+                                        {% else %}
+                                            <li class="nav-item padding-menu-movil">
+                                                <span>
+                                                    <a href="{% url 'view_profiledetail' user.id %}">
+                                                        {% if user_context.picture %}
+                                                            <img src="{{ user.picture.url }}" height="50" width="50" style="border-radius: 50%;">
+                                                        {% else %}
+                                                            <img src="/static/img/userdefault.jpeg" height="50" width="50" style="border-radius: 50%;">
+                                                        {% endif %}
+                                                    </a>
+                                                </span>
+                                            </li>
+                                            <li class="nav-item padding-menu-movil">
+                                                <span><a href="{% url 'view_profiledetail' user.id %}">{{ user_context.username }}</a></span>
+                                            </li>
+                                            {% if user_context.email %}
+                                                <li class="nav-item padding-menu-movil">
+                                                    <span><a href="{% url 'view_profiledetail' user.id %}">{{ user_context.email }}</a></span>
+                                                </li>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <li class="nav-item">
+                                        <hr />
+                                    </li>
+                                    <li class="nav-item mb-3 padding-menu-movil">
+                                        <span><a href="{% url 'view_logout' %}"><i class="fas fa-sign-out-alt mr-3"></i>{% blocktrans %}SALIR{% endblocktrans %}</a></span>
+                                    </li>
+                                </ul>
+                            {% else %}
+                                <ul class="nav nav-pills d-flex flex-column nav-new" id="movil-menu">
+                                    <li class="nav-item padding-menu-movil">
+                                        <span>
+                                            <a href="/"><img style="width:150px;" src="{% static 'img/logo.png' %}" alt="B2B Portal Logo For Medical Industry in UK"></a>
+                                        </span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <hr />
+                                    </li>
+                                    <li class="nav-item padding-menu-movil">
+                                        <form id="form-lenguaje2" action="{% url 'set_language' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                            <select class="form-control form-control-sm leng-style lenguaje-seleccionado2" name="language">
+                                                {% for language in languages %}
+                                                    <option style="min-width: 8em;" value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %} >
+                                                        {% if language.code == "es" %}
+                                                            Español ({{ language.code }})
+                                                        {% elif language.code == "fr" %}
+                                                            Français ({{ language.code }})
+                                                        {% elif language.code == "it" %}
+                                                            Italiano ({{ language.code }})
+                                                        {% elif language.code == "ja" %}
+                                                            日本語 (jp) 
+                                                        {% else %}
+                                                            {{language.name_local}} ({{ language.code }})
+                                                        {% endif %}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="d-flex align-items-center imgFlag">
+                                                {% if language_selected == 4   %}<!-- español -->
+                                                    <img src="{% static 'img/Banderas/es.png' %}" alt="Spanish Flag of Medcombo">
+                                                {% elif language_selected == 3 %}<!-- ingles -->
+                                                    <img src="{% static 'img/Banderas/gb.png' %}" alt="English Flag of Medcombo">
+                                                {% elif language_selected == 2 %}<!-- aleman -->
+                                                    <img src="{% static 'img/Banderas/de.png' %}" alt="Germany Flag of Medcombo">
+                                                {% elif language_selected == 5 %}<!-- frances -->
+                                                    <img src="{% static 'img/Banderas/fr.png' %}" alt="French Flag of Medcombo">
+                                                {% elif language_selected == 7 %}<!-- portugues -->
+                                                    <img src="{% static 'img/Banderas/pt.png' %}" alt="Portugues Flag of Medcombo">
+                                                {% elif language_selected == 6 %}<!-- italiano -->
+                                                    <img src="{% static 'img/Banderas/it.png' %}" alt="Italian Flag of Medcombo">
+                                                {% elif language_selected == 1 %}<!-- chino -->
+                                                    <img src="{% static 'img/Banderas/cn.png' %}" alt="Chinese Flag of Medcombo">
+                                                {% elif language_selected == 8 %}<!-- chino -->
+                                                    <img src="{% static 'img/Banderas/cn.png' %}" alt="Chinese of Medcombo">
+                                                {% elif language_selected == 9 %}<!-- japon -->
+                                                    <img src="{% static 'img/Banderas/jp.png' %}" alt="Japanese Flag of Medcombo">
+                                                {% endif %}
+                                            </div>
+                                        </form>
+                                    </li>
+                                    <li class="nav-item">
+                                        <hr />
+                                    </li>
+                                    <li id="login-li-sm" class="nav-item mb-3 padding-menu-movil">
+                                        <span><a href="{% url 'view_login' %}"><i class="fas fa-sign-in-alt mr-3"></i>{% blocktrans %}LOGIN{% endblocktrans %}&nbsp;</a></span>
+                                    </li>
+                                    <li id="login-li-sm-reg" class="nav-item mb-3 padding-menu-movil">
+                                        <span><a href="{% url 'view_singup' %}"><i class="fas fa-address-card mr-3"></i>{% blocktrans %}EXHIBIT PRODUCT{% endblocktrans %}&nbsp;</a></span>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <!--./End Menu Resoponsive-->
+                <div class="col-lg-4 col-xl-3 d-none d-lg-block px-0 perfil perfilText" id="main-menu">
+                    <ul class="nav nav-pills d-flex align-items-center">
+                        <!-- hover menu part -->
+                        <li class="nav-item dropdown col-2 col-sm-5">
+                            <div class="hoverWrapper" style="text-align: center">
+                                <div class="pt-3 pb-3">
+                                    {% if user.is_authenticated %}
+                                        <div class="row justify-content-center">
+                                            <i class="fas fa-user pl-3 pr-3" style="font-size: 30px;color: #df8771;"></i>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <span style="color: #df8771;">{% blocktrans %}Bienvenido{% endblocktrans %}</span>
+                                        </div>
+                                    {% else %}
+                                        <i class="fas fa-user pl-3 pr-3" style="font-size: 30px;color: #7f9bcd;"></i>
+                                    {% endif %}
+                                    
+                                </div>
+                                <div  id="hoverShow1" style="text-align: left;">
+                                    {% if user.is_authenticated %}
+                                        {% for user_context in context %}
+                                            <div class="row m-0" style="border-bottom: 1px solid black;">
+                                                <div class="col-md-10 mb-2">
+                                                    <a style="color: #b6b5b5;" class="nameUser pb-2 pt-2" href="{% url 'dashboard_client' %}">
+                                                        {% blocktrans %}Hola {% endblocktrans %}&nbsp;
+                                                        {% if user_context.first_name %}
+                                                            {{ user_context.first_name }} {{ user_context.last_name }} 
+                                                        {% else %} 
+                                                            {{ user_context.username }}
+                                                        {% endif %}
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <a style="color: #b6b5b5;" class="nameUser pb-2 pt-2" href="{% url 'view_logout' %}">
+                                                        <i class="fas fa-sign-out-alt "></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row m-0">
+                                                <div class="col-md-10 mt-2">
+                                                    <a class="pt-2 pb-2" style="color: #7f9bcd;text-decoration: none;" href="{% url 'chat_list' %}">
+                                                        {% blocktrans %}Nuevo mensaje{% endblocktrans %} 
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-1 mt-2">
+                                                    <span >{{my_msgs}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row m-0">
+                                                <div class="col-md-10 mt-1">
+                                                    <a class="pt-2 pb-2" style="color: #7f9bcd;text-decoration: none;" href="{% url 'contacts_list' %}">
+                                                        {% blocktrans %}Contacto{% endblocktrans %}
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-1 mt-1">
+                                                    <span >{{my_contacts}}</span>
+                                                </div>
+                                            </div> 
+                                        {% endfor %}
+                                    {% else %}
+                                        <div id="login-li" class="row ml-2 mt-2 mb-1">
+                                            <span><a href="{% url 'view_login' %}">{% blocktrans %}LOGIN{% endblocktrans %}&nbsp;</a></span>
+                                        </div>
+                                        <div class="row m-0">
+                                            <a class="btn btn-primary" id="exhibit-product" style="border-radius: 80px;color:white;">{% blocktrans %}EXHIBIT PRODUCT{% endblocktrans %}&nbsp;</a>
+                                            <script>
+                                                $('#exhibit-product').click(function(){ 
+                                                    var myurl = "{% url 'view_singup' %}"; 
+                                                    location.href = myurl;
+                                                });
+                                            </script>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                        <!-- language selector part -->
+                        <li class="nav-item dropdown mr-md-4 mr-sm-4">
+                            <form id="form-lenguaje" class="position-relative" style="text-align: end;" action="{% url 'set_language' %}" method="POST">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                <select class="form-control form-control-sm ml-2 leng-style pad-flag lenguaje-seleccionado" id="lenguaje-seleccionado" name="language">
+                                    {% for language in languages %}
+                                        <option style="min-width: 8em;" value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %} >
+                                            {% if language.code == "es" %}
+                                                Español ({{ language.code }})
+                                            {% elif language.code == "fr" %}
+                                                Français ({{ language.code }})
+                                            {% elif language.code == "it" %}
+                                                Italiano ({{ language.code }})
+                                            {% elif language.code == "ja" %}
+                                                日本語 (jp) 
+                                            {% else %}
+                                                {{language.name_local}} ({{ language.code }})
+                                            {% endif %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="d-flex align-items-center imgFlag">
+                                    {% if language_selected == 4   %}<!-- español -->
+                                        <img src="{% static 'img/Banderas/es.png' %}" alt="Spanish Flag of Medcombo">
+                                    {% elif language_selected == 3 %}<!-- ingles -->
+                                        <img src="{% static 'img/Banderas/gb.png' %}" alt="English Flag of Medcombo">
+                                    {% elif language_selected == 2 %}<!-- aleman -->
+                                        <img src="{% static 'img/Banderas/de.png' %}" alt="Germany Flag of Medcombo">
+                                    {% elif language_selected == 5 %}<!-- frances -->
+                                        <img src="{% static 'img/Banderas/fr.png' %}" alt="French Flag of Medcombo">
+                                    {% elif language_selected == 7 %}<!-- portugues -->
+                                        <img src="{% static 'img/Banderas/pt.png' %}" alt="Portugues Flag of Medcombo">
+                                    {% elif language_selected == 6 %}<!-- italiano -->
+                                        <img src="{% static 'img/Banderas/it.png' %}" alt="Italian Flag of Medcombo">
+                                    {% elif language_selected == 1 %}<!-- chino -->
+                                        <img src="{% static 'img/Banderas/cn.png' %}" alt="Chinese Flag of Medcombo">
+                                    {% elif language_selected == 8 %}<!-- chino -->
+                                        <img src="{% static 'img/Banderas/cn.png' %}" alt="Chinese of Medcombo">
+                                    {% elif language_selected == 9 %}<!-- japon -->
+                                        <img src="{% static 'img/Banderas/jp.png' %}" alt="Japanese Flag of Medcombo">
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+    {% comment %} <style>
+        .brands {
+            padding: 0px 30px;
+            background-color: white;
+            box-shadow: 0 -3px 3px rgba(0, 0, 0, 0.25);
+        }
+        .MultiCarousel { float: left; overflow: hidden; padding: 3px; width: 100%; position:relative; }
+        .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: right; }
+        .MultiCarousel .MultiCarousel-inner .item { float: right;}
+        .MultiCarousel .MultiCarousel-inner .item > div { text-align: center; padding:3px; margin:3px; background:white; color:#666;}
+        .MultiCarousel .leftLst, .MultiCarousel .rightLst { position:absolute; top:calc(50% - 20px); }
+        .MultiCarousel .leftLst { left:0; }
+        .MultiCarousel .rightLst { right:0; }
+    
+        .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over { pointer-events: none; background:#ccc; }
+    </style> {% endcomment %}
+    {% if user.is_authenticated %}
+        {% include 'chat_bottom.html' %}
+    {% endif %}
+
+    {% if company_logos %}
+        <div class="brands">
+            <div class="row">
+                <div class="MultiCarousel" data-items="2,6,9,11" data-slide="1" id="MultiCarousel"  data-interval="1000">
+                    <div class="MultiCarousel-inner">
+                        
+                        {% for logo in company_logos %}
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="{{logo.url}}" title="{{logo.title}}">
+                                        {% if logo.picture %}
+                                            <img class="lazy" data-src="{{logo.picture.url}}" height="60px" width="auto" alt="B2B portal Company logo for Medical Industry in UK">
+                                        {% else %}
+                                            <img class="lazy" data-src="{% static 'img/default.png' %}"  height="60px" width="auto" alt="B2B portal Company logo for Medical Industry in UK">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                    </div>
+                    <button class="btn btn-primary leftLst"><</button>
+                    <button class="btn btn-primary rightLst">></button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <footer id="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-lg-2 footer" id="hazte">
+                    <h5><a href="{% url 'view_singup' %}">{% blocktrans %}Hazte{% endblocktrans %}<br/>{% blocktrans %}Expositor{% endblocktrans %}</a></h5>
+                </div>
+                <div class="col-12 col-md-12 col-lg-2 footer">
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3 footer">
+                    <h5>{% blocktrans %}INFORMACIÓN{% endblocktrans %}</h5>
+                    <h6>
+                        <a href="{% url 'aboutme' %}">{% blocktrans %}Sobre nosotros{% endblocktrans %}</a><br/>
+                        <a href="{% url 'prices' %}">{% blocktrans %}Precios{% endblocktrans %}</a><br/>
+                        <a href="{% url 'sitemap' %}">{% blocktrans %}Sitemap{% endblocktrans %}</a><br/>
+                        <a href="{% url 'privacy_policy' %}">{% blocktrans %}Política de Privacidad{% endblocktrans %}</a><br/>
+                        <a href="{% url 'FAQ' %}">{% blocktrans %}FAQ{% endblocktrans %}</a><br/>
+                        <a href="{% url 'Contacto' %}">{% blocktrans %}Contacto{% endblocktrans %}</a>
+                    </h6>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3 footer">
+                    <h6>{% blocktrans %}SÍGUENOS{% endblocktrans %}<br>
+                        <a href="https://www.facebook.com/Medcombo-108272527478268/?ref=nf&amp;hc_ref=ARRWqWBw3BWbZGqwGlfnrDylDSFNbPl6wPJv4xbWNTqaTLphcljK04wsgloyqqUXVEs" rel="noreferrer" title="Medcombo on Facebook" data-qtsb-section="footer" data-qtsb-subsection="AppsAndSocial" data-qtsb-label="GoToFacebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com/" rel="noreferrer" title="Medcombo on Twitter" data-qtsb-section="footer" data-qtsb-subsection="AppsAndSocial" data-qtsb-label="GoToTwitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.youtube.com/" rel="noreferrer" title="Medcombo on Youtube" data-qtsb-section="footer" data-qtsb-subsection="AppsAndSocial" data-qtsb-label="GoToYoutube" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://instagram.com/" rel="noreferrer" title="Medcombo on Instagram" data-qtsb-section="footer" data-qtsb-subsection="AppsAndSocial" data-qtsb-label="GoToInstagram" target="_blank"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="https://www.linkedin.com/company/medcombo" rel="noreferrer" title="Medcombo on Linkedin" data-qtsb-section="footer" data-qtsb-subsection="AppsAndSocial" data-qtsb-label="GoToLinkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    </h6>
+                </div>
+                <div class="col-12 col-lg-2 footer" id="empleo">
+                    {% if language_selected != 8 %}
+                        <h5><a href="{% url 'list-front-offers' %}">{% blocktrans %}Ofertas de{% endblocktrans %}<br/>{% blocktrans %}empleo{% endblocktrans %}</a></h5>
+                    {% else %}
+                        <h5><a href="{% url 'list-front-offers' %}">{% blocktrans %}Ofertas de{% endblocktrans %}</a></h5>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script defer="defer" src="{% static 'bootstrap/js/popper.min.js' %}" type="text/javascript"></script>
+    <script defer="defer" src="{% static 'bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    <script defer="defer" src="{% static 'js/easyAutocomplete.js' %}" type="text/javascript"></script>
+    <!--Starrr-Rating-SVG-->
+    <script async src="{% static 'js/star-rating-svg.js' %}" type="text/javascript"></script>
+    <!--JRating-->
+    <script async src="{% static 'js/jrating.js' %}" type="text/javascript"></script>
+    {% comment %} <script async src="{% static 'easy-autocomplete/jquery.easy-autocomplete.min.js' %}" type="text/javascript"></script> {% endcomment %}
+    <!-- Timezone -->
+    <script async type="text/javascript" src="{% static 'js/jstz.js' %}"></script>
+    <script>
+        var contador = 1;
+        var _opened = false;
+        $('.navbar-toggler').click(function(){
+            if (contador == 1) {
+                $('#movil-menu').animate({
+                    //left: '0'
+                    left: '0'
+                },500);
+                contador = 0;
+                _opened = true;
+                $(".nav_bar").css("color", "#df8771");
+            } else {
+                $('#movil-menu').animate({
+                    left: '-100%'
+                },500);
+                contador = 1;
+                _opened = false;
+                $(".nav_bar").css("color", "#7f9bcd");
+            }
+        });
+        $(document).click(function (event) {
+            var clickover = $(event.target);
+            if (_opened === true && !clickover.hasClass("nav_bar") && !clickover.hasClass("navbar-toggler") && !clickover.hasClass("nav-pills")&& !clickover.hasClass("nav-item")&&!clickover.hasClass("form-control")) {
+                $("button.navbar-toggler").click();
+                _opened = false;
+            }
+        });
+    </script>
+    <script>
+        function formatState (state) {
+            if (!state.id) {
+                return state.text;
+                
+            }
+            var baseUrl = "{% static '' %}img/Banderas/";
+            var name = state.element.value.toLowerCase();
+            if(name == 'en') {
+                name = 'gb'
+            }
+            else if(name == 'zh-hans' || name == 'zh-hant') {
+                name = 'cn'
+            }
+            else {
+                if(name == 'ja') {
+                    name = 'jp'
+                }
+            }
+            var $state = $(
+                '<span class="d-flex justify-content-between">' + state.text + '<div class="d-flex align-items-center"><img src="' + baseUrl + name + '.png" class="img-flag" height="17px" /></div></span>'
+            );
+            return $state;
+        };
+        $("#lenguaje-seleccionado").select2({
+            templateResult: formatState,
+            minimumResultsForSearch: -1
+        });
+        
+        $(document).ready(function(){
+            //Change to select
+            if(sessionStorage.getItem("homekey") == "home"){
+                window.location.href = '{% url "home" %}';
+                sessionStorage.removeItem('homekey');
+            }
+            
+            $('.lenguaje-seleccionado').change(function(e){
+                e.preventDefault();
+                var hostname = "{{ request.get_host }}";
+                var url = location.href.split(hostname)[1];
+                if (url != '{% url "home" %}' && (url.includes("categories") || url.includes("subcategories") || url.includes("keywords") || url.includes("product"))){
+                    sessionStorage.setItem('homekey', 'home');
+                }
+                lang_form = $('#form-lenguaje');
+                lang_form.submit();
+            });
+            $('.lenguaje-seleccionado2').change(function(e){
+                e.preventDefault();
+                var hostname = "{{ request.get_host }}";
+                var url = location.href.split(hostname)[1];
+                if (url != '{% url "home" %}' && (url.includes("categories") || url.includes("subcategories") || url.includes("keywords") || url.includes("product"))){
+                    sessionStorage.setItem('homekey', 'home');
+                }
+                lang_form = $('#form-lenguaje2');
+                lang_form.submit();
+            });
+            //Autocomplete
+            var options = {
+                url: function(phrase) {
+                    return "/ajax_calls/search/";
+                },
+                getValue: function(element) {
+                    {% if language_selected == 2 %}
+                        var element_clone = element.split(" ");
+                        var elementall = "";
+                        for (i = 0; i < element_clone.length; i++) {
+                            text = element_clone[i].charAt(0).toUpperCase() + element_clone[i].slice(1);
+                            elementall = elementall + " " + text;
+                        }
+                        return elementall.trim();
+                    {% else %}
+                        return element.toLowerCase();
+                    {% endif %}    
+                },
+                
+                ajaxSettings: {
+                    headers: { "X-CSRFToken": '{{csrf_token}}' },
+                    dataType: "json",
+                    method: "POST",
+                    data: {
+                        dataType: "json"
+                    }
+                },
+                preparePostData: function(data) {
+                    data.phrase = $("#id_name").val();
+                    return data;
+                },
+                requestDelay: 400,
+                list: {
+                    match: {
+                        enabled: true
+                    },
+                    sort: {
+                        enabled: false
+                    },
+                    maxNumberOfElements: 10
+                },
+                
+                theme: "square",
+                template: {
+                    type: "custom",
+                    method: function(value, item) {
+                        console.log(value);
+                        return '<img src="{% static "img/search-img/mbrisearch_99556.svg" %}" />&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;' + value;
+                    }
+                },
+            };
+            var options_company = {
+                data: []
+            };
+            
+            $("#id_name").easyAutocomplete(options);
+            
+            $(".dropdown-menu li").click(function(){
+                var bodyWidth = $('body').width();
+                if(bodyWidth < 768){
+                    $("#sel_company_product").html('<i class="fas fa-sort-down pl-2" style="vertical-align: top"></i>');
+                }else{
+                    $("#sel_company_product").html($(this).text() + '<i class="fas fa-sort-down pl-2" style="vertical-align: top"></i>');
+                }
+                
+                $("#sel_company_product").data('val', $(this).data("val"));
+                $("#id_name").val("");
+                if ($(this).data("val") == 0){
+                    $("#id_name").easyAutocomplete(options);
+                    $("#sel_company_product").removeClass("sel-company");
+                    $("#sel_company_product").addClass("sel-product");
+                    $("#btn-search").removeClass("btn-company");
+                    $("#btn-search").addClass("btn-product");
+                }else{
+                    $("#id_name").easyAutocomplete(options_company);
+                    $(".easy-autocomplete").addClass("eac-square");
+                    $("#sel_company_product").removeClass("sel-product");
+                    $("#sel_company_product").addClass("sel-company");
+                    $("#btn-search").removeClass("btn-product");
+                    $("#btn-search").addClass("btn-company");
+                }
+
+            });
+        });
+        $(".hoverRecent").hide();
+
+        
+        $("#id_name").focusin(function(){
+            var bodyWidth = $('body').width();
+            if($("#id_name").val() == "" && bodyWidth > 992){
+                var storedRecentSearch = [];
+                if ($("#sel_company_product").data("val") == 0){
+                    if (sessionStorage.getItem("recentProductSearch") != null){
+                        storedRecentSearch = JSON.parse(sessionStorage.getItem("recentProductSearch"));
+                    }
+                }else{
+                    if (sessionStorage.getItem("recentCompanySearch") != null){
+                        storedRecentSearch = JSON.parse(sessionStorage.getItem("recentCompanySearch"));
+                    }
+                }
+                var recent_html = "";
+                for(var i in storedRecentSearch){
+                   recent_html +="<span class='recent_item'>" + storedRecentSearch[i]+ "</span>";
+                }
+                $("#recent_search").html(recent_html);
+                if(storedRecentSearch.length > 0){
+                    var recentParentWidth = $(".hoverWrapper1").width();
+                    $(".hoverRecent").css("width", recentParentWidth);
+                    $(".hoverRecent").show();
+                }
+            }
+            
+            $(".recent_item").on('click', function(){
+                $("#id_name").val($(this).html());
+                search_start();
+            });
+            // delete recent history
+            $(".span_hover").on('click', function(){
+                
+                var storedRecentSearch = [];
+                if ($("#sel_company_product").data("val") == 0){
+                    sessionStorage.setItem('recentProductSearch', JSON.stringify(storedRecentSearch));
+                }else{
+                    sessionStorage.setItem('recentCompanySearch', JSON.stringify(storedRecentSearch));
+                }
+                $(".hoverRecent").hide();
+            });
+        });
+        $(document).click(function (event) {
+            var clickover = $(event.target);
+            if(!clickover.hasClass("hoverRecent")&& !clickover.hasClass("search_box")) {
+                $(".hoverRecent").hide();
+            }
+        });
+
+
+        $('#search-product-id').click(function(evt){
+            evt.preventDefault();
+            if ($("#id_name").val()!=""){
+                // save current search to sessionStorage
+                if ($("#sel_company_product").data("val") == 0){
+                    var storedRecentSearch = [];
+                    if (sessionStorage.getItem("recentProductSearch") != null){
+                        storedRecentSearch = JSON.parse(sessionStorage.getItem("recentProductSearch"));
+                    }
+                    var index = storedRecentSearch.indexOf($("#id_name").val());
+                    if (index > -1) {
+                      storedRecentSearch.splice(index, 1);
+                    }
+                    
+                    storedRecentSearch.splice(0, 0, $("#id_name").val());
+                    if(storedRecentSearch.length > 5){
+                        storedRecentSearch = storedRecentSearch.splice(0, 5);
+                    }
+                    sessionStorage.setItem('recentProductSearch', JSON.stringify(storedRecentSearch));
+                }else{
+                    var storedRecentSearch = [];
+                    if (sessionStorage.getItem("recentCompanySearch") != null){
+                        storedRecentSearch = JSON.parse(sessionStorage.getItem("recentCompanySearch"));
+                    }
+                    var index = storedRecentSearch.indexOf($("#id_name").val());
+                    if (index > -1) {
+                      storedRecentSearch.splice(index, 1);
+                    }
+                    
+                    storedRecentSearch.splice(0, 0, $("#id_name").val());
+                    if(storedRecentSearch.length > 5){
+                        storedRecentSearch = storedRecentSearch.splice(0, 5);
+                    }
+                    sessionStorage.setItem('recentCompanySearch', JSON.stringify(storedRecentSearch));
+                }
+                search_start();
+            }
+        });
+        function search_start(){
+            if ($("#sel_company_product").data("val") == 0){
+                get_products();
+            }else{
+                my_form = $('#form-search-product');
+                my_form.attr("action","{% url 'NewSearchCompany' %}");
+                my_form.submit();
+            }
+        }
+        function get_products(){
+            var my_url = "{% url 'list_categories' %}";
+            var my_value = $('#id_name').val();
+            var token = '{{csrf_token}}';
+            var my_area;
+            var my_category;
+            var my_subcategory;
+            var name_product;
+            var my_language = $('#lenguaje-seleccionado').val();
+            var country;
+            var location;
+            //Timezone
+            var tz = jstz.determine(); // Determines the time zone of the browser client
+            var my_timezone = tz.name();
+            $.ajax({
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                type: 'POST',
+                url: "{% url 'product_country_searchengine' %}",
+                data: {
+                    'timezone': my_timezone
+                },
+                success: function(msg){
+                    location = msg;
+                    $.ajax({
+                        headers: { "X-CSRFToken": token },
+                        type: 'POST',
+                        url: my_url,
+                        data: {
+                            'key': my_value
+                        },
+                        success: function(msg){
+                            my_area = msg[0].toLowerCase().replace(/\//g,"");
+                            my_category = msg[1].toLowerCase().replace(/\//g,"");
+                            my_subcategory = msg[2].toLowerCase().replace(/\//g,"");
+                            //form Searchengine
+                            my_form = $('#form-search-product');
+                            url_replace = $('#id_name').val().toLowerCase();
+                            //languages
+                            {% if language_selected == 1 %}//zh hant
+                                if(url_replace.trim() == ''){
+                                    url_replace = '空的';
+                                }
+                                name_product = '產品';
+                            {% elif language_selected == 2 %}//de
+                                if(url_replace.trim() == ''){
+                                    url_replace = 'leeren';
+                                }
+                                name_product = 'produkt';
+                            {% elif language_selected == 3 %}//en
+                                if(url_replace.trim() == ''){
+                                    url_replace = 'empty';
+                                }
+                                name_product = 'products';
+                            {% elif language_selected == 4 %}//es
+                                if(url_replace.trim() == ''){
+                                    url_replace = 'vacío';
+                                }
+                                name_product = 'productos';
+                            {% elif language_selected == 5 %}//fr
+                                if(url_replace.trim() == ''){
+                                    url_replace = 'vide';
+                                }
+                                name_product = 'produit';
+                            {% elif language_selected == 6 %}//it
+                                if(url_replace.trim() == ''){
+                                    url_replace = 'vuoto';
+                                }
+                                name_product = 'prodotto';
+                            {% elif language_selected == 7 %}//pt
+                                if(url_replace.trim() == ''){
+                                    url_replace = 'esvaziar';
+                                }
+                                name_product = 'produto';
+                            {% elif language_selected == 8 %}//zh hans
+                                if(url_replace.trim() == ''){
+                                    url_replace = '空的';
+                                }
+                                name_product = '产品';
+                            {% else %}//ja
+                                if(url_replace.trim() == ''){
+                                    url_replace = '空の';
+                                }
+                                name_product = '製品';
+                            {% endif %}
+                            my_form.attr("action","/"+my_language+"/"+location.toLowerCase()+"/"+name_product+"/"+my_area.replace(/\s/g,"-")+"/"+my_category.replace(/\s/g,"-")+"/"+my_subcategory.replace(/\s/g,"-")+"/"+url_replace.replace(/\s/g,"-")+"/");
+
+                            my_form.submit();
+                        }
+                    });
+                }
+            });
+        }
+
+        var itemsMainDiv = ('.MultiCarousel');
+        var itemsDiv = ('.MultiCarousel-inner');
+        var itemWidth = "";
+        var itemNumbers = 0;
+        var disable_button = false;
+
+        $('.leftLst, .rightLst').click(function () {
+            var condition = $(this).hasClass("leftLst");
+            if (condition)
+                click(0, this);
+            else
+                click(1, this)
+        });
+
+        ResCarouselSize();
+        hoverResize();
+
+        $(window).resize(function () {
+            ResCarouselSize();
+            hoverResize();
+        });
+
+        function hoverResize(){
+            $(".hoverRecent").hide();
+            var parentWidth = $(".hoverWrapper").parents("li").width();
+            $("#hoverShow1").css("margin-left",(parentWidth/2-225)+"px");
+
+            var bodyWidth = $('body').width();
+            if(bodyWidth < 768){
+                $("#sel_company_product").html('<i class="fas fa-sort-down pl-2" style="vertical-align: top"></i>');
+            }else{
+                if($("#sel_company_product").data("val") == 0){
+                    $("#sel_company_product").html('{% blocktrans %}Productos{% endblocktrans %}<i class="fas fa-sort-down pl-2" style="vertical-align: top"></i>');
+                }else{
+                    $("#sel_company_product").html('{% blocktrans %}Empresa{% endblocktrans %}<i class="fas fa-sort-down pl-2" style="vertical-align: top"></i>');
+                }
+            }
+            if(bodyWidth < 992){
+                $("#logo_header").hide();
+                $("#div_thumb").hide();
+                $("#div_head").css('height', "59px");
+            }else{
+                $("#div_thumb").show();
+                $("#logo_header").show();
+                $("#div_head").css('height', "90px");
+            }
+        }
+        //this function define the size of the items
+        function ResCarouselSize() {
+            var incno = 0;
+            var dataItems = ("data-items");
+            var itemClass = ('.item');
+            var id = 0;
+            var btnParentSb = '';
+            var itemsSplit = '';
+            var sampwidth = $(itemsMainDiv).width();
+            var bodyWidth = $('body').width();
+            $(itemsDiv).each(function () {
+                id = id + 1;
+                itemNumbers = $(this).find(itemClass).length;
+                btnParentSb = $(this).parent().attr(dataItems);
+                itemsSplit = btnParentSb.split(',');
+                $(this).parent().attr("id", "MultiCarousel" + id);
+
+
+                if (bodyWidth >= 1200) {
+                    incno = itemsSplit[3];
+                    itemWidth = sampwidth / incno;
+                    if(incno > itemNumbers){
+                        disable_button = true;
+                    }
+                }
+                else if (bodyWidth >= 992) {
+                    incno = itemsSplit[2];
+                    itemWidth = sampwidth / incno;
+                    if(incno > itemNumbers){
+                        disable_button = true;
+                    }
+                }
+                else if (bodyWidth >= 768) {
+                    incno = itemsSplit[1];
+                    itemWidth = sampwidth / incno;
+                    if(incno > itemNumbers){
+                        disable_button = true;
+                    }
+                }
+                else {
+                    incno = itemsSplit[0];
+                    itemWidth = sampwidth / incno;
+                    if(incno > itemNumbers){
+                        disable_button = true;
+                    }
+                }
+                $(this).css({ 'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers });
+                $(this).find(itemClass).each(function () {
+                    $(this).outerWidth(itemWidth);
+                });
+
+                $(".leftLst").addClass("over");
+                $(".rightLst").removeClass("over");
+                if(disable_button){
+                    $(".leftLst").addClass("over");
+                    $(".rightLst").addClass("over");
+                }
+                disable_button = false;
+
+            });
+        }
+        //this function used to move the items
+        function ResCarousel(e, el, s) {
+            var leftBtn = ('.leftLst');
+            var rightBtn = ('.rightLst');
+            var translateXval = '';
+            var divStyle = $(el + ' ' + itemsDiv).css('transform');
+            var values = divStyle.match(/-?[\d\.]+/g);
+            var xds = Math.abs(values[4]);
+            if (e == 0) {
+                translateXval = parseInt(xds) - parseInt(itemWidth * s);
+                $(el + ' ' + rightBtn).removeClass("over");
+
+                if (translateXval <= itemWidth / 2) {
+                    translateXval = 0;
+                    $(el + ' ' + leftBtn).addClass("over");
+                }
+            }
+            else if (e == 1) {
+                var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+                translateXval = parseInt(xds) + parseInt(itemWidth * s);
+                $(el + ' ' + leftBtn).removeClass("over");
+
+                if (translateXval >= itemsCondition - itemWidth / 2) {
+                    translateXval = itemsCondition;
+                    $(el + ' ' + rightBtn).addClass("over");
+                }
+            }
+            $(el + ' ' + itemsDiv).css('transform', 'translateX(' + translateXval + 'px)');
+        }
+        //It is used to get some elements from btn
+        function click(ell, ee) {
+            var Parent = "#" + $(ee).parent().attr("id");
+            var slide = $(Parent).attr("data-slide");
+            ResCarousel(ell, Parent, slide);
+        }
+        //////////////////////////////
+        document.addEventListener("DOMContentLoaded", function() {
+        var lazyloadImages = document.querySelectorAll("img.lazy");    
+        var lazyloadThrottleTimeout;
+        
+        function lazyload () {
+            if(lazyloadThrottleTimeout) {
+            clearTimeout(lazyloadThrottleTimeout);
+            }    
+            
+            lazyloadThrottleTimeout = setTimeout(function() {
+                var scrollTop = window.pageYOffset;
+                lazyloadImages.forEach(function(img) {
+                    if(img.offsetTop < (window.innerHeight + scrollTop)) {
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    }
+                });
+                if(lazyloadImages.length == 0) { 
+                document.removeEventListener("scroll", lazyload);
+                window.removeEventListener("resize", lazyload);
+                window.removeEventListener("orientationChange", lazyload);
+                }
+            }, 20);
+        }
+        
+        document.addEventListener("scroll", lazyload);
+        window.addEventListener("resize", lazyload);
+        window.addEventListener("orientationChange", lazyload);
+        });
+    </script>
+</body>
+</html>

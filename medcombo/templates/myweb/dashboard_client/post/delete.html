@@ -1,0 +1,48 @@
+{% extends "dashboard_client.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% blocktrans %}Eliminar Post{% endblocktrans %}</title>
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1');
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+    <div class="col-12 col-lg-10 background">
+	    <div class="container">
+		    <div class="row">
+			    <div class="col-12 margin-h5">
+				    <h5>{% blocktrans %}ELIMINAR POST{% endblocktrans %}</h5>
+			    </div>
+		    </div>
+	    </div>
+        <div class="container">
+		   <div class="row ventana-productos">
+			    <div class="col-12">
+				    <div class="row padding-row">
+					    <div class="col-12">
+                            <form method="post">
+		                        {% csrf_token %}
+	                            <h3><center>{% blocktrans %}¿Desea eliminar ésta publicación:{% endblocktrans %} "{{ object.title }}"?</center></h3><br>
+	                            <center> <button class="btn btn-danger" type="submit">{% blocktrans %}Eliminar Post{% endblocktrans %}</button>  <a class="btn btn-primary" href="{% url 'post_createList' %}">{% blocktrans %}Cancelar{% endblocktrans %}</a></center>
+	                        </form>
+					    </div>
+			  	    </div>							
+			    </div>
+		    </div>
+	    </div>
+    </div>
+</body>
+</html>
+{% endblock %}

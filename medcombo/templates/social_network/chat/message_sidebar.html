@@ -1,0 +1,110 @@
+{% load i18n %}
+{% load staticfiles %}
+<style>
+    .active{
+        color: #007bff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+</style>
+<link rel="stylesheet" href="{% static 'css/app/social/chat.css' %}">
+<div class="col-md-2">
+    <div class="card">
+        <div class="card-body p-0">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a href="{% url 'messenger' %}" class="nav-link 
+                    {% if 'inbox' in request.path %}
+                        active
+                    {% endif %}">
+                        <div class="row justify-content-center" id="message_news">
+                        </div>
+                        
+                        <div class="row justify-content-center mt-0">
+                            <i class="fas fa-envelope" style="font-size:30px;"></i>   
+                        </div>
+                        
+                        <div class="row justify-content-center mt-0">
+                            <span style="font-size:11px;">{% blocktrans %}Inbox{% endblocktrans%}</span> 
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'important' %}" class="nav-link
+                    {% if 'important' in request.path %}
+                        active
+                    {% endif %}">
+                        <div class="row justify-content-center mt-0">
+                            <i class="fas fa-star" style="font-size:30px;"></i>
+                        </div>
+                        <div class="row justify-content-center mt-0">
+                            <span style="font-size:11px;">{% blocktrans %}Important{% endblocktrans%}</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link
+                    {% if '' in request.path %}
+                        
+                    {% endif %}">
+                        <div class="row justify-content-center mt-0">
+                            <i class="fas fa-pen my_cursor my_hover" style="font-size:30px;"></i>
+                        </div>
+                        <div class="row justify-content-center mt-0">
+                            <span style="font-size:11px;">{% blocktrans %}Draft{% endblocktrans%}</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'sentmail' %}" class="nav-link
+                    {% if 'send_mail' in request.path %}
+                        active
+                    {% endif %}">
+                        <div class="row justify-content-center mt-0">
+                            <i class="fa fa-send-o" style="font-size:30px;"></i>
+                        </div>
+                        <div class="row justify-content-center mt-0">
+                            <span style="font-size:11px;">{% blocktrans %}Sent{% endblocktrans%}</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link
+                    {% if '' in request.path %}
+                        
+                    {% endif %}">
+                        <div class="row justify-content-center mt-0">
+                            <i class="fas fa-exclamation-circle" style="font-size:30px;"></i>
+                        </div>
+                        <div class="row justify-content-center mt-0">
+                            <span style="font-size:11px;">{% blocktrans %}Spam{% endblocktrans%}</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'contacts_list' %}" class="nav-link
+                    {% if 'contacts/list' in request.path %}
+                        active
+                    {% endif %}">
+                        <div class="row justify-content-center mt-0">
+                            <i class="fa fa-address-card" style="font-size:30px;"></i>
+                        </div>
+                        <div class="row justify-content-center mt-0">
+                            <span style="font-size:11px;">{% blocktrans %}Contact List{% endblocktrans%}</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="delete_msg" class="nav-link">
+                        <div class="row justify-content-center mt-0">
+                            <i class="far fa-trash-alt" style="font-size:30px;"></i>
+                        </div>
+                        <div class="row justify-content-center mt-0">
+                            <span style="font-size:11px;">{% blocktrans %}Trash{% endblocktrans%}</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

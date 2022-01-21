@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide_company.html' %}
+{% include '../../menu-myweb.html' %}
+<style>
+   .myweb-cata-img {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      border: solid 1px #b5b6b6;
+      border-radius: 10px;
+      height: 150px;
+      align-items: center;
+   }
+   .cata_custom {
+      background-color: rgb(255, 255, 255);
+      margin-right: 36px;
+      box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1),0 1px 1px 1px rgba(0,0,0,0.19) !important;
+      border-radius: 10px;
+      -webkit-transition: all .5s ease;
+      transition: all .5s ease;
+   }
+   .cata_custom:hover {
+      -webkit-transform: scale(1.05);
+      -moz-transform: scale(1.05);
+      -ms-transform: scale(1.05);
+      -o-transform: scale(1.05);
+      transform: scale(1.05);
+   }
+   
+</style>
+<div class="container" style="padding-top: 30px; min-height: 250px;">
+   <div class="row pb-5">
+      <div class="col-xl-2 d-flex justify-content-center">
+         <div>
+            {% if company.logo %}
+               <p class="text-center">
+                  <a href="{% url 'my_web_home' company.id %}">
+                     <img class="img-fluid" src="{{ company.logo.url }}">
+                  </a>
+                  <a href="{% url 'my_web_home' company.id %}">{{ company.name }}</a>
+               </p>
+            {% else %}
+               {% if product.company.logo %}
+                  <p class="text-center">
+                     <a href="{% url 'my_web_home' product.company.id %}">
+                        <img class="img-fluid" src="{{ product.company.logo.url }}">
+                     </a>
+                     <a href="{% url 'my_web_home' product.company.id %}">{{product.company.name}}</a>
+                  </p>
+               {% else %}
+                  {% if post.company.logo %}
+                     <p class="text-center">
+                        <a href="{% url 'my_web_home' post.company.id %}">
+                           <img class="img-fluid" src="{{ post.company.logo.url }}">
+                        </a>
+                        <a href="{% url 'my_web_home' post.company.id %}">{{post.company.name}}</a>
+                     </p>
+                  {% else %}
+                     {% if company %}
+                        <p class="text-center">
+                           <a href="{% url 'my_web_home' company.id %}">
+                              <img class="img-fluid" src="{% static 'img/company.png' %}">
+                           </a>
+                           <a href="{% url 'my_web_home' company.id %}">{{ company.name }}</a>
+                        </p>
+                     {% else %}
+                        {% if product %}
+                           <p class="text-center">
+                              <a href="{% url 'my_web_home' product.company.id %}">
+                                 <img class="img-fluid" src="{% static 'img/company.png' %}">
+                              </a>
+                              <a href="{% url 'my_web_home' product.company.id %}">{{ product.company.name }}</a>
+                           </p>
+                        {% else %}
+                           {% if post %}
+                              <p class="text-center">
+                                 <a href="{% url 'my_web_home' post.company.id %}">
+                                    <img class="img-fluid" src="{% static 'img/company.png' %}">
+                                 </a>
+                                 <a href="{% url 'my_web_home' post.company.id %}">{{ post.company.name }}</a>
+                              </p>
+                           {% else %}
+                              <a href="{% url 'my_web_home' company.id %}">
+                                 <img class="img-fluid" src="{% static 'img/company.png' %}">
+                              </a>
+                              <p class="text-center"></p>
+                           {% endif %}
+                        {% endif %}
+                     {% endif %}
+                  {% endif %}
+               {% endif %}
+            {% endif %}
+         </div>
+      </div>
+      <div class="col-md-10">
+         <div class="row padding-row">
+            {% for obj in catalogue %}
+            <div class="col-lg-3 col-md-6 col-sm-12 cata_custom p-3 m-3">
+               <div class="pb-3 pull-left">
+                  <span class="mt-2 d-none d-lg-inline" style="font-size: 14px;">
+                     <img src="{% static ''%}img/flag/{{obj.language.value_language|lower}}.png" style="width: 28px;height: auto;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{obj.language.name_language}}"  />&nbsp;&nbsp;{{obj.language.value_language|upper}}
+                  </span>
+               </div>
+               <div>
+                  <a {% if obj.file %} href="{{obj.file.url}}" {% else %} href="#" {% endif %} download target="_blank"><img class="myweb-cata-img" {% if obj.picture %} src="{{ obj.picture.url }}" {% else %} src="{% static 'img/default.png' %}" {% endif %} width="100%" height="auto"></a> 
+                  <p class="text-center pt-3">{{ obj.name }}</p>
+                  <!--div class="embed-responsive embed-responsive-16by9">
+                     <embed src="{{obj.file.url}}" alt="pdf" width="204px" height="200px">
+                  </div-->
+               </div>
+            </div>
+            {% endfor %}
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

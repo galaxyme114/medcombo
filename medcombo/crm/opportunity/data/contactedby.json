@@ -1,0 +1,1 @@
+[{"model": "opportunity.contactedby", "pk": 1, "fields": {"name": "Telefono"}}, {"model": "opportunity.contactedby", "pk": 2, "fields": {"name": "Email"}}, {"model": "opportunity.contactedby", "pk": 3, "fields": {"name": "Email Marketing"}}, {"model": "opportunity.contactedby", "pk": 4, "fields": {"name": "Social Media"}}]

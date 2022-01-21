@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide_company.html' %}
+{% include '../../menu-myweb.html' %}
+<div class="container" style="padding-top: 30px; min-height: 250px;">
+   <div class="row pb-5">
+      <div class="offset-md-1 col-12 col-md-10">
+         <div class="row padding-row">
+            <!--{% for obj in company.catalogue_relationship.all %}-->
+            <!--{% endfor %}-->
+            {% for obj in catalogue %}
+               <div class="col-6 col-sm-4 col-md-3">
+                  <a {% if obj.file %} href="{{obj.file.url}}" {% else %} href="#" {% endif %} download target="_blank"><img {% if obj.picture %} src="{{ obj.picture.url }}" {% else %} src="{% static 'img/default.png' %}" {% endif %} width="80%" height="80%" style="border-radius: 10%;"></a> 
+                  <p>{{ obj.name }}</p>
+               </div>
+            {% endfor %}
+         </div>
+      </div>
+      <div class="col-md-1"></div>
+   </div>
+</div>
+{% endblock %}

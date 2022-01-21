@@ -1,0 +1,171 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load contact_tags %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="text-center-container">
+		{% if form.errors %}
+		{% for field in form %}
+		{% for error in field.errors %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endfor %}
+		{% endfor %}
+		{% for error in form.non_field_errors %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endfor %}
+		{% endif %}
+	</div>
+	<div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="text-home-job">{% blocktrans %}INFORMACIÓN DE FACTURACIÓN{% endblocktrans %}</h5>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+	<form class="needs-validation datos-form" class="" method="POST" enctype='multipart/form-data' novalidate>
+	{% csrf_token %}
+	<div class="row">
+		<div class="col-12">
+			<div class="row mt-3">
+				<div class="col-12 col-md-6">
+					<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}INFORMACIÓN DE CONTACTO{% endblocktrans %}</p>
+					<div class="form-row d-flex align-items-end">
+						<div class="col-12">
+							<label for="companyName">{% blocktrans %}Company Name{% endblocktrans %}</label>
+							<input type="text" class="form-control" required id="companyName" {{ form.invoicing_company_name }}
+							<div class="invalid-feedback">
+							{% blocktrans %}Introduzca el nombre de la empresa{% endblocktrans %}
+							</div>
+					</div>
+				</div>
+				<div class="form-row d-flex align-items-end">
+					<div class="col-12">
+						<label for="address2">{% blocktrans %}Address{% endblocktrans %}</label>
+						<textarea class="form-control" required id="address2" {{ form.invoicing_address }}
+						</textarea>
+						<div class="invalid-feedback">
+						{% blocktrans %}Introduzca la dirección de la empresa{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="telephone2">{% blocktrans %}Telephone{% endblocktrans %}</label>
+						<input type="text" class="form-control" id="telephone2" required {{ form.invoicing_telephone }}
+						<div class="invalid-feedback">
+						{% blocktrans %}Introduzca el número de teléfono{% endblocktrans %}
+					</div>
+				</div>
+				<div class="col-12 col-sm-6 w-100">
+					<label for="fax2">{% blocktrans %}Fax{% endblocktrans %} </label>
+					<input type="text" class="form-control" id="fax2" {{ form.invoicing_fax }}
+					</div>	
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="id_invoicing_country">{% blocktrans %}Country{% endblocktrans %}</label>
+						<select id="invoicing_country" name="invoicing_country" class="form-control" 
+						{{ form.invoicing_country }}
+						</select>
+						<div class="invalid-feedback">
+						{% blocktrans %}Seleccione un país{% endblocktrans %}
+						</div>
+						<style>
+						.select2-container {
+							min-width: 0em !important;
+						}
+						.select2-container .select2-selection--single {
+							height: 38px !important;
+						}
+						</style>	
+					</div>
+					<div class="col-12 col-sm-6 w-100">
+						<label for="id_invoicing_city">{% blocktrans %}City{% endblocktrans %}</label>
+						<select id="invoicing_city" name="invoicing_city" class="form-control" {{ form.invoicing_city }}
+						{{form.media}}
+						</select>
+						<style>
+						.select2-container {
+							min-width: 0em !important;
+						}
+						.select2-container .select2-selection--single {
+							height: 38px !important;
+						}
+						</style>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="postalCode">{% blocktrans %}Postal Code{% endblocktrans %}</label>
+						<input type="text" class="form-control" id="postalCode" required {{ form.invoicing_postal_code }}
+						<div class="invalid-feedback">
+						{% blocktrans %}Introduzca el código postal{% endblocktrans %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-md-6">
+			<div class="form-row d-flex align-items-end">
+				<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}INFORMACIÓN CORREO ELECTRÓNICO{% endblocktrans %}</p>
+				<div class="col-12">
+				<label for="titleSr">{% blocktrans %}Title{% endblocktrans %}</label>
+				<select class="form-control" id="titleSr" {{ form.invoicing_title }}
+				</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-sm-6 w-100">
+						<label for="firstName">{% blocktrans %}First Name{% endblocktrans %}</label>
+						<input type="text" class="form-control" id="firstName" required {{ form.invoicing_first_name }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca el nombre{% endblocktrans %}
+					</div>
+				</div>
+				<div class="col-12 col-sm-6 w-100">
+					<label for="lastName">{% blocktrans %}Last Name{% endblocktrans %}</label>
+					<input type="text" class="form-control" id="lastName" required {{ form.invoicing_last_name }}
+					<div class="invalid-feedback">
+						{% blocktrans %}Introduzca el apellido{% endblocktrans %}
+				</div>
+			</div>
+		</div>
+		<div class="form-row d-flex align-items-end">
+			<div class="col-12">
+				<label for="e-mail2">{% blocktrans %}E-mail{% endblocktrans %}</label>
+				<input type="email" class="form-control" id="e-mail2" required {{ form.invoicing_email }}
+				<div class="invalid-feedback">
+				{% blocktrans %}Introduzca un email válido{% endblocktrans %}
+			</div>
+		</div>
+    </div>
+	<div class="form-row d-flex align-items-end">
+		<div class="col-12">
+			<label for="vatNumber">{% blocktrans %}VAT Number{% endblocktrans %}</label>
+			<input type="text" class="form-control" id="vatNumber" required {{ form.invoicing_vat_number }}
+			<div class="invalid-feedback">
+			{% blocktrans %}Introduzca el número VAT{% endblocktrans %}
+		</div>
+	</div>
+</div>
+</div>
+<div class="col-12 d-flex justify-content-center pt-5">
+    <button type="submit" class="btn btn-primary datos-form-buttom">{% blocktrans %}GUARDAR{% endblocktrans%}</button>
+</div>
+</div>
+</div>
+</div>	
+</form>
+</div>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

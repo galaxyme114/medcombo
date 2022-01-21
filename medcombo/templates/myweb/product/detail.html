@@ -1,0 +1,243 @@
+{% extends "dashboard_client.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+
+<!-- EDITOR DE TEXT AREA-->
+<link rel="stylesheet" href="{% static 'minified/themes/default.min.css' %}" />
+<script src="{% static 'minified/sceditor.min.js' %}"></script>
+<script src="{% static 'minified/formats/xhtml.min.js' %}"></script>
+<!-- EDITOR FIN-->
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-9 background">
+	{% if mensaje %}
+	<div class="alert alert-danger">
+	<strong>{% blocktrans %}Error!{% endblocktrans %} </strong> {{ mensaje }}
+	</div>
+	{% endif %}
+	<center>
+
+	{% if form.errors %}
+		{% for field in form %}
+			{% for error in field.errors %}
+				<div class="alert alert-danger">
+					<strong>{{ error|escape }}</strong>
+				</div>
+			{% endfor %}
+		{% endfor %}
+		{% for error in form.non_field_errors %}
+			<div class="alert alert-danger">
+				<strong>{{ error|escape }}</strong>
+			</div>
+		{% endfor %}
+	{% endif %}
+	</center>	
+<form action="." method="POST" enctype='multipart/form-data'>
+	{% csrf_token %}
+	<input type="hidden" value="{{ user.company.id }}" name=company>
+	<div class="container">
+		<div class="row ventana-productos">
+			<div class="col-12">
+				<div class="row mb-5">
+					<div class="col-12">
+						<a href="{% url 'MywebProductCreate' %}"><button type="button" class="btn btn-primary crm-button-anadir">{% blocktrans %}Nuevo Producto{% endblocktrans %}</button></a>
+					</div>
+				</div>
+				<div class="row padding-row">
+					<div class="col-12 col-sm-6 col-md-3 img-new-product">
+						<label>FOTO</label>
+						<div class="custom-file">
+						    <input type="file" class="custom-file-input" name=picture disabled="true">
+						    <label class="custom-file-label" for="product-img">{% blocktrans %}Añadir imagen{% endblocktrans %}</label>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-3 img-new-product">
+                        {% if product.picture %}
+                            <div class="polig foto-img"><img src="{{ product.picture.url }}" width="100%" height="100%"></div>
+                        {% else %}
+                            <div class="polig foto-img"><img src="{% static 'img/default.png' %}" width="100%" height="100%"></div>
+                        {% endif %}
+					</div>
+					<div class="col-12 col-sm-6 col-md-3 img-new-product">
+						<label>Video</label>
+						<div class="custom-file">
+						    <input type="file" class="custom-file-input" id="product-video" disabled="true">
+						    <label class="custom-file-label" for="product-video">{% blocktrans %}Añadir video{% endblocktrans%}</label>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-3 img-new-product">
+						<div class="polig foto-img">
+								<video width='100%' controls controlsList="nodownload">
+									{% if product.video %}
+									<source id="product-video-reload" src='{{ product.video.url }}' type='video/mp4' >
+									{% else %}
+									<source id="product-video-reload" src='' type='video/mp4' >
+									{% endif %}
+									{% blocktrans %}Su navegador no soporta la etiqueta de vídeo.{% endblocktrans%}
+								</video>
+						</div>
+					</div>
+				</div>							
+			</div>						
+		</div>
+	</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 margin-h5">
+					<h5>{% blocktrans %}DESCRIPCION DEL PRODUCTO{% endblocktrans%}</h5>
+				</div>
+			</div>
+		</div>				
+		<div class="container">
+			<div class="row ventana-productos">
+				<div class="col-12">
+					<div class="row padding-row">
+						<div class="col-12">
+							<label for="id_model_reference">{% blocktrans %}Nombre{% endblocktrans%}</label>
+							<input type="text" class="col-12 col-md-6" placeholder="{{ product.name }}" disabled="true">
+						</div>
+						<div class="col-12 pt-4">
+							<label for="id_description_product">{% blocktrans %}Descripcion{% endblocktrans%}</label>
+							<textarea style="border-radius: 10px;height:300px;width:750px;" name="description" id="description" rows="5" class="w-100" disabled="true"> {{ product.description }}</textarea>
+						</div>
+					</div>							
+				</div>						
+			</div>
+		</div>
+		<div class="container pt-5">
+			<div class="row">
+				<div class="col-12 margin-h5">
+					<h5>{% blocktrans %}CARACTERISTICAS DEL PRODUCTO{% endblocktrans%}</h5>
+				</div>
+			</div>
+		</div>
+		<div class="container margin-final">
+			<div class="row ventana-productos">
+				<div class="col-12">
+					<div class="row">
+						<div class="col-12 col-md-4">
+							<h6>{% blocktrans %}Paso 1{% endblocktrans%}</h6>
+							<label for="area">{% blocktrans %}Area{% endblocktrans%}</label>
+							<input type="text" class="form-control" placeholder="{{ product.area }}" disabled="true">
+						        
+						</div>
+						<div class="col-12 col-md-4">
+							<h6>{% blocktrans %}Paso 2{% endblocktrans%}</h6>
+							<label for="category">{% blocktrans %}Categoria{% endblocktrans%}</label>
+							<input type="text" class="form-control" placeholder="{{ product.category }}" disabled="true">
+						      
+						</div>
+						<div class="col-12 col-md-4">
+							<h6>{% blocktrans %}Paso 3{% endblocktrans%}</h6>
+							<label for="sub_category">{% blocktrans %}Sub-categoria{% endblocktrans%}</label>
+							<input type="text" class="form-control" placeholder="{{ product.subcategory }}" disabled="true">
+						        
+						</div>
+					</div>
+					{{form.media}}
+<!-- 					<div class="row pt-5">
+						<div class="col-12">
+							<h6>Palabras Clave</h6>
+						</div>
+					</div>
+                    <div class="row">
+						<div class="col-12 col-md-8 ventana-palabras-claves">
+							<div class="row">
+								<div class="col-12 d-sm-flex justify-content-around">
+									<button class="btn btn-outline-primary">Aluminio</button>
+									<button class="btn btn-outline-primary">Playa</button>
+									<button class="btn btn-outline-primary">Motorizadas</button>
+								</div>
+							</div>
+							<div class="row py-sm-4">
+								<div class="col-12 d-sm-flex justify-content-between">
+									<button class="btn btn-primary btn-palabras-clave">Acero</button>
+									<button class="btn btn-outline-primary">Deportivos</button>
+									<button class="btn btn-outline-primary">Plegables</button>
+									<button class="btn btn-outline-primary">Metal</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 d-sm-flex justify-content-around">
+									<button class="btn btn-outline-primary">Electricas</button>
+									<button class="btn btn-outline-primary">Compacta</button>
+									<button class="btn btn-primary btn-palabras-clave">Pediatrica</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-3 ventana-palabras-claves ml-md-5">
+							<h6>Sugerencia de Palabra Clave</h6>
+							<input type="text" class="form-control w-100 request-tray">
+							<div class="col-12 d-flex justify-content-center paddin-buttom">
+								<input type="button" class="btn btn-primary productos-buttom notify-keyword" value="GUARDAR">
+							</div>
+							<p style="text-align: center;">Vamos a revisar su solicitud, nos pondremos en contacto lo antes posible</p>
+						</div>
+					</div> -->
+					
+					<div class="row padding-row">
+						<div class="col-12 d-flex justify-content-center paddin-buttom">
+							    {% if product.language.pk == 4 %}
+							    	<a href="{% url 'MywebProductUpdate' product.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans%}</button></a>
+							    {% endif %}
+							    {% if product.language.pk == 1 %}
+							    	<a href="{% url 'MywebProductUpdateChinoTradicional' product.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans%}</button></a>
+							    {% endif %}
+							    {% if product.language.pk == 2 %}
+							    	<a href="{% url 'MywebProductUpdateAleman' product.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans%}</button></a>
+							    {% endif %}
+							    {% if product.language.pk == 3 %}
+							    	<a href="{% url 'MywebProductUpdateIngles' product.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans%}</button></a>
+							    {% endif %}
+							    {% if product.language.pk == 5 %}
+							    	<a href="{% url 'MywebProductUpdateFrances' product.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans%}</button></a>
+							    {% endif %}
+							    {% if product.language.pk == 6 %}
+							    	<a href="{% url 'MywebProductUpdateItaliano' product.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans%}</button></a>
+							    {% endif %}
+							    {% if product.language.pk == 7 %}
+							    	<a href="{% url 'MywebProductUpdatePortugues' product.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans%}</button></a>
+							    {% endif %}
+							    {% if product.language.pk == 8 %}
+							    	<a href="{% url 'MywebProductUpdateChinoSimplificado' product.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans%}</button></a>
+							    {% endif %}
+							    {% if product.language.pk == 9 %}
+							    	<a href="{% url 'MywebProductUpdateJapones' product.id %}"><button type="button" class="btn btn-primary datos-form-buttom">{% blocktrans %}EDITAR{% endblocktrans%}</button></a>
+							    {% endif %}
+							    
+							    
+                                
+                            </div>
+					</div>							
+				</div>						
+			</div>
+		</div>
+	</form>			
+</div>
+<div class="col-lg-1 background"></div>
+<style type="text/css">
+	.select2-container--default .select2-selection--single {
+	
+		border-radius: 4px;
+	
+		height: 38px;
+	}
+	
+	.select2-container .select2-selection--single {
+		height: 38px;
+		border: 1px solid #ced4da;
+		border-radius: .25rem;    
+	}
+	.select2-container {
+		min-width: 100%;
+	}
+	
+	</style>
+	<script type="text/javascript">
+		var textarea = document.getElementById('description');
+        sceditor.create(textarea, {
+            format: 'xhtml',
+            style: 'minified/themes/content/default.min.css'
+        });
+	</script>
+{% endblock %}

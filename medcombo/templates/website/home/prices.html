@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block meta %}
+    Check out the prices at Medcombo where you can find medical equipment, pharmaceuticals, health care product etc. Visit now!
+{% endblock %}
+{% block title %}
+    Prices – Medcombo
+{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/home/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/app/home/price.css' %}">
+<div class="container-fluid" style="background-color: #595959;">
+    <div class="row">
+        <div class="container privacy-home-container">
+            <div class="row menu-logo justify-content-center mt-3 mb-2">
+            	<div class="card pl-4 pr-4 pt-2 pb-2" style="border-radius: 1.25rem;">
+            		<a href="/"><img class="img-logo" src="/static/img/logo.png" alt="MedCombo"></a>
+            	</div>
+            </div>
+            <div class="row menu-logo justify-content-center mt-3 mb-4">
+            	<h1 style="color: white;text-transform: uppercase;">{% blocktrans %}Lista de precios{% endblocktrans%}</h1>
+            </div>
+            <div class="row justify-content-center mb-5">
+            	<div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
+					<div class="card text-center card-pricing">
+						<div >
+							<h4 class="card-pricing__header" style="background-color: #c2c2c2">{% blocktrans %}Básico{% endblocktrans%}</h4><br>
+							<span style="color: #b6b4b5;">{% blocktrans %}Servicio incluido:{% endblocktrans%}</span>
+						</div>
+						<div class="justify-content-center">
+							<hr style="width: 70%; border-top: 2px solid rgba(182,180,181,.5);">
+						</div>
+						<div class="pl-4 pr-4">
+							<ul class="card-pricing__list" style="background-color: #f6f6f6">
+								<li class="pricing-li li-basic">{% blocktrans %}Stand en línea 12 meses.{% endblocktrans%}</li>
+								<li class="pricing-li li-basic">{% blocktrans %}3 productos exhibidos con palabras clave promocionadas. Prioridad para conseguir compradores. 12 meses{% endblocktrans%}</li>
+								<li class="pricing-li li-basic">{% blocktrans %}1 creación de banner personalizado para Myweb.{% endblocktrans%}</li>
+							</ul>
+						</div>
+						<div class="justify-content-center">
+							<hr style="width: 70%; border-top: 2px solid rgba(182,180,181,.5);">
+						</div>
+						<div>
+							<h5>1250 €</h5>
+						</div>
+						<div class="justify-content-center pb-3">
+							<a href="{% url 'ContactoPrice' 1 %}" class="btn btn-second pricing-btn pl-3 pr-3">{% blocktrans %}Empezar{% endblocktrans%}</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
+					<div class="card text-center card-pricing">
+						<div >
+							<h4 class="card-pricing__header" style="background-color: #7f9bcd">{% blocktrans %}ESTÁNDAR{% endblocktrans%}</h4><br>
+							<span style="color: #7f9bcd;">{% blocktrans %}Servicio incluido:{% endblocktrans%}</span>
+						</div>
+						<div class="justify-content-center">
+							<hr style="width: 70%; border-top: 2px solid rgba(127,155,205,.5);">
+						</div>
+						<div class="pl-4 pr-4">
+							<ul class="card-pricing__list" style="background-color: #ecf0f8">
+								<li class="pricing-li li-standar">{% blocktrans %}Stand en línea 12 meses.{% endblocktrans%}</li>
+								<li class="pricing-li li-standar">{% blocktrans %}3 productos exhibidos con palabras clave promocionadas. Prioridad para conseguir compradores. 12 meses{% endblocktrans%}</li>
+								<li class="pricing-li li-standar">{% blocktrans %}1 creación de banner personalizado para Myweb.{% endblocktrans%}</li>
+								<li class="pricing-li li-standar">{% blocktrans %}1 Banner publicitario en la página principal durante 6 meses{% endblocktrans%}</li>
+								<li class="pricing-li li-standar">{% blocktrans %}1 Logotipo promocionado y posición en el pie de página de la página principal (Índice). 12 meses{% endblocktrans%}</li>
+								<li class="pricing-li li-standar">{% blocktrans %}1 artículo sobre un producto o servicio{% endblocktrans%}</li>
+							</ul>
+						</div>
+						<div class="justify-content-center">
+							<hr style="width: 70%; border-top: 2px solid rgba(127,155,205,.5);">
+						</div>
+						<div>
+							<h5>1920 €</h5>
+						</div>
+						<div class="justify-content-center pb-3">
+							<a href="{% url 'ContactoPrice' 2 %}" class="btn btn-primary pricing-btn pl-3 pr-3">{% blocktrans %}Empezar{% endblocktrans%}</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+					<div class="card text-center card-pricing">
+						<div >
+							<h4 class="card-pricing__header" style="background-color: #df8771">{% blocktrans %}PRIMA{% endblocktrans%}</h4><br>
+							<span style="color: #df8771;">{% blocktrans %}Servicio incluido:{% endblocktrans%}</span>
+						</div>
+						<div class="justify-content-center">
+							<hr style="width: 70%; border-top: 2px solid rgba(223,135,113,.5);">
+						</div>
+						<div class="pl-4 pr-4">
+							<ul class="card-pricing__list" style="background-color: #faedea">
+								<li class="pricing-li li-premium">{% blocktrans %}Stand en línea 12 meses.{% endblocktrans%}</li>
+								<li class="pricing-li li-premium">{% blocktrans %}3 productos exhibidos con palabras clave promocionadas. Prioridad para conseguir compradores. 12 meses{% endblocktrans%}</li>
+								<li class="pricing-li li-premium">{% blocktrans %}1 creación de banner personalizado para Myweb.{% endblocktrans%}</li>
+								<li class="pricing-li li-premium">{% blocktrans %}1 Banner publicitario en la página principal durante 6 meses{% endblocktrans%}</li>
+								<li class="pricing-li li-premium">{% blocktrans %}1 Logotipo promocionado y posición en el pie de página de la página principal (Índice). 12 meses{% endblocktrans%}</li>
+								<li class="pricing-li li-premium">{% blocktrans %}1 artículo sobre un producto o servicio{% endblocktrans%}</li><li class="pricing-li li-premium">{% blocktrans %}2 Campañas de correo electrónico a clientes potenciales.{% endblocktrans%}</li>
+							</ul>
+						</div>
+						<div class="justify-content-center">
+							<hr style="width: 70%; border-top: 2px solid rgba(223,135,113,.5);">
+						</div>
+						<div>
+							<h5>3900 €</h5>
+						</div>
+						<div class="justify-content-center pb-3">
+							<a href="{% url 'ContactoPrice' 3 %}" class="btn btn-orange pricing-btn pl-3 pr-3">{% blocktrans %}Empezar{% endblocktrans%}</a>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

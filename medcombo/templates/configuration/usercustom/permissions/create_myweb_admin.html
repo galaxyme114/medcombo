@@ -1,0 +1,197 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="text-center-container">
+		{% if form.errors %}
+			{% for field in form %}
+				{% for error in field.errors %}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{% endfor %}
+			{% endfor %}
+			{% for error in form.non_field_errors %}
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>		
+	<!--div class="container">
+		<div class="row">
+			<div class="col-6 col-sm-3">
+				<h5>{% blocktrans %}Paso 1{% endblocktrans %}</h5>
+				<div id="paso1" class="polig paso1"></div> 
+			</div>
+			<div class="col-6 col-sm-3">
+				<h5>{% blocktrans %}Paso 2{% endblocktrans %}</h5>
+				<div  id="paso2" class="polig paso2"></div>
+			</div>
+			<div class="col-sm-6"></div>
+		</div>
+	</div-->
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h6>{% blocktrans %}Para poder tener acceso a my web, por favor rellene el siguiente formulario{% endblocktrans %}</h6>
+			</div> 
+		</div>
+	</div>
+	<div class="container mt-2">
+		<div class="row">
+			<div class="col-12">
+				<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}DATOS DE LA EMPRESA{% endblocktrans %}</p>
+				<form class="formulario needs-validation" class="datos-form" id="formulario" action="." method="POST" enctype='multipart/form-data' novalidate>
+					{% csrf_token %}
+					<div class="form-row panel-datos">
+						<div class="col-12 col-sm-6">
+							<label for="id_name_company">{% blocktrans %}Nombre de la Compañía{% endblocktrans %}</label>
+							<input type="text" class="form-control" id="id_name_company" name="name" required>
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca el nombre de la compañía{% endblocktrans %}
+							</div>
+							<label for="id_direction">{% blocktrans %}Dirección{% endblocktrans %}</label>
+							<input type="text" class="form-control" id="id_direction" name="address" required>
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca la dirección de la compañía{% endblocktrans %}
+							</div>
+							<div class="row">
+							    <div class="col-12 col-sm-6 w-100">
+									<label for="id_country">{% blocktrans %}País{% endblocktrans %}</label>
+									<select id="id_country" class="form-control" {{ form.country_company }}
+									</select>
+									<div class="invalid-feedback">
+										{% blocktrans %}Seleccione un país{% endblocktrans %}
+									</div>
+								</div>
+								<div class="col-12 col-sm-6">
+									<label for="id_city_company">{% blocktrans %}Ciudad{% endblocktrans %}</label>
+									{{form.city_company}}
+									{{form.media}}
+							    </div>
+							</div>										
+						</div>
+						<div class="col-12 col-sm-6">
+							<label for="id_cif">{% blocktrans %}CIF{% endblocktrans %}</label>
+							<input type="text" class="form-control" id="id_cif" name="cif" required>
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca el CIF{% endblocktrans %}
+							</div>		
+							<div class="form-row">
+								<div class="col-12 col-sm-6 w-100">
+									<label for="id_telephone">{% blocktrans %}Teléfono{% endblocktrans %}</label>
+									<input type="text" class="form-control" id="id_telephone" name="telephone" required>
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca un número de teléfono{% endblocktrans %}
+									</div>
+								</div>
+								<div class="col-12 col-sm-6">
+									<label for="id_code_postal">{% blocktrans %}Codigo Postal{% endblocktrans %}</label>
+									<input type="text" class="form-control" id="id_code_postal" name="code_postal" required>
+									<div class="invalid-feedback">
+										{% blocktrans %}Introduzca el código postal{% endblocktrans %}
+									</div>
+								</div>
+								<div class="col-12 col-sm-6 w-100">
+									<label for="type_company">{% blocktrans %}Tipo de Compañía{% endblocktrans %}</label>
+									<select id="type_company" name="type_company" class="form-control" required>
+										<option value="1">{% blocktrans %}Hospital{% endblocktrans %}</option>
+								        <option value="2">{% blocktrans %}Residencia de ancianos{% endblocktrans %}</option>
+								        <option value="3">{% blocktrans %}Centro de cuidados{% endblocktrans %}</option>
+								        <option value="4">{% blocktrans %}Centro de rehabilitacion{% endblocktrans %}</option>
+								        <option value="5">{% blocktrans %}Laboratorio{% endblocktrans %}</option>
+								        <option value="6">{% blocktrans %}Spa{% endblocktrans %}</option>
+								        <option value="7">{% blocktrans %}Gimnasio{% endblocktrans %}</option>
+								        <option value="8">{% blocktrans %}Fabricante de equipos medicos{% endblocktrans %}</option>
+							            <option value="9">{% blocktrans %}Distribuidor{% endblocktrans %}</option>
+							            <option value="10">{% blocktrans %}Empresa de mantenimiento o servicio{% endblocktrans %}</option>
+							            <option value="11">{% blocktrans %}ONG{% endblocktrans %}</option>
+							            <option value="12">{% blocktrans %}Universidad{% endblocktrans %}</option>
+							            <option value="13">{% blocktrans %}Otro{% endblocktrans %}</option>
+									</select>
+									<div class="invalid-feedback">
+										{% blocktrans %}Seleccione un tipo de compañía{% endblocktrans %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--div class="container panel-sector" style="display: none;">
+						<div class="row">
+							<div class="col-12">
+								<h5>{% blocktrans %}SECTOR{% endblocktrans %}</h5>
+								<div class="form-row">
+								    <div class="col-12 col-sm-6 w-100">
+										<label for="id_sector">{% blocktrans %}Sector{% endblocktrans %}</label>
+										<select id="id_country" class="form-control" {{form.sector}}
+										</select>
+									</div>
+								</div>
+								<div class="col-12 d-flex justify-content-center" style="padding-top: 2em;">
+									<input type="submit" class="btn btn-primary datos-form-buttom" value="{% blocktrans %}ENVIAR FORMULARIO{% endblocktrans %}">
+								</div>
+							</div>
+						</div>
+					</div-->		
+					<div class="col-12 d-flex justify-content-center" style="padding-top: 2em;">
+						<!--a href="" class="btn btn-primary datos-form-buttom paso-2">{% blocktrans %}PASO 2{% endblocktrans %}</a-->
+						<div class="col-12 d-flex justify-content-center" style="padding-top: 2em;">
+							<input type="submit" class="btn btn-primary datos-form-buttom" value="{% blocktrans %}ENVIAR FORMULARIO{% endblocktrans %}">
+						</div>
+						<div class="show-company" style="display: none;">{{request.user.company.id}}</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+    .select2-container--default .select2-selection--single {
+		border-radius: 4px;
+        height: 38px;
+    }
+    .select2-container .select2-selection--single {
+        height: 38px;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;    
+    }
+    .select2-container {
+        min-width: 100%;
+    }
+</style>			
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+<script type="text/javascript">
+    $(document).on('click', 'a.paso-2', function (e) {
+        e.preventDefault();
+        $("div.panel-datos").hide();
+        $("div.panel-sector").show();
+        $("a.paso-2").hide();
+        $("#paso2").removeClass("paso2").addClass("paso1");
+        $("#paso1").addClass("paso1").addClass("paso2");
+    });
+    $(document).on('click', '#paso1', function (e) {
+        $("div.panel-datos").show();
+        $("div.panel-sector").hide();
+        $("a.paso-2").show();
+        $("#paso1").removeClass("paso2").addClass("paso1");
+        $("#paso2").removeClass("paso1").addClass("paso2");
+    });
+    $(document).on('click', '#paso2', function (e) {
+        $("div.panel-datos").hide();
+        $("div.panel-sector").show();
+        $("a.paso-2").hide();
+        $("#paso1").removeClass("paso1").addClass("paso2");
+        $("#paso2").removeClass("paso2").addClass("paso1"); 
+    });
+</script>
+{% endblock %}

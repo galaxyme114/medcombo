@@ -1,0 +1,18 @@
+/*------------------------------------
+---------------tabs------------------
+------------------------------------*/
+#tabs-product div#nav-tab a.nav-link.active {
+	color: #7f9bcd !important;
+	background: #fff;
+	border-bottom: #fff;
+}
+#tabs-product div#nav-tab a.nav-link {
+    color: #fff;
+    background: #7f9bcd;
+    border: solid 1px transparent;
+    border-color: #b5b6b6;
+    /* border-radius: 8px 8px 0 0; */
+    text-transform: uppercase;
+    /* margin: 0 3px; */
+    font-size: 14px;
+}

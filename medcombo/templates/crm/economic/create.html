@@ -1,0 +1,361 @@
+{% extends "dashboard_admin.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% blocktrans %}Propuestas economicas{% endblocktrans %}</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+	<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/ckeditor/adapters/jquery.js' %}"></script>
+	<script type="text/javascript">            
+		// jquery document ready function
+		$(function(){                    
+			// 1. change the textarea into an editor
+			CKEDITOR.replace( 'comments',
+	        {
+	            toolbar :
+	            [
+	                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+	                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+	                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+	                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+	                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+	                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+	            ]
+	        });
+
+		});    
+	</script>
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+	<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+</head>
+<body>
+    <div class="col-12 col-lg-10 background">
+	    <div class="container-fluid">
+		    <div class="row">
+			    <div class="col-12">
+				    <h4 style="color: #7f9bcd; font-weight: 700;text-transform: uppercase;">{% blocktrans %}Propuestas economicas{% endblocktrans%}</h4>
+			    </div>
+		    </div>
+	    </div>
+		<div class="title-seperator row mb-4"></div>
+	    <div class="container-fluid mb-5 col-sm-12">
+		    <div class="row ventana-productos">
+			    <div class="col-12">
+				    <div class="row padding-row">
+					    <div class="col-12">
+						    <form class="needs-validation" action="." id="proposals" method="POST" target="_parent" enctype='multipart/form-data' novalidate>
+								{% csrf_token %}
+								<!--Error Message-->
+								<div class="text-center-container">
+									{% if form.errors %}
+										{% for field in form %}
+											{% for error in field.errors %}
+												<div class="alert alert-danger alert-dismissible fade show" role="alert">
+													<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+													<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+											{% endfor %}
+										{% endfor %}
+										{% for error in form.non_field_errors %}
+											<div class="alert alert-danger alert-dismissible fade show" role="alert">
+												<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+												<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+										{% endfor %}
+									{% endif %}
+								</div>
+							    <div class="row">
+									<div class="col-12 col-sm-6">
+										<div class="form-group">
+											<label>{% blocktrans %}Titulo{% endblocktrans %}</label>
+											<input type="text" id="name" name="title" class="form-control" placeholder="" {{form.title}}
+											<div class="invalid-feedback">
+												{% blocktrans %}Introduzca un título{% endblocktrans %}
+											</div>
+										</div>
+									</div>
+									<div class="col-12 col-sm-6">
+										<div class="form-group">
+											<label>{% blocktrans %}Comercial{% endblocktrans %}</label>
+											<input type="text" id="commercial" name="commercial" class="form-control" placeholder="" {{ form.commercial}}
+											<div class="invalid-feedback">
+												{% blocktrans %}Introduzca un asesor comercial{% endblocktrans %}
+											</div>
+										</div>
+									</div>  
+							    </div>
+								<div class="row py-4">
+									<div class="col-12 col-sm-5">
+										<label>{% blocktrans %}Usuario{% endblocktrans %}</label>
+										<select id="user" name='user' class="form-control" required="true">
+											<option value="">-------</option>
+											{% for user in users %}
+												<option value={{user.id}}>{{ user }}</option>
+											{% endfor %}
+										</select>
+										<div class="invalid-feedback">
+											{% blocktrans %}Seleccione un usuario{% endblocktrans %}
+										</div>
+									</div> 
+									<div class="col-12 col-sm-6"></div>
+							    </div>
+								<div class="row py-2" id="productdetail_0">
+									<div class="col-12 col-sm-5">
+										<label>{% blocktrans %}Productos{% endblocktrans %}</label>
+										<select id="product_0" name='product_0' class="form-control" required="true">
+											<option value="">-------</option>
+											{% for product in products %}
+												<option value={{product.id}}>{{ product }}</option>
+											{% endfor %}
+										</select>
+										<div class="invalid-feedback">
+											{% blocktrans %}Seleccione un producto{% endblocktrans %}
+										</div>
+									</div>
+									<div class="col-12 col-sm-3"></div>
+									<div class="col-12 col-sm-2">
+										<label>{% blocktrans %}Valor(€){% endblocktrans %}</label>
+										<input id="values_0" name="values_0" type="text" class="form-control" placeholder="" onchange="valor()" required="true"/>
+										<div class="invalid-feedback">
+											{% blocktrans %}Introduzca un valor{% endblocktrans %}
+										</div>
+									</div> 
+									<div class="col-12 col-sm-2">
+										<label>{% blocktrans %}Descuento{% endblocktrans %}(%)</label>
+										<input id="discount_0" name="discount_0" type="text" class="form-control" placeholder="" onchange="valor()" required="true"/>
+										<div class="invalid-feedback">
+											{% blocktrans %}Introduzca un descuento{% endblocktrans %}
+										</div>
+									</div>  
+							    </div>
+								<input type="hidden" name="total_len" id="total_len" value="1"/>
+								<input type="hidden" name="total_values" id="total_values" />
+								<div class="col-12 col-md-4">
+									<button type="button" class="btn btn-primary crm-button-anadir mx-3" id="btn_add_product"><i class="fa fa-plus" style="font-size:16px;"></i>   {% blocktrans %}AÑADIR PRODUCTOS{% endblocktrans %}</button>
+								</div>
+							    <script>
+									var k =0;
+									$("#btn_add_product").on('click', function (){
+										k++;
+										var div_temp = "#productdetail_" + 0;
+										$("#total_len").val(k+1);
+										 return $(
+											'<div class="row py-2" id="productdetail_'+k+ '">'+
+												'<div class="col-12 col-sm-5">'+
+													'<select id="product_'+k+ '" name="product_'+k+ '" class="form-control" required="true">'+
+														'<option value="">-------</option>'+
+														'{% for product in products %}'+
+															'<option value="{{product.id}}">{{product}}</option>'+
+														'{% endfor%}'+
+													'</select>'+
+														'<div class="invalid-feedback">'+
+															'{% blocktrans %}Seleccione un producto{% endblocktrans %}'+
+														'</div>'+
+													
+												'</div>'+
+												'<div class="col-12 col-sm-3"><button type="button" class="btn btn-primary crm-button-anadir ml-2" name="btn_del_product_'+k+'" id="btn_del_product_'+k+'" onclick="del('+k+')"><i class="pl-3 fas fa-trash-alt"></i> {% blocktrans %}ELIMINAR{% endblocktrans %}</button></div>'+
+												'<div class="col-12 col-sm-2">'+
+													'<input id="values_'+k+ '" name="values_'+k+ '" type="text" class="form-control" placeholder="" onchange="valor()" required="true"/>'+
+													'<div class="invalid-feedback">'+
+														'{% blocktrans %}Introduzca un valor{% endblocktrans %}'+
+													'</div>'+
+												'</div>'+
+												'<div class="col-12 col-sm-2">'+
+													'<input id="discount_'+k+ '" name="discount_'+k+ '" type="text" class="form-control" placeholder="" onchange="valor()" required="true"/>'+
+													'<div class="invalid-feedback">'+
+														'{% blocktrans %}Introduzca un descuento{% endblocktrans %}'+
+													'</div>'+
+												'</div>'+
+											'</div>'
+										).insertAfter(div_temp);
+									});
+									function valor() {	
+										var total_len = $("#total_len").val();
+										var total_temp = 0;
+										var total = 0;
+										var temp = "";
+										var temp_per = "";
+										for (var i=0; i<total_len; i++){
+											temp = "#values_" + i;
+											temp_per = "#discount_" + i;
+											jatemp = "values_" + i;
+											if(document.getElementById(jatemp)) {	
+												if($(temp).val() != "" && $(temp_per).val() != ""){
+													total_temp = parseFloat($(temp).val()*$(temp_per).val()/100);
+													total += $(temp).val() - total_temp;
+												}	
+											}
+										}
+										$("#total").val(total);
+										return total
+									}
+									var remove = [];
+									function del(k){
+										console.log(k);
+										var temp = "#productdetail_" +k;
+										$(temp).remove();
+										valor();
+										remove.push(k);
+										$("#total_values").val(remove);
+										console.log($("#total_values").val());								
+									}
+								</script>
+								<div class="row py-4">
+									<div class="col-12 col-md-9"></div>
+									<div class="col-12 col-md-3">
+										<label>{% blocktrans %}Total{% endblocktrans %}</label>
+										<input id="total" name ="total" type="text" class="form-control" placeholder="" required="true"/>
+										<div class="invalid-feedback">
+											{% blocktrans %}Introduzca un valor y descuento{% endblocktrans %}
+										</div>
+									</div>
+							    </div>
+								<div class="row py-4">
+									<div class="col-12 col-sm-6">
+										<label>{% blocktrans %}Fecha{% endblocktrans %}</label>
+										<div class="borderDate">
+											<span class="input-group-prepend">
+												<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+												{{ form.edit_date }}
+												<div class="invalid-feedback">
+													{% blocktrans %}Introduzca la fecha{% endblocktrans %}
+												</div>
+											</span>	
+										</div>
+									</div> 
+							    </div>
+								<div class="row py-2" id="opportunityadd_0">
+									<div class="col-12 col-sm-5" >
+										<label>{% blocktrans %}Oportunidad{% endblocktrans %}</label>
+										<select id="opportunity_0" name="opportunity_0" class="form-control" required="true">
+											<option value="">-------</option>
+											{% for opport in opportunity %}
+												<option value={{opport.id}}>{{ opport }}</option>
+											{% endfor %}
+										</select>
+										<div class="invalid-feedback">
+											{% blocktrans %}Seleccione una oportunidad{% endblocktrans %}
+										</div>
+									</div> 
+									<div class="col-12 col-sm-7"></div>
+							    </div>
+								<div class="col-12 col-md-4">
+									<button type="button" id="btn_add_opp" class="btn btn-primary crm-button-anadir mx-3"><i class="fa fa-plus" style="font-size:16px;"></i>   {% blocktrans %}Crear nueva Oportunidad{% endblocktrans %}</button>
+								</div>
+								<input type="hidden" name="total_len_opp" id="total_len_opp" value="1"/>
+								<input type="hidden" name="total_val_opp" id="total_val_opp" />
+								<script>
+									var i = 0;
+									$("#btn_add_opp").on('click', function (){
+										i++;
+										var div_temp = "#opportunityadd_" + 0;
+										$("#total_len_opp").val(i+1);
+										return $(
+												'<div class="row py-2" id="opportunityadd_'+i+'">'+
+													'<div class="col-12 col-sm-5">'+
+														'<select id="opportunity_'+i+'" name="opportunity_'+i+'" class="form-control" required="true">'+
+															'<option value="">-------</option>'+
+															'{% for opport in opportunity %}'+
+																'<option value="{{opport.id}}">{{opport}}</option>'+
+															'{% endfor%}'+
+														'</select>'+
+															'<div class="invalid-feedback">'+
+																'{% blocktrans %}Seleccione una oportunidad{% endblocktrans %}'+
+															'</div>'+
+														
+													'</div>'+
+													'<div class="col-12 col-sm-3"><button type="button" class="btn btn-primary crm-button-anadir ml-2" name="btn_dele_oppor_'+i+'" id="btn_dele_oppor_'+i+'" onclick="dele('+i+')"><i class="pl-3 fas fa-trash-alt"></i> {% blocktrans %}ELIMINAR{% endblocktrans %}</button></div>'+
+												'</div>'
+											).insertAfter(div_temp)
+									});
+									var remove_opp = [];
+									function dele(i){
+										console.log(i);
+										var tempers = "#opportunityadd_" +i;
+										$(tempers).remove();
+										remove_opp.push(i);
+										$("#total_val_opp").val(remove_opp);							
+									}
+								</script>
+								<div class="row py-2" id="payment_terms_0">
+									<div class="col-12 col-sm-5">
+										<label>{% blocktrans %}Plazos de pago{% endblocktrans %}</label>
+										<input id="payment_terms" name="payment_terms" type="text" class="form-control" placeholder="" required="true"/>
+										<div class="invalid-feedback">
+											{% blocktrans %}Introduzca un  plazo de pago{% endblocktrans %}
+										</div>
+									</div> 
+							    </div>
+								<div class="col-12 col-md-6">
+									<button type="button"  id="btn_add_pay" class="btn btn-primary crm-button-anadir mx-3"><i class="fa fa-plus" style="font-size:16px;"></i>   {% blocktrans %}Añadir Plazos de pago{% endblocktrans %}</button>
+								</div>
+								<script>
+									var i = 0;
+									$("#btn_add_pay").on('click', function (){
+										i++;
+										var div_temp = "#payment_terms_" + 0;
+										return $(
+											'<div class="row py-2" id="payment_terms_'+i+'">'+
+											'<div class="col-12 col-sm-5">'+
+												'<input id="payment_terms_'+i+'" name="payment_terms_'+i+'" type="text" class="form-control" placeholder="" required="true"/>'+
+												'<div class="invalid-feedback">'+
+													'{% blocktrans %}Introduzca un  plazo de pago{% endblocktrans %}'+
+												'</div>'+
+											'</div>'+
+											'<div class="col-12 col-sm-4"><button type="button" class="btn btn-primary crm-button-anadir ml-2" name="btn_dele_pay_'+i+'" id="btn_dele_pay_'+i+'" onclick="dele_pay('+i+')"><i class="pl-3 fas fa-trash-alt"></i> {% blocktrans %}ELIMINAR{% endblocktrans %}</button></div>'+
+											'</div>'
+										).insertAfter(div_temp)
+									});
+									var remove_pay = [];
+									function dele_pay(i){
+										console.log(i);
+										var tempers = "#payment_terms_" +i;
+										$(tempers).remove();
+										//remove_pay.push(i);
+										//$("#total_val_opp").val(remove_pay);
+									}
+								</script>
+							    <div class="row py-4">
+								    <div class="col-12">
+									    <label>{% blocktrans %}Comentarios{% endblocktrans%}</label>
+									    <textarea id="comments" type="text" name="comments" required="true"></textarea>
+								    </div>
+							    </div>
+								<!--div class="col-12 col-sm-4">
+									<label>{% blocktrans %}Validata{% endblocktrans %}</label>
+									<input id="validata" type="text" name="validata" class="form-control" placeholder=""   />
+								</div--> 
+								<div class="col-12 d-flex justify-content-center" style="padding-top:2%;">
+									<button id="submit" type="submit" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}GUARDAR{% endblocktrans %}</button>
+									<a href="{% url 'economic-proposal' %}" class="btn btn-primary crm-button-anadir mx-3">{% blocktrans %}CANCELAR{% endblocktrans %}</a>
+								</div>
+						    </form>
+					    </div>
+				    </div>						
+			    </div>					
+		    </div>
+	    </div>
+	</div>
+	<script src="{% static 'js/app/validations.js' %}"></script>
+</body>
+</html>
+{% endblock %}

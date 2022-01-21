@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../slide.html' %}
+<div class="container">
+	<div class="row py-5">
+		<div class="col-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8 p-4" id="detail-favorites-border">
+			<div class="row">
+				<div class="col-12 col-sm-6">
+					<button class="iconHeart"><i class="far fa-heart"></i></button>
+					<img class="img-fluid" src="{% static 'img/bandeja.png' %}" alt="">
+				</div>
+				<div class="col-12 col-sm-6">
+					<h5 style="color: #595959">{% blocktrans %}BANDEJAS DE MEDICACIÓN{% endblocktrans %}</h5>
+					<span class="d-flex justify-content-center p-3">
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="fas fa-star" aria-hidden="true"></i>
+						<i class="far fa-star" aria-hidden="true"></i>
+					</span>
+					<div class="detail-favorites-divider"></div>
+					<div class="d-flex justify-content-around pt-3">
+						<p>{% blocktrans %}Contacto{% endblocktrans%}</p>
+						<p>Laura Sanz</p>
+						<i class="fas fa-user-plus"></i>
+					</div>
+					<div class="d-flex flex-column align-items-center detail-favorites-button">
+						<button type="button" class="btn btn-primary mb-2"><i class="far fa-envelope pr-3"></i>{% blocktrans %}MANDAR MENSAJE{% endblocktrans%}</button>
+						<button type="button" class="btn btn-primary mb-3"><i class="far fa-comment-alt pr-3"></i>{% blocktrans %}¿TIENES DUDAS?{% endblocktrans%}</button>
+					</div>
+					<div class="detail-favorites-divider"></div>
+					<div class="d-flex justify-content-around align-items-end py-3">
+						<img src="{% static 'img/155.jpg' %}" alt="" style="height: 35px;">
+						<span>España</span>
+					</div>
+					<div class="detail-favorites-divider"></div>
+					<h6 class="py-3"><a href="#">{% blocktrans %}Valora este producto{% endblocktrans%}</a></h6>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<h5 style="color:#7f9bcd;">{% blocktrans %}CARACTERISTICAS{% endblocktrans%}</h5>
+					<div class="detail-favorites-divider mb-3"></div>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dictum eu erat non maximus. Mauris bibendum et mauris non vulputate. Etiam sed tempus sapien. Fusce sem tellus, rutrum ut odio sit amet, ullamcorper pharetra ipsum. Etiam dictum, felis in cursus fringilla, augue diam facilisis orci, a tempor orci diam id risus. Quisque ullamcorper risus ac libero consectetur porta. Aenean eget tortor nunc. Quisque nunc nisi, condimentum sed auctor ac, mollis sed massa. Ut tempus ex vitae vestibulum lobortis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed ultricies laoreet nisl, ut dignissim metus interdum in. Curabitur vitae tincidunt erat, non mollis nulla. Praesent maximus ipsum urna, dictum tincidunt risus vestibulum lacinia. In facilisis mauris id neque mollis rhoncus. Fusce mattis, elit a iaculis tempus, ante nibh tincidunt turpis, non dapibus augue neque ut purus. In vitae porttitor enim.</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-1 col-lg-2"></div>
+	</div>
+</div>		
+{% endblock %}

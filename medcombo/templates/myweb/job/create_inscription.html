@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include 'slide.html' %}
+<style>
+	#my-job-form span.select2.select2-container.select2-container--default {
+		width: 100% !important;
+	}
+	#my-job-form .select2-container .select2-selection--single {
+        height: 35px !important;
+    }
+</style>
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 offset-md-1 mt-5 mb-5">
+			<form id="my-job-form" class="datos-form needs-validation" action="." method="POST" enctype='multipart/form-data' novalidate>
+				{% csrf_token %}
+				<div class="col-12 text-center-container">
+					{% if form.errors %}
+						{% for field in form %}
+							{% for error in field.errors %}
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							{% endfor %}
+						{% endfor %}
+						{% for error in form.non_field_errors %}
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+				<div class="form-row">
+					<div class="form-group col-12 col-sm-9">
+						<input type="hidden" name="participant" value="{{user.id}}" />
+						<input type="hidden" name="offer" value="{{job}}" />
+						<label for="id_name">{% blocktrans %}Nombre{% endblocktrans %}</label>
+						<input class="form-control" type="text" id="id_name" value="{{user.first_name}} {{user.last_name}}" disabled />
+					</div>
+					<div class="form-group col-12 col-sm-3">
+						<label for="id_age">{% blocktrans %}Edad{% endblocktrans %}</label>
+						{{ form.age }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca una edad válida{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-12 col-sm-6">
+						<label for="id_email">{% blocktrans %}Email{% endblocktrans %}</label>
+						<input class="form-control" type="text" id="id_email" value="{{user.email}}" disabled />
+					</div>
+					<div class="form-group col-12 col-sm-6">
+						<label for="id_phone">{% blocktrans %}Teléfono{% endblocktrans %}</label>
+						{{ form.phone }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca un número de teléfono{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-12 col-sm-6">
+						<label for="id_country">{% blocktrans %}País{% endblocktrans %}</label>
+						{{ form.country }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Seleccione un país{% endblocktrans %}
+						</div>
+					</div>
+					<div class="form-group col-12 col-sm-6">
+						<div>
+							<label for="id_city">{% blocktrans %}Provincia{% endblocktrans %}</label>
+						</div>
+						<div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+							{{ form.city }} {{form.media}}
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-12">
+						<label for="id_experience">{% blocktrans %}Experiencia{% endblocktrans %}</label>
+						{{ form.experience }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca su experiencia{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-12 col-sm-12">
+						<label for="id_formation">{% blocktrans %}Formación{% endblocktrans %}</label>
+						{{ form.education }}
+						<div class="invalid-feedback">
+							{% blocktrans %}Introduzca su formación{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-12 col-sm-6">
+						<label for="id_languages">{% blocktrans %}Idiomas{% endblocktrans %}</label>
+						{{ form.languages }}
+					</div>
+					<div class="form-group col-12 col-sm-6">
+						<label for="id_computers">{% blocktrans %}Conocimientos informáticos{% endblocktrans %}</label>
+						{{ form.computer }}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-12">
+						<label for="id_another">{% blocktrans %}Otros datos de interés{% endblocktrans %}</label>
+						{{ form.another }}
+					</div>
+				</div>
+				<!------------------- curriculum ------------------------------------>
+				<div class="row">
+					<div class="col-12 col-sm-6 col-md-4 img-new-product">
+						<label>{% blocktrans %}PDF{% endblocktrans%}</label>
+						<div class="custom-file">
+							<label id="pdf-file-input" class="custom-file-label" for="file"><!-- añadir aqui la etiquta de django con el nombre del archivo ya existente  -->{% blocktrans %}Añadir PDF{% endblocktrans %}</label>
+							{{form.file}}
+							<input type='file' class='custom-file-input' id='customFileEs' name='pdf' />
+						</div>
+					</div>
+				</div>
+				<!-------------------- fin curriculum ----------------------------- -->
+				<div class="col-12 d-flex justify-content-center" style="padding-top: 2em;">
+					{% if check %}
+						<input class="btn btn-primary datos-form-buttom mr-3" value="{% blocktrans %}Inscrito{% endblocktrans %}" disabled>
+					{% else %}
+						<input type="submit" class="btn btn-primary datos-form-buttom mr-3" value="{% blocktrans %}Inscribirme{% endblocktrans %}">
+					{% endif %}
+					<a href="{% url 'list-front-offers' %}" class="btn btn-primary datos-form-buttom">{% blocktrans %}Cancelar{% endblocktrans %}</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script src="{% static 'js/app/home/home.js' %}"></script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+<script type="text/javascript">
+		 function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#product-img-reload')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+                //PDF
+				$('#customFileEs').on('change', function(event) {
+					var inputFile = event.currentTarget;
+						if(inputFile.files[0].name.length <= 20) {
+						$(inputFile).parent()
+						.find('#pdf-file-input')
+						.html(inputFile.files[0].name.substring(0,20));
+					}
+					else {
+						$(inputFile).parent()
+						.find('#pdf-file-input')
+						.html(inputFile.files[0].name.substring(0,20)+'...');
+					}
+				});
+				$('#customFileEsModi').on('change', function(event) {
+					var inputFile = event.currentTarget;
+						if(inputFile.files[0].name.length <= 20) {
+						$(inputFile).parent()
+						.find('#pdf-file-inputModi')
+						.html(inputFile.files[0].name.substring(0,20));
+					}
+					else {
+						$(inputFile).parent()
+						.find('#pdf-file-inputModi')
+						.html(inputFile.files[0].name.substring(0,20)+'...');
+					}
+				});
+				//Picture
+				$('#imagen').on('change', function(event) {
+					var inputFile = event.currentTarget;
+						if(inputFile.files[0].name.length <= 20) {
+						$(inputFile).parent()
+						.find('#image-file')
+						.html(inputFile.files[0].name.substring(0,20));
+					}
+					else {
+						$(inputFile).parent()
+						.find('#image-file')
+						.html(inputFile.files[0].name.substring(0,20)+'...');
+					}
+				});
+				$('#formulario input').on('change', function() {
+					$("#language").val($('input[name=inlineRadioOptions]:checked', '#formulario').val());
+				});
+
+</script>
+{% endblock %}

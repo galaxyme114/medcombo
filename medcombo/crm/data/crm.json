@@ -1,0 +1,1 @@
+[{"model": "crm.crm", "pk": 1, "fields": {"name": "Nueva oportunidad", "partner": 1, "user": 1, "stage_id": 1, "note_internal": "Oportunidad ganada", "position": 1, "probability": 10, "due_date": "2019-03-20T00:00:00Z", "adjunct": ""}}]

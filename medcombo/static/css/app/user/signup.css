@@ -1,0 +1,12 @@
+/*------------------------------
+---------- signup.css -----------
+------------------------------*/
+
+.was-validated .form-check-input:valid ~ .form-check-label {
+    color:#595959;
+}
+
+#id_captcha_1{
+    display: inline-block;
+    width: 34% !important;
+}

@@ -1,0 +1,91 @@
+{% load staticfiles %}
+{% load i18n %}
+{% if request.user.is_authenticated %}
+    <a href="{% url 'dashboard_client' %}" class="btn btn-success btnHelp"><img src="{% static 'img/icon-menu/home.png' %}" alt="">{% blocktrans %}Regresar{% endblocktrans%}</a>
+{% endif %}
+<div class="container-fluid menu-myweb position-relative">
+    <div class="row d-md-flex">
+        <div class="col-md-1 col-xl-2 d-flex align-items-center justify-content-center">
+            <div class="logoCompany">
+                {% if company.logo %}
+                    <a href="{% url 'my_web_home' company.id %}">
+                        <img class="img-fluid" src="{{ company.logo.url }}">
+                    </a>
+                    <p class="text-center">
+                        <a href="{% url 'my_web_home' company.id %}">{{ company.name }}</a>
+                    </p>
+                {% else %}
+                    {% if product.company.logo %}
+                        <a href="{% url 'my_web_home' product.company.id %}">
+                            <img class="img-fluid" src="{{ product.company.logo.url }}">
+                        </a>
+                        <p class="text-center">
+                            <a href="{% url 'my_web_home' product.company.id %}">{{product.company.name}}</a>
+                        </p>
+                    {% else %}
+                        {% if post.company.logo %}
+                            <a href="{% url 'my_web_home' post.company.id %}">
+                                <img class="img-fluid" src="{{ post.company.logo.url }}">
+                            </a>
+                            <p class="text-center">
+                                <a href="{% url 'my_web_home' post.company.id %}">{{post.company.name}}</a>
+                            </p>
+                        {% else %}
+                            {% if company %}
+                                <a href="{% url 'my_web_home' company.id %}">
+                                    <img class="img-fluid" src="{% static 'img/company.png' %}">
+                                </a>
+                                <p class="text-center">
+                                    <a href="{% url 'my_web_home' company.id %}">{{ company.name }}</a>
+                                </p>
+                            {% else %}
+                                {% if product %}
+                                    <a href="{% url 'my_web_home' product.company.id %}">
+                                        <img class="img-fluid" src="{% static 'img/company.png' %}">
+                                    </a>
+                                    <p class="text-center">
+                                        <a href="{% url 'my_web_home' product.company.id %}">{{ product.company.name }}</a>
+                                    </p>
+                                {% else %}
+                                    {% if post %}
+                                        <a href="{% url 'my_web_home' post.company.id %}">
+                                            <img class="img-fluid" src="{% static 'img/company.png' %}">
+                                        </a>
+                                        <p class="text-center">
+                                            <a href="{% url 'my_web_home' post.company.id %}">{{ post.company.name }}</a>
+                                        </p>
+                                    {% else %}
+                                        <a href="{% url 'my_web_home' company.id %}">
+                                            <img class="img-fluid" src="{% static 'img/company.png' %}">
+                                        </a>
+                                        <p class="text-center"></p>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+          </div>
+        </div>
+        <div class="col-12 col-md-10 col-xl-8">
+            <ul class="nav justify-content-center menu-font">
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_home' in request.path %}active{% endif %}" href="{% url 'my_web_home' id_myweb %}">{% blocktrans %}home{% endblocktrans%}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_product' in request.path %}active{% endif %}" href="{% url 'MyWebProductList' id_myweb %}">{% blocktrans %}producto{% endblocktrans%}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_catalogue' in request.path %}active{% endif %}" href="{% url 'MyWebCatalogueList' id_myweb %}">{% blocktrans %}catálogos{% endblocktrans%}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_news' in request.path or 'my_web_post_menu' in request.path %}active{% endif %}" href="{% url 'MyWebNewsList' id_myweb %}">{% blocktrans %}noticias{% endblocktrans%}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'my_web_contact' in request.path %}active{% endif %}" href="{% url 'my_web_contact' id_myweb %}">{% blocktrans %}contacto{% endblocktrans%}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-1 col-xl-2"></div>
+    </div>
+</div>

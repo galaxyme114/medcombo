@@ -1,0 +1,100 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<div class="col-12 col-lg-10 background">
+    <div class="row">
+        <div class="col-12">
+            <p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}CREAR USUARIO{% endblocktrans%}</p>
+        </div>
+    </div>
+    <div class="row m-0 list-fondo mb-5">
+        <div class="col-12 p-4">
+            <form class="needs-validation" action="." method="POST" novalidate>
+                {% csrf_token %}
+                <!--Error Message-->
+                <div class="text-center-container">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">{% blocktrans %}Nombre{% endblocktrans%}</label>
+                            <input type="text" class="form-control" id="exampleInputText1" required {{ form.first_name }}
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Introduzca el nombre{% endblocktrans %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">{% blocktrans %}Apellido{% endblocktrans%}</label>
+                            <input type="text" class="form-control" id="exampleInputText2" required {{ form.last_name }}
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Introduzca el apellido{% endblocktrans %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">{% blocktrans %}Contraseña{% endblocktrans%}</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" name="password1" required>
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Introduzca la contraseña{% endblocktrans %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">{% blocktrans %}Confirmar contraseña{% endblocktrans%}</label>
+                            <input type="password" class="form-control" id="exampleInputPassword2" name="password2" required>
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Introduzca nuevamente la contraseña{% endblocktrans %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="form-group">
+                            <label for="work">{% blocktrans %}Ocupación{% endblocktrans%}</label>
+                            <select id="inputState" class="form-control" required {{ formulario.work }}
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Seleccione la ocupación{% endblocktrans %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">{% blocktrans %}País{% endblocktrans%}</label>
+                            <select id="id_country" class="form-control" required {{ form.country }}
+                            <div class="invalid-feedback">
+                                {% blocktrans %}Seleccione el país{% endblocktrans %}
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <button id="button_send" type="submit" class="btn btn-primary formulario-buttom">{% blocktrans %}CONFIRMAR{% endblocktrans%}</button>
+                        <a href="{% url 'admin_user_sales' %}" class="btn btn-primary formulario-buttom ml-3">{% blocktrans %}CANCELAR{% endblocktrans%}</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load staticfiles %}
+<div class="row justify-content-center">
+    {% if my_msg_news %}
+    <span class="badge badge-count" style="background-color:#f00;">{{ my_msg_news }}</span>  
+    {% else %}
+    <span class="badge badge-count" style="background-color:#f00;">0</span>
+    {% endif %}
+</div>

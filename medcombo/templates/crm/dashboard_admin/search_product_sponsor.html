@@ -1,0 +1,14 @@
+{% load staticfiles %}
+{% for products in product %}
+<tr class="d-flex align-items-center form-check">
+    <td class="col-6">{{products.name}}</td>
+    {% if products.picture %}
+        <td class="col-4"><img src="{{products.picture.url}}" height="120" width="100%" alt="" /></td>
+    {% else %}
+        <td><img src="{% static 'img/default.png' %}" height="120" width="100%" alt="" /></td>
+    {% endif %}
+    <td class="col-2 text-center">
+        <input class="form-check-input" type="radio" name="product" id="id_product" value="{{products.id}}">
+    </td>
+</tr>
+{% endfor %}

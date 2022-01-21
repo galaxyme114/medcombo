@@ -1,0 +1,655 @@
+{% extends "dashboard_client.html" %}
+{% block content %}
+{% load i18n %}
+{% load staticfiles %}
+<!-- EDITOR DE TEXT AREA-->
+<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ckeditor/adapters/jquery.js' %}"></script>
+<script type="text/javascript">            
+	// jquery document ready function
+	$(function(){                    
+		CKEDITOR.replace( 'description',
+        {
+            toolbar :
+            [
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+            ]
+        });                
+	});    
+</script>
+<!-- EDITOR FIN-->
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<link rel="stylesheet" href="{% static 'css/app/select_validations.css' %}">
+<div class="col-12 col-lg-9 background">
+	<div class="text-center-container">
+		{% if form.errors %}
+			{% for field in form %}
+				{% for error in field.errors %}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{% endfor %}
+			{% endfor %}
+			{% for error in form.non_field_errors %}
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+    <form class="needs-validation" action="." method="POST" enctype='multipart/form-data' id="formulario" novalidate>
+	    {% csrf_token %}
+        <!------------- multiidioma   -------------->
+		<div class="languageCheckRadio pt-3  ml-4" >
+			<!--Select-->
+			<div class="col-lg-3 col-md-6 col-sm-12 d-flex">
+				<span id='select_flag'></span>
+				<select class="form-control form-control-sm" id="languages_select">
+					{% for language in language_filter %}
+						<option style="min-width: 1em;" value="{{ language.value_language}}" {% if language.value_language == "es" %} selected {% else %}{% endif %} >
+							{% if language.value_language == "es" %}
+								Español ({{ language.value_language }}) 
+							{% elif language.value_language == "fr" %}
+								Français ({{ language.value_language }})
+							{% elif language.value_language == "it" %} 
+								Italiano ({{ language.value_language }})
+							{% elif language.value_language == "ja" %} 
+								日本語 (jp)
+							{% elif language.value_language == "pt" %} 
+								Português ({{ language.value_language }})
+							{% elif language.value_language == "zh-hans" %}
+								简体中文 ({{ language.value_language }})
+							{% elif language.value_language == "zh-hant" %} 
+								繁體中文 ({{ language.value_language }})
+							{% elif language.value_language == "en" %} 
+								English ({{ language.value_language }})
+							{% else %} 
+								{% if language.value_language == "de" %}
+									Deutsch ({{ language.value_language }})
+								{% endif %}
+							{% endif %}
+						</option>
+					{% endfor %}
+				</select>
+				<script>
+					$('#languages_select').change(function(){
+						var language = $('#languages_select').val();
+						if(language == 'en') {
+							if($('#languages_select').hasClass('ml-2') == false) {
+								$('#languages_select').addClass('ml-2');
+							}
+							$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+						}
+						else if(language == 'ja') {
+							if($('#languages_select').hasClass('ml-2') == false) {
+								$('#languages_select').addClass('ml-2');
+							}
+							$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+						}
+						else if(language == 'zh-hans' || language == 'zh-hant') {
+							if($('#languages_select').hasClass('ml-2') == false) {
+								$('#languages_select').addClass('ml-2');
+							}
+							$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+						}
+						else {
+							if($('#languages_select').hasClass('ml-2') == false) {
+								$('#languages_select').addClass('ml-2');
+							}
+							$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+						}
+						$.each($('#container_list #lang'),function(){
+							if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+								$(this).hide();
+							}
+							else {
+								$(this).show();
+							}
+							if(language == 'all'){
+								$(this).show();
+							}
+						});
+					});
+					$(function(){
+						$('#languages_select').ready(function(){
+							var language = $('#languages_select').val();
+							if(language == 'en') {
+								if($('#languages_select').hasClass('ml-2') == false) {
+									$('#languages_select').addClass('ml-2');
+								}
+								$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+							}
+							else if(language == 'ja') {
+								if($('#languages_select').hasClass('ml-2') == false) {
+									$('#languages_select').addClass('ml-2');
+								}
+								$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+							}
+							else if(language == 'zh-hans' || language == 'zh-hant') {
+								if($('#languages_select').hasClass('ml-2') == false) {
+									$('#languages_select').addClass('ml-2');
+								}
+								$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+							}
+							else {
+								if($('#languages_select').hasClass('ml-2') == false) {
+									$('#languages_select').addClass('ml-2');
+								}
+								$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+							}
+							$.each($('#container_list #lang'),function(){
+								if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+									$(this).hide();
+								}
+								else {
+									$(this).show();
+								}
+								if(language == 'all'){
+									$(this).show();
+								}
+							});
+						});
+					});
+				</script>
+			</div>
+			<!--./ Select-->
+		</div>
+        <!----------- IMAGENES del producto -------------------->
+		<div class="container-fluid mt-4">
+			<div class="row">
+				<div class="col-12">
+					<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}IMAGENES DEL PRODUCTO{% endblocktrans%}</p>
+				</div>
+			</div>
+		</div>				
+		<div class="container-fluid">
+			<div class="row ventana-productos">
+				<div class="col-12">
+					<div class="row padding-row">
+						<!----------------- FOTO 1----------------------------------- -->
+						<div class="col-12 col-sm-6 col-md-3 img-new-product">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="product-img1" name=picture onchange="readURL1(this);">
+								<label class="custom-file-label" for="product-img1" id="img1">{% blocktrans %}Añadir imagen{% endblocktrans%}</label>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-md-3">
+							<label>{% blocktrans %}FOTO 1{% endblocktrans %}</label>
+							<div class="polig foto-img div-product1">
+								{% if product.picture %}
+								    <img id="product-img-reload1" src="{{ product.picture.url }}" alt="">
+								{% else %}
+								    <img id="product-img-reload1" src="{% static 'img/default.png' %}" alt="" />	
+								{% endif %}
+								<div class="featured-header">
+									<span class="category bgcolor2">{% blocktrans %}Main{% endblocktrans %}</span>
+								</div>
+							</div>
+							<i class="fas fa-trash-alt my_cursor my_hover" onclick="clean(this);"></i>
+						</div>
+						<!----------------- FOTO 2 ------------------------------------- -->
+						<div class="col-12 col-sm-6 col-md-3 img-new-product">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="product-img2" name=picture2 onchange="readURL2(this);">
+								<label class="custom-file-label" for="product-img2" id="img2">{% blocktrans %}Añadir imagen{% endblocktrans%}</label>
+							</div>
+							
+						</div>
+						<div class="col-12 col-sm-6 col-md-3">
+							<label>{% blocktrans %}FOTO 2{% endblocktrans %}</label>
+							<div class="polig foto-img div-product2">
+								{% if product.picture2 %}
+								    <img id="product-img-reload2" src="{{ product.picture2.url }}" alt="">
+								{% else %}
+								    <img id="product-img-reload2" src="{% static 'img/default.png' %}" alt="" />	
+								{% endif %}
+							</div>
+							<i class="fas fa-trash-alt my_cursor my_hover" onclick="clean2(this);"></i>
+						</div>
+						<!----------------- FOTO 3 ------------------------------------- -->
+						<div class="col-12 col-sm-6 col-md-3 img-new-product">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="product-img3" name=picture3 onchange="readURL3(this);">
+								<label class="custom-file-label" for="product-img3" id="img3">{% blocktrans %}Añadir imagen{% endblocktrans%}</label>
+							</div>
+							
+						</div>
+						<div class="col-12 col-sm-6 col-md-3">
+							<label>{% blocktrans %}FOTO 3{% endblocktrans %}</label>
+							<div class="polig foto-img div-product3">
+								{% if product.picture3 %}
+								    <img id="product-img-reload3" src="{{ product.picture3.url }}" alt="">
+								{% else %}
+								    <img id="product-img-reload3" src="{% static 'img/default.png' %}" alt="" />	
+								{% endif %}
+							</div>
+							<i class="fas fa-trash-alt my_cursor my_hover" onclick="clean3(this);"></i>
+						</div>
+						<!----------------- FOTO 4 ------------------------------------- -->
+						<div class="col-12 col-sm-6 col-md-3 img-new-product">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="product-img4" name=picture4 onchange="readURL4(this);">
+								<label class="custom-file-label" for="product-img4" id="img4">{% blocktrans %}Añadir imagen{% endblocktrans%}</label>
+							</div>
+							
+						</div>
+						<div class="col-12 col-sm-6 col-md-3">
+							<label>{% blocktrans %}FOTO 4{% endblocktrans %}</label>
+							<div class="polig foto-img div-product4">
+								{% if product.picture4 %}
+								    <img id="product-img-reload4" src="{{ product.picture4.url }}" alt="">
+								{% else %}
+								    <img id="product-img-reload4" src="{% static 'img/default.png' %}" alt="" />	
+								{% endif %}
+							</div>
+							<i class="fas fa-trash-alt my_cursor my_hover" onclick="clean4(this);"></i>
+						</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+        <!------------ fin fotos ---------------------------->
+        <!------------ categorias ------------------------------- -->
+		<div class="container-fluid mt-4">
+			<div class="row">
+				<div class="col-12">
+					<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}CARACTERÍSTICAS DEL PRODUCTO{% endblocktrans%}</p>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row ventana-productos">
+				<div class="col-12">
+					<div class="row">
+						<div class="col-12 col-md-4">
+							<h6>{% blocktrans %}Paso 1{% endblocktrans%}</h6>
+							<label for="area">{% blocktrans%}Area{% endblocktrans%}</label>
+							<select class="uno" {{ form.area }}
+							</select>
+							<div class="invalid-feedback">
+								{% blocktrans %}Seleccione un área{% endblocktrans %}
+							</div>
+						</div>
+						<div class="col-12 col-md-4">
+							<h6>{% blocktrans %}Paso 2{% endblocktrans%}</h6>
+							<label for="category">{% blocktrans %}Categoria{% endblocktrans%}</label>
+							<select class="dos" {{ form.category }}
+							</select>   
+						</div>
+						<div class="col-12 col-md-4">
+							<h6>{% blocktrans %}Paso 3{% endblocktrans%}</h6>
+							<label  for="sub_category">{% blocktrans %}Sub-categoria{% endblocktrans%}</label>
+							<select class="tres" {{ form.subcategory }}
+						    </select>
+						</div>
+					</div>
+					{{form.media}}
+				</div>
+			</div>
+		</div>
+        <!------------ descripcion -------------------------->
+		<div class="container-fluid mt-4">
+			<div class="row">
+				<div class="col-12">
+					<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}DESCRIPCIÓN DEL PRODUCTO{% endblocktrans%}</p>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row ventana-productos">
+				<div class="col-12">
+					<div class="row padding-row">
+						<div class="col-12 row">
+							<div class="col-12 col-md-6">
+								<label for="id_model_reference">{% blocktrans %}Nombre{% endblocktrans%}</label>
+								<input type="text" class="col-12 col-md-12" required {{ form.name }}
+								<div class="invalid-feedback">
+									{% blocktrans %}Introduzca un nombre{% endblocktrans %}
+								</div>
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="id_model_reference">{% blocktrans %}Minimum order{% endblocktrans%}</label>
+								<input type="text" class="col-12 col-md-12" required {{ form.order }}
+								<div class="invalid-feedback">
+									{% blocktrans %}Introduzca un order{% endblocktrans %}
+								</div>
+							</div>
+						</div>
+						<div class="col-12 pt-3">
+							<label for="id_description_product">{% blocktrans %}Descripcion{% endblocktrans %}</label>
+							<textarea name="description" id="description" {{ form.description }}
+							<div class="invalid-feedback">
+								{% blocktrans %}Introduzca un descripción{% endblocktrans %}
+							</div>
+						</div>
+					</div>							
+				</div>						
+			</div>
+		</div>
+		<!------- videos ----->
+		<div class="container-fluid mt-4">
+			<div class="row">
+				<div class="col-12">
+					<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}VIDEO DEL PRODUCTO{% endblocktrans%}</p>
+				</div>
+			</div>
+		</div>
+	    <div class="container-fluid">
+		    <div class="row ventana-productos">
+			    <div class="col-12">
+                    <!----------- VIDEO del producto ---------------------->   
+ 	                <input value="{{product.area.pk}}" name="area_old" type="hidden">
+ 	                <input value="{{product.category.pk}}" name="category_old" type="hidden"> 
+ 	                <input value="{{product.subcategory.pk}}" name="subcategory_old" type="hidden">              
+	                <input type="hidden" value="{{ user.company.id }}" name=company> 
+	                <input value="4" name="language" type="hidden" id="language">
+				    <div class="row padding-row">
+                        <br />
+					    <div class="col-12 col-sm-6 col-md-3">
+						    <label>{% blocktrans %}Video{% endblocktrans%}</label>
+						    <div class="custom-file">
+						        <input type="file" class="custom-file-input" id="video" name=video accept="video/*">
+						        <label class="custom-file-label" for="product-video">{% blocktrans %}Añadir video{% endblocktrans%}</label>
+						    </div>
+					    </div>
+					    <div class="col-12 col-sm-6 col-md-3">
+						    <div class="polig foto-img">
+							    <video width='100%' controls controlsList="nodownload">
+									{% if product.video %}
+									    <source id="product-video-reload" src='{{ product.video.url }}' type='video/mp4' >
+									{% else %}
+									    <source id="product-video-reload" src='' type='video/mp4' >
+									{% endif %}
+									{% blocktrans %}Su navegador no soporta la etiqueta de vídeo.{% endblocktrans%}
+							    </video>
+						    </div>
+					    </div>
+				    </div>							
+			    </div>
+		    </div>
+			<div class="row padding-row justify-content-center">
+				<div class="col-12 d-sm-flex justify-content-center paddin-buttom1">
+					<input type="submit" class="btn btn-primary datos-form-buttom col-12 col-sm-2" value="{% blocktrans %}GUARDAR{% endblocktrans %}"> &nbsp; &nbsp; &nbsp;
+					<!------------- boton ver palabra---- -->
+					<button type="button" class="btn btn-primary btn-crm-produt col-12 col-sm-2" id="click_key"> {% blocktrans %} PALABRAS CLAVE{% endblocktrans %}</button>
+					<!---- fin boton key- -->&nbsp; &nbsp; &nbsp;
+					<a class="btn btn-primary datos-form-buttom col-12 col-sm-2" href="{% url 'MyWebProductAdminList' %}">{% blocktrans %}CANCELAR{% endblocktrans %}</a>	
+				</div>
+			</div>	
+	    </div>
+        <input type="hidden" name="foto_existente1" id="foto_existente1">
+        <input type="hidden" name="foto_existente2" id="foto_existente2">
+        <input type="hidden" name="foto_existente3" id="foto_existente3">
+        <input type="hidden" name="foto_existente4" id="foto_existente4">
+	</form>
+	<!------------------------------------------- palabras claves ---------------------->		
+	<div class="row">
+		<div class="col-12 justify-content-center" id="url_id_product" data-contact-url="{% url 'AjaxUpdateKeywordsProductMyweb' %}">
+			<div id="products-keywords"></div>
+		</div>
+	</div>
+	<!---------------------------------------- fin keywords ----------------------------->	
+</div>
+<div class="col-lg-1 background"></div>
+<style type="text/css">
+	.select2-container--default .select2-selection--single {
+		border-radius: 4px;
+		height: 38px;
+	}
+	.select2-container .select2-selection--single {
+		height: 38px;
+		border: 1px solid #ced4da;
+		border-radius: .25rem;    
+	}
+	.select2-container {
+		min-width: 100%;
+	}
+</style>
+<!----- cargar keywords lista--------------------------------------------------------- -->
+<script>
+	function myfunction(){
+		/*Anything Here - don't erase this function */
+	}
+    $('#id_area').change(function(){
+		$('#id_category').empty();
+		$('#id_subcategory').empty();
+	});
+	/* there is some problem with this fucntion */
+	$('#id_category').change(function(){
+		$('#id_subcategory').empty();
+	});
+	$(".div-product1").on('click', function(){
+		$("#product-img1").click();
+	});
+	$(".div-product2").on('click', function(){
+		$("#product-img2").click();
+	});
+	$(".div-product3").on('click', function(){
+		$("#product-img3").click();
+	});
+	$(".div-product4").on('click', function(){
+		$("#product-img4").click();
+	});
+	/*-----------------------------------------*/
+	$('#click_key').click(function(evt){
+	    var url = $("#url_id_product").attr("data-contact-url");  
+		var id_area = $(".uno").val();
+		var id_category = $(".dos").val();
+		var id_subcategory = $(".tres").val();
+		var id_product = '{{product.pk}}';
+		$.ajax({
+			url: url,
+			data: {
+				'id_area': id_area,
+				'id_category': id_category,
+				'id_subcategory': id_subcategory,
+				'id_product': id_product,
+			},
+			success: function (data) {
+				$("#products-keywords").html(data);
+			}
+		});
+	});
+	// borrar fotos
+	function clean(input) { 
+		$('#foto_existente1').attr('value', 'borrado');
+	    $("#img1").empty();
+		$("#img1").append("Añadir imagen");
+	    $('#product-img-reload1').attr('src', '');
+    }
+    function clean2(input) {   
+	    //alert($("#foto_existente").val())
+	    $('#foto_existente2').attr('value', 'borrado');
+	    $("#img2").empty();
+		$("#img2").append("Añadir imagen");
+	    $('#product-img-reload2').attr('src', '');
+    }
+    function clean3(input) {   
+	    //alert($("#foto_existente").val())
+	    $('#foto_existente3').attr('value', 'borrado');
+	    $("#img3").empty();
+		$("#img3").append("Añadir imagen");
+	    $('#product-img-reload3').attr('src', '');
+    }
+    function clean4(input) {   
+	    //alert($("#foto_existente").val())
+	    $('#foto_existente4').attr('value', 'borrado');
+	    $("#img4").empty();
+		$("#img4").append("Añadir imagen");
+	    $('#product-img-reload4').attr('src', '');
+    }
+</script>
+<!----- cargar keywords fin ----------------------------------------------------- -->
+<script>
+	//FOTOS FUNCIONES	
+    function readURL1(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#product-img-reload1')
+                    .attr('src', e.target.result);
+                $('#foto_existente1').attr('value', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $('#product-img4').on('change', function(event) {
+        var inputFile = event.currentTarget;
+        if(inputFile.files[0].name.length <= 30) {
+        	$(inputFile).parent()
+        		.find('.custom-file-label')
+        		.html(inputFile.files[0].name.substring(0,25));
+        }
+        else {
+        	$(inputFile).parent()
+        		.find('.custom-file-label')
+        		.html(inputFile.files[0].name.substring(0,25)+'...');
+        }
+    }); 
+    $('#product-img3').on('change', function(event) {
+        var inputFile = event.currentTarget;
+        if(inputFile.files[0].name.length <= 30) {
+        	$(inputFile).parent()
+        		.find('.custom-file-label')
+        		.html(inputFile.files[0].name.substring(0,25));
+        }
+        else {
+        	$(inputFile).parent()
+        		.find('.custom-file-label')
+        		.html(inputFile.files[0].name.substring(0,25)+'...');
+        }
+    });
+    $('#product-img2').on('change', function(event) {
+        var inputFile = event.currentTarget;
+        if(inputFile.files[0].name.length <= 30) {
+        	$(inputFile).parent()
+        		.find('.custom-file-label')
+        		.html(inputFile.files[0].name.substring(0,25));
+        }
+        else {
+        	$(inputFile).parent()
+        		.find('.custom-file-label')
+        		.html(inputFile.files[0].name.substring(0,25)+'...');
+        }
+    });
+    $('#product-img1').on('change', function(event) {
+        var inputFile = event.currentTarget;
+        if(inputFile.files[0].name.length <= 30) {
+        	$(inputFile).parent()
+        		.find('.custom-file-label')
+        		.html(inputFile.files[0].name.substring(0,25));
+        }
+        else {
+        	$(inputFile).parent()
+        		.find('.custom-file-label')
+        		.html(inputFile.files[0].name.substring(0,25)+'...');
+        }
+    });
+    function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#product-img-reload2')
+                    .attr('src', e.target.result);
+                $('#foto_existente2').attr('value', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function readURL3(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#product-img-reload3')
+                    .attr('src', e.target.result);
+                $('#foto_existente3').attr('value', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function readURL4(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#product-img-reload4')
+                    .attr('src', e.target.result);
+                $('#foto_existente4').attr('value', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+	$("#languages_select").change(function(e){
+		var language = $("#languages_select").val();
+		if(language == "en"){
+			var url = '{% url "MywebProductUpdateIngles" product.pk %}';
+			document.location.href = url;
+		}
+		
+		else if(language=="de"){
+			var url = '{% url "MywebProductUpdateAleman" product.pk %}';
+			document.location.href = url;
+		}
+		
+		else if(language=="zh-hant"){
+			var url = '{% url "MywebProductUpdateChinoTradicional" product.pk %}';
+			document.location.href = url;
+		}
+		else if(language=="zh-hans"){
+			var url = '{% url "MywebProductUpdateChinoSimplificado" product.pk %}';
+			document.location.href = url;
+		}
+		else if(language=="fr"){
+			var url = '{% url "MywebProductUpdateFrances" product.pk %}';
+			document.location.href = url;
+		}
+		else if(language=="it"){
+			var url = '{% url "MywebProductUpdateItaliano" product.pk %}';
+			document.location.href = url;
+		}
+		else if(language=="pt"){
+			var url = '{% url "MywebProductUpdatePortugues" product.pk %}';
+			var id = '{{product.pk}}';
+			document.location.href = url;
+		}
+		else{
+			var url = '{% url "MywebProductUpdateJapones" product.pk %}';
+			document.location.href = url;
+		}
+		
+	});
+    // FIN FUNCIONES FOTOS
+    $(document).on("change", "#video", function(evt) {
+        var $source = $('#product-video-reload');
+        $source[0].src = URL.createObjectURL(this.files[0]);
+        $source.parent()[0].load();
+    });
+	// $('#formulario input').on('change', function() {
+    // $("#language").val($('input[name=inlineRadioOptions]:checked', '#formulario').val());
+    //  });
+</script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+<!-- editor summernote -->
+<!-- <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+=======
+ // var textarea = document.getElementById('description');
+ //        sceditor.create(textarea, {
+ //            format: 'xhtml',
+ //            style: 'minified/themes/content/default.min.css'
+ //        });
+</script>-->
+<!-- editor summernote -->
+<!-- fin summernote -->
+{% endblock %}

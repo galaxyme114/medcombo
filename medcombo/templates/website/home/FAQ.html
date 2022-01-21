@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block meta %}
+    Medcombois a leading B2B marketplace and for any queries regarding medical equipment, pharmaceuticals, health care product etc. Visit now!
+{% endblock %}
+{% block title %}
+    FAQ – Medcombo
+{% endblock %}
+{% block content %}
+<div class="container" id="FAQ">
+  <div class="row">
+    <div class="col-12">
+      <p class="h1"><span>{% blocktrans %}FAQ{% endblocktrans %}</span></p>
+      <p class="h4">{% blocktrans %}¿COMO PODEMOS AYUDARTE?{% endblocktrans %}</p>
+      <div class="accordion" id="accordionFAQ">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                {% blocktrans %}1. What can I do if I am new on medcombo.com?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFAQ">
+            <div class="card-body">
+               <p>{% blocktrans %}The first step to become a Medcombo member is to{% endblocktrans %}<a href="{% url 'view_singup' %}">{% blocktrans %} sign up {% endblocktrans %}</a><br/>{% blocktrans %}You will be asked for the following information:{% endblocktrans %}</p>
+               <li>{% blocktrans %}Username{% endblocktrans %}</li>
+               <li>{% blocktrans %}Password{% endblocktrans %}</li>
+               <li>{% blocktrans %}Name{% endblocktrans %}</li>
+               <li>{% blocktrans %}Last Name{% endblocktrans %}</li>
+               <li>{% blocktrans %}Country{% endblocktrans %}</li>
+               <li>{% blocktrans %}Occupation{% endblocktrans %}</li><br/><p>{% blocktrans %}You will then be redirected to your own new homepage and will be asked to confirm your email address.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                {% blocktrans %}2. What is the difference between medcombo.com and other websites?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionFAQ">
+            <div class="card-body">
+              <p>{% blocktrans %}Medcombo is a specialized portal other portals do not offer specific information.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                {% blocktrans %}3. As a seller, how do I rank higher for my products?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionFAQ">
+            <div class="card-body">
+              <p>{% blocktrans %}There are different ways to improve the ranking on your products:{% endblocktrans %}</p>
+              <p>{% blocktrans %}a. Adding more products will give you a better positioning.{% endblocktrans %}<br/>{% blocktrans %}b. Matching your products with adequate describing keywords.{% endblocktrans %}<br/>{% blocktrans %}c. Earning added value with positive reviews from potential buyers.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFour">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                {% blocktrans %}4. How do I buy on medcombo.com?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionFAQ">
+            <div class="card-body">
+              <p>{% blocktrans %}It is not possible to directly buy on Medcombo. The purpose of our website is to connect potential buyers and sellers with common interests.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFive">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                {% blocktrans %}5. Do I need to own a company to be a buyer?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionFAQ">
+            <div class="card-body">
+              <p>{% blocktrans %}It is not necessary to own a company in Medcombo to be a buyer.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingSix">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                {% blocktrans %}6. How do I access to the multi-language sites of Medcombo.com{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionFAQ">
+            <div class="card-body">
+              <p>{% blocktrans %}To access the multi-language sites of Medcombo, please note on the right upper corner of the site the name of a language and its flag next to it. Click on the flag or language name and a list with the different available languages will open. Click on your language of choice and you will be redirected to the Medcombo webpage in your chosen language.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingSeven">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                {% blocktrans %}7. Where is Medcombo located?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionFAQ">
+            <div class="card-body">
+              <p>{% blocktrans %}The Medcombo central office is located in Madrid, Spain.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingEight">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                {% blocktrans %}8. What services do you offer?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionFAQ">
+            <div class="card-body">
+              <p>{% blocktrans %}Medcombo allows different companies to promote, advertise and sell their products and medical devices.{% endblocktrans %}
+                {% blocktrans %}Companies can publish and update both product information as well as information about the company itself. They can also chat and send each other messages if they become interested in a product.{% endblocktrans %}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingNine">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                {% blocktrans %}9. Do you have a sales department?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordionFAQ">
+            <div class="card-body">
+              <p>{% blocktrans %}Yes, we do have a sales department for our.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTen">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                {% blocktrans %}10. What is the way buyers initiates a complaint?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="#accordionFAQ">
+            <div class="card-body">
+              <p>{% blocktrans %}You can send us complaints and we will contact the sellers. We are not responsible for any purchases made on our portal.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="h3">{% blocktrans %}Seller{% endblocktrans %}</p>
+      <div class="accordion" id="accordionSeller">
+        <div class="card">
+          <div class="card-header" id="headingSellerOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSellerOne" aria-expanded="true" aria-controls="collapseSellerOne">
+                {% blocktrans %}1. How can I upload a product?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseSellerOne" class="collapse" aria-labelledby="headingSellerOne" data-parent="#accordionSeller">
+            <div class="card-body">
+              <p>{% blocktrans %}In order to upload a product you are required to create a{% endblocktrans %}<a href="#">{% blocktrans %}“My Web”{% endblocktrans %}</a>,{% blocktrans %}where you will be asked to add your company information. Once you have a “My Web” you can start adding your products to Medcombo.{% endblocktrans %}</p>
+              <p>{% blocktrans %}To upload a product, go to your “My Web” and click on “Products”.The “Products” window will open where you will find a “Add new product” button. When adding a new product, you will be able to upload a video and up to four different photos of your product. You will also be able to write a description and the name of your product. On the bottom of the page you will be asked to organize your product into its respective category. In order for users to find your product, you will need to choose one or more keywords that best match your product.{% endblocktrans %}</p>
+              <p>{% blocktrans %}We in Medcombo always welcome new suggestions!  If you think a new keyword would help you or other users at finding a product, please write the keyword under “Suggest a keyword”. We will then review the suggested keyword and add it to the system.{% endblocktrans %}</p>
+              <p>{% blocktrans %}Once you upload your product, the Medcombo team will review your product and, if everything is fine, accept it and notify you about it. Your product will not be visible to other users until it is reviewed and accepted by the Medcombo team.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingSellerTwo">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSellerTwo" aria-expanded="false" aria-controls="collapseSellerTwo">
+                {% blocktrans %}2. How do I create a “My Web”?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseSellerTwo" class="collapse" aria-labelledby="headingSellerTwo" data-parent="#accordionSeller">
+            <div class="card-body">
+              <p>{% blocktrans %}In order to upload new products into Medcombo you will be asked to create a “My Web”. When creating a “My Web” you will be asked to add your company's general information, which includes:{% endblocktrans %}</p>
+              <p>{% blocktrans %}Name of the company{% endblocktrans %}<br/>{% blocktrans %}Address of the company{% endblocktrans %}<br/>{% blocktrans %}Country{% endblocktrans %}<br/>{% blocktrans %}City{% endblocktrans %}<br/>{% blocktrans %}CIF{% endblocktrans %}<br/>{% blocktrans %}Phone number{% endblocktrans %}<br/>{% blocktrans %}Postal code{% endblocktrans %}<br/>{% blocktrans %}Type of company{% endblocktrans %}<br/>{% blocktrans %}Sector{% endblocktrans %}<br/></p>
+              <p>{% blocktrans %}Your “My Web” request will then be reviewed by us and you will receive a confirmation email once your “My Web” is open to other users. In the meantime, your “My Web” will not be visible to other users until the Medcombo team reviews and accepts it.{% endblocktrans %}</p>            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingSellerThree">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSellerThree" aria-expanded="false" aria-controls="collapseSellerThree">
+                {% blocktrans %}3. How can I upload a catalog?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseSellerThree" class="collapse" aria-labelledby="headingSellerThree" data-parent="#accordionSeller">
+            <div class="card-body">
+              <p>{% blocktrans %}In order to upload a catalog you are required to create a{% endblocktrans %}<a href="#">{% blocktrans %}“My Web”{% endblocktrans %}</a>,{% blocktrans %}where you will be asked to add your company information. Once you have a “My Web” you can add a catalog to your page.{% endblocktrans %}</p>
+              <p>{% blocktrans %}To upload a catalog, go to your “My Web” and click on Catalogs”.{% endblocktrans %}<br/>{% blocktrans %}The “Catalogs” window will open where you will find a “Add Catalogs” button.{% endblocktrans %}<br/>{% blocktrans %}When adding a new catalog, you will be able to add the name of the catalog, a PDF containing your catalog and an image.{% endblocktrans %}<br/>{% blocktrans %}To successfully upload it you will be required to click on the bottom button “Save”.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingSellerFour">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSellerFour" aria-expanded="false" aria-controls="collapseSellerFour">
+                {% blocktrans %}4. How can I create a post?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseSellerFour" class="collapse" aria-labelledby="headingSellerFour" data-parent="#accordionSeller">
+            <div class="card-body">
+              <p>{% blocktrans %}In order to upload a post you are required to create a{% endblocktrans %}<a href="#">{% blocktrans %}“My Web”{% endblocktrans %}</a>,{% blocktrans %}where you will be asked to add your company information. Once you have a “My Web” you can add a post to your page.{% endblocktrans %}</p>
+              <p>{% blocktrans %}To create a post, go to your “My Web” and click on “Post”.{% endblocktrans %}<br/>{% blocktrans %}The “Post” window will open showing the title NEW POST.{% endblocktrans %}<br/>{% blocktrans %}To create a post you are required to indicate the language of your post, the affair, a description and upload an image.{% endblocktrans %}<br/>{% blocktrans %}To successfully create the post, click on the “Create a post” button.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingSellerFive">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSellerFive" aria-expanded="false" aria-controls="collapseSellerFive">
+                {% blocktrans %}5. How do I create a job offer?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseSellerFive" class="collapse" aria-labelledby="headingSellerFive" data-parent="#accordionSeller">
+            <div class="card-body">
+              <p>{% blocktrans %}In order to create a job offer you are required to create a{% endblocktrans %}<a href="#">{% blocktrans %}“My Web”{% endblocktrans %}</a>,{% blocktrans %}where you will be asked to add your company information. Once you have a “My Web” you can create a job offer.{% endblocktrans %}</p>
+              <p>{% blocktrans %}To create a job offer, got to your “My Web” and click on “Employ”. Once you are in “Employ” you will need to click on “Create offers”, which will direct you to a page with the title of “Employment Exchange”.{% endblocktrans %}<br/>{% blocktrans %}To create an offer, you will need to add the following:{% endblocktrans %}</p>
+              <li>{% blocktrans %}Name of job position{% endblocktrans %}</li>
+              <li>{% blocktrans %}Number of vacancies available{% endblocktrans %}</li>
+              <li>{% blocktrans %}Country and city of the offer{% endblocktrans %}</li>
+              <li>{% blocktrans %}Job functions{% endblocktrans %}</li>
+              <li>{% blocktrans %}Requirements{% endblocktrans %}</li>
+              <li>{% blocktrans %}Employee benefits{% endblocktrans %}</li>
+              <li>{% blocktrans %}Type of contract{% endblocktrans %}</li>
+              <li>{% blocktrans %}Workday{% endblocktrans %}</li>
+              <li>{% blocktrans %}Salary{% endblocktrans %}</li>
+              <p>{% blocktrans %}Note: If you do not wish to show the salary of the job offer, you can choose to hide the salary from the visible job offer by clicking on the “hide in the offer” box that is located underneath “Salary”{% endblocktrans %}</p>
+              <p>{% blocktrans %}Once you are done filling in all the necessary information, click on “To post” and your job offer will be posted and visible to users.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingSellerSix">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSellerSix" aria-expanded="false" aria-controls="collapseSellerSix">
+                {% blocktrans %}6. How can I view my company profile?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseSellerSix" class="collapse" aria-labelledby="headingSellerSix" data-parent="#accordionSeller">
+            <div class="card-body">
+              <p>{% blocktrans %}In order to view your company profile, you are required to create a{% endblocktrans %}<a href="#">{% blocktrans %}“My Web”{% endblocktrans %}</a>,{% blocktrans %}where you will be asked to add your company information. Once you have a “My Web” you can view your company profile.{% endblocktrans %}</p>
+              <p>{% blocktrans %}To view your company profile, go to your “My Web” and click on “See my web”. By clicking on “See my web” you will be redirected to your company profile, which is made up of five sections:{% endblocktrans %}</p>
+              <li>{% blocktrans %}Home{% endblocktrans %}</li>
+              <li>{% blocktrans %}Product{% endblocktrans %}</li>
+              <li>{% blocktrans %}Catalogs{% endblocktrans %}</li>
+              <li>{% blocktrans %}News{% endblocktrans %}</li>
+              <li>{% blocktrans %}Contact{% endblocktrans %}</li>
+              <p>{% blocktrans %}Home{% endblocktrans %}<br/>{% blocktrans %}The “Home” section is where the About Us of your company can be found. You can add information about your company as well as a video.{% endblocktrans %}<br/>{% blocktrans %}To edit the “Home” tab, go to your “My Web” and click on “Company”.{% endblocktrans %}<br/>{% blocktrans %}Under “additional company information” you will be able to add your company description as well as a video.{% endblocktrans %}</p>
+              <p>{% blocktrans %}Product{% endblocktrans %}<br/>{% blocktrans %}The “Product” section shows your current uploaded products, their names, ratings, country of the product and the company’s logo are shown under this section.{% endblocktrans %}<br/>{% blocktrans %}To upload a product please view “How can I upload a product?”{% endblocktrans %}</p>
+              <p>{% blocktrans %}Notice: When you enter this section, all the products you have uploaded will be shown, both visible and invisible products to users. You will get a confirmation email once your product has been confirmed by the Medcombo team, making your product visible to other users. When other users are viewing your My Web products, they will only be able to see the products that have already been confirmed by the Medcombo team.{% endblocktrans %}</p>
+              <p>{% blocktrans %}Catalogs{% endblocktrans %}<br/>{% blocktrans %}Under the “Catalogs” section you will find your uploaded catalogs. A picture and title of your catalog will be shown. By clicking on the picture of your catalog you will be redirected to the PDF you upload, which will be available for download. To upload a catalog, please go to “How can I upload a catalog?”{% endblocktrans %}</p>
+              <p>{% blocktrans %}News{% endblocktrans %}<br/>{% blocktrans %}Under the “News” section, you will find posts that you have created. You will be shown a picture of a post you have created, the title, the company’s logo and contact person and the date when it was posted. If you click on a post, you will be able to see a more detailed description of it. To create a post, please go to “How can I create a post?”{% endblocktrans %}</p>
+              <p>{% blocktrans %}Contact{% endblocktrans %}<br/>{% blocktrans %}Under the “Contact” section, you will find a list of the users belonging to your company. A user will be able to contact you when entering this section, he/she will be able to add you to their contacts, add you to favorites, send you a message or chat with you. The same applies to you when you enter a company’s contact section.{% endblocktrans %}</p>
+              <p>{% blocktrans %}FAQ that might interest you:{% endblocktrans %}<br/>{% blocktrans %}How can I send a message?{% endblocktrans %}<br/>{% blocktrans %}How can I chat with a user?{% endblocktrans %}<br/>{% blocktrans %}How can I add a user to favorites?{% endblocktrans %}<br/>{% blocktrans %}How can I add a user to my contacts?{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingSellerSeven">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSellerSeven" aria-expanded="false" aria-controls="collapseSellerSeven">
+                {% blocktrans %}7. How can I edit my company’s information?{% endblocktrans %}
+              </button>
+            </h2>
+          </div>
+          <div id="collapseSellerSeven" class="collapse" aria-labelledby="headingSellerSeven" data-parent="#accordionSeller">
+            <div class="card-body">
+              <p>{% blocktrans %}To edit your company’s information you will need to go to “My Web” and click on “Company”.{% endblocktrans %}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

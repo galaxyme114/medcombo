@@ -1,0 +1,59 @@
+{% load staticfiles %}
+{% load i18n %}
+{% if keywords %}
+    {% for keys in keywords %}
+	    {% if keys.area %}  
+        <div class="col-12 d-lg-flex pb-2 mb-2 pr-0 justify-content-between">
+			<div class="col-12 col-lg-4 mb-1">
+				<li>- {{keys.name}}</li>
+			</div>
+			<div class="col-12 col-lg-4 pl-lg-0 pr-lg-0 mb-1">
+				<input type="text" class="form-control justify-content-center" name="value_added" required  id='keyname{{keys.pk}}'/>
+			</div>
+			<div class="col-12 col-lg-4">
+				<a class="btn btn-primary" style="font-size: 0.9rem;" id='agregar{{keys.pk}}'><i class="fas fa-plus"></i> {% blocktrans %}Agregar{% endblocktrans %}
+				</a>
+			</div>
+        	<!--<li>- {{keys.name}}</li><!-- lista de keywords-->
+        	<!--<input type="text" class="form-control col-sm-5  justify-content-center" name="value_added" required  id='keyname{{keys.pk}}'/>
+        	<a class="btn btn-primary" id='agregar{{keys.pk}}'><i class="fas fa-plus pl-3"></i> {% blocktrans %}Agregar{% endblocktrans %}
+        	</a>-->
+        </div>
+        
+        <script>
+        	$('#agregar{{keys.pk}}').click(function(evt){
+        		var my_url = "{% url 'ajax_add_synonym' %}";
+        		var synonym_name = $("#keyname{{keys.pk}}").val();
+        		var key_pk= '{{keys.pk}}';
+        		var token = '{{csrf_token}}';
+        		$.ajax({
+        			headers: { "X-CSRFToken": token },
+        			type: 'POST',
+        			url: my_url,
+        			data: {
+        				'synonym': synonym_name,
+        				'key': key_pk,      
+        			},
+        			success: function(msg)
+        			{
+        				if (msg=='guardado'){
+        					$("#keyname{{keys.pk}}").val("");
+        					$.notify("{% blocktrans %}Palabra guardada!{% endblocktrans %}", "success");
+        				}
+        				else{
+
+        					$.notify("{% blocktrans %}Palabra ya existe!{% endblocktrans %}", "error");
+        				}          		
+        			}
+
+
+
+
+        			
+        		});
+        	});
+        </script>
+        {% endif %}	
+        								            		
+    {% endfor %}<!-- for de keywords-->				        
+{% endif %}

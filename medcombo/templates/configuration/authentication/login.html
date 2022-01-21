@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+{% include '../../slide.html' %}
+<link rel="stylesheet" href="{% static 'css/app/user/login.css' %}">
+<link rel="stylesheet" href="{% static 'css/icheck-bootstrap.min.css' %}">
+<div class="text-center-container">
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+				    <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+				    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+				    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{% if field.label %}{{field.label|escape}}: {% endif %} {{ error|escape }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-10 offset-md-1 col-lg-6 offset-lg-3">
+            <form class="formulario needs-validation" action="." method="POST" novalidate>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputEmail1">{% blocktrans %}Usuario o Email{% endblocktrans %}</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" name=username autofocus required>
+                    <div class="invalid-feedback">
+                        {% blocktrans %}Introduzca su usuario{% endblocktrans %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">{% blocktrans %}Contraseña{% endblocktrans %}</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name=password required>
+                    <div class="invalid-feedback">
+                        {% blocktrans %}Introduzca su contraseña{% endblocktrans %}
+                    </div>
+                    <input type="hidden" name="next" value="{{next}}" />
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6 mb-0">
+                        <div class="icheck-primary">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">{% blocktrans %} Mantente conectado{% endblocktrans %}</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6 mb-0">
+                        <p class="text-right mb-0"><a href="{% url 'password_reset' %}">{% blocktrans %}¿Olvidaste tu contraseña?{% endblocktrans %}</a></p>
+                    </div>
+                </div>
+                <div class="form-group mb-0">
+                    <p class="text-right mb-2 mt-1"><a href="#" id="btnDetalles" onClick="return false;">{% blocktrans %}Detalles{% endblocktrans %}</a></p>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary formulario-buttom">{% blocktrans %}Iniciar Sesión{% endblocktrans %}</button>
+                </div>
+                <div class="form-group mb-0">
+                    <p class="text-center mb-1">{% blocktrans %}¿No eres miembro de Medcombo?{% endblocktrans %}</p>
+                    <a href="{% url 'view_singup' %}" class="btn btn-primary btnRegister">{% blocktrans %}Regístrate Gratis{% endblocktrans %}</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-sm-10 offset-md-1 offset-lg-0 col-lg-3" id="texto" style="display: none;">
+            <div id="texto-linea">
+                <p>{% blocktrans %}Al elegir "Mantener mi sesión iniciada" se reduce el número de veces que se le solicita que inicie sesión en estos dispositivos{% endblocktrans %}</p>
+                <p>{% blocktrans %}Para mantener su cuenta segura, use esta opción solo en sus dispositivos personales{% endblocktrans %}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/app/user/login.js' %}"></script>
+<script src="{% static 'js/app/validations.js' %}"></script>
+{% endblock %}

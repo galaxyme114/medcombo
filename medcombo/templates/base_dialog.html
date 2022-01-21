@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all">
+    <link href="{% static 'css/dialog.css' %}" rel="stylesheet" type="text/css" media="all">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <title>{% block title %}{% endblock %}</title>
+    {% block css %}{% endblock %}
+    <style>
+        @font-face{
+            font-family: "Muli-SemiBold";
+            src: url("https://fonts.googleapis.com/css?family=Poppins&display=swap") format("truetype");
+        }
+    </style>  
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());
+        gtag('config', 'UA-148356704-1'); 
+    </script>
+</head>
+<body>
+    {% block content %}{% endblock %}
+    <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/handlebars-v1.3.0.js' %}" type="text/javascript"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

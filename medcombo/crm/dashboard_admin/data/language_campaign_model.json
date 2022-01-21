@@ -1,0 +1,9 @@
+﻿[
+    {"model": "dashboard_admin.languagemodel", "pk": 1, "fields": {"name_language": "Chino", "value_language": "zh"}},
+    {"model": "dashboard_admin.languagemodel", "pk": 2, "fields": {"name_language": "Aleman", "value_language": "de"}},
+    {"model": "dashboard_admin.languagemodel", "pk": 3, "fields": {"name_language": "Ingles", "value_language": "en"}},
+    {"model": "dashboard_admin.languagemodel", "pk": 4, "fields": {"name_language": "Español","value_language": "es"}},
+    {"model": "dashboard_admin.languagemodel", "pk": 5, "fields": {"name_language": "Frances", "value_language": "fr"}},
+    {"model": "dashboard_admin.languagemodel", "pk": 6, "fields": {"name_language": "Italiano", "value_language": "it"}},
+    {"model": "dashboard_admin.languagemodel", "pk": 7, "fields": {"name_language": "Portugues", "value_language": "pt"}}
+]

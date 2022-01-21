@@ -1,0 +1,149 @@
+{% load staticfiles %}
+{% load i18n %}
+<div class="row pb-4">
+	<div class="col-12 px-0 px-sm-3">
+		<div id="contact-table">
+			<table class="table table-myweb-crm">
+				<thead>
+					<tr>
+					    <th scope="col">{% blocktrans %}REF{% endblocktrans %}</th> 
+					    <th scope="col" class="text-center">{% blocktrans %} Fotos {% endblocktrans %}</th>
+					    <th scope="col"></th>
+					    <th scope="col"> {% blocktrans %}Video {% endblocktrans %}</th>
+					    <th scope="col"> {% blocktrans %}Descripcion {% endblocktrans %}</th>
+					    <th scope="col"> {% blocktrans %}Aceptado {% endblocktrans %}</th>
+					    <th scope="col">{% blocktrans %}Fecha{% endblocktrans %}</th>
+						<th scope="col"></th>
+					    <th scope="col"></th>
+					</tr>
+				</thead>
+			    <tbody>
+			        {% if productos %} 
+                        {% for product in productos %}
+                        	<input type="hidden" value="0" id="total{{product.pk}}">
+					        <tr id="product_file{{product.pk}}">
+					            <td scope="row">{{product.ref}}</td>
+					            {% if product.picture %}
+                                    <td class="text-center"><img src="{{ product.picture.url}}" alt="" height="100px" width="auto"></td>
+					            {% else %}
+					                <td class="text-center"><img src="{% static 'img/bandeja.png' %}" alt="" height="100px" width="auto"></td>
+					            {% endif %}
+					            {% if product.picture2 %}
+					            	<script>
+					            		$(document).ready(function(){
+            							var total= parseFloat($('#total{{product.pk}}').val()) + parseFloat(1);
+            							$('#total{{product.pk}}').val(total);
+            							document.getElementById("button{{product.pk}}").innerHTML = total+"+";
+        								});
+
+					            	</script>	
+					            {% endif %}
+					            {% if product.picture3 %}
+					            	<script>
+					            		$(document).ready(function(){
+            							var total= parseFloat($('#total{{product.pk}}').val()) + parseFloat(1);
+            							$('#total{{product.pk}}').val(total);
+            							document.getElementById("button{{product.pk}}").innerHTML = total+"+";
+            							
+        								});
+					            	</script>	
+					            {% endif %}
+					            {% if product.picture4 %}
+					            	<script>
+					            		$(document).ready(function(){
+            							var total= parseFloat($('#total{{product.pk}}').val()) + parseFloat(1);
+            							$('#total{{product.pk}}').val(total);
+            							document.getElementById("button{{product.pk}}").innerHTML = total+"+";
+        								});
+					            	</script>
+					            {% endif %}
+					            <td class="align-middle" scope="row"><button style="border-radius: 200px 200px 200px 200px;-moz-border-radius: 200px 200px 200px 200px;-webkit-border-radius: 200px 200px 200px 200px;border: 0px inset #000000;" data-toggle="modal" data-target="#revisar{{ product.pk }}" class="btn btn-primary btn-crm-produt" id="button{{product.pk}}">0</button></td>
+					            <!--- modal para ver todas las fotos disponibles del producto -->
+
+								<div class="modal fade" id="revisar{{ product.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+									<div class="modal-dialog modal-xl">
+										<div class="modal-content" style="border-radius: 25px;">
+											<div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+												<div class="d-flex align-items-center">
+													<i class="fas fa-search fa-flip-horizontal" style="color: white;"></i>
+													<h5 class="modal-title ml-3" style="color: white;" id="exampleModalLongTitle">{% blocktrans %}FOTOS DEL PRODUCTO{% endblocktrans %}</h5>
+												</div>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true" style="color: #fff;">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<object height="400" width="101%" data="{% url 'SeeProductCrm' product.pk %}"></object>
+											</div>
+										</div>
+									</div>
+							    </div>
+
+					            <!-- fin de ventana modal fotos del producto -------------------->
+					            {% if product.video %}
+                                    <td class="text-center">
+                          	            <video height="100px" width="auto" controls controlsList="nodownload"><source src="{{ product.video.url }}" type='video/mp4' alt="" height="100px" width="auto">
+                                        </video>
+                          	        </td>
+					            {% else %}
+					                <td class="text-center"></td>
+					            {% endif %}
+					            <td><b>{{product.name}}</b>. {{product.description|safe|escape}}</td>
+					            {% if product.approved %}
+					                <td class="align-middle"><i class="fas fa-check pr-4"></i></td>
+					                <td class="align-middle">{{product.request_date}}</td>
+					                <td></td>
+									<td></td>
+					            {% else %}
+					                <td class="align-middle"><div id="prueba{{product.pk}}" style="display: none"><i class="fas fa-check pr-4" ></i><div></td> 
+									<td class="align-middle">{{product.request_date}}</td>
+					                <td class="align-middle" style="padding: 0.75rem 0.1rem 0.75rem 0.75rem;" id="url_id2" data-contact-url="{% url 'approve_product_ajax' %}" >
+										<input type="hidden" id='mi{{product.pk}}' name="mi{{product.pk}}" value="{{product.pk}}">
+										<button class="btn btn-primary btn-crm-produt" id="product{{product.pk}}"> {% blocktrans %}ACEPTAR{% endblocktrans %}</button>
+					                </td>
+					                <td class="align-middle" id="url_id3" data-contact-url="{% url 'dismiss_product_ajax' %}" >
+										<button class="btn btn-primary btn-crm-produt" id="product_dismiss{{product.pk}}"> {% blocktrans %}RECHAZAR{% endblocktrans %}</button>
+					                </td>
+					            {% endif %}
+					        </tr>	
+					        <script type="text/javascript">
+								$("#product{{product.pk}}").click(function () {
+									var url = $("#url_id2").attr("data-contact-url");  
+									var pk = $("#mi{{product.pk}}").val();
+									
+									$(this).hide();
+									$("#product_dismiss{{product.pk}}").hide();
+									$("#prueba{{product.pk}}").show();
+									$.ajax({
+										url: url,
+										data: {
+											'pk': pk
+										},
+										success: function (data) {
+											//location.reload();
+										}
+									});
+								});
+								$("#product_dismiss{{product.pk}}").click(function () {
+									var url = $("#url_id3").attr("data-contact-url");  
+									var pk = $("#mi{{product.pk}}").val();
+									$.ajax({
+										url: url,
+										data: {
+											'pk': pk
+										},
+										success: function (data) {
+											$("#product_file{{product.pk}}").hide();
+										}
+									});
+								});
+							</script>		   
+                        {% endfor %}
+                    {% else %}
+                        <p> {% blocktrans %}No hay productos por aprobar {% endblocktrans %}</p>
+                    {% endif %}
+			    </tbody>
+		    </table>
+	    </div>
+	</div>
+</div>

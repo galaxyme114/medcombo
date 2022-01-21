@@ -1,0 +1,45 @@
+{% load staticfiles %}
+{% load i18n %}
+<script type="text/javascript" src="{% static 'js/jstz.js' %}"></script>
+{% for current_user in chat_users %}
+    {% if user.user.id != request.user.id %}         
+        <li data-id="{{ current_user.user.id }}" data-name="{% if current_user.user.first_name %}{{ current_user.user.first_name }} {{ current_user.user.last_name }}{% else %}{{ current_user.user.username }}{% endif %}" data-work="{% if current_user.user.work %}{{ current_user.user.work }}{% endif %}" data-company="{% if current_user.user.company.name %}{{ current_user.user.company.name }}{% endif %}">
+            <div class="d-flex">
+                <div class="chat_list_cont">
+                    {% if current_user.user.picture %}
+                        <img class="rounded-circle chat_list_img" src="{{ current_user.user.picture.url }}">
+                    {% else %}
+                        <img class="rounded-circle chat_list_img" src="{% static 'img/userdefault.jpeg' %}">
+                    {% endif %}
+                    {% if current_user.active == True %}
+                        <span id="online_status" class="chat_list_online_icon" data-id="{{ current_user.user_id }}"></span>
+                    {% else %}
+                        <span id="online_status" class="chat_list_online_icon offline" data-id="{{ current_user.user_id }}"></span>
+                    {% endif %}
+                </div>
+                <div class="chat_list_info">
+                    <span style="color:#df8771;">
+                        {% if current_user.user.first_name %}
+                            {{current_user.user.first_name|add:current_user.user.last_name|truncatechars:18}}
+                        {% else %}
+                            {{ current_user.user.username|truncatechars:18}}
+                        {% endif %}
+                    </span>
+                    <p class="m-0">
+                        {% if current_user.user.work %}
+                            {{ current_user.user.work|truncatechars:18}}
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="chat_list_info">
+                    <span class="badge badge-count">{{ current_user.new_msg }}</span>
+                    <p class="m-0">
+                        {% if current_user.user.company.name %}
+                            {{ current_user.user.company.name|truncatechars:12}}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </li>
+    {% endif %}
+{% endfor %}

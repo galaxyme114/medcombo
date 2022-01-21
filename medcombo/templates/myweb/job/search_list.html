@@ -1,0 +1,116 @@
+{% load i18n %}
+{% for jobs in object_list %}
+    <div class="d-md-flex mt-3 mb-3 items-align-center get_control">
+                          <div class="col-3 background-list-name justify-text-list p-1 my_cursor">
+                            <a class="text-job-name" href="{% url 'detail_offers' jobs.id %}">{{jobs.name}}</a>
+                          </div>
+                          <div class="col-6 d-md-flex text-job-items">
+                            <div class="col-3 text-center items-align-center">
+                              <div>{% blocktrans %}Pendientes{% endblocktrans %}</div>
+                              <div class="number-job-items">{{ jobs.pending }}</div>
+                            </div>
+                            <div class="col-3 text-center">
+                              <div>{% blocktrans %}En Proceso{% endblocktrans %}</div>
+                              <div class="number-job-items">{{ jobs.processing }}</div>
+                            </div>
+                            <div class="col-3 text-center">
+                              <div>{% blocktrans %}Seleccionados{% endblocktrans %}</div>
+                              <div class="number-job-items">{{ jobs.selecting }}</div>
+                            </div>
+                            <div class="col-3 text-center">
+                              <div>{% blocktrans %}Descartados{% endblocktrans %}</div>
+                              <div class="number-job-items">{{ jobs.discarding }}</div>
+                            </div>
+                          </div>
+                          <div class="col-3 d-md-flex text-center">
+                            <div class="mr-4 text-center">
+                              {% blocktrans %}Editar{% endblocktrans %}<br>
+                              <a href="{% url 'update_offer' jobs.id %}">
+                                <i class="fas fa-pencil-alt"></i>
+                              </a>
+                            </div>
+                            <div class="ml-2 mr-2 text-center">
+                              {% blocktrans %}Borrar{% endblocktrans %}<br>
+                              <a href="#" data-toggle="modal" data-target="#delete{{ jobs.pk }}">
+                                <i class="fas fa-trash"></i>
+                              </a>
+                            </div>
+                            <div class="ml-3 text-center">
+                              {% blocktrans %}Activo{% endblocktrans %}<br>
+                              <a href="#" id="active{{ jobs.pk }}" data-active="{{jobs.pk}}">
+                                {% if jobs.active == True %}
+                                  <i class="fas fa-check"></i>
+                                {% else %}
+                                  <i class="fas fa-times"></i>
+                                {% endif %}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+				                {% if not forloop.last %}
+				                  <div class="list-separator"></div>
+                        {% endif %}
+                        <div class="modal fade" id="delete{{ jobs.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-xs">
+                            <div class="modal-content" style="border-radius: 25px;">
+                              <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                                  <div class="d-flex align-items-center">
+                                  <i class="fas fa-search fa-flip-horizontal pr-3" style="color: white;"></i>
+                                  <h5 class="modal-title" style="color: white;" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}Eliminar Oferta{% endblocktrans %}</h5>
+                                </div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true" style="color: #fff;">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="col-12 d-flex justify-content-center">
+                                  <h5>{% blocktrans %}¿Desea eliminar la oferta{% endblocktrans %} <b>{{jobs.name}}</b>?</h5>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button id="delete-button{{jobs.id}}" data-id="{{jobs.pk}}" class="btn btn-primary datos-form-buttom" >{% blocktrans %}Aceptar{% endblocktrans %}</button>
+                                <button data-dismiss="modal" class="btn btn-secondary mx-3" >{% blocktrans %}Cancelar{% endblocktrans %}</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <script>
+                          $('#delete-button{{jobs.id}}').click(function(e){
+                            var job = $('#delete-button{{jobs.id}}').attr('data-id');
+                            var url = '{% url "delete_offers" %}';
+                            var token = '{{csrf_token}}';
+                            $.ajax({
+                              headers: { "X-CSRFToken": token },
+                              method: 'POST',
+                              url: url,
+                              data: {
+                                'job': job
+                              },
+                              success: function(data) {
+                                location.reload();
+                              }
+                            });
+                          });
+                          $('#active{{jobs.pk}}').click(function(e){
+                            var active = $('#active{{jobs.pk}}').attr('data-active');
+                            var url = '{% url "active_offers" %}';
+                            var token = '{{csrf_token}}';
+                            $.ajax({
+                              headers: { "X-CSRFToken": token },
+                              method: 'POST',
+                              url: url,
+                              data: {
+                                'active': active
+                              },
+                              success: function(data) {
+                                if(data == 'True') {
+                                  $('#active{{ jobs.pk }}').html('<i class="fas fa-check"></i>');
+                                }
+                                else {
+                                  $('#active{{ jobs.pk }}').html('<i class="fas fa-times"></i>');
+                                }
+                              }
+                            });
+                          });
+                        </script>
+                      {% endfor %}

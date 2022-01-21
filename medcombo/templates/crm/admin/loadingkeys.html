@@ -1,0 +1,124 @@
+{% load staticfiles %}
+{% load i18n %}
+{% if keywords %}
+    {% for key in keywords %}
+        <li id='{{key.pk}}'>
+	        <div class="listKeywords-items">
+		        <p>{{key.name}}</p>
+		        <div>
+			        <span data-toggle="modal" data-target="#update{{ key.pk }}"><i class="pl-2 fas fa-pen my_cursor my_hover"></i></span>
+			        <span data-toggle="modal" data-target="#delete{{ key.pk }}"><i class="fas fa-trash-alt my_cursor my_hover"></i></span>
+		        </div>
+	        </div>
+        </li>
+	    <!--<script type="text/javascript">
+		    $( function() {
+				$("#key_sortable").sortable({
+					placeholder: "ui-state-highlight",
+					start: function(event, ui) {
+						var start_pos = ui.item.index();
+						ui.item.data('startIndex', start_pos);
+					},
+					stop: function(event, ui) {
+						var ordenElementos = $(this).sortable("toArray").toString();
+						var start_pos3 = ui.item.data('startIndex');
+						var finish_index = ui.item.index();
+						index = (start_pos3 > finish_index) ? finish_index : finish_index - 1; 
+
+						ui.item.data('startIndex', index);
+						
+						var url = $("#key_li").attr("data-contact-url"); 
+						var posicion = index
+						var idkeyword = ui.item.context.id
+						$.ajax({                      
+							url: url,        
+							data: {
+								'orden': ordenElementos,
+								'posicion': posicion,
+								'idkey': idkeyword,  
+							},
+
+						});
+						
+
+					}
+				});
+			});
+	    </script>-->
+	    <!-------------------- MODAL PARA ELIMINAR KEYWORDS   ------>
+	    <div class="modal fade" id="delete{{ key.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		    <div class="modal-dialog modal-xs">
+			    <div class="modal-content" style="border-radius: 25px;">
+				    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+					    <div class="d-flex align-items-center">
+						    <i class="fas fa-trash-alt icons_size_title_second"></i>
+						    <p class="modal-title ml-3 icons_size_title_second mt-1" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR REGISTRO{% endblocktrans%}</p>
+					    </div>
+					    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						    <span aria-hidden="true" style="color: #fff;">&times;</span>
+					    </button>
+				    </div>
+				    <div class="modal-body">
+					    <div class="col-12 d-flex justify-content-start">
+						    <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+					    </div>
+				    </div>
+				    <div class="modal-footer">
+					    <div class="col-12 d-flex justify-content-center">
+						    <button id="delete-button-key{{key.id}}" data-del="{{key.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+						    <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+					    </div>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+	    <script>
+		    $('#delete-button-key{{key.id}}').click(function(e){
+			    var value = '{{key.id}}';
+			    var url = '{% url "DeleteKeywordsCrm" %}';
+			    var token = '{{csrf_token}}';
+			    $.ajax({
+				    headers: { "X-CSRFToken": token },
+				    method: 'POST',
+				    url: url,
+				    data: {
+					    'value': value
+				    },
+				    success: function(data) {
+					    if(data == 'Ok') {
+						    location.reload();
+					    }
+				    }
+			    });
+		    });
+	    </script>
+	    <!-------------- MODAL PARA EDITAR LAS KEYWORDS --------------->
+	    <div class="modal fade" id="update{{ key.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		    <div class="modal-dialog modal-lg">
+			    <div class="modal-content" style="border-radius: 25px;">
+				    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+					    <div class="d-flex align-items-center">
+						    <i class="fas fas fa-pen icons_size_title_second"></i>
+						    <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}MODIFICAR REGISTRO{% endblocktrans%}</p>
+					    </div>
+					    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						    <span aria-hidden="true" style="color: #fff;">&times;</span>
+					    </button>
+				    </div>
+				    <div id="modal-body{{ key.pk }}" class="modal-body">
+					    <!--<object height="570" width="101%" data="{% url 'UpdateKeywordCrm' key.id %}"></object>-->
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+		<!-------------- CIERRE MODAL EDITAR KEYWORDS  ------------------>
+		<script>
+		    $('#update{{ key.pk }}').on('show.bs.modal', function (e) {
+				$('#modal-body{{ key.pk }}').html("<object height='570' width='101%' data='{% url 'UpdateKeywordCrm' key.id %}'></object>");
+            })
+			$('#update{{ key.pk }}').on('hidden.bs.modal', function (e) {
+				$('#modal-body{{ key.pk }}').html('');
+            });
+		</script>
+    {% endfor %}			        
+{% endif %}

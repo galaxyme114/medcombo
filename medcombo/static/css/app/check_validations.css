@@ -1,0 +1,11 @@
+/*------------------------------
+----- check_validations.css ----
+------------------------------*/
+
+.was-validated .form-check-input:valid ~ .form-check-label {
+    color: #595959;
+}
+
+.languageCheckRadio input[type="radio"]:checked + label {
+    color: white !important;
+}

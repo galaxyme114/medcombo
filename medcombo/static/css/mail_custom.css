@@ -1,0 +1,70 @@
+.card-title {
+	float: left;
+	font-size: 1.5rem;
+	font-weight: 400;
+	margin: 0;
+}
+.card-primary.card-outline {
+border-top: 3px solid #007bff;
+}
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: .75rem 1.25rem;
+    position: relative;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+.card-header>.card-tools {
+    float: right;
+    margin-right: -.625rem;
+}
+.input-group-append {
+    margin-left: -1px;
+}
+.flex-column {
+    -ms-flex-direction: column!important;
+    flex-direction: column!important;
+}
+.nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.card .nav.flex-column>li {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    margin: 25px;
+}
+.notify {
+    position: relative;
+    top: -25px;
+    right: -7px;
+}
+
+.mailbox-read-info {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 10px;
+}
+.mailbox-read-message {
+    padding: 10px;
+}
+.mailbox-controls.with-border {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+.mailbox-controls {
+    padding: 5px;
+}
+.text-center {
+    text-align: center!important;
+}
+.mailbox-read-time {
+    color: #999;
+    font-size: 13px;
+}
+.float-right {
+    float: right!important;
+}

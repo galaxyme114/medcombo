@@ -1,0 +1,201 @@
+{% extends "dashboard_admin.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<style>
+	.easy-autocomplete.eac-square{
+	    min-width: 80%;
+	}
+	.easy-autocomplete.eac-square input {
+		min-width: 100%;
+	}
+	@media (max-width: 575px) {
+		.easy-autocomplete.eac-square{
+	        min-width: 100% !important;
+	    }
+	}
+</style>
+<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row mb-3">
+		<div class="col-12 col-sm-6 col-md-6">
+			<h5 style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}BOOSTING{% endblocktrans%}</h5>
+		</div>
+		<div class="col-12 col-sm-6 col-md-6">
+			<div class="col-12">
+				<form id="my_search_form" action="/es/products/" method="POST" class="form-inline">
+					{% csrf_token %}
+				<input type="text" class="form-control col-12 col-sm-10" id="q" name="q"  placeholder={% blocktrans %}"Buscar..."{% endblocktrans%} autofocus="autofocus" />
+				<button class="col-lg-2 col-md-4 col-sm-4 btn btn-primary boosting-button-buscar btn-mrg ml-0 pl-0 pl-md-1" id="inputGroup-sizing-default">{% blocktrans %}REFRESCAR{% endblocktrans%}</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="title-seperator row mb-4"></div>
+	<br />
+	
+	<!-- Resultado de la Búsqueda -->
+	<table class="table table-responsive-md list-fondo mb-1 text-center" style="border-radius: 0px;">
+		<thead>
+			<tr class="font-weight-bold" style="color:#595959;">
+				<th scope="col">{% blocktrans %}Resultados{% endblocktrans %}</th>
+				<th scope="col">{% blocktrans %}Empresa{% endblocktrans %}</th>
+				<th scope="col">{% blocktrans %}Valor Algoritmico{% endblocktrans %}</th>
+				<th scope="col">{% blocktrans %}Valor Añadido{% endblocktrans %}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for products in product|dictsortreversed:"algorithmic_value"%}
+				<tr>
+					<td class="text-left">
+						{% if products.picture %}
+							<img src="{{ products.picture.url }}" alt="" height="50" width="auto" />
+						{% else %}
+							<img src="{% static 'img/default.png' %}" alt="" height="50" width="auto" />	
+						{% endif %}
+						<span>&nbsp;&nbsp;{{ products.name }}</span>
+					</td>
+					<td class="text-left">
+						{% if products.company.logo %}
+							<img src="{{ products.company.logo.url }}" alt="" height="50" width="auto" />
+						{% else %}
+							<img src="{% static 'img/default.png' %}" alt="" height="50" width="auto" />	
+						{% endif %}
+						<span>&nbsp;&nbsp;{{ products.company.name }}</span>
+					</td>
+					<td class="align-middle">
+						<p>{{ products.algorithmic_value }}</p>
+					</td>
+					<td class="align-middle">
+						<form id="form-value{{forloop.counter0}}" onsubmit="return false" class="form-inline justify-content-center d-flex">
+							{% csrf_token %}
+							<input type="text" class="form-control col-12 col-sm-5" name="value_added" required />
+							<input type="hidden" name="productId" value="{{products.id}}">
+							<button onclick="myFunc('{{forloop.counter0}}')" class="btn btn-primary col-12 col-sm-2">{% blocktrans %}Ok{% endblocktrans%}</button>
+						</form>
+					</td>
+				</tr>
+			{% empty %}
+				<td class="text-primary">{% blocktrans %}Sin Registros{% endblocktrans%}</td>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	
+	{% if page_obj.paginator.num_pages > 1 %}
+	    <span class="col-12 mb-3 mt-3 paginator-permission text-center">
+		    {% if page_obj.has_previous %}
+			    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info">
+				    <i class="fas fa-angle-double-left"></i>
+			    </a>
+		    {% endif %}
+		    {% if page_obj.has_next %}
+		        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info">
+				    <i class="fas fa-angle-double-right"></i>
+			    </a>
+		    {% endif %}
+		    <span style="float: right">
+			    {% blocktrans %}Página{% endblocktrans%} {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+		    </span>
+	    </span>
+	{% endif %}
+</div>
+<script>
+	$("p").addClass("mb-0");
+	//Autocomplete
+	$(document).ready(function(){
+		var options = {
+			url: function(phrase) {
+				return "/ajax_calls/search/";
+			},
+			getValue: function(element) {
+				return element.toLowerCase();
+			},
+			ajaxSettings: {
+				headers: { "X-CSRFToken": '{{csrf_token}}' },
+				dataType: "json",
+				method: "POST",
+				data: {
+					dataType: "json"
+				}
+			},
+			preparePostData: function(data) {
+				data.phrase = $("#q").val();
+				return data;
+			},
+			requestDelay: 400,
+			theme: "square",
+			list: {
+				match: {
+					enabled: true
+				},
+				sort: {
+					enabled: true
+				},
+				maxNumberOfElements: 10
+			},
+			template: {
+				type: "custom",
+				method: function(value, item) {
+					return '<img src="{% static "img/search-img/mbrisearch_99556.svg" %}" />&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;' + value.toLowerCase();
+				}
+			},
+		};
+		$("#q").easyAutocomplete(options);
+	});
+	$('#inputGroup-sizing-default').click(function(evt){
+		evt.preventDefault();
+		var my_url = "{% url 'list_categories' %}";
+		var my_value = $('#q').val();
+		var token = '{{csrf_token}}';
+		var my_area;
+		var my_category;
+		var my_subcategory;
+		$.ajax({
+			headers: { "X-CSRFToken": token },
+			type: 'POST',
+			url: my_url,
+			data: {
+			    'key': my_value
+			},
+			success: function(msg){
+				my_area = msg[0].toLowerCase().replace(/\//g,"");
+		        my_category = msg[1].toLowerCase().replace(/\//g,"");
+		        my_subcategory = msg[2].toLowerCase().replace(/\//g,"");
+			}
+		});
+		setTimeout(function(){
+			my_form = $('#my_search_form');
+		    url_replace = $('#q').val().toLowerCase();
+			if(url_replace.trim() == ''){
+                url_replace = 'empty';
+            }
+		    my_form.attr("action","/es/products/"+my_area.replace(/\s/g,"-")+"/"+my_category.replace(/\s/g,"-")+"/"+my_subcategory.replace(/\s/g,"-")+"/"+url_replace.replace(/\s/g,"-")+"/");
+		    my_form.submit();
+		}, 500);
+	});
+	function myFunc(my_value){
+		var my_url = "{% url 'SendBoosting' %}";
+		var my_form = $('#form-value'+my_value);
+		var my_data = my_form.serialize();
+		$.ajax({
+			type: 'POST',
+			url: my_url,
+			data: my_data,
+			success: function(msg){
+				if(msg!='Ok'){
+					$.notify(msg, "error");
+				}
+				else{
+
+
+					my_form[0].reset();
+					setTimeout(function(){
+						location.reload();
+					}, 500);
+				}
+			}
+		});
+    }
+</script>
+{% endblock %}

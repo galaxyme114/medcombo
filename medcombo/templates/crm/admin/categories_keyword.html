@@ -1,0 +1,1252 @@
+{% extends "dashboard_admin.html" %}
+{% load i18n %}
+{% block content %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% blocktrans %}Añadir Categorias{% endblocktrans %}</title>
+    <!-- Global site tag (gtag.js) - Google Analytics --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148356704-1"></script> 
+    <script>   
+        window.dataLayer = window.dataLayer || [];   
+        function gtag(){
+        dataLayer.push(arguments);}   
+        gtag('js', new Date());  
+        gtag('config', 'UA-148356704-1');
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="{% static 'dropify/dist/css/dropify.min.css' %}">
+	<script type="text/javascript" src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script src="{% static 'js/notify.js' %}" type="text/javascript"></script>
+	<script src="{% static 'js/notify.min.js' %}" type="text/javascript"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	<script src="{% static 'dropify/dist/js/dropify.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/custom-product.css' %}">
+</head>
+<body>
+	<style>
+		.loader {
+			position: fixed;
+			left: 0px;
+			top: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: 9999;
+			background: url('{% static "img/loader.gif" %}') 50% 50% no-repeat rgb(249,249,249);
+			opacity: .8;
+		}
+		.load-text {
+			color: black;
+		}
+	</style>
+	<!--<div class="loader"></div>-->
+    <div class="col-12 col-lg-10 background">
+        {% if area %}
+	        {% for miarea in area %}
+	            <div class="container-fluid">
+		            <div class="row">
+			            <div class="col-12">
+							{% if subcategory %}
+								<p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}EDITAR SUBCATEGORÍA{% endblocktrans %}</p>
+                            {% else %} 
+							   {% if category %}
+								    <p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}EDITAR CATEGORÍA{% endblocktrans %}</p>
+                                {% else %} 
+							        {% if area %}
+								        <p style="color: #7f9bcd; font-weight: 700;">{% blocktrans %}EDITAR ÁREA{% endblocktrans %}</p>
+                                    {% endif %}<!-- if de area-->
+                           		{% endif %}<!-- if de category-->
+                            {% endif %}<!-- if de subcategory-->
+			            </div>
+		            </div>
+	            </div>
+	            <div class="container-fluid mb-5">
+		            <div class="row ventana-productos">
+			            <div class="col-12">
+				            <div class="row padding-row">
+					            <div class="col-12">
+						            <form action="." id="formulario" method="POST" target="_parent" enctype='multipart/form-data'>
+							            {% csrf_token %}
+							            <div class="row">
+								            <div class="col-12 col-md-8">
+													
+												<div class="languageCheckRadio">
+						                        <!------------------------ internacionalizacion ---------------->
+                                                {% if subcategory %}
+                                                    {% for sc in subcategory %}
+     							                        <!--Select-->
+														<div class="col-lg-5 col-md-6 col-sm-12 d-flex">
+															<span class="pr-3" style="font-weight: 700;">{% blocktrans %}IDIOMA{% endblocktrans %}</span>
+															<span id='select_flag'></span>
+															<select class="form-control form-control-sm" id="languages_select">
+																{% for language in language_filter %}
+																	<option style="min-width: 1em;" value="{{ language.value_language}}" {% if language.pk == sc.language.pk %} selected {% else %}{% endif %} >
+																		{% if language.value_language == "es" %}
+																			Español ({{ language.value_language }}) 
+																		{% elif language.value_language == "fr" %}
+																			Français ({{ language.value_language }})
+																		{% elif language.value_language == "it" %} 
+																			Italiano ({{ language.value_language }})
+																		{% elif language.value_language == "ja" %} 
+																			日本語 (jp)
+																		{% elif language.value_language == "pt" %} 
+																			Português ({{ language.value_language }})
+																		{% elif language.value_language == "zh-hans" %}
+																			简体中文 ({{ language.value_language }})
+																		{% elif language.value_language == "zh-hant" %} 
+																			繁體中文 ({{ language.value_language }})
+																		{% elif language.value_language == "en" %} 
+																			English ({{ language.value_language }})
+																		{% else %} 
+																			{% if language.value_language == "de" %}
+																				Deutsch ({{ language.value_language }})
+																			{% endif %}
+																		{% endif %}
+																	</option>
+																{% endfor %}
+															</select>
+															<script>
+																$('#languages_select').change(function(){
+																	var language = $('#languages_select').val();
+																	if(language == 'en') {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+																	}
+																	else if(language == 'ja') {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+																	}
+																	else if(language == 'zh-hans' || language == 'zh-hant') {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+																	}
+																	else {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+																	}
+																	$.each($('#container_list #lang'),function(){
+																		if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+																			$(this).hide();
+																		}
+																		else {
+																			$(this).show();
+																		}
+																		if(language == 'all'){
+																			$(this).show();
+																		}
+																	});
+																});
+																$(function(){
+																	$('#languages_select').ready(function(){
+																		var language = $('#languages_select').val();
+																		if(language == 'en') {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+																		}
+																		else if(language == 'ja') {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+																		}
+																		else if(language == 'zh-hans' || language == 'zh-hant') {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+																		}
+																		else {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+																		}
+																		$.each($('#container_list #lang'),function(){
+																			if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+																				$(this).hide();
+																			}
+																			else {
+																				$(this).show();
+																			}
+																			if(language == 'all'){
+																				$(this).show();
+																			}
+																		});
+																	});
+																});
+															</script>
+														</div>
+														<!--./ Select-->
+                                                    {% endfor %}<!------sc----->
+                                                {% endif %}<!------sc--- -->
+                                                {% if category and subcategory == null %}
+                                                    {% for c in category %}
+								                        <!--Select-->
+														<div class="col-lg-5 col-md-6 col-sm-12 d-flex">
+															<span class="pr-3" style="font-weight: 700;">{% blocktrans %}IDIOMA{% endblocktrans %}</span>
+															<span id='select_flag'></span>
+															<select class="form-control form-control-sm" id="languages_select">
+																{% for language in language_filter %}
+																	<option style="min-width: 1em;" value="{{ language.value_language}}" {% if language.pk == c.language.pk %} selected {% else %}{% endif %} >
+																		{% if language.value_language == "es" %}
+																			Español ({{ language.value_language }}) 
+																		{% elif language.value_language == "fr" %}
+																			Français ({{ language.value_language }})
+																		{% elif language.value_language == "it" %} 
+																			Italiano ({{ language.value_language }})
+																		{% elif language.value_language == "ja" %} 
+																			日本語 (jp)
+																		{% elif language.value_language == "pt" %} 
+																			Português ({{ language.value_language }})
+																		{% elif language.value_language == "zh-hans" %}
+																			简体中文 ({{ language.value_language }})
+																		{% elif language.value_language == "zh-hant" %} 
+																			繁體中文 ({{ language.value_language }})
+																		{% elif language.value_language == "en" %} 
+																			English ({{ language.value_language }})
+																		{% else %} 
+																			{% if language.value_language == "de" %}
+																				Deutsch ({{ language.value_language }})
+																			{% endif %}
+																		{% endif %}
+																	</option>
+																{% endfor %}
+															</select>
+															<script>
+																$('#languages_select').change(function(){
+																	var language = $('#languages_select').val();
+																	if(language == 'en') {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+																	}
+																	else if(language == 'ja') {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+																	}
+																	else if(language == 'zh-hans' || language == 'zh-hant') {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+																	}
+																	else {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+																	}
+																	$.each($('#container_list #lang'),function(){
+																		if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+																			$(this).hide();
+																		}
+																		else {
+																			$(this).show();
+																		}
+																		if(language == 'all'){
+																			$(this).show();
+																		}
+																	});
+																});
+																$(function(){
+																	$('#languages_select').ready(function(){
+																		var language = $('#languages_select').val();
+																		if(language == 'en') {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+																		}
+																		else if(language == 'ja') {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+																		}
+																		else if(language == 'zh-hans' || language == 'zh-hant') {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+																		}
+																		else {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+																		}
+																		$.each($('#container_list #lang'),function(){
+																			if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+																				$(this).hide();
+																			}
+																			else {
+																				$(this).show();
+																			}
+																			if(language == 'all'){
+																				$(this).show();
+																			}
+																		});
+																	});
+																});
+															</script>
+														</div>
+                                                    {% endfor %}<!------- c-------->
+                                                {% endif %}<!------- c-------->
+                                                {% if area and subcategory == null and category == null %}
+                                                    {% for a in area %}
+    							                        <!--Select-->
+														<div class="col-lg-5 col-md-6 col-sm-12 d-flex">
+															<span class="pr-3" style="font-weight: 700;">{% blocktrans %}IDIOMA{% endblocktrans %}</span>
+															<span id='select_flag'></span>
+															<select class="form-control form-control-sm" id="languages_select">
+																{% for language in language_filter %}
+																	<option style="min-width: 1em;" value="{{ language.value_language}}" {% if language.pk == a.language.pk %} selected {% else %}{% endif %} >
+																		{% if language.value_language == "es" %}
+																			Español ({{ language.value_language }}) 
+																		{% elif language.value_language == "fr" %}
+																			Français ({{ language.value_language }})
+																		{% elif language.value_language == "it" %} 
+																			Italiano ({{ language.value_language }})
+																		{% elif language.value_language == "ja" %} 
+																			日本語 (jp)
+																		{% elif language.value_language == "pt" %} 
+																			Português ({{ language.value_language }})
+																		{% elif language.value_language == "zh-hans" %}
+																			简体中文 ({{ language.value_language }})
+																		{% elif language.value_language == "zh-hant" %} 
+																			繁體中文 ({{ language.value_language }})
+																		{% elif language.value_language == "en" %} 
+																			English ({{ language.value_language }})
+																		{% else %} 
+																			{% if language.value_language == "de" %}
+																				Deutsch ({{ language.value_language }})
+																			{% endif %}
+																		{% endif %}
+																	</option>
+																{% endfor %}
+															</select>
+															<script>
+																$('#languages_select').change(function(){
+																	var language = $('#languages_select').val();
+																	if(language == 'en') {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+																	}
+																	else if(language == 'ja') {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+																	}
+																	else if(language == 'zh-hans' || language == 'zh-hant') {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+																	}
+																	else {
+																		if($('#languages_select').hasClass('ml-2') == false) {
+																			$('#languages_select').addClass('ml-2');
+																		}
+																		$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+																	}
+																	$.each($('#container_list #lang'),function(){
+																		if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+																			$(this).hide();
+																		}
+																		else {
+																			$(this).show();
+																		}
+																		if(language == 'all'){
+																			$(this).show();
+																		}
+																	});
+																});
+																$(function(){
+																	$('#languages_select').ready(function(){
+																		var language = $('#languages_select').val();
+																		if(language == 'en') {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/gb.png" />');
+																		}
+																		else if(language == 'ja') {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/jp.png" />');
+																		}
+																		else if(language == 'zh-hans' || language == 'zh-hant') {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/cn.png" />');
+																		}
+																		else {
+																			if($('#languages_select').hasClass('ml-2') == false) {
+																				$('#languages_select').addClass('ml-2');
+																			}
+																			$('#select_flag').html('<img src="{% static "" %}img/Banderas/'+language+'.png" />');
+																		}
+																		$.each($('#container_list #lang'),function(){
+																			if($(this).attr('data-language').toLowerCase().indexOf(language.toLowerCase()) === -1){
+																				$(this).hide();
+																			}
+																			else {
+																				$(this).show();
+																			}
+																			if(language == 'all'){
+																				$(this).show();
+																			}
+																		});
+																	});
+																});
+															</script>
+														</div>
+                                                    {% endfor %}<!------ a ---->
+                                                {% endif %}<!------ a ---->
+                                                <!------------------------------ fin de intrnacionalizacion --------------------- -->
+									            <h4 class="mt-4" for="inputGroupSelect">{% blocktrans %}Nombre{% endblocktrans %}</h4>
+									            {% if subcategory %}
+										            {% for sc in subcategory %}
+									                    <div class="d-flex inputWithSelect">
+										                    <input value="{{sc.language.pk}}" name="language" type="hidden" id="language">
+										                    <input name="miname" type="text" class="form-control" value="{{ sc.name }}">
+									                    </div>
+									                {% endfor %}
+									            {% else %}
+									                {% if category %}
+										                {% for cat in category %}
+									                        <div class="d-flex inputWithSelect">
+										                        <input value="{{cat.language.pk}}" name="language" type="hidden" id="language">
+										                        <input type="text" name="miname" class="form-control" value="{{ cat.name }}">
+									                        </div>
+									                    {% endfor %}
+									                {% else %}
+									                    {% if area %}
+										                    {% for are in area %}
+									                            <div class="d-flex inputWithSelect">
+										                            <input value="{{are.language.pk}}" name="language" type="hidden" id="language">
+										                            <input type="text" name="miname" class="form-control" value="{{ are.name }}">
+									                            </div>
+									                        {% endfor %}
+								 	                    {% endif %}<!-- if de area-->
+								                    {% endif %}<!-- if de category-->
+								                {% endif %}<!-- if de subcategory-->
+								            </div>
+								            </div>
+											
+								            <div class="col-md-4"></div>
+								            <div class="col-12 col-md-6 d-flex align-items-center py-4" id="button_active">
+									            <h4 class="mb-0">{% blocktrans %}Activo{% endblocktrans %}</h4>&nbsp;&nbsp;
+                                                {% if subcategory %}
+                               		                <input value="subcategory" name="namecategory" type="hidden" id="namecategory">
+                                	                {% for sc in subcategory %}
+                               		                    <input value="{{sc.id}}" name="pkcategory" type="hidden">
+                                 	                    {% if sc.active == True %}
+                                	                        <input value="{{sc.active}}" name="isActive" type="hidden" id="isActive">
+                                                            <input name="boton1" id="boton1" type="button"  class="btn btnActive" value={% blocktrans %} "SI" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')" />&nbsp;&nbsp;  
+									                        <input name="boton2" id="boton2" type="button" class="btn btn-primary" value={% blocktrans %} "NO" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')"/>
+									                    {% else %}
+									                        <input value="{{sc.active}}" name="isActive" type="hidden" id="isActive">
+									                        <input name="boton1" id="boton1" type="button"  class="btn btn-primary" value={% blocktrans %} "SI" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')" />&nbsp;&nbsp;  
+                                                            <input name="boton2" id="boton2" type="button" class="btn btnInactive" value={% blocktrans %} "NO" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')"/>
+									                    {% endif %}
+                                	                {% endfor %}
+                                                {% else %} 
+                                                    {% if category %}
+                                	                    <input value="category" name="namecategory" type="hidden" id="namecategory">
+                                	                    {% for cat in category %}
+                                                            <input value="{{cat.id}}" name="pkcategory" type="hidden">
+                                                            {% if cat.active == True %}
+                                                                <input value="{{cat.active}}" name="isActive" type="hidden" id="isActive">
+                                                                <input name="boton1" id="boton1" type="button"  class="btn btnActive" value={% blocktrans %} "SI" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')" />&nbsp;&nbsp;  
+                                                                <input name="boton2" id="boton2" type="button" class="btn btn-primary" value={% blocktrans %} "NO" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')"/>
+									                        {% else %}
+									                            <input value="{{cat.active}}" name="isActive" type="hidden" id="isActive">
+									                            <input name="boton1" id="boton1" type="button"  class="btn btn-primary" value={% blocktrans %} "SI" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')" />&nbsp;&nbsp;  
+                                                                <input name="boton2" id="boton2" type="button" class="btn btnInactive" value={% blocktrans %} "NO" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')"/>
+									                        {% endif %}
+                                	                    {% endfor %}
+                                                    {% else %} 
+                                                        {% if area %}
+                                	                        <input value="area" name="namecategory" type="hidden" id="namecategory">
+                                	                        {% for are in area %}
+                                                                <input value="{{are.id}}" name="pkcategory" type="hidden">
+                                                                {% if are.active == True %}
+                                                                    <input value="{{are.active}}" name="isActive" type="hidden" id="isActive">
+                                                                    <input name="boton1" id="boton1" type="button"  class="btn btnActive" value={% blocktrans %} "SI" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')" />&nbsp;&nbsp;  
+                                                                    <input name="boton2" id="boton2" type="button" class="btn btn-primary" value={% blocktrans %} "NO" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')"/>
+									                            {% else %}
+									                                <input value="{{are.active}}" name="isActive" type="hidden" id="isActive">
+									                                <input name="boton1" id="boton1" type="button"  class="btn btn-primary" value={% blocktrans %} "SI" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')" />&nbsp;&nbsp;  
+                                                                    <input name="boton2" id="boton2" type="button" class="btn btnInactive" value={% blocktrans %} "NO" {% endblocktrans %} onclick="ChangeColor(this.name,'boton1,boton2')"/>
+									                            {% endif %}
+                                	                        {% endfor %}
+                                                        {% endif %}<!-- if de area-->
+                                                    {% endif %}<!-- if de category-->
+                                                {% endif %}<!-- if de subcategory-->
+								            </div>
+								            <!-------------- estructura de arbol -------------------->
+								            <div class="col-md-6"></div>
+											<div class="col-12 col-md-8 pb-5">
+												<h4 class="mt-4" for="inputGroupSelect">{% blocktrans %}Mayor palabra clave{% endblocktrans %}</h4>
+												{% if subcategory %}
+													{% for sc in subcategory %}
+														<div class="d-flex inputWithSelect">
+															{% if sc.h_tag %}
+															<input name="mkey" type="text" class="form-control" value="{{ sc.h_tag }}">
+															{% else %}
+															<input name="mkey" type="text" class="form-control" value="">
+															{% endif %}
+														</div>
+													{% endfor %}
+												{% else %}
+													{% if category %}
+														{% for cat in category %}
+															<div class="d-flex inputWithSelect">
+																{% if cat.h_tag %}
+																<input type="text" name="mkey" class="form-control" value="{{ cat.h_tag }}">
+																{% else %}
+																<input name="mkey" type="text" class="form-control" value="">
+																{% endif %}
+															</div>
+														{% endfor %}
+													{% else %}
+														{% if area %}
+															{% for are in area %}
+																<div class="d-flex inputWithSelect">
+																	{% if are.h_tag %}
+																	<input type="text" name="mkey" class="form-control" value="{{ are.h_tag }}">
+																	{% else %}
+																	<input name="mkey" type="text" class="form-control" value="">
+																	{% endif %}
+																</div>
+															{% endfor %}
+														{% endif %}<!-- if de area-->
+													{% endif %}<!-- if de category-->
+												{% endif %}<!-- if de subcategory-->
+												
+											</div>
+								            <div class="col-12 col-md-8">
+									            <h4>{% blocktrans %}Categoria Madre{% endblocktrans %}</h4>
+									            <div class="row py-2" id="list-collapse">
+										            <div class="col-12 pl-5">
+								                        <ul class="nav nav-stacked" id="parent-category">
+								                            <li class="panel">
+																<input class="form-check-input" type="radio" name="miradio" checked><a class="collapsed" data-toggle="collapse" data-parent="#parent-category" href="#phsysical">{% blocktrans %}Menú inicio{% endblocktrans %}</a>
+								                                <ul id="phsysical" class="collapse pl-3">
+								            	                    {% if area %}
+								            	                        {% for are in area %}
+								               	                            <li class="panel">
+																				<input class="form-check-input" type="radio" name="miradio" checked><a class="collapsed" data-toggle="collapse" data-parent="#phsysical" href="#mobility">{{are.name}}</a>
+									               	                            <ul id="mobility" class="collapse dark pl-3">
+									               		                            {% if category %}
+								            	                                        {% for cat in category %}
+									               		                                    <li class="panel"><input class="form-check-input" type="radio" name="miradio" checked><a class="collapsed" data-toggle="collapse" data-parent="#mobility" href="#subMobility">{{cat.name}}</a>
+											               	                                    <ul id="subMobility" class="collapse pl-3">
+											               		                                    {% if subcategory %}
+								            	                                                        {% for sc in subcategory %}
+												                                                            <li class="panel">
+																												<input class="form-check-input" type="radio" name="miradio" checked><a class="collapsed" data-toggle="collapse" data-parent="#mobility" href="#subRehabilitacion">{{sc.name}}</a>
+												            	                                            </li><!-- subcategory  -->
+												            	                                        {% endfor %}
+										                                                            {% endif %}	
+											               	                                    </ul>
+												                                            </li><!-- category  -->
+												                                        {% endfor %}
+										                                            {% endif %}	 
+									               	                            </ul>
+										                                    </li><!--  areas  -->
+										                                {% endfor %}
+										                            {% endif %}  
+								                                </ul>
+								                            </li>
+								                        </ul><!-- menu inicio  -->						    
+										            </div>
+									            </div>
+								            </div>
+								            <div class="col-md-4"></div>
+							            </div>
+							            <!------------------ seccion de descripcion -------------------------->
+							            <div class="row py-4">
+								            <div class="col-12 col-md-9">
+									        <h4>{% blocktrans %}Descripcion{% endblocktrans %}</h4>
+                                            {% if subcategory %}
+                                	            {% for sc in subcategory %}
+                                                    <textarea style="border-radius: 10px;" name="description" id="description" rows="5" class="w-100">{{ sc.description }}</textarea>
+												{% endfor %}
+                                            {% else %} 
+                                                {% if category %}
+                                	                {% for cat in category %}
+                                                        <textarea style="border-radius: 10px;" name="description" id="description" rows="5" class="w-100">{{ cat.description }}</textarea>
+                                 	                {% endfor %}
+                                                {% else %} 
+                                                    {% if area %}
+                                	                    {% for are in area %}
+                                                            <textarea style="border-radius: 10px;" name="description" id="description" rows="5" class="w-100">{{ are.description }}</textarea>
+                                	                    {% endfor %}
+                                                    {% endif %}<!-- if de area-->
+                                                {% endif %}<!-- if de category-->
+                                            {% endif %}<!-- if de subcategory-->
+								        </div>
+								        <div class="col-md-3"></div>
+							        </div>
+						 	        <!--------------------- seccion imagenes  ------------------------>
+							        <div class="row">
+								        <div class="col-12 col-sm-6 col-md-6 img-new-product1">
+									        <h4>{% blocktrans %}Imagen miniaturas{% endblocktrans %}</h4>
+									        <div class="custom-file">
+												<input type="file" class="custom-file-input dropify" id="product-img" name="picture">
+									            <input type="hidden" name="foto_existente" id="foto_existente">
+									        </div>
+								        </div>
+								        <div class="col-12 col-sm-6 col-md-3 img-new-product">
+
+                                            {% if subcategory %}
+                                	            {% for sc in subcategory %}
+                                                    {% if sc.image %}
+                                                        <div class="polig foto-img">
+										                    <img id="product-img-reload" src="{{ sc.image.url }}" alt="">
+								                        </div>
+                                                    {% else %}
+                                                        <div class="polig foto-img">
+										                    <img id="product-img-reload"  src="" alt="">
+									                    </div>
+                                                    {% endif %}
+                                	            {% endfor %}
+                                            {% else %} 
+                                                {% if category %}
+                                	                {% for cat in category %}
+                                                        {% if cat.image %}
+                                                            <div class="polig foto-img">
+										                        <img id="product-img-reload" src="{{ cat.image.url }}" alt="">
+								                            </div>
+                                                        {% else %}
+                                                            <div class="polig foto-img">
+										                        <img id="product-img-reload" src="" alt="">
+									                        </div>
+                                                        {% endif %}
+                                	                {% endfor %}
+                                                {% else %} 
+                                                    {% if area %}
+                                	                    {% for are in area %}
+                                                            {% if are.image %}
+                                                                <div class="polig foto-img">
+										                            <img id="product-img-reload" src="{{ are.image.url }}" alt="">
+								                                </div>
+                                                            {% else %}
+                                                                <div class="polig foto-img">
+										                            <img id="product-img-reload" src="{{ products.company.logo.url }}" alt="">
+									                            </div>
+                                                            {% endif %}
+                                 	                    {% endfor %}
+                                                    {% endif %}<!-- if de area-->
+                                                {% endif %}<!-- if de category-->
+                                            {% endif %}<!-- if de subcategory-->
+								        </div>
+								        <div class="col-md-3"></div>
+							        </div>
+						 	        <!------------------ seccion eliminar keywords --------------------- -->
+							        <div class="row py-6 mt-5">
+								        <div class="col-12 col-md-6">
+											<h4>{% blocktrans %}Palabras clave asociadas{% endblocktrans %}</h4>
+                                            {% if keyword %}
+									            <div class="row listKeywords p-3" id="key_li" data-contact-url="{% url 'ajax_order_keywords_admin' %}">
+										            <div class="col-12">
+										            	<ol id='key_sortable' class="col-12">
+											            <!--{% for key in keywords %}
+											            <li id='{{key.pk}}'>
+											                <div class="listKeywords-items">
+												                <p>{{key.name}}</p>
+                                                                <div>
+												                    <span data-toggle="modal" data-target="#update{{ key.pk }}"><i class="pl-3 fas fa-pen my_cursor my_hover"></i></span>
+												                    <span data-toggle="modal" data-target="#delete{{ key.pk }}"><i class="fas fa-trash-alt my_cursor my_hover"></i></span>
+											                    </div>
+											                </div>
+											               </li>
+											                <script type="text/javascript">
+											                	$( function() {
+																		$("#key_sortable").sortable({
+
+																			placeholder: "ui-state-highlight",
+																			start: function(event, ui) {
+																				var start_pos = ui.item.index();
+																				ui.item.data('startIndex', start_pos);
+																			},
+																			stop: function(event, ui) {
+																				var ordenElementos = $(this).sortable("toArray").toString();
+																				var start_pos3 = ui.item.data('startIndex');
+																				var finish_index = ui.item.index();
+																				index = (start_pos3 > finish_index) ? finish_index : finish_index - 1; 
+
+																				ui.item.data('startIndex', index);
+																				
+																				var url = $("#key_li").attr("data-contact-url"); 
+																				var posicion = index
+																				var idkeyword = ui.item.context.id
+
+																				$.ajax({                      
+																					url: url,        
+																					data: {
+																						'orden': ordenElementos,
+																						'posicion': posicion,
+																						'idkey': idkeyword,  
+																					},
+
+																				});
+																				
+
+																			}
+																		});
+																	});
+											                </script>-->
+							                                <!-- MODAL PARA ELIMINAR KEYWORDS -->
+							                                <!--<div class="modal fade" id="delete{{ key.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								                                <div class="modal-dialog modal-xs">
+									                                <div class="modal-content" style="border-radius: 25px;">
+										                                <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+											                                <div class="d-flex align-items-center">
+												                                <i class="fas fa-trash-alt icons_size_title_second"></i>
+												                                <p class="modal-title ml-3 icons_size_title_second mt-1" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR REGISTRO{% endblocktrans%}</p>
+											                                </div>
+											                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												                                <span aria-hidden="true" style="color: #fff;">&times;</span>
+										 	                                </button>
+										                                </div>
+										                                <div class="modal-body">
+											                                <div class="col-12 d-flex justify-content-start">
+												                                <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+											                                </div>
+										                                </div>
+										                                <div class="modal-footer">
+												                            <div class="col-12 d-flex justify-content-center">
+													                            <button id="delete-button-key{{key.id}}" data-del="{{key.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+													                            <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+												                            </div>
+										                                </div>
+									                                </div>
+								                                </div>
+							                                </div>
+							                                <script>
+								                                $('#delete-button-key{{key.id}}').click(function(e){
+									                                var value = '{{key.id}}';
+									                                var url = '{% url "DeleteKeywordsCrm" %}';
+									                                var token = '{{csrf_token}}';
+									                                $.ajax({
+										                                headers: { "X-CSRFToken": token },
+										                                method: 'POST',
+										                                url: url,
+										                                data: {
+											                                'value': value
+										                                },
+										                                success: function(data) {
+											                                if(data == 'Ok') {
+												                                location.reload();
+											                                }
+										                                }
+									                                });
+								                                });
+							                                </script>-->
+							                                <!-------------- MODAL PARA EDITAR LAS KEYWORDS ------------- -->
+                                                            <!--<div class="modal fade" id="update{{ key.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								                                <div class="modal-dialog modal-lg">
+									                                <div class="modal-content" style="border-radius: 25px;">
+										                                <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+											                                <div class="d-flex align-items-center">
+												                                <i class="fas fas fa-pen icons_size_title_second"></i>
+												                                <p class="modal-title ml-3 text_size_title_second" id="exampleModalLongTitle">{% blocktrans %}MODIFICAR REGISTRO{% endblocktrans%}</p>
+											                                </div>
+											                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												                                <span aria-hidden="true" style="color: #fff;">&times;</span>
+											                                </button>
+										                                </div>
+										                                <div class="modal-body">
+											                                <object height="700" width="130%" data="{% url 'UpdateKeywordCrm' key.id %}"></object>
+										                                </div>
+									                                </div>
+								                                </div>
+							                                </div>-->
+							                                <!-------------- CIERRE MODAL EDITAR KEYWORDS  ------------------>	
+										 	            <!--{% endfor %}-->
+										 	        </ol>
+										            </div>
+												</div>
+												<script>
+													{% if subcategory is not None %}
+													   {% for sub in subcategory %}
+													        var id = '{{sub.pk}}';
+															var status = 'sub';
+													   {% endfor %}
+													{% elif category is not None and subcategory is None %}
+													    {% for cat in category %}
+														    var id = '{{cat.pk}}';
+													        var status = 'cat';
+													    {% endfor %}
+													{% elif area is not None and category is None and subcategory is None %}
+													    {% for are in area %}
+														    var id = '{{are.pk}}';
+													        var status = 'are';
+													    {% endfor %}
+													{% endif %}
+													window.onload = function(){
+														url_keys = "{% url 'loadingkeys' %}";
+														$.ajax({
+															url: url_keys,
+                                                            data: {
+																'id': id,
+																'status': status
+                                                            },
+                                                            success: function(data){
+																$('#key_sortable').html(data);
+															}
+														});
+													}
+												</script>
+												<script>
+													$( function() {
+														$("#key_sortable").sortable({
+															placeholder: "ui-state-highlight",
+															start: function(event, ui) {
+																var start_pos = ui.item.index();
+																ui.item.data('startIndex', start_pos);
+															},
+															stop: function(event, ui) {
+																var ordenElementos = $(this).sortable("toArray").toString();
+																var start_pos3 = ui.item.data('startIndex');
+																var finish_index = ui.item.index();
+																index = (start_pos3 > finish_index) ? finish_index : finish_index - 1; 
+										
+																ui.item.data('startIndex', index);
+																
+																var url = $("#key_li").attr("data-contact-url"); 
+																var posicion = index
+																var idkeyword = ui.item.context.id
+																$('body').append('<div class="loader"></div>');
+																var token = '{{csrf_token}}';
+																$.ajax({                      
+																	url: url,  
+																	headers: { "X-CSRFToken": token },
+																	method: 'POST',
+																	data: {
+																		'orden': ordenElementos//,
+																		//'posicion': posicion,
+																		//'idkey': idkeyword,  
+																	},
+																	success: function(data) {
+																		$(".loader").fadeOut("slow");
+																		$('body').remove('.loader');
+																		setTimeout(function(){
+																			$.notify("{% blocktrans %}Orden Modificado{% endblocktrans %}","success");
+																		},500);
+																	},
+																	error: function(failure) {
+																		$(".loader").fadeOut("slow");
+																		setTimeout(function(){
+																			$.notify("{% blocktrans %}Ha fallado el servidor!{% endblocktrans %}", "error");
+																		},500);
+																	}
+																});
+																
+										
+															}
+														});
+													});
+												</script>
+									        {% else %}
+									            <h5> {% blocktrans %}No hay registros..{% endblocktrans %}</h5><!-- no poseo keywords--->
+											{% endif %}<!--- fin if keyword--->
+								        </div>
+								        <!-- aqui empieza agregar keywords -->
+								        <div class="col-12 col-md-4 d-flex flex-column align-items-center mt-3 mt-md-0" id="url_id_keyword" data-contact-url="{% url 'crear_keyword_ajax' %}" >
+									        <h4 class="text-left">{% blocktrans %}Añadir nueva palabra clave{% endblocktrans %}</h4>
+									        <input type="text" class="form-control my-4" style="margin-top: 0.5rem !important;" id="namekey">
+									        <input value="{{miarea.pk}}" name="idarea" type="hidden" id="idarea">
+									        {% for categoria in category %}
+									            <input value="{{categoria.id}}" name="idcategory" type="hidden" id="idcategory">
+								 	        {% endfor %}
+									        {% for subcategoria in subcategory %}
+									            <input value="{{subcategoria.id}}" name="idsubcategory" type="hidden" id="idsubcategory">
+                                            {% endfor %}
+									        <button type="button" class="btn btn-primary button-category w-50" id="add_keyword">{% blocktrans %}AÑADIR{% endblocktrans %}</button>
+								        </div>
+								        <div class="col-md-2"></div>
+							        </div>
+                                    <script type="text/javascript">
+                                        $("#add_keyword").click(function () {
+                                            var url = $("#url_id_keyword").attr("data-contact-url");  
+                                            var namekey = $("#namekey").val();
+                                            var idarea = $("#idarea").val();
+                                            var idcategory = $("#idcategory").val();
+                                            var idsubcategory = $("#idsubcategory").val();
+                                            var idlanguage= $("#language").val();
+                                            $.ajax({
+                                                url: url,
+                                                data: {
+                                                    'namekey': namekey,
+                                                    'idarea': idarea,
+                                                    'idcategory': idcategory,
+                                                    'idsubcategory': idsubcategory,
+                                                    'idlanguage': idlanguage
+                                                },
+                                                success: function(msg){
+
+                                                	if (msg=='fail'){
+
+                                                		if({{language_selected}}== 1){
+                                                			$.notify('輸入一個字')
+                                                		}
+                                                		if({{language_selected}}== 2){
+                                                			$.notify('Geben Sie ein Wort ein.')
+                                                		}
+                                                		if({{language_selected}}== 3){
+                                                			$.notify('Enter a word.')
+                                                		}
+                                                		if({{language_selected}}== 4){
+                                                			$.notify('Ingrese una palabra.')
+                                                		}
+                                                		if({{language_selected}}== 5){
+                                                			$.notify('Entrez un mot.')
+                                                		}
+                                                		if({{language_selected}}== 6){
+                                                			$.notify('Inserisci una parola.')
+                                                		}
+                                                		if({{language_selected}}== 7){
+                                                			$.notify('Digite uma palavra.')
+                                                		}
+                                                		if({{language_selected}}== 8){
+                                                			$.notify('输入一个字')
+                                                		}
+                                                		if({{language_selected}}== 9){
+                                                			$.notify('言葉を入力してください')
+                                                		}
+
+                                                		
+                                                	}
+                                                	else{
+
+
+                                                	if (msg=='nivelfail'){
+
+                                                		if({{language_selected}}== 1){
+                                                			$.notify('您无法在此级别添加单词')
+                                                		}
+                                                		if({{language_selected}}== 2){
+                                                			$.notify('Sie können dieser Ebene keine Wörter hinzufügen.')
+                                                		}
+                                                		if({{language_selected}}== 3){
+                                                			$.notify('You cannot add words to this level.')
+                                                		}
+                                                		if({{language_selected}}== 4){
+                                                			$.notify('No puede agregar palabras a éste nivel.')
+                                                		}
+                                                		if({{language_selected}}== 5){
+                                                			$.notify('Vous ne pouvez pas ajouter de mots à ce niveau.')
+                                                		}
+                                                		if({{language_selected}}== 6){
+                                                			$.notify('Non puoi aggiungere parole a questo livello.')
+                                                		}
+                                                		if({{language_selected}}== 7){
+                                                			$.notify('Você não pode adicionar palavras a este nível.')
+                                                		}
+                                                		if({{language_selected}}== 8){
+                                                			$.notify('您無法在此級別添加單詞')
+                                                		}
+                                                		if({{language_selected}}== 9){
+                                                			$.notify('このレベルに単語を追加することはできません')
+                                                		}
+
+                                                		
+                                                	}
+                                                	else{
+
+                                                		if (msg=='error'){
+                                                		$.notify("{% blocktrans %}Palabra ya existe!{% endblocktrans %}", "error");
+                                                		}
+                                                		else{
+                                                		if({{language_selected}}== 1){
+                                                			$.notify('保存的單詞', 'success')
+                                                		}
+                                                		if({{language_selected}}== 2){
+                                                			$.notify('Gespeichertes Wort', 'success')
+                                                		}
+                                                		if({{language_selected}}== 3){
+                                                			$.notify('Saved word.', 'success')
+                                                		}
+                                                		if({{language_selected}}== 4){
+                                                			$.notify('Palabra guardada.', 'success')
+                                                		}
+                                                		if({{language_selected}}== 5){
+                                                			$.notify('Mot enregistré.', 'success')
+                                                		}
+                                                		if({{language_selected}}== 6){
+                                                			$.notify('Parola salvata.', 'success')
+                                                		}
+                                                		if({{language_selected}}== 7){
+                                                			$.notify('Palavra salva.', 'success')
+                                                		}
+                                                		if({{language_selected}}== 8){
+                                                			$.notify('保存的单词', 'success')
+                                                		}
+                                                		if({{language_selected}}== 9){
+                                                			$.notify('保存した単語', 'success')
+                                                		}
+                                                	}
+
+				                                   		location.reload();
+				                               			}
+			                                    }
+			                                    }
+                                            });
+                                        });
+                                    </script>
+                                    <script type="text/javascript">
+                                    	{% if messages %}
+                                    	{% for message in messages %}
+                                    	$.notify("{{ message }}", "error");
+                                    	{% endfor %}
+                                    	{% endif %}
+                                    </script>
+							        <!------------------ botones guardar eliminar  ----------------------- -->
+							        <br><br>
+							        <div class="row">
+								        <div class="col-12 d-flex flex-column flex-md-row justify-content-around btnBotton">
+											<center>
+									           <button type="submit" class="btn btn-primary button-category">{% blocktrans %}Guardar{% endblocktrans %}</button>
+									           <a href="{% url 'AdminCategoryCrm' %}" /> <button type="button" class="btn btn-primary button-category">{% blocktrans %}cancelar{% endblocktrans %}</button></a>
+											   <span data-toggle="modal" data-target="#deletecategory"><button type="button" class="btn btn-primary button-category">{% blocktrans %}eliminar{% endblocktrans %}</button></span>
+										    </center>
+								        </div>
+							        </div>
+						        </form>
+						        <!-- modal para eliminar la categoria -->
+						        <div class="modal fade" id="deletecategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								    <div class="modal-dialog modal-xs">
+									    <div class="modal-content" style="border-radius: 25px;">
+										    <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+											    <div class="d-flex align-items-center">
+												    <i class="fas fa-trash-alt icons_size_title_second"></i>
+												    <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR REGISTRO{% endblocktrans %}</p>
+											    </div>
+											    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												    <span aria-hidden="true" style="color: #fff;">&times;</span>
+											    </button>
+										    </div>
+										    <div class="modal-body">
+											    <div class="col-12 d-flex justify-content-start">
+												    <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+											    </div>
+										    </div>
+										    <div class="modal-footer justify-content-center">
+											    {% if subcategory %}
+												    {% for sc in subcategory %}
+												        <button id="delete-button" data-model="sc" data-del="{{sc.pk}}" class="btn btn-primary crm-button-anadir mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+											        {% endfor %}
+											    {% else %} 
+										   	        {% if category %}
+											 	        {% for cat in category %}
+												            <button id="delete-button" data-model="cat" data-del="{{cat.pk}}" class="btn btn-primary crm-button-anadir mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+												        {% endfor %}
+											        {% else %} 
+										  	            {% if area %}
+												            {% for are in area %}
+												                <button id="delete-button" data-model="are" data-del="{{are.pk}}" class="btn btn-primary crm-button-anadir mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+												            {% endfor %}
+											            {% endif %}<!-- if de area-->
+											        {% endif %}<!-- if de category-->
+											    {% endif %}<!-- if de subcategory-->
+											    <button data-dismiss="modal" class="btn btn-primary crm-button-anadir" >{% blocktrans %}NO{% endblocktrans %}</button>
+										    </div>
+									    </div>
+								    </div>
+							    </div>
+							    <script>
+								    $('#delete-button').click(function(e){
+									    var value = $('#delete-button').attr('data-del');
+									    var model = $('#delete-button').attr('data-model');
+									    var url = '{% url "DeleteCategoriesCrm" %}';
+								  	    var token = '{{csrf_token}}';
+								   	    $.ajax({
+										    headers: { "X-CSRFToken": token },
+									 	    method: 'POST',
+										    url: url,
+										    data: {
+											    'value': value,
+											    'model': model
+										    },
+										    success: function(data) {
+											   if(data == 'Ok') {
+												   location.href = '{% url "AdminCategoryCrm" %}';
+											    }
+										    }
+									    });
+								    });
+							    </script>
+                                <script type="text/javascript">
+                                    //Esta funcion servira, pone en nombreBotones los nombres de los botones separados por coma como se ve en el ejemplo de arriba
+                                    function ChangeColor(name,nombreBotones){
+	                                    var partesBotones = nombreBotones.split(",");
+	                                    for(i=0;i<partesBotones.length;i++){
+	 	                                    if (name == 'boton1'){
+			                                    $("#isActive").val('True');
+                                                var boton = document.getElementById(partesBotones[i]); 
+		                                        if(boton.name == name)boton.style.background = '#04B431';
+		                                        else boton.style.background = '#848484';
+		                                    }
+		                                    else{
+			                                    $("#isActive").val('False');
+                                                var boton = document.getElementById(partesBotones[i]); 
+		                                        if(boton.name == name)boton.style.background = '#DF013A';
+		                                        else boton.style.background = '#848484';
+		                                    }
+	                                    }
+                                    }
+                                </script>
+                                <!-- fin de prueba de botones -->
+					        </div>
+					    </div>
+			        </div>
+		        </div>
+	        </div>
+	       {% endfor %}
+        {% endif %}
+       
+    </div>
+    <script type="text/javascript">
+		$(document).ready(function(){
+		// Translated
+			$('.dropify').dropify({
+				{% if LANGUAGE_CODE == 'fr' %}
+					messages: {
+						default: 'Glissez-déposez un fichier ici ou cliquez',
+						replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+						remove: 'Supprimer',
+						error: 'Désolé, le fichier trop volumineux'
+					}
+				{% elif LANGUAGE_CODE == 'es' %}
+					messages: {
+						default: 'Arrastra y suelta un archivo aquí o haz clic',
+						replace: 'Arrastre y suelte un archivo o haga clic para reemplazar',
+						remove: 'Eliminar',
+						error: 'Lo sentimos, el archivo es demasiado grande'
+					}
+				{% elif LANGUAGE_CODE == 'de' %}
+					messages: {
+						default: 'Ziehen Sie eine Datei hierher und legen Sie sie ab oder klicken Sie auf',
+						replace: 'Ziehen Sie eine Datei per Drag & Drop oder klicken Sie zum Ersetzen',
+						remove: 'Löschen',
+						error: 'Entschuldigung, die Datei ist zu groß'
+					}
+				{% elif LANGUAGE_CODE == 'it' %}
+					messages: {
+						default: 'Trascina e rilascia un file qui o fai clic',
+						replace: 'Trascina e rilascia un file o fai clic per sostituirlo',
+						remove: 'remove',
+						error: 'Spiacenti, il file è troppo grande'
+					}
+				{% elif LANGUAGE_CODE == 'pt' %}
+					messages: {
+						default: 'Arraste e solte um arquivo aqui ou clique em',
+						replace: 'Arraste e solte um arquivo ou clique para substituir',
+						remove: 'Excluir',
+						error: 'Desculpe, o arquivo é muito grande'
+					}
+				{% elif LANGUAGE_CODE == 'ja' %}
+					messages: {
+						default: 'ここにファイルをドラッグアンドドロップするか、クリックしてください',
+						replace: 'ファイルをドラッグアンドドロップするか、クリックして置き換えます',
+						remove: '削除する',
+						error: 'ファイルが大きすぎます'
+					}
+				{% elif LANGUAGE_CODE == 'zh-hant' or LANGUAGE_CODE == 'zh-hans' %}
+					messages: {
+						default: '将文件拖放到此处或单击',
+						replace: '拖放文件或单击以替换删掉',
+						remove: '删掉',
+						error: '抱歉，文件太大'
+					}
+				{% else %}
+				{% endif %}
+			});
+		});
+
+        $('#picturesrc').val('ok');
+	    $("i").addClass("px-1");
+	    $(document).ready(function(){
+	        $('#languages_select').on('change', function() {
+				var language_mult = $("#languages_select").val();
+				if(language_mult=="es"){
+					var lang = 4;
+				}
+				else if (language_mult=="de"){
+					var lang = 2;
+				}
+				else if (language_mult=="en"){
+					var lang = 3;
+				}
+				else if (language_mult=="fr"){
+					var lang = 5;
+				}
+				else if (language_mult=="it"){
+					var lang = 6;
+				}
+				else if (language_mult=="pt"){
+					var lang = 7;
+				}
+				else if (language_mult=="zh-hans"){
+					var lang = 8;
+				}
+				else if (language_mult=="ja"){
+					var lang = 9
+				}
+				else{
+					var lang = 1;
+				}
+				$("#language").val(lang);
+			});
+        });
+
+
+	    function clean(input) {   
+	    //alert($("#foto_existente").val())
+	    $('#foto_existente').attr('value', 'borrado');
+	    $('#product-img-reload').attr('src', '');
+        }
+
+        CKEDITOR.replace( 'description',
+        {
+            toolbar :
+            [
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline', 'Strike', 'Subscript', 'Superscript' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                { name: 'insert', items: [ 'Image', 'Flash', 'Table' ] },
+            ]
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

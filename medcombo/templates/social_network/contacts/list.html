@@ -1,0 +1,284 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/social/social.css' %}">
+<div class="col-12 col-lg-10 background">
+    <div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="color-social-text">{% blocktrans %}LISTADO DE CONTACTOS{% endblocktrans%}</h5>
+        </div>
+        <div class="col-12 col-sm-0 col-md-2 pt-2">
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="input-group flex-nowrap">
+                <input type="search" id="search-user" class="form-control input-right-border" placeholder="{% blocktrans %}Buscar{% endblocktrans%}">
+                <div class="input-group-prepend" id="url_id" data-contact-url="{% url 'ajax_load_contact' %}">
+                    <span class="input-group-text my_cursor" id="search-fa-two"><i class="fa fa-search fa-flip-horizontal color-social"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+    <div class="row">
+        <div class="col-lg-5 col-md-9 col-sm-12 padding-movil">
+			<div class="row styles-social">
+				<div class="col-12 list-post px-0" id="list_chat_url" data-dialog-url="{% url 'ajax_load_dialog' %}" novalidate>
+					{% for user in object_list %}
+						{% if request.user == user.owner and request.user != user.relationship  %}       
+                            <li id="user-contact-list{{ user.relationship.id }}" style="list-style:none;" class="px-3">
+                                <div class="row item-post" style="padding:1.2em 0!important;">
+                                    <div class="col-2">
+                                        {% if user.notification == True %}
+                                            <button class="none bg-transparent" id="user-check{{ user.relationship.id }}" value="{{ user.relationship.id }}"><i class='fas fa-check color-social'></i></button>
+                                        {% endif %}
+                                        {% if user.relationship.picture %}
+                                            <img  class="rounded-circle img-online" src="{{ user.relationship.picture.url }}" style="margin: 0.5em 0;" height="auto" width="60" alt="Contact user-{{user.relationship.username}} of Medcombo">
+                                        {% else %}
+                                            <img class="rounded-circle img-online" src="{% static 'img/userdefault.jpeg' %}" style="margin: 0.5em 0;" height="auto" width="60" alt="Contact user of Medcombo">
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="media-body" id="contact_info{{user.relationship.id}}">
+                                        {% if user.relationship.first_name %}
+                                            <h6>{{ user.relationship.first_name }} {{ user.relationship.last_name }}</h6>
+                                        {% else %}
+                                            <h6>{{ user.relationship.username }}</h6>
+                                        {% endif %}
+                                        {% if user.relationship.work %}
+                                            <div class="media-content">
+                                                {{ user.relationship.work }}
+                                            </div>
+                                        {% else %}
+                                            <div class="media-content">
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div id="contact_info_more{{user.relationship.id}}" class="col-3" style="padding-left: 0px;">
+                                        {% if user.relationship.company %}
+                                            <span>{{ user.relationship.company.name}}</span>
+                                        {% else %}
+                                            <span></span>
+                                        {% endif %}
+                                    </div>
+                                    <div id="container-user-favorite" data-contact-url="{% url 'ajax_add_contact_favorite' %}" class="col-3 d-column d-flex flex-row-reverse" style="padding-right: 0px;">
+                                        {% if user.relationship.id in contactscontext %}
+                                            <button class="none bg-transparent p-2 pr-3" data-toggle="modal" data-target="#my_delete_chat{{user.relationship.id}}"><i class="far fa-trash-alt" style="font-size:1.3em;color:#7f9bcd;"></i></button>
+                                            <button class="none bg-transparent p-2" data-toggle="modal" data-target="#my_message{{ user.relationship.id }}"><i class="far fa-envelope" style="font-size:1.3em;color:#7f9bcd;"></i></button>
+                                            <button class="none bg-transparent p-2" data-toggle="modal" data-target="#create{{ user.relationship.id }}"><i class="far fa-comment-alt" style="font-size:1.3em;color:#7f9bcd;"></i></button>
+                                            {% if user.favorite == True %}           
+                                                <button class="none bg-transparent p-2" data-condition="{{user.favorite}}" id="user-favorite{{ user.relationship.id }}" value="{{ user.relationship.id }}"><span class="jRating-star full"></span></button>
+                                            {% else %}
+                                                <button class="none bg-transparent p-2" data-condition="{{user.favorite}}" id="user-favorite{{ user.relationship.id }}" value="{{ user.relationship.id }}"><i class='far fa-star' style="font-size:1.3em;color:#7f9bcd;"></i></button>
+                                            {% endif %}                          
+                                        {% else %}
+                                            <button class="none bg-transparent p-2" data-toggle="modal" data-target="#my_delete_chat{{user.relationship.id}}"><i class="far fa-trash-alt" style="font-size:1.3em;color:#7f9bcd;"></i></button>
+                                            <button class="none bg-transparent p-2" id="link_chat{{ user.relationship.id }}" value="{{ user.relationship.id }}"><i class='fas far fa-envelope' style="font-size:1.3em;color:#7f9bcd;"></i></button>                                      
+                                            <button class="none bg-transparent p-2"><i class='far fa-star' style="font-size:1.3em;color:#7f9bcd;"></i></button>                                        
+                                            <button class="none bg-transparent p-2" id="user-plus{{ user.relationship.id }}" value="{{ user.relationship.id }}"><i class='fas fa-user-plus' style="font-size:1.3em;color:#7f9bcd;"></i></button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </li>
+                            <script>
+                                $('#contact_info{{user.relationship.id}}').click(function(e){
+                                    var value = '{{user.relationship.id}}';
+                                    var url = '{% url "contacts_list_detail" %}';
+                                    var token = '{{csrf_token}}';
+                                    $.ajax({
+                                        headers: { "X-CSRFToken": token },
+                                        method: 'POST',
+                                        url: url,
+                                        data: {
+                                            'value': value
+                                        },
+                                        success: function(data) {
+                                            $("#contact_infor").html(data);
+                                        }
+                                    });
+                                });
+
+                                $('#contact_info_more{{user.relationship.id}}').click(function(e){
+                                    var value = '{{user.relationship.id}}';
+                                    var url = '{% url "contacts_list_detail" %}';
+                                    var token = '{{csrf_token}}';
+                                    $.ajax({
+                                        headers: { "X-CSRFToken": token },
+                                        method: 'POST',
+                                        url: url,
+                                        data: {
+                                            'value': value
+                                        },
+                                        success: function(data) {
+                                            $("#contact_infor").html(data);
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- Change State Contact -->
+                            <script>
+                                $('#user-contact-list{{user.relationship.id}}').click(function(e){
+                                    var value = '{{user.relationship.id}}';
+                                    var icon = $('#user-check{{ user.relationship.id }}').val();
+                                    var token = '{{csrf_token}}';
+                                    var url = '{% url "chage_state_contact" %}';
+                                    if(icon != undefined) {
+                                        $.ajax({
+                                            headers: { "X-CSRFToken": token },
+                                            method: 'POST',
+                                            url: url,
+                                            data: {
+                                                'value': value
+                                            },
+                                            success: function(data) {
+                                                if(data == 'Ok') {
+                                                    $('#user-check{{ user.relationship.id }}').remove();
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            </script>
+                            
+                            <!-- ./Change State Contact -->
+                            <!-- Modal Delete Contact -->
+                            <div class="modal fade" id="my_delete_chat{{user.relationship.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content border-radius-25-social">
+                                        <div class="modal-header style-modal-social">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-trash-alt icons_size_title"></i>
+                                                <p class="modal-title ml-3 text_size_title" id="exampleModalLongTitle">{% blocktrans %}ELIMINAR CONTACTO{% endblocktrans %}</p>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span class="color-white" aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-12 d-flex justify-content-start">
+                                                <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="col-12 d-flex justify-content-center">
+                                                <button id="delete-contact{{user.relationship.id}}" data-del="{{user.relationship.id}}" class="btn btn-primary datos-form-buttom mr-3" >{% blocktrans %}SI{% endblocktrans %}</button>
+                                                <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                $('#delete-contact{{user.relationship.id}}').click(function(e){
+                                    var value = '{{user.relationship.id}}';
+                                    var url = '{% url "ajax_delete_contact" %}';
+                                    var token = '{{csrf_token}}';
+                                    $.ajax({
+                                        headers: { "X-CSRFToken": token },
+                                        method: 'POST',
+                                        url: url,
+                                        data: {
+                                            'value': value
+                                        },
+                                        success: function(data) {
+                                            if(data == 'Ok') {
+                                                location.reload();
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- ./Modal Delete Contact -->
+                            <!--Modal Chat-->
+                            <div class="modal fade" id="create{{ user.relationship.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content border-radius-10-social">
+                                        <div class="modal-header style-modal-msg-chat">
+                                            <i class="far fa-comment-alt icons_size_title mt-1"></i>
+                                            <p class="modal-title ml-3 text_size_title" id="exampleModalLongTitle">{% blocktrans %}CHAT{% endblocktrans%}</p>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span class="color-white" aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <object class="object-chat" width="100%" data="{% url 'messenger_modal' user.relationship.id %}"></object>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--./Modal Chat-->
+                            <!--Modal Message-->
+                            <div class="modal fade" id="my_message{{ user.relationship.id }}" tabindex="-1" role="dialog" aria-labelledby="my_modalMSG" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content border-radius-10-social">
+                                        <div class="modal-header style-modal-msg-chat">
+                                            <div class="d-flex align-items-center">
+                                                <i class="far fa-envelope icons_size_title mt-1"></i>
+                                                <h5 class="modal-title ml-3 text_size_title" id="my_modalMSG">{% blocktrans %}MENSAJE{% endblocktrans %}</h5>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span class="color-white" aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body p-0">
+                                            <object class="object-msg" width="100%" style="height:420px!important;" data="{% url 'message_modal' user.relationship.id None %}"></object>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--./Modal Message-->
+                            <!-- Favorites -->
+                            <script type="text/javascript">
+                                $("#user-favorite{{ user.relationship.id }}").click(function () {
+                                    if ($("#user-favorite{{ user.relationship.id }}").attr('data-condition') == 'True') {
+                                        $("#user-favorite{{ user.relationship.id }}").attr('data-condition', 'False');
+                                        $("#user-favorite{{ user.relationship.id }}").html('<i class="far fa-star" style="font-size:1.3em;color:#7f9bcd;"></i>');
+                                    }
+                                    else {
+                                        $("#user-favorite{{ user.relationship.id }}").attr('data-condition', "True");
+                                        $("#user-favorite{{ user.relationship.id }}").html('<span class="jRating-star full" style="font-size:1.3em;"></span>');
+                                    }
+                                    //$("#user-favorite{{ user.relationship.id }}").hide();
+                                    var url = $("#container-user-favorite").attr("data-contact-url");  
+                                    var user = $("#user-favorite{{ user.relationship.id }}").val();
+                                    $.ajax({
+                                        url: url,                    
+                                        data: {
+                                            'user_id': user      
+                                        },
+                                        success: function (data) {
+                                            $("#user-favorite{{ user.relationship.id }}").notify("{% blocktrans %}ACTUALIZADO EXITOSAMENTE{% endblocktrans %}", "success");
+                                        }
+                                    });
+                                });
+                                $(".item-post i").hover(function(){
+                                    $(this).addClass("fas fa-comment-alt");
+                                    }, function(){
+                                    $(this).removeClass("fas fa-comment-alt");
+                                    $(this).addClass("far fa-comment-alt");
+                                });
+                            </script>
+                            <!-- Favorites -->
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+        </div>
+
+        <div class="col-12 col-md-6 padding-final-todos">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row" style="background-color:#fff !important;border-radius:10px;">
+                            <div id="contact_infor" class="col-12"></div>
+                        </div>              
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/app/social/social.js' %}"></script>
+{% endblock %}

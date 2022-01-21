@@ -1,0 +1,174 @@
+{% extends "dashboard_client.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/app/social/social.css' %}">
+<div class="col-12 col-lg-10 background">
+	<div class="row pb-1">
+        <div class="col-12 col-sm-6 col-md-4 pt-2">
+            <h5 class="color-social-text">{% blocktrans %}TUS PRODUCTOS FAVORITOS{% endblocktrans %}</h5>
+        </div>
+    </div>
+    <div class="title-seperator row mb-4"></div>
+	<div class="row favor-row">
+		<div class="col-12 colProductFavorite">
+			<div class="row product_count">
+				{% if object_list %}
+					{% for pro in object_list %}
+				        {% comment %} {% if pro.user.id == request.user.id and pro.product.language.pk == language_selected %} {% endcomment %}
+						{% if pro.user.id == request.user.id %}
+				        	<div class="col-6 col-sm-4 col-md-3 favoriteProductItem pb-5" id="miproducto{{pro.product.pk}}">
+							    <div class="favoriteProductImg">
+								    <div class="col-12" id="detail-favorites-border">
+									    <!--<button class="iconHeart" id="favorito{{pro.product.id}}"><i id="miestado{{pro.product.id}}" class="fa fa-heart"></i></button>-->
+									    <button class="iconTrash" data-toggle="modal" data-target="#delete-favorite{{pro.product.id}}"><i id="miestado{{pro.product.id}}" class="fas fa-trash-alt"></i></button>
+									    {% if pro.product.picture %}
+									        <a href="{% url 'detail_product_favorite' pro.product.id %}">
+										        <img src="{{ pro.product.picture.url }}">	
+									        </a>
+									    {% else %}
+									        <a href="{% url 'detail_product_favorite' pro.product.id %}">
+										        <img src="{% static 'img/default.png' %}">	
+									        </a>
+									    {% endif %}
+								    </div>
+							    </div>
+							    <p>{{pro.product.name}}</p>
+							    <div id="myurl" data-contact-url="{% url 'ajax_add_favorite' %}"></div>
+							    <div class="row">
+								    <div class="col-12 d-lg-flex justify-content-between score mt-1 text-center">
+		                                {% if pro.product.company.logo %}
+									        <img src="{{ pro.product.company.logo.url }}" alt="" style="height: 40px;"/>
+									    {% else %}
+										    <img src="{% static 'img/default.png' %}" style="height: 40px;"/>
+										{% endif %}
+										<span class="mt-2 pl-2 d-inline d-lg-none" style="font-size: 12px;">
+											<img src="{% static ''%}img/Banderas/{{pro.product.company.country_company.code2|lower}}.png" style="width: 28px;height: 18px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{pro.product.company.country_company.name}}"  />
+										</span>
+									    <span class="jRating d-flex justify-content-center mt-1" id="jRating{{forloop.counter0}}">
+										    <span class="jRating-star" index="0"></span>
+										    <span class="jRating-star" index="1"></span>
+										    <span class="jRating-star" index="2"></span>
+										    <span class="jRating-star" index="3"></span>
+											<span class="jRating-star" index="4"></span>
+											<span class="jRating-number"></span>
+									    </span>
+										<span class="mt-2 d-none d-lg-inline" style="font-size: 12px;">
+											{{pro.product.company.country_company.code2}}&nbsp;&nbsp;<img src="{% static ''%}img/Banderas/{{pro.product.company.country_company.code2|lower}}.png" style="width: 28px;height: 18px;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{pro.product.company.country_company.name}}"  />
+										</span>
+								    </div>
+							    </div>
+							</div>
+							<!--Delete favorite-->
+                            <div class="modal fade" id="delete-favorite{{pro.product.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	                            <div class="modal-dialog modal-xs">
+		                            <div class="modal-content" style="border-radius: 25px;">
+		                                <div class="modal-header" style="background-color: #7f9bcd; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+			                                <div class="d-flex align-items-center">
+				                                <i class="fas fa-trash-alt icons_size_title_second"></i>
+				                                <p class="modal-title ml-2 text_size_title_second" id="exampleModalLongTitle">&nbsp;&nbsp;{% blocktrans %}ELIMINAR FAVORITO{% endblocktrans %}</p>
+				                            </div>
+				                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true" style="color: #fff;">&times;</span>
+				                            </button>
+			                            </div>
+			                            <div class="modal-body">
+				                            <div class="col-12 d-flex justify-content-center">
+				                                <h5>{% blocktrans %}¿Está seguro que quiere eliminar este registro?{% endblocktrans %}</h5>
+				                            </div>
+			                            </div>
+			                            <div class="modal-footer justify-content-center">
+				                            <button id="favorito{{pro.product.id}}" class="btn btn-primary datos-form-buttom" >{% blocktrans %}SI{% endblocktrans %}</button>
+				                            <button data-dismiss="modal" class="btn btn-primary datos-form-buttom" >{% blocktrans %}NO{% endblocktrans %}</button>
+			                            </div>
+		                            </div>
+	                            </div>
+                            </div>
+						    <script>
+								/*----- Rating Product ------*/
+							    $(document).ready(function(){
+								    var number_counter = '{{forloop.counter0}}';
+								    var product_rating = '{{pro.product.rating_average}}';
+								    if(Number.isInteger(product_rating) == true){
+									    product_rating = parseInt('{{pro.product.rating_average}}');
+								    }
+								    else {
+										if(parseInt('{{pro.product.rating_average}}') == 0) {
+											product_rating = parseInt('{{pro.product.rating_average}}');
+										}
+										else {
+											product_rating = parseInt('{{pro.product.rating_average}}') + 0.5;
+									    }
+								    }
+								    new JRating(document.getElementById('jRating'+number_counter), product_rating, false);
+							    });
+								/*---- ./Rating Product -----*/
+
+								/*---- Favorite Product -----*/
+								$("#favorito{{pro.product.id}}").click(function () {
+						            //var div1 = document.getElementById("miestado{{pro.product.id}}");
+						            /*var status = div1.getAttribute("class");
+						            if( status == "fa fa-heart"){*/
+							        //document.getElementById("miestado{{pro.product.id}}").className = "far fa-heart";
+						            var url = $("#myurl").attr("data-contact-url");  
+						            var user_id = '{{request.user.id}}';
+						            var product_id = '{{pro.product.id}}';
+						            $.ajax({                      
+							            url: url,
+							            data: {
+								            'product_id': product_id,
+								            'user_id': user_id      
+							            },
+							            success: function (data) {  
+							                //$("#miproducto{{pro.product.pk}}").hide(); 
+								            $.notify("{% blocktrans %}Eliminado de Favoritos{% endblocktrans %}", "success");
+											setTimeout(function(){
+												location.reload();
+											},300);
+							            }
+						            }); 
+						            /*}
+						            else if(status == "far fa-heart"){
+							            document.getElementById("miestado{{pro.product.id}}").className = "fa fa-heart";
+						                var url = $("#myurl").attr("data-contact-url");  
+						                var user_id = '{{request.user.id}}';
+						                var product_id = '{{pro.product.id}}';
+						                $.ajax({
+						 	                url: url,
+							                data: {
+								                'product_id': product_id,
+								                'user_id': user_id      
+							                },
+							                success: function (data) {   
+								                $.notify("{% blocktrans %}Agregado a Favoritos{% endblocktrans %}", "success");
+
+							                }
+						                }); 
+									}*/
+								});
+								/*--- Favorite Product -----*/
+						    </script>
+					    {% else %}
+					    {% endif %}
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="empty-row ">
+		<div class="row justify-content-center">
+			<span style="font-size: 80pt;"><i class="far fa-heart"></i></span>
+		</div>
+		<div class="row justify-content-center">
+			<span style="font-size: 18pt;color: #df8771;">{% blocktrans %}AUN NO TIENES FAVORITOS{% endblocktrans %}</span>
+		</div>
+	</div>
+</div>
+<script>
+	if($(".product_count .favoriteProductItem").length == 0){
+		$(".favor-row").hide();
+	}else{
+		$(".empty-row").hide();
+	}
+</script>
+{% endblock %}
